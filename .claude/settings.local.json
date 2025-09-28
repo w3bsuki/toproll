@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:daisyui.com)",
+      "WebFetch(domain:flowbite.com)",
+      "WebFetch(domain:flowbite-svelte.com)",
+      "Bash(npm install:*)",
+      "Bash(pnpm add:*)",
+      "Bash(pnpm remove:*)",
+      "Bash(npm run dev:*)",
+      "Bash(timeout 3 curl -s http://localhost:3002/)",
+      "WebSearch",
+      "WebFetch(domain:github.com)",
+      "Bash(cat:*)",
+      "Bash(ls \"K:\\toproll\\static\\images\\skins\"\" | grep -c \".png$\" ; ls \"K:toprollstaticimagesskins\"\")",
+      "Bash(grep:*)",
+      "Bash(git init:*)",
+      "Bash(git remote add:*)",
+      "Bash(git add:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,0 +1,502 @@
+[
+  {
+    "id": "skin-4c2e3face5fd_0",
+    "name": "AK-47 | Searing Rage (Factory New)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_explosive_light_png.png",
+    "filename": "ak-47-searing-rage-factory-new.png"
+  },
+  {
+    "id": "skin-4c2e3face5fd_1",
+    "name": "AK-47 | Searing Rage (Minimal Wear)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_explosive_light_png.png",
+    "filename": "ak-47-searing-rage-minimal-wear.png"
+  },
+  {
+    "id": "skin-4c2e3face5fd_2",
+    "name": "AK-47 | Searing Rage (Field-Tested)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_explosive_medium_png.png",
+    "filename": "ak-47-searing-rage-field-tested.png"
+  },
+  {
+    "id": "skin-4c2e3face5fd_3",
+    "name": "AK-47 | Searing Rage (Well-Worn)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_explosive_medium_png.png",
+    "filename": "ak-47-searing-rage-well-worn.png"
+  },
+  {
+    "id": "skin-4c2e3face5fd_4",
+    "name": "AK-47 | Searing Rage (Battle-Scarred)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_explosive_heavy_png.png",
+    "filename": "ak-47-searing-rage-battle-scarred.png"
+  },
+  {
+    "id": "skin-4c2e3face5fd_0_st",
+    "name": "StatTrak™ AK-47 | Searing Rage (Factory New)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_explosive_light_png.png",
+    "filename": "stattrak-ak-47-searing-rage-factory-new.png"
+  },
+  {
+    "id": "skin-4c2e3face5fd_1_st",
+    "name": "StatTrak™ AK-47 | Searing Rage (Minimal Wear)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_explosive_light_png.png",
+    "filename": "stattrak-ak-47-searing-rage-minimal-wear.png"
+  },
+  {
+    "id": "skin-4c2e3face5fd_2_st",
+    "name": "StatTrak™ AK-47 | Searing Rage (Field-Tested)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_explosive_medium_png.png",
+    "filename": "stattrak-ak-47-searing-rage-field-tested.png"
+  },
+  {
+    "id": "skin-4c2e3face5fd_3_st",
+    "name": "StatTrak™ AK-47 | Searing Rage (Well-Worn)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_explosive_medium_png.png",
+    "filename": "stattrak-ak-47-searing-rage-well-worn.png"
+  },
+  {
+    "id": "skin-4c2e3face5fd_4_st",
+    "name": "StatTrak™ AK-47 | Searing Rage (Battle-Scarred)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_explosive_heavy_png.png",
+    "filename": "stattrak-ak-47-searing-rage-battle-scarred.png"
+  },
+  {
+    "id": "skin-4608abab8351_0",
+    "name": "AK-47 | The Oligarch (Factory New)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Covert",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_puffer_custom_light_png.png",
+    "filename": "ak-47-the-oligarch-factory-new.png"
+  },
+  {
+    "id": "skin-4608abab8351_1",
+    "name": "AK-47 | The Oligarch (Minimal Wear)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Covert",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_puffer_custom_light_png.png",
+    "filename": "ak-47-the-oligarch-minimal-wear.png"
+  },
+  {
+    "id": "skin-4608abab8351_2",
+    "name": "AK-47 | The Oligarch (Field-Tested)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Covert",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_puffer_custom_medium_png.png",
+    "filename": "ak-47-the-oligarch-field-tested.png"
+  },
+  {
+    "id": "skin-4608abab8351_3",
+    "name": "AK-47 | The Oligarch (Well-Worn)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Covert",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_puffer_custom_medium_png.png",
+    "filename": "ak-47-the-oligarch-well-worn.png"
+  },
+  {
+    "id": "skin-4608abab8351_4",
+    "name": "AK-47 | The Oligarch (Battle-Scarred)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Covert",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_puffer_custom_heavy_png.png",
+    "filename": "ak-47-the-oligarch-battle-scarred.png"
+  },
+  {
+    "id": "skin-4608abab8351_0_st",
+    "name": "StatTrak™ AK-47 | The Oligarch (Factory New)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Covert",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_puffer_custom_light_png.png",
+    "filename": "stattrak-ak-47-the-oligarch-factory-new.png"
+  },
+  {
+    "id": "skin-4608abab8351_1_st",
+    "name": "StatTrak™ AK-47 | The Oligarch (Minimal Wear)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Covert",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_puffer_custom_light_png.png",
+    "filename": "stattrak-ak-47-the-oligarch-minimal-wear.png"
+  },
+  {
+    "id": "skin-4608abab8351_2_st",
+    "name": "StatTrak™ AK-47 | The Oligarch (Field-Tested)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Covert",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_puffer_custom_medium_png.png",
+    "filename": "stattrak-ak-47-the-oligarch-field-tested.png"
+  },
+  {
+    "id": "skin-4608abab8351_3_st",
+    "name": "StatTrak™ AK-47 | The Oligarch (Well-Worn)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Covert",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_puffer_custom_medium_png.png",
+    "filename": "stattrak-ak-47-the-oligarch-well-worn.png"
+  },
+  {
+    "id": "skin-4608abab8351_4_st",
+    "name": "StatTrak™ AK-47 | The Oligarch (Battle-Scarred)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Covert",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_puffer_custom_heavy_png.png",
+    "filename": "stattrak-ak-47-the-oligarch-battle-scarred.png"
+  },
+  {
+    "id": "skin-ad56dc47a4c4_0",
+    "name": "AK-47 | The Outsiders (Factory New)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_t_bus_light_png.png",
+    "filename": "ak-47-the-outsiders-factory-new.png"
+  },
+  {
+    "id": "skin-ad56dc47a4c4_1",
+    "name": "AK-47 | The Outsiders (Minimal Wear)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_t_bus_light_png.png",
+    "filename": "ak-47-the-outsiders-minimal-wear.png"
+  },
+  {
+    "id": "skin-ad56dc47a4c4_2",
+    "name": "AK-47 | The Outsiders (Field-Tested)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_t_bus_medium_png.png",
+    "filename": "ak-47-the-outsiders-field-tested.png"
+  },
+  {
+    "id": "skin-ad56dc47a4c4_3",
+    "name": "AK-47 | The Outsiders (Well-Worn)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_t_bus_medium_png.png",
+    "filename": "ak-47-the-outsiders-well-worn.png"
+  },
+  {
+    "id": "skin-ad56dc47a4c4_4",
+    "name": "AK-47 | The Outsiders (Battle-Scarred)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_t_bus_heavy_png.png",
+    "filename": "ak-47-the-outsiders-battle-scarred.png"
+  },
+  {
+    "id": "skin-ad56dc47a4c4_0_st",
+    "name": "StatTrak™ AK-47 | The Outsiders (Factory New)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_t_bus_light_png.png",
+    "filename": "stattrak-ak-47-the-outsiders-factory-new.png"
+  },
+  {
+    "id": "skin-ad56dc47a4c4_1_st",
+    "name": "StatTrak™ AK-47 | The Outsiders (Minimal Wear)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_t_bus_light_png.png",
+    "filename": "stattrak-ak-47-the-outsiders-minimal-wear.png"
+  },
+  {
+    "id": "skin-ad56dc47a4c4_2_st",
+    "name": "StatTrak™ AK-47 | The Outsiders (Field-Tested)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_t_bus_medium_png.png",
+    "filename": "stattrak-ak-47-the-outsiders-field-tested.png"
+  },
+  {
+    "id": "skin-ad56dc47a4c4_3_st",
+    "name": "StatTrak™ AK-47 | The Outsiders (Well-Worn)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_t_bus_medium_png.png",
+    "filename": "stattrak-ak-47-the-outsiders-well-worn.png"
+  },
+  {
+    "id": "skin-ad56dc47a4c4_4_st",
+    "name": "StatTrak™ AK-47 | The Outsiders (Battle-Scarred)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak47_t_bus_heavy_png.png",
+    "filename": "stattrak-ak-47-the-outsiders-battle-scarred.png"
+  },
+  {
+    "id": "skin-82dc98e09ba6_0",
+    "name": "AK-47 | Inheritance (Factory New)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Covert",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak_porcelain_light_png.png",
+    "filename": "ak-47-inheritance-factory-new.png"
+  },
+  {
+    "id": "skin-82dc98e09ba6_1",
+    "name": "AK-47 | Inheritance (Minimal Wear)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Covert",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak_porcelain_light_png.png",
+    "filename": "ak-47-inheritance-minimal-wear.png"
+  },
+  {
+    "id": "skin-82dc98e09ba6_2",
+    "name": "AK-47 | Inheritance (Field-Tested)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Covert",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak_porcelain_medium_png.png",
+    "filename": "ak-47-inheritance-field-tested.png"
+  },
+  {
+    "id": "skin-82dc98e09ba6_3",
+    "name": "AK-47 | Inheritance (Well-Worn)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Covert",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak_porcelain_medium_png.png",
+    "filename": "ak-47-inheritance-well-worn.png"
+  },
+  {
+    "id": "skin-82dc98e09ba6_4",
+    "name": "AK-47 | Inheritance (Battle-Scarred)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Covert",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak_porcelain_heavy_png.png",
+    "filename": "ak-47-inheritance-battle-scarred.png"
+  },
+  {
+    "id": "skin-82dc98e09ba6_0_st",
+    "name": "StatTrak™ AK-47 | Inheritance (Factory New)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Covert",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak_porcelain_light_png.png",
+    "filename": "stattrak-ak-47-inheritance-factory-new.png"
+  },
+  {
+    "id": "skin-82dc98e09ba6_1_st",
+    "name": "StatTrak™ AK-47 | Inheritance (Minimal Wear)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Covert",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak_porcelain_light_png.png",
+    "filename": "stattrak-ak-47-inheritance-minimal-wear.png"
+  },
+  {
+    "id": "skin-82dc98e09ba6_2_st",
+    "name": "StatTrak™ AK-47 | Inheritance (Field-Tested)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Covert",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak_porcelain_medium_png.png",
+    "filename": "stattrak-ak-47-inheritance-field-tested.png"
+  },
+  {
+    "id": "skin-82dc98e09ba6_3_st",
+    "name": "StatTrak™ AK-47 | Inheritance (Well-Worn)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Covert",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak_porcelain_medium_png.png",
+    "filename": "stattrak-ak-47-inheritance-well-worn.png"
+  },
+  {
+    "id": "skin-82dc98e09ba6_4_st",
+    "name": "StatTrak™ AK-47 | Inheritance (Battle-Scarred)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Covert",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_ak_porcelain_heavy_png.png",
+    "filename": "stattrak-ak-47-inheritance-battle-scarred.png"
+  },
+  {
+    "id": "skin-cde9a27f0dd5_0",
+    "name": "AK-47 | Hydroponic (Factory New)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_am_bamboo_jungle_light_png.png",
+    "filename": "ak-47-hydroponic-factory-new.png"
+  },
+  {
+    "id": "skin-cde9a27f0dd5_1",
+    "name": "AK-47 | Hydroponic (Minimal Wear)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_am_bamboo_jungle_light_png.png",
+    "filename": "ak-47-hydroponic-minimal-wear.png"
+  },
+  {
+    "id": "skin-cde9a27f0dd5_2",
+    "name": "AK-47 | Hydroponic (Field-Tested)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_am_bamboo_jungle_medium_png.png",
+    "filename": "ak-47-hydroponic-field-tested.png"
+  },
+  {
+    "id": "skin-cde9a27f0dd5_3",
+    "name": "AK-47 | Hydroponic (Well-Worn)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_am_bamboo_jungle_medium_png.png",
+    "filename": "ak-47-hydroponic-well-worn.png"
+  },
+  {
+    "id": "skin-cde9a27f0dd5_4",
+    "name": "AK-47 | Hydroponic (Battle-Scarred)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_am_bamboo_jungle_heavy_png.png",
+    "filename": "ak-47-hydroponic-battle-scarred.png"
+  },
+  {
+    "id": "skin-2a8ebacc14e8_0",
+    "name": "AK-47 | Cartel (Factory New)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_aq_ak47_cartel_light_png.png",
+    "filename": "ak-47-cartel-factory-new.png"
+  },
+  {
+    "id": "skin-2a8ebacc14e8_1",
+    "name": "AK-47 | Cartel (Minimal Wear)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_aq_ak47_cartel_light_png.png",
+    "filename": "ak-47-cartel-minimal-wear.png"
+  },
+  {
+    "id": "skin-2a8ebacc14e8_2",
+    "name": "AK-47 | Cartel (Field-Tested)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_aq_ak47_cartel_medium_png.png",
+    "filename": "ak-47-cartel-field-tested.png"
+  },
+  {
+    "id": "skin-2a8ebacc14e8_3",
+    "name": "AK-47 | Cartel (Well-Worn)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_aq_ak47_cartel_medium_png.png",
+    "filename": "ak-47-cartel-well-worn.png"
+  },
+  {
+    "id": "skin-2a8ebacc14e8_4",
+    "name": "AK-47 | Cartel (Battle-Scarred)",
+    "weapon": "AK-47",
+    "category": "Rifles",
+    "rarity": "Classified",
+    "collection": "Unknown",
+    "image_url": "https://raw.githubusercontent.com/ByMykel/counter-strike-image-tracker/main/static/panorama/images/econ/default_generated/weapon_ak47_aq_ak47_cartel_heavy_png.png",
+    "filename": "ak-47-cartel-battle-scarred.png"
+  }
+]
