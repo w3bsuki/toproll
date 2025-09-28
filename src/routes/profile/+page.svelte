@@ -2,6 +2,14 @@
 	import ProfileCard from '$lib/components/ProfileCard.svelte';
 	import { Trophy, Target, TrendingUp, DollarSign } from 'lucide-svelte';
 	import type { PageData } from './$types';
+	import {
+		Card,
+		CardContent,
+		CardHeader,
+		CardTitle,
+		CardDescription,
+		Badge
+	} from '$lib/components/ui';
 
 	let { data }: { data: PageData } = $props();
 </script>
@@ -10,78 +18,80 @@
 	<title>Profile - TopRoll</title>
 </svelte:head>
 
-<div class="container mx-auto py-8">
-	<h1 class="mb-6 text-3xl font-bold">Your Profile</h1>
-
-	<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-		<!-- Profile Card -->
-		<div class="md:col-span-1">
-			<ProfileCard user={data.profile} status="online" />
+<div class="space-y-8">
+	<div class="flex flex-wrap items-center justify-between gap-4">
+		<div>
+			<h1 class="text-foreground text-3xl font-semibold">Trader dossier</h1>
+			<p class="text-muted-foreground text-sm">
+				Performance metrics, risk exposure, and battle history at a glance.
+			</p>
 		</div>
+		<Badge variant="outline">Tier 2 verified</Badge>
+	</div>
 
-		<!-- Stats Cards -->
-		<div class="md:col-span-1 lg:col-span-2">
-			<div class="grid gap-4 md:grid-cols-2">
-				<div class="card bg-base-100 shadow-xl">
-					<div class="card-body">
-						<h3 class="card-title flex items-center gap-2 text-sm font-medium">
-							<DollarSign class="h-4 w-4" />
-							Total Wagered
-						</h3>
-						<p class="text-2xl font-bold">
-							${data.profile?.total_wagered?.toLocaleString() || '0'}
-						</p>
+	<div class="grid gap-6 lg:grid-cols-[320px,1fr]">
+		<ProfileCard user={data.profile} status="online" />
+		<div class="grid gap-5 md:grid-cols-2">
+			<Card class="border-border/60 bg-surface/70 border">
+				<CardContent class="space-y-2 p-5">
+					<div
+						class="text-muted-foreground flex items-center gap-2 text-xs tracking-wide uppercase"
+					>
+						<DollarSign class="h-4 w-4" /> Total wagered
 					</div>
-				</div>
-
-				<div class="card bg-base-100 shadow-xl">
-					<div class="card-body">
-						<h3 class="card-title flex items-center gap-2 text-sm font-medium">
-							<TrendingUp class="h-4 w-4" />
-							Total Profit
-						</h3>
-						<p
-							class="text-2xl font-bold {data.profile?.total_profit &&
-							data.profile.total_profit >= 0
-								? 'text-success'
-								: 'text-error'}"
-						>
-							${data.profile?.total_profit?.toLocaleString() || '0'}
-						</p>
+					<p class="text-foreground text-2xl font-semibold">
+						${data.profile?.total_wagered?.toLocaleString() || '0'}
+					</p>
+				</CardContent>
+			</Card>
+			<Card class="border-border/60 bg-surface/70 border">
+				<CardContent class="space-y-2 p-5">
+					<div
+						class="text-muted-foreground flex items-center gap-2 text-xs tracking-wide uppercase"
+					>
+						<TrendingUp class="h-4 w-4" /> Total profit
 					</div>
-				</div>
-
-				<div class="card bg-base-100 shadow-xl">
-					<div class="card-body">
-						<h3 class="card-title flex items-center gap-2 text-sm font-medium">
-							<Target class="h-4 w-4" />
-							Win Rate
-						</h3>
-						<p class="text-2xl font-bold">{data.profile?.win_rate || 0}%</p>
+					<p
+						class={`text-2xl font-semibold ${data.profile?.total_profit && data.profile.total_profit >= 0 ? 'text-success' : 'text-destructive'}`}
+					>
+						${data.profile?.total_profit?.toLocaleString() || '0'}
+					</p>
+				</CardContent>
+			</Card>
+			<Card class="border-border/60 bg-surface/70 border">
+				<CardContent class="space-y-2 p-5">
+					<div
+						class="text-muted-foreground flex items-center gap-2 text-xs tracking-wide uppercase"
+					>
+						<Target class="h-4 w-4" /> Win rate
 					</div>
-				</div>
-
-				<div class="card bg-base-100 shadow-xl">
-					<div class="card-body">
-						<h3 class="card-title flex items-center gap-2 text-sm font-medium">
-							<Trophy class="h-4 w-4" />
-							Biggest Win
-						</h3>
-						<p class="text-2xl font-bold">${data.profile?.biggest_win?.toLocaleString() || '0'}</p>
+					<p class="text-foreground text-2xl font-semibold">{data.profile?.win_rate || 0}%</p>
+				</CardContent>
+			</Card>
+			<Card class="border-border/60 bg-surface/70 border">
+				<CardContent class="space-y-2 p-5">
+					<div
+						class="text-muted-foreground flex items-center gap-2 text-xs tracking-wide uppercase"
+					>
+						<Trophy class="h-4 w-4" /> Biggest win
 					</div>
-				</div>
-
-				<div class="card bg-base-100 shadow-xl md:col-span-2">
-					<div class="card-body">
-						<h3 class="card-title flex items-center gap-2 text-sm font-medium">
-							<Trophy class="h-4 w-4" />
-							Case Battle Wins
-						</h3>
-						<p class="text-2xl font-bold">{data.profile?.case_battle_wins || 0}</p>
-						<p class="mt-1 text-sm text-base-content/70">Victories in case battles</p>
-					</div>
-				</div>
-			</div>
+					<p class="text-foreground text-2xl font-semibold">
+						${data.profile?.biggest_win?.toLocaleString() || '0'}
+					</p>
+				</CardContent>
+			</Card>
+			<Card class="border-border/60 bg-surface/70 border md:col-span-2">
+				<CardHeader class="border-0 pb-2">
+					<CardTitle class="text-muted-foreground text-sm font-medium">Case battle wins</CardTitle>
+					<CardDescription>Lifetime victories secured across all battle types.</CardDescription>
+				</CardHeader>
+				<CardContent class="flex items-center justify-between p-5">
+					<p class="text-foreground text-3xl font-semibold">
+						{data.profile?.case_battle_wins || 0}
+					</p>
+					<Badge variant="outline">Top 12%</Badge>
+				</CardContent>
+			</Card>
 		</div>
 	</div>
 </div>

@@ -16,35 +16,38 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // API endpoints
-const CS2_SKINS_API = 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins_not_grouped.json';
-const CS2_CRATES_API = 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/crates.json';
+const CS2_SKINS_API =
+	'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins_not_grouped.json';
+const CS2_CRATES_API =
+	'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/crates.json';
 
 // Supabase configuration (hardcoded from your provided credentials)
 const supabaseUrl = 'https://pqbomlvoborxfxdglkrt.supabase.co';
-const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBxYm9tbHZvYm9yeGZ4ZGdsa3J0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1ODM5MzI3NSwiZXhwIjoyMDczOTY5Mjc1fQ.qA0Ti46p3VHQ-1MTUB-OhBElglVShpQZK9LKNvG9l0I';
+const supabaseKey =
+	'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBxYm9tbHZvYm9yeGZ4ZGdsa3J0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1ODM5MzI3NSwiZXhwIjoyMDczOTY5Mjc1fQ.qA0Ti46p3VHQ-1MTUB-OhBElglVShpQZK9LKNvG9l0I';
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Rarity mapping from API to your database schema
 const RARITY_MAPPING = {
-	'Covert': 'Legendary',
-	'Classified': 'Epic',
-	'Restricted': 'Rare',
+	Covert: 'Legendary',
+	Classified: 'Epic',
+	Restricted: 'Rare',
 	'Mil-Spec Grade': 'Uncommon',
 	'Mil-Spec': 'Uncommon',
 	'Industrial Grade': 'Common',
 	'Consumer Grade': 'Common',
-	'Contraband': 'Contraband'
+	Contraband: 'Contraband'
 };
 
 // Probability distribution for rarities (matches your RARITY_PROBABILITIES)
 const RARITY_PROBABILITIES = {
-	'Common': 60.0,
-	'Uncommon': 25.0,
-	'Rare': 10.0,
-	'Epic': 3.5,
-	'Legendary': 1.4,
-	'Contraband': 0.1
+	Common: 60.0,
+	Uncommon: 25.0,
+	Rare: 10.0,
+	Epic: 3.5,
+	Legendary: 1.4,
+	Contraband: 0.1
 };
 
 /**
@@ -52,25 +55,27 @@ const RARITY_PROBABILITIES = {
  */
 async function fetchFromAPI(url) {
 	return new Promise((resolve, reject) => {
-		https.get(url, (response) => {
-			if (response.statusCode !== 200) {
-				reject(new Error(`Failed to fetch data: ${response.statusCode}`));
-				return;
-			}
-
-			let data = '';
-			response.on('data', (chunk) => {
-				data += chunk;
-			});
-
-			response.on('end', () => {
-				try {
-					resolve(JSON.parse(data));
-				} catch (error) {
-					reject(new Error(`Failed to parse JSON: ${error.message}`));
+		https
+			.get(url, (response) => {
+				if (response.statusCode !== 200) {
+					reject(new Error(`Failed to fetch data: ${response.statusCode}`));
+					return;
 				}
-			});
-		}).on('error', reject);
+
+				let data = '';
+				response.on('data', (chunk) => {
+					data += chunk;
+				});
+
+				response.on('end', () => {
+					try {
+						resolve(JSON.parse(data));
+					} catch (error) {
+						reject(new Error(`Failed to parse JSON: ${error.message}`));
+					}
+				});
+			})
+			.on('error', reject);
 	});
 }
 
@@ -78,13 +83,14 @@ async function fetchFromAPI(url) {
  * Generate safe filename from skin name
  */
 function generateFilename(skinName) {
-	return skinName
-		.toLowerCase()
-		.replace(/[★™]/g, '')
-		.replace(/[^a-z0-9-]/g, '-')
-		.replace(/-+/g, '-')
-		.replace(/^-|-$/g, '')
-		+ '.png';
+	return (
+		skinName
+			.toLowerCase()
+			.replace(/[★™]/g, '')
+			.replace(/[^a-z0-9-]/g, '-')
+			.replace(/-+/g, '-')
+			.replace(/^-|-$/g, '') + '.png'
+	);
 }
 
 /**
@@ -92,16 +98,16 @@ function generateFilename(skinName) {
  */
 function calculateMarketValue(rarity, weaponType) {
 	const baseValues = {
-		'Common': { min: 0.03, max: 0.5 },
-		'Uncommon': { min: 0.5, max: 3 },
-		'Rare': { min: 3, max: 15 },
-		'Epic': { min: 15, max: 100 },
-		'Legendary': { min: 100, max: 500 },
-		'Contraband': { min: 500, max: 5000 }
+		Common: { min: 0.03, max: 0.5 },
+		Uncommon: { min: 0.5, max: 3 },
+		Rare: { min: 3, max: 15 },
+		Epic: { min: 15, max: 100 },
+		Legendary: { min: 100, max: 500 },
+		Contraband: { min: 500, max: 5000 }
 	};
 
 	// Knives and gloves are more expensive
-	const multiplier = (weaponType?.includes('Knife') || weaponType?.includes('Gloves')) ? 10 : 1;
+	const multiplier = weaponType?.includes('Knife') || weaponType?.includes('Gloves') ? 10 : 1;
 
 	const range = baseValues[rarity] || baseValues['Common'];
 	const randomValue = Math.random() * (range.max - range.min) + range.min;
@@ -149,11 +155,12 @@ async function createCasesAndItems(skins, crates) {
 		console.log(`📦 Creating case: ${caseConfig.name}`);
 
 		// Filter skins for this case based on weapon types
-		const caseSkins = skins.filter(skin =>
-			caseConfig.weaponTypes.includes(skin.weapon?.name) &&
-			skin.image &&
-			skin.rarity?.name
-		).slice(0, 15); // Limit to 15 items per case
+		const caseSkins = skins
+			.filter(
+				(skin) =>
+					caseConfig.weaponTypes.includes(skin.weapon?.name) && skin.image && skin.rarity?.name
+			)
+			.slice(0, 15); // Limit to 15 items per case
 
 		if (caseSkins.length === 0) {
 			console.log(`⚠️  No skins found for ${caseConfig.name}, skipping...`);
@@ -180,7 +187,7 @@ async function createCasesAndItems(skins, crates) {
 		console.log(`✅ Created case: ${caseData.name} (${caseData.id})`);
 
 		// Create items for this case
-		const caseItems = caseSkins.map(skin => {
+		const caseItems = caseSkins.map((skin) => {
 			const mappedRarity = RARITY_MAPPING[skin.rarity.name] || 'Common';
 			const probability = RARITY_PROBABILITIES[mappedRarity] || 10.0;
 			const marketValue = calculateMarketValue(mappedRarity, skin.weapon?.name);
@@ -314,13 +321,9 @@ async function seedDatabase() {
 			totalItems: totalItems
 		};
 
-		fs.writeFileSync(
-			path.join(__dirname, 'seed-summary.json'),
-			JSON.stringify(summary, null, 2)
-		);
+		fs.writeFileSync(path.join(__dirname, 'seed-summary.json'), JSON.stringify(summary, null, 2));
 
 		console.log('\n📄 Seed summary saved to scripts/seed-summary.json');
-
 	} catch (error) {
 		console.error('\n❌ Seeding failed:', error.message);
 		process.exit(1);

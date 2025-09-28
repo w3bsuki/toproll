@@ -1,5 +1,4 @@
 <script lang="ts">
-
 	interface Props {
 		type?: 'skeleton' | 'spinner' | 'dots' | 'card' | 'case';
 		size?: 'sm' | 'md' | 'lg';
@@ -22,16 +21,16 @@
 			<div class="animate-pulse">
 				<div class="flex items-center gap-4">
 					<div
-						class="h-12 w-12 skeleton rounded-full bg-gradient-to-br from-base-300 to-base-200"
+						class="skeleton from-base-300 to-base-200 h-12 w-12 rounded-full bg-gradient-to-br"
 					></div>
 					<div class="flex-1 space-y-2">
 						<div
 							class="skeleton {sizeClasses[
 								size
-							]} animate-shimmer rounded bg-gradient-to-r from-base-300 via-base-200 to-base-300 bg-[length:200%_100%]"
+							]} animate-shimmer from-base-300 via-base-200 to-base-300 rounded bg-gradient-to-r bg-[length:200%_100%]"
 						></div>
 						<div
-							class="animate-shimmer h-4 w-3/4 skeleton rounded bg-gradient-to-r from-base-300 via-base-200 to-base-300 bg-[length:200%_100%]"
+							class="animate-shimmer skeleton from-base-300 via-base-200 to-base-300 h-4 w-3/4 rounded bg-gradient-to-r bg-[length:200%_100%]"
 						></div>
 					</div>
 				</div>
@@ -42,12 +41,12 @@
 	<!-- Gaming-Themed Spinner -->
 	<div class="flex items-center justify-center p-8">
 		<div class="relative">
-			<div class="h-16 w-16 rounded-full border-4 border-primary/30"></div>
+			<div class="border-primary/30 h-16 w-16 rounded-full border-4"></div>
 			<div
-				class="absolute inset-0 h-16 w-16 animate-spin rounded-full border-4 border-transparent border-t-primary"
+				class="border-t-primary absolute inset-0 h-16 w-16 animate-spin rounded-full border-4 border-transparent"
 			></div>
 			<div
-				class="animate-reverse absolute inset-2 h-12 w-12 animate-spin rounded-full border-4 border-transparent border-t-accent"
+				class="animate-reverse border-t-accent absolute inset-2 h-12 w-12 animate-spin rounded-full border-4 border-transparent"
 				style="animation-duration: 1.5s;"
 			></div>
 		</div>
@@ -57,7 +56,7 @@
 	<div class="flex items-center justify-center gap-2 p-4">
 		{#each Array(3) as _, i (i)}
 			<div
-				class="h-3 w-3 animate-bounce rounded-full bg-primary"
+				class="bg-primary h-3 w-3 animate-bounce rounded-full"
 				style="animation-delay: {i * 0.2}s;"
 			></div>
 		{/each}
@@ -66,32 +65,32 @@
 	<!-- Enhanced Card Skeleton for Gaming -->
 	<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 		{#each Array(count) as _, i (i)}
-			<div class="card animate-pulse border border-base-300 bg-base-100 shadow-xl">
+			<div class="card border-base-300 bg-base-100 animate-pulse border shadow-xl">
 				<figure
-					class="animate-shimmer h-32 bg-gradient-to-br from-base-300 via-base-200 to-base-300 bg-[length:200%_100%]"
+					class="animate-shimmer from-base-300 via-base-200 to-base-300 h-32 bg-gradient-to-br bg-[length:200%_100%]"
 				></figure>
 				<div class="card-body p-4">
 					<div
-						class="animate-shimmer mb-2 h-6 w-3/4 skeleton rounded bg-gradient-to-r from-base-300 via-base-200 to-base-300 bg-[length:200%_100%]"
+						class="animate-shimmer skeleton from-base-300 via-base-200 to-base-300 mb-2 h-6 w-3/4 rounded bg-gradient-to-r bg-[length:200%_100%]"
 					></div>
 					<div
-						class="animate-shimmer mb-1 h-4 w-full skeleton rounded bg-gradient-to-r from-base-300 via-base-200 to-base-300 bg-[length:200%_100%]"
+						class="animate-shimmer skeleton from-base-300 via-base-200 to-base-300 mb-1 h-4 w-full rounded bg-gradient-to-r bg-[length:200%_100%]"
 					></div>
 					<div
-						class="animate-shimmer mb-4 h-4 w-2/3 skeleton rounded bg-gradient-to-r from-base-300 via-base-200 to-base-300 bg-[length:200%_100%]"
+						class="animate-shimmer skeleton from-base-300 via-base-200 to-base-300 mb-4 h-4 w-2/3 rounded bg-gradient-to-r bg-[length:200%_100%]"
 					></div>
 
 					<div class="mb-4 flex items-center justify-between">
 						<div
-							class="animate-shimmer h-8 w-20 skeleton rounded bg-gradient-to-r from-base-300 via-base-200 to-base-300 bg-[length:200%_100%]"
+							class="animate-shimmer skeleton from-base-300 via-base-200 to-base-300 h-8 w-20 rounded bg-gradient-to-r bg-[length:200%_100%]"
 						></div>
 						<div
-							class="animate-shimmer h-6 w-16 skeleton rounded bg-gradient-to-r from-base-300 via-base-200 to-base-300 bg-[length:200%_100%]"
+							class="animate-shimmer skeleton from-base-300 via-base-200 to-base-300 h-6 w-16 rounded bg-gradient-to-r bg-[length:200%_100%]"
 						></div>
 					</div>
 
 					<div
-						class="animate-shimmer h-12 w-full skeleton rounded bg-gradient-to-r from-base-300 via-base-200 to-base-300 bg-[length:200%_100%]"
+						class="animate-shimmer skeleton from-base-300 via-base-200 to-base-300 h-12 w-full rounded bg-gradient-to-r bg-[length:200%_100%]"
 					></div>
 				</div>
 			</div>
@@ -103,28 +102,28 @@
 		<!-- Spinning Case Icon -->
 		<div class="relative">
 			<div
-				class="flex h-24 w-24 items-center justify-center rounded-2xl bg-gradient-to-br from-primary/20 to-accent/20"
+				class="from-primary/20 to-accent/20 flex h-24 w-24 items-center justify-center rounded-2xl bg-gradient-to-br"
 			>
 				<div
-					class="h-16 w-16 animate-spin rounded-xl bg-gradient-to-br from-primary to-accent"
+					class="from-primary to-accent h-16 w-16 animate-spin rounded-xl bg-gradient-to-br"
 				></div>
 			</div>
-			<div class="absolute -inset-4 animate-pulse rounded-full bg-primary/20 blur-xl"></div>
+			<div class="bg-primary/20 absolute -inset-4 animate-pulse rounded-full blur-xl"></div>
 		</div>
 
 		<!-- Loading Text with Gaming Flair -->
 		<div class="space-y-2 text-center">
 			<div
-				class="bg-gradient-to-r from-primary to-accent bg-clip-text text-lg font-bold text-transparent"
+				class="from-primary to-accent bg-gradient-to-r bg-clip-text text-lg font-bold text-transparent"
 			>
 				Opening Case...
 			</div>
 			<div class="flex items-center gap-1">
-				<span class="text-sm text-base-content/70">Generating random outcome</span>
+				<span class="text-base-content/70 text-sm">Generating random outcome</span>
 				<div class="flex gap-1">
 					{#each Array(3) as _, i (i)}
 						<div
-							class="h-1 w-1 animate-bounce rounded-full bg-primary"
+							class="bg-primary h-1 w-1 animate-bounce rounded-full"
 							style="animation-delay: {i * 0.3}s;"
 						></div>
 					{/each}
@@ -133,9 +132,9 @@
 		</div>
 
 		<!-- Progress Bar -->
-		<div class="h-2 w-64 overflow-hidden rounded-full bg-base-300">
+		<div class="bg-base-300 h-2 w-64 overflow-hidden rounded-full">
 			<div
-				class="h-full animate-pulse rounded-full bg-gradient-to-r from-primary via-accent to-secondary"
+				class="from-primary via-accent to-secondary h-full animate-pulse rounded-full bg-gradient-to-r"
 			></div>
 		</div>
 	</div>

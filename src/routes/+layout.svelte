@@ -17,20 +17,20 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div class="mobile-viewport bg-base-100">
+<div class="mobile-viewport bg-background text-foreground">
 	<!-- Desktop Layout (1024px+) -->
 	<div class="hidden lg:flex lg:h-screen lg:flex-col">
 		<!-- Top Navbar -->
-		<Navbar isAuthenticated={data.isAuthenticated} user={data.user} class="border-b-2" />
+		<Navbar isAuthenticated={data.isAuthenticated} user={data.user} />
 
 		<!-- Main Content Area with Sidebar -->
 		<div class="flex flex-1 overflow-hidden">
 			<!-- Sidebar -->
-			<Sidebar isAuthenticated={data.isAuthenticated} class="w-64 border-r-2 border-base-300" />
+			<Sidebar isAuthenticated={data.isAuthenticated} class="w-64" />
 
 			<!-- Main Content -->
-			<main class="flex-1 overflow-y-auto">
-				<div class="mx-auto max-w-7xl px-8 py-12">
+			<main class="bg-background flex-1 overflow-y-auto">
+				<div class="mx-auto max-w-7xl px-10 py-12">
 					{@render children?.()}
 				</div>
 			</main>
@@ -43,11 +43,11 @@
 	<!-- Tablet Layout (768px - 1023px) -->
 	<div class="hidden md:flex md:h-screen md:flex-col lg:hidden">
 		<!-- Top Navbar -->
-		<Navbar isAuthenticated={data.isAuthenticated} user={data.user} class="border-b-2" />
+		<Navbar isAuthenticated={data.isAuthenticated} user={data.user} />
 
 		<!-- Main Content without Sidebar -->
-		<main class="flex-1 overflow-y-auto">
-			<div class="mx-auto max-w-4xl px-6 py-8">
+		<main class="bg-background flex-1 overflow-y-auto">
+			<div class="mx-auto max-w-4xl px-8 py-10">
 				{@render children?.()}
 			</div>
 		</main>
@@ -60,12 +60,12 @@
 	<div class="flex h-screen flex-col md:hidden">
 		<!-- Mobile Header with Safe Area -->
 		<header class="pt-[env(safe-area-inset-top)]">
-			<Navbar isAuthenticated={data.isAuthenticated} user={data.user} class="min-h-[56px] px-4" />
+			<Navbar isAuthenticated={data.isAuthenticated} user={data.user} class="min-h-[56px]" />
 		</header>
 
 		<!-- Main Content with Safe Scrolling -->
-		<main class="flex-1 overflow-y-auto overscroll-contain">
-			<div class="px-4 py-6 pb-24">
+		<main class="bg-background flex-1 overflow-y-auto overscroll-contain">
+			<div class="px-5 py-6 pb-24">
 				{@render children?.()}
 			</div>
 		</main>

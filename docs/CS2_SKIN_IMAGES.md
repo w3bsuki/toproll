@@ -176,12 +176,14 @@ The images work seamlessly with your existing UI:
 ### Verification
 
 Check downloaded images:
+
 ```bash
 ls -la static/images/skins/
 cat static/images/skins/skins-metadata.json
 ```
 
 Check database seeding:
+
 ```bash
 cat scripts/seed-summary.json
 ```
@@ -197,6 +199,7 @@ cat scripts/seed-summary.json
 ## API Credits
 
 This integration uses the excellent [ByMykel/CSGO-API](https://github.com/ByMykel/CSGO-API) which provides:
+
 - Complete CS2 skin database
 - Real-time updates
 - Multiple languages

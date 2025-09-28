@@ -15,7 +15,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // API endpoint for CS2 skins
-const CS2_API_URL = 'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins_not_grouped.json';
+const CS2_API_URL =
+	'https://raw.githubusercontent.com/ByMykel/CSGO-API/main/public/api/en/skins_not_grouped.json';
 
 // Configuration
 const DOWNLOAD_LIMIT = parseInt(process.argv[2]) || 100; // Default limit of 100 skins
@@ -29,29 +30,31 @@ async function fetchCS2Skins() {
 	console.log('🔄 Fetching CS2 skins from API...');
 
 	return new Promise((resolve, reject) => {
-		https.get(CS2_API_URL, (response) => {
-			if (response.statusCode !== 200) {
-				reject(new Error(`Failed to fetch skins data: ${response.statusCode}`));
-				return;
-			}
-
-			let data = '';
-			response.on('data', (chunk) => {
-				data += chunk;
-			});
-
-			response.on('end', () => {
-				try {
-					const skins = JSON.parse(data);
-					console.log(`✅ Fetched ${skins.length} skins from API`);
-					resolve(skins);
-				} catch (error) {
-					reject(new Error(`Failed to parse JSON: ${error.message}`));
+		https
+			.get(CS2_API_URL, (response) => {
+				if (response.statusCode !== 200) {
+					reject(new Error(`Failed to fetch skins data: ${response.statusCode}`));
+					return;
 				}
+
+				let data = '';
+				response.on('data', (chunk) => {
+					data += chunk;
+				});
+
+				response.on('end', () => {
+					try {
+						const skins = JSON.parse(data);
+						console.log(`✅ Fetched ${skins.length} skins from API`);
+						resolve(skins);
+					} catch (error) {
+						reject(new Error(`Failed to parse JSON: ${error.message}`));
+					}
+				});
+			})
+			.on('error', (error) => {
+				reject(error);
 			});
-		}).on('error', (error) => {
-			reject(error);
-		});
 	});
 }
 
@@ -59,13 +62,15 @@ async function fetchCS2Skins() {
  * Generate safe filename from skin name
  */
 function generateFilename(skinName) {
-	return skinName
-		.toLowerCase()
-		.replace(/[★™]/g, '') // Remove special characters
-		.replace(/[^a-z0-9-]/g, '-') // Replace non-alphanumeric with dash
-		.replace(/-+/g, '-') // Replace multiple dashes with single
-		.replace(/^-|-$/g, '') // Remove leading/trailing dashes
-		+ '.png';
+	return (
+		skinName
+			.toLowerCase()
+			.replace(/[★™]/g, '') // Remove special characters
+			.replace(/[^a-z0-9-]/g, '-') // Replace non-alphanumeric with dash
+			.replace(/-+/g, '-') // Replace multiple dashes with single
+			.replace(/^-|-$/g, '') + // Remove leading/trailing dashes
+		'.png'
+	);
 }
 
 /**
@@ -139,7 +144,9 @@ async function downloadInBatches(downloadTasks) {
 
 	for (let i = 0; i < downloadTasks.length; i += CONCURRENT_DOWNLOADS) {
 		const batch = downloadTasks.slice(i, i + CONCURRENT_DOWNLOADS);
-		console.log(`\n📦 Processing batch ${Math.floor(i / CONCURRENT_DOWNLOADS) + 1}/${Math.ceil(downloadTasks.length / CONCURRENT_DOWNLOADS)}...`);
+		console.log(
+			`\n📦 Processing batch ${Math.floor(i / CONCURRENT_DOWNLOADS) + 1}/${Math.ceil(downloadTasks.length / CONCURRENT_DOWNLOADS)}...`
+		);
 
 		const batchPromises = batch.map(async (task) => {
 			try {
@@ -159,7 +166,7 @@ async function downloadInBatches(downloadTasks) {
 
 		// Small delay between batches to be respectful to the server
 		if (i + CONCURRENT_DOWNLOADS < downloadTasks.length) {
-			await new Promise(resolve => setTimeout(resolve, 500));
+			await new Promise((resolve) => setTimeout(resolve, 500));
 		}
 	}
 
@@ -171,11 +178,18 @@ async function downloadInBatches(downloadTasks) {
  */
 function prioritizeSkins(skins) {
 	// Filter out skins without images
-	const skinsWithImages = skins.filter(skin => skin.image);
+	const skinsWithImages = skins.filter((skin) => skin.image);
 
 	// Prioritize popular weapons and higher rarities
 	const weaponPriority = ['AK-47', 'AWP', 'M4A4', 'M4A1-S', 'Glock-18', 'USP-S', 'Desert Eagle'];
-	const rarityPriority = ['Covert', 'Classified', 'Restricted', 'Mil-Spec', 'Industrial Grade', 'Consumer Grade'];
+	const rarityPriority = [
+		'Covert',
+		'Classified',
+		'Restricted',
+		'Mil-Spec',
+		'Industrial Grade',
+		'Consumer Grade'
+	];
 
 	return skinsWithImages
 		.sort((a, b) => {
@@ -207,7 +221,7 @@ function prioritizeSkins(skins) {
  */
 function saveSkinMetadata(skins) {
 	const metadataPath = path.join(IMAGES_DIR, 'skins-metadata.json');
-	const metadata = skins.map(skin => ({
+	const metadata = skins.map((skin) => ({
 		id: skin.id,
 		name: skin.name,
 		weapon: skin.weapon?.name || 'Unknown',
@@ -249,7 +263,7 @@ async function downloadAllImages() {
 		const metadata = saveSkinMetadata(selectedSkins);
 
 		// Prepare download tasks
-		const downloadTasks = selectedSkins.map(skin => ({
+		const downloadTasks = selectedSkins.map((skin) => ({
 			imageUrl: skin.image,
 			filename: generateFilename(skin.name),
 			skinName: skin.name
@@ -267,13 +281,12 @@ async function downloadAllImages() {
 
 		if (results.failed.length > 0) {
 			console.log('\n❌ Failed downloads:');
-			results.failed.forEach(filename => console.log(`   - ${filename}`));
+			results.failed.forEach((filename) => console.log(`   - ${filename}`));
 		}
 
 		console.log('\n💡 You can now use these images in your case opening!');
 		console.log('   Example: /images/skins/ak-47-redline.png');
 		console.log('   Metadata: /images/skins/skins-metadata.json');
-
 	} catch (error) {
 		console.error('\n❌ Download failed:', error.message);
 		process.exit(1);

@@ -132,7 +132,7 @@
 	<div class="pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]">
 		{#each ripples as ripple (ripple.id)}
 			<div
-				class="animate-ripple absolute rounded-full bg-primary/30"
+				class="animate-ripple bg-primary/30 absolute rounded-full"
 				style="
 					left: {ripple.x}px;
 					top: {ripple.y}px;
@@ -147,7 +147,7 @@
 <!-- Glow Effect -->
 {#if type === 'glow' && isActive}
 	<div
-		class="pointer-events-none absolute -inset-1 animate-pulse rounded-[inherit] bg-gradient-to-r from-primary/50 via-accent/50 to-secondary/50 opacity-75 blur-sm"
+		class="from-primary/50 via-accent/50 to-secondary/50 pointer-events-none absolute -inset-1 animate-pulse rounded-[inherit] bg-gradient-to-r opacity-75 blur-sm"
 	></div>
 {/if}
 

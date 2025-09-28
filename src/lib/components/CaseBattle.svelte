@@ -165,8 +165,8 @@
 		<!-- Battle Header -->
 		<div class="flex items-center justify-between">
 			<div class="flex items-center gap-3">
-				<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-accent/10">
-					<Users class="h-6 w-6 text-accent" />
+				<div class="bg-accent/10 flex h-12 w-12 items-center justify-center rounded-lg">
+					<Users class="text-accent h-6 w-6" />
 				</div>
 				<div>
 					<h3 class="text-lg font-semibold">Case Battle</h3>
@@ -197,7 +197,7 @@
 		<!-- Countdown -->
 		{#if isStarting}
 			<div class="text-center">
-				<div class="mb-4 text-6xl font-bold text-primary">{countdown}</div>
+				<div class="text-primary mb-4 text-6xl font-bold">{countdown}</div>
 				<p class="text-lg">Battle starting...</p>
 			</div>
 		{/if}
@@ -206,7 +206,7 @@
 		{#if battleStarted && winner}
 			<div class="space-y-4">
 				<div class="text-center">
-					<h4 class="text-xl font-bold text-success">
+					<h4 class="text-success text-xl font-bold">
 						🎉 {winner.name} Wins!
 					</h4>
 					<p class="text-muted-foreground">Total Value: ${winner.totalValue.toFixed(2)}</p>
@@ -215,11 +215,11 @@
 				<!-- Results Grid -->
 				<div class="grid gap-4">
 					{#each players.sort((a, b) => b.totalValue - a.totalValue) as player, index (player.id)}
-						<Card class={cn('p-4', index === 0 ? 'ring-2 ring-success' : '')}>
+						<Card class={cn('p-4', index === 0 ? 'ring-success ring-2' : '')}>
 							<div class="flex items-center justify-between">
 								<div class="flex items-center gap-3">
 									{#if index === 0}
-										<Trophy class="h-5 w-5 text-success" />
+										<Trophy class="text-success h-5 w-5" />
 									{:else}
 										<span class="text-lg font-bold">#{index + 1}</span>
 									{/if}

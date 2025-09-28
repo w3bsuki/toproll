@@ -8,10 +8,12 @@ export const load: PageLoad = async ({ url }) => {
 		// Fetch all cases with their items
 		const { data: cases, error: casesError } = await supabase
 			.from('cases')
-			.select(`
+			.select(
+				`
 				*,
 				case_items (*)
-			`)
+			`
+			)
 			.order('created_at', { ascending: false });
 
 		if (casesError) {
