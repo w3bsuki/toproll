@@ -15,20 +15,22 @@
 		Settings,
 		Shield
 	} from 'lucide-svelte';
+	import { Button, Badge } from '$lib/components/ui';
+	import { cn } from '$lib/utils';
 
 	interface SidebarProps {
 		isAuthenticated?: boolean;
 		class?: string;
 	}
 
-	let { isAuthenticated = false, class: className }: SidebarProps = $props();
+	let { isAuthenticated = false, class: className = '' }: SidebarProps = $props();
 
 	const navItems = [
-		{ href: '/', icon: Home, label: 'Home' },
-		{ href: '/cases', icon: Package, label: 'Cases' },
-		{ href: '/battles', icon: TrendingUp, label: 'Battles' },
-		{ href: '/inventory', icon: Package, label: 'Inventory' },
-		{ href: '/profile', icon: User, label: 'Profile' }
+		{ href: '/', icon: Home, label: 'Home', description: 'Dashboard & stats' },
+		{ href: '/cases', icon: Package, label: 'Cases', description: 'Browse & open cases' },
+		{ href: '/battles', icon: TrendingUp, label: 'Battles', description: 'Compete with players' },
+		{ href: '/inventory', icon: Package, label: 'Inventory', description: 'Track your winnings' },
+		{ href: '/profile', icon: User, label: 'Profile', description: 'Account & security' }
 	];
 
 	const supportItems = [
@@ -41,42 +43,72 @@
 	function isActiveRoute(href: string): boolean {
 		return $page.url.pathname === href;
 	}
-
-	function getNavDescription(label: string): string {
-		const descriptions = {
-			Home: 'Main dashboard',
-			Cases: 'Open cases & win items',
-			Battles: 'Compete with others',
-			Inventory: 'Your items & rewards',
-			Profile: 'Account settings'
-		};
-		return descriptions[label] || '';
-	}
 </script>
 
-<aside class="hidden h-full w-64 border-r border-base-300 bg-base-100 md:block {className || ''}">
+<aside
+	class={cn(
+		'border-border/60 bg-surface/60 hidden h-full w-64 border-r backdrop-blur-sm md:block',
+		className
+	)}
+>
 	<div class="flex h-full flex-col">
-		<!-- Navigation -->
-		<nav class="flex-1 p-4">
-			<ul class="menu">
+		<div class="border-border/60 border-b px-6 py-5">
+			<p class="text-muted-foreground text-xs tracking-[0.3em] uppercase">Navigation</p>
+		</div>
+
+		<nav class="flex-1 overflow-y-auto px-4 py-6">
+			<ul class="space-y-1">
 				{#each navItems as item}
 					<li>
-						<a href={item.href} class={isActiveRoute(item.href) ? 'active' : ''}>
-							<item.icon class="h-5 w-5" />
-							{item.label}
-						</a>
+						<button
+							type="button"
+							class={cn(
+								'group duration-subtle ease-market-ease flex w-full items-center justify-between rounded-md border border-transparent px-3 py-2 text-left transition-colors',
+								isActiveRoute(item.href)
+									? 'border-primary/60 bg-surface-accent/30 text-foreground shadow-marketplace-sm'
+									: 'text-muted-foreground hover:border-border/60 hover:bg-surface-muted/40 hover:text-foreground'
+							)}
+							on:click={() => goto(item.href)}
+						>
+							<span class="flex items-center gap-3">
+								<span
+									class={cn(
+										'flex h-9 w-9 items-center justify-center rounded-md border',
+										isActiveRoute(item.href)
+											? 'border-primary/60 bg-primary/15 text-primary'
+											: 'border-border/50 bg-surface-muted/40 text-muted-foreground group-hover:text-foreground'
+									)}
+								>
+									<item.icon class="h-4 w-4" />
+								</span>
+								<span>
+									<span class="text-sm leading-tight font-medium">{item.label}</span>
+									<span class="text-muted-foreground/80 block text-xs">{item.description}</span>
+								</span>
+							</span>
+							{#if isActiveRoute(item.href)}
+								<Badge variant="outline" class="text-xs">Active</Badge>
+							{/if}
+						</button>
 					</li>
 				{/each}
 			</ul>
 		</nav>
 
-		<!-- Support Section -->
-		<div class="border-t border-base-300 p-4">
-			<ul class="menu">
+		<div class="border-border/60 border-t px-4 py-5">
+			<p class="text-muted-foreground text-xs tracking-[0.3em] uppercase">Support</p>
+			<ul class="mt-3 space-y-1 text-sm">
 				{#each supportItems as item}
 					<li>
-						<a href={item.href}>
-							<item.icon class="h-4 w-4" />
+						<a
+							href={item.href}
+							class="text-muted-foreground duration-subtle ease-market-ease hover:border-border/60 hover:bg-surface-muted/40 hover:text-foreground flex items-center gap-3 rounded-md border border-transparent px-3 py-2 transition-colors"
+						>
+							<span
+								class="border-border/50 bg-surface-muted/40 flex h-8 w-8 items-center justify-center rounded-md border"
+							>
+								<item.icon class="h-4 w-4" />
+							</span>
 							{item.label}
 						</a>
 					</li>
@@ -84,13 +116,20 @@
 			</ul>
 		</div>
 
-		<!-- Auth CTA -->
 		{#if !isAuthenticated}
-			<div class="border-t border-base-300 p-4">
-				<button class="btn w-full btn-primary">
-					<LogIn class="mr-2 h-4 w-4" />
-					Sign in with Steam
-				</button>
+			<div class="border-border/60 border-t px-4 py-5">
+				<div
+					class="border-border/60 bg-surface-muted/40 text-muted-foreground rounded-lg border p-4 text-sm"
+				>
+					<p class="text-foreground font-medium">Sign in to unlock trading</p>
+					<p class="mt-1 text-xs">
+						Connect your Steam account to deposit, withdraw, and participate in battles.
+					</p>
+					<Button class="mt-4 w-full gap-2">
+						<LogIn class="h-4 w-4" />
+						Sign in with Steam
+					</Button>
+				</div>
 			</div>
 		{/if}
 	</div>

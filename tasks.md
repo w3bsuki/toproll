@@ -118,6 +118,10 @@
   - Create protected layout components
   - Add automatic redirect for unauthenticated users
   - Build session validation middleware
+
+## Follow-ups
+
+- Tighten empty/loading states for legacy demo components (CaseOpening, CaseCatalog) to match new marketplace theme.
   - Write integration tests for route protection
   - _Requirements: 6.1, 6.2, 6.4, 6.5_
   - DoD

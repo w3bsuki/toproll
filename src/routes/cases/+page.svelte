@@ -1,12 +1,21 @@
 <script lang="ts">
 	import CaseOpeningRoulette from '$lib/components/CaseOpeningRoulette.svelte';
 	import ParticleEffects from '$lib/components/ParticleEffects.svelte';
-	// import CaseBattle from '$lib/components/CaseBattle.svelte';
 	import LoadingSkeleton from '$lib/components/LoadingSkeleton.svelte';
 	import ErrorBoundary from '$lib/components/ErrorBoundary.svelte';
-	import { Package, Users, TrendingUp, Zap } from 'lucide-svelte';
+	import { Package, Users, TrendingUp, Zap, Sword, Sparkles } from 'lucide-svelte';
 	import type { CS2Item } from '$lib/types';
 	import type { PageData } from './$types';
+	import {
+		Button,
+		Card,
+		CardHeader,
+		CardContent,
+		CardFooter,
+		CardTitle,
+		CardDescription,
+		Badge
+	} from '$lib/components/ui';
 
 	interface Props {
 		data: PageData;
@@ -18,7 +27,6 @@
 	let showParticles = $state(false);
 	let lastWin: any = $state(null);
 
-	// Use real cases from database
 	const cases = $derived(data.cases || []);
 
 	const battles = [
@@ -27,20 +35,19 @@
 			maxPlayers: 2,
 			entryFee: 2.49,
 			currentPlayers: 1,
-			status: 'waiting'
+			status: 'Filling'
 		},
 		{
 			id: 'battle_002',
 			maxPlayers: 4,
-			entryFee: 5.0,
+			entryFee: 5,
 			currentPlayers: 3,
-			status: 'waiting'
+			status: 'Waiting'
 		}
 	];
 
 	function handleCaseOpen(caseId: string, item: CS2Item) {
 		console.log(`Opened case ${caseId}, got item:`, item);
-		// In real app, this would send to backend API
 	}
 
 	function handleCaseComplete(item: any) {
@@ -49,10 +56,8 @@
 		setTimeout(() => (showParticles = false), 2500);
 	}
 
-	// Convert case items to roulette format with proper rarity mapping
 	const rouletteItems = $derived(
-		cases[0]?.case_items?.map((item) => {
-			// Map database rarities to roulette rarities
+		cases[0]?.case_items?.map((item: CS2Item) => {
 			const rarityMap: Record<
 				string,
 				'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'mythical'
@@ -62,7 +67,7 @@
 				Rare: 'rare',
 				Epic: 'epic',
 				Legendary: 'legendary',
-				Contraband: 'mythical', // Map Contraband to mythical
+				Contraband: 'mythical'
 			};
 
 			return {
@@ -75,33 +80,16 @@
 		}) || []
 	);
 
-	// Debug logging
-	$effect(() => {
-		console.log('Roulette items:', rouletteItems);
-		console.log('Cases data:', cases[0]);
-	});
-
 	function handleBattleJoin(battleId: string) {
 		console.log(`Joined battle ${battleId}`);
-		// In real app, this would join via WebSocket/API
 	}
 
 	function handleBattleLeave(battleId: string) {
 		console.log(`Left battle ${battleId}`);
-		// In real app, this would leave via WebSocket/API
 	}
 
-	function getRarityBadgeColor(rarity: string): string {
-		const colors = {
-			Consumer: 'neutral',
-			Industrial: 'info',
-			'Mil-Spec': 'primary',
-			Restricted: 'warning',
-			Classified: 'accent',
-			Covert: 'error',
-			Contraband: 'success'
-		};
-		return colors[rarity as keyof typeof colors] || 'neutral';
+	function rarityLabel(rarity: string) {
+		return rarity.replace('-', ' ');
 	}
 </script>
 
@@ -111,199 +99,205 @@
 
 <ErrorBoundary {error}>
 	<div class="space-y-12">
-		<!-- Header -->
-		<div class="mb-8 text-center">
-			<h1 class="mb-4 text-4xl font-bold tracking-tight">CS2 Cases & Battles</h1>
-			<p class="text-muted-foreground text-xl">
-				Open exclusive cases or battle other players for the best items
-			</p>
-		</div>
+		<header class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+			<div class="space-y-3">
+				<Badge variant="outline" class="w-fit">Live liquidity</Badge>
+				<h1 class="text-foreground text-3xl font-semibold md:text-4xl">Strategic case openings</h1>
+				<p class="text-muted-foreground max-w-2xl text-sm">
+					Audit every case before you spin it. Market makers hedge odds in real time so you can open
+					with confidence. Monitor volatility, view return history, and queue battles against other
+					traders.
+				</p>
+			</div>
+			<div class="flex gap-3">
+				<Button class="gap-2">
+					<Package class="h-4 w-4" />
+					Open featured case
+				</Button>
+				<Button variant="secondary" class="gap-2">
+					<Zap class="h-4 w-4" />
+					Launch battle
+				</Button>
+			</div>
+		</header>
 
-		<!-- Stats Cards -->
-		<div class="grid gap-6 lg:grid-cols-3">
-			<div class="card bg-base-100 shadow-xl">
-				<div class="card-body">
-					<div class="flex items-center gap-3">
-						<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10">
-							<Package class="h-5 w-5 text-primary" />
-						</div>
-						<div>
-							<p class="text-sm text-base-content/70">Cases Opened Today</p>
-							<p class="text-2xl font-bold">1,247</p>
+		<section class="grid gap-4 md:grid-cols-3">
+			<Card class="border-border/60 bg-surface/70 border">
+				<CardContent class="flex items-center gap-3 p-5">
+					<span
+						class="border-primary/50 bg-primary/15 text-primary flex h-10 w-10 items-center justify-center rounded-md border"
+					>
+						<Package class="h-5 w-5" />
+					</span>
+					<div>
+						<p class="text-muted-foreground text-xs tracking-wide uppercase">Cases opened today</p>
+						<p class="text-foreground text-xl font-semibold">1,247</p>
+					</div>
+				</CardContent>
+			</Card>
+			<Card class="border-border/60 bg-surface/70 border">
+				<CardContent class="flex items-center gap-3 p-5">
+					<span
+						class="border-secondary/50 bg-secondary/15 text-secondary flex h-10 w-10 items-center justify-center rounded-md border"
+					>
+						<Users class="h-5 w-5" />
+					</span>
+					<div>
+						<p class="text-muted-foreground text-xs tracking-wide uppercase">Active battles</p>
+						<p class="text-foreground text-xl font-semibold">23</p>
+					</div>
+				</CardContent>
+			</Card>
+			<Card class="border-border/60 bg-surface/70 border">
+				<CardContent class="flex items-center gap-3 p-5">
+					<span
+						class="border-success/50 bg-success/15 text-success flex h-10 w-10 items-center justify-center rounded-md border"
+					>
+						<TrendingUp class="h-5 w-5" />
+					</span>
+					<div>
+						<p class="text-muted-foreground text-xs tracking-wide uppercase">Biggest win 24h</p>
+						<p class="text-foreground text-xl font-semibold">$2,450</p>
+					</div>
+				</CardContent>
+			</Card>
+		</section>
+
+		<section class="space-y-6">
+			<div class="space-y-3 text-center">
+				<h2 class="text-foreground text-2xl font-semibold">Live roulette preview</h2>
+				<p class="text-muted-foreground text-sm">
+					Preview the motion engine before committing to a spin.
+				</p>
+			</div>
+			<div
+				class="border-border/60 bg-surface/70 shadow-marketplace-lg relative rounded-2xl border p-6"
+			>
+				<ParticleEffects trigger={showParticles} intensity="high" />
+				{#if rouletteItems.length > 0}
+					<CaseOpeningRoulette items={rouletteItems} onComplete={handleCaseComplete} />
+				{:else if isLoading}
+					<LoadingSkeleton />
+				{/if}
+				{#if lastWin}
+					<div class="border-border/60 bg-surface-muted/50 mt-6 rounded-lg border p-4">
+						<div class="flex items-center gap-3">
+							<img
+								src={lastWin.image}
+								alt={lastWin.name}
+								class="border-border/60 h-12 w-12 rounded-md border object-cover"
+							/>
+							<div>
+								<p class="text-foreground text-sm font-medium">{lastWin.name}</p>
+								<p class="text-muted-foreground text-sm">{rarityLabel(lastWin.rarity)}</p>
+								<p class="text-success text-base font-semibold">${lastWin.value}</p>
+							</div>
 						</div>
 					</div>
-				</div>
+				{/if}
 			</div>
+		</section>
 
-			<div class="card bg-base-100 shadow-xl">
-				<div class="card-body">
-					<div class="flex items-center gap-3">
-						<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-accent/10">
-							<Users class="h-5 w-5 text-accent" />
-						</div>
-						<div>
-							<p class="text-sm text-base-content/70">Active Battles</p>
-							<p class="text-2xl font-bold">23</p>
-						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="card bg-base-100 shadow-xl">
-				<div class="card-body">
-					<div class="flex items-center gap-3">
-						<div class="flex h-10 w-10 items-center justify-center rounded-lg bg-success/10">
-							<TrendingUp class="h-5 w-5 text-success" />
-						</div>
-						<div>
-							<p class="text-sm text-base-content/70">Biggest Win Today</p>
-							<p class="text-2xl font-bold">$2,450</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-
-		<!-- GSAP Case Opening Animation -->
-		<div class="relative mb-12 space-y-6">
-			<ParticleEffects trigger={showParticles} intensity="high" />
-
-			<div class="space-y-4 text-center">
-				<h2 class="text-3xl font-bold">Try Case Opening</h2>
-				<p class="text-muted-foreground">Experience the thrill with GSAP-powered animation</p>
-			</div>
-
-			{#if rouletteItems.length > 0}
-				<CaseOpeningRoulette items={rouletteItems} onComplete={handleCaseComplete} />
-			{/if}
-
-			{#if lastWin}
-				<div class="mx-auto max-w-md rounded-lg border border-base-300 bg-base-200/50 p-4">
-					<h3 class="mb-2 text-lg font-semibold">Last Win</h3>
-					<div class="flex items-center gap-3">
-						<img src={lastWin.image} alt={lastWin.name} class="h-12 w-12 rounded" />
-						<div>
-							<p class="font-medium">{lastWin.name}</p>
-							<p class="font-bold text-success">${lastWin.value}</p>
-							<p class="text-sm text-base-content/70 capitalize">{lastWin.rarity}</p>
-						</div>
-					</div>
-				</div>
-			{/if}
-		</div>
-
-		<!-- Content Grid -->
-		<div class="grid gap-12 xl:grid-cols-2">
-			<!-- Cases Section -->
+		<section class="grid gap-10 xl:grid-cols-[2fr,1fr]">
 			<div class="space-y-6">
-				<div class="flex items-center gap-2">
-					<Package class="h-6 w-6" />
-					<h2 class="text-2xl font-bold">Available Cases</h2>
-				</div>
-
-				{#if isLoading}
-					<div class="space-y-4">
-						{#each Array(2) as _}
-							<LoadingSkeleton variant="card"></LoadingSkeleton>
-						{/each}
+				<div class="flex items-center justify-between">
+					<div>
+						<h3 class="text-foreground text-xl font-semibold">Case catalog</h3>
+						<p class="text-muted-foreground text-sm">
+							Every drop monitored by our desk risk engine.
+						</p>
 					</div>
-				{:else}
-					<div class="space-y-4">
-						{#each cases as caseData}
-							<div class="card bg-base-100 shadow-xl">
-								<div class="card-body">
-									<div class="flex items-center gap-4">
-										{#if caseData.image_url}
-											<img
-												src={caseData.image_url}
-												alt={caseData.name}
-												class="h-16 w-16 rounded-lg object-cover"
-											/>
-										{:else}
-											<div class="flex h-16 w-16 items-center justify-center rounded-lg bg-base-300">
-												<Package class="h-8 w-8 text-base-content/50" />
-											</div>
-										{/if}
-										<div class="flex-1">
-											<h3 class="card-title">{caseData.name}</h3>
-											<p class="text-sm text-base-content/70">{caseData.description || 'Premium CS2 case with exclusive skins'}</p>
-											<div class="mt-2 flex items-center gap-4">
-												<p class="text-lg font-bold text-success">${caseData.price}</p>
-												<p class="text-sm text-base-content/70">{caseData.item_count} items</p>
-											</div>
+					<Button variant="outline" class="gap-2">
+						Export list
+						<Sparkles class="h-4 w-4" />
+					</Button>
+				</div>
+				<div class="grid gap-5 md:grid-cols-2">
+					{#each cases as caseData}
+						<Card class="border-border/60 bg-surface/70 border">
+							<CardHeader class="border-0 pb-3">
+								<CardTitle>{caseData.name}</CardTitle>
+								<CardDescription>{caseData.description}</CardDescription>
+							</CardHeader>
+							<CardContent class="space-y-4">
+								<div class="flex items-center justify-between text-sm">
+									<span class="text-muted-foreground">Market price</span>
+									<span class="text-foreground font-semibold">${caseData.price.toFixed(2)}</span>
+								</div>
+								<div class="text-muted-foreground space-y-2 text-xs">
+									<p>Volatility index: {caseData.volatility ?? 'Moderate'}</p>
+									<p>Available items: {caseData.case_items?.length ?? 0}</p>
+								</div>
+								<div class="space-y-2">
+									{#each caseData.case_items?.slice(0, 3) ?? [] as item}
+										<div
+											class="border-border/50 bg-surface-muted/40 text-muted-foreground flex items-center justify-between rounded-md border px-3 py-2 text-xs"
+										>
+											<span class="text-foreground font-medium">{item.name}</span>
+											<span>${item.market_value}</span>
 										</div>
-										<button class="btn btn-primary">
-											Open Case
-										</button>
-									</div>
+									{/each}
 								</div>
-							</div>
-						{/each}
-					</div>
-				{/if}
-			</div>
-
-			<!-- Battles Section -->
-			<div class="space-y-6">
-				<div class="flex items-center gap-2">
-					<Users class="h-6 w-6" />
-					<h2 class="text-2xl font-bold">Case Battles</h2>
+							</CardContent>
+							<CardFooter class="border-border/60 bg-surface-muted/30 border-t">
+								<div class="flex w-full items-center justify-between">
+									<Button size="sm" class="gap-2">
+										<Package class="h-4 w-4" />
+										Open now
+									</Button>
+									<Button size="sm" variant="secondary" class="gap-2">
+										<Sword class="h-4 w-4" />
+										Queue battle
+									</Button>
+								</div>
+							</CardFooter>
+						</Card>
+					{/each}
 				</div>
-
-				{#if isLoading}
-					<div class="space-y-4">
-						{#each Array(2) as _}
-							<LoadingSkeleton variant="card"></LoadingSkeleton>
-						{/each}
-					</div>
-				{:else}
-					<div class="space-y-4">
-						{#each battles as battle}
-							<div class="card bg-base-100 shadow-xl">
-								<div class="card-body">
-									<h3 class="card-title">Battle #{battle.id}</h3>
-									<p class="text-sm text-base-content/70">
-										{battle.currentPlayers}/{battle.maxPlayers} players
-									</p>
-									<p class="text-lg font-bold text-success">Entry: ${battle.entryFee}</p>
-								</div>
-							</div>
-						{/each}
-					</div>
-				{/if}
 			</div>
-		</div>
-
-		<!-- Recent Wins -->
-		<div>
-			<div class="mb-8 flex items-center gap-2">
-				<Zap class="h-6 w-6" />
-				<h2 class="text-3xl font-bold">Recent Big Wins</h2>
-			</div>
-
-			<div class="grid gap-6 lg:grid-cols-3">
-				{#each [{ user: 'ProGamer123', item: 'AWP | Dragon Lore', value: 2450.0, rarity: 'Covert' }, { user: 'CS2Legend', item: 'AK-47 | Fire Serpent', value: 1200.0, rarity: 'Covert' }, { user: 'SkinHunter', item: 'M4A4 | Howl', value: 850.0, rarity: 'Contraband' }] as win}
-					<div class="card bg-base-100 shadow-xl">
-						<div class="card-body">
-							<div class="flex items-center gap-3">
-								<div class="avatar">
-									<div class="h-12 w-12 rounded-full bg-base-300"></div>
+			<div class="space-y-5">
+				<div class="flex items-center justify-between">
+					<h3 class="text-foreground text-lg font-semibold">Battle lobby</h3>
+					<Badge variant="outline">Live</Badge>
+				</div>
+				<div class="space-y-4">
+					{#each battles as battle}
+						<Card class="border-border/60 bg-surface/70 border">
+							<CardContent class="space-y-3 p-4 text-sm">
+								<div
+									class="text-muted-foreground flex items-center justify-between text-xs tracking-wide uppercase"
+								>
+									<span>Entry ${battle.entryFee.toFixed(2)}</span>
+									<span>{battle.currentPlayers}/{battle.maxPlayers} players</span>
 								</div>
-								<div class="flex-1">
-									<p class="font-medium">{win.user}</p>
-									<p class="text-sm text-base-content/70">{win.item}</p>
-								</div>
-								<div class="text-right">
-									<p class="font-bold text-success">${win.value.toFixed(2)}</p>
-									<div class="badge badge-{getRarityBadgeColor(win.rarity)}">
-										{win.rarity}
+								<p class="text-foreground text-sm font-medium">Multi-case bundle</p>
+								<p class="text-muted-foreground text-xs">Instant settlement · Hedge coverage 90%</p>
+								<div class="flex items-center justify-between">
+									<Badge variant={battle.status === 'Filling' ? 'success' : 'outline'}
+										>{battle.status}</Badge
+									>
+									<div class="flex gap-2">
+										<Button
+											size="sm"
+											variant="secondary"
+											on:click={() => handleBattleJoin(battle.id)}
+										>
+											Join
+										</Button>
+										<Button
+											size="sm"
+											variant="outline"
+											on:click={() => handleBattleLeave(battle.id)}
+										>
+											Watch
+										</Button>
 									</div>
 								</div>
-							</div>
-						</div>
-					</div>
-				{/each}
+							</CardContent>
+						</Card>
+					{/each}
+				</div>
 			</div>
-		</div>
+		</section>
 	</div>
 </ErrorBoundary>

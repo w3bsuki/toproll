@@ -1,6 +1,15 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { AlertTriangle, RefreshCw, Home } from 'lucide-svelte';
+	import { AlertTriangle, RefreshCw, Home, Clipboard } from 'lucide-svelte';
+	import {
+		Button,
+		Card,
+		CardContent,
+		CardHeader,
+		CardTitle,
+		CardDescription
+	} from '$lib/components/ui';
+	import { cn } from '$lib/utils';
 
 	interface ErrorBoundaryProps {
 		error?: Error | null;
@@ -14,14 +23,13 @@
 		error = null,
 		onRetry,
 		onGoHome,
-		class: className,
+		class: className = '',
 		children
 	}: ErrorBoundaryProps = $props();
 
 	let hasError = $state(false);
 	let errorDetails = $state<Error | null>(null);
 
-	// Listen for unhandled errors
 	onMount(() => {
 		const handleError = (event: ErrorEvent) => {
 			hasError = true;
@@ -42,14 +50,13 @@
 		};
 	});
 
-	// Use provided error or caught error
 	const currentError = error || errorDetails;
 	const showError = hasError || !!error;
 
 	function handleRetry() {
 		hasError = false;
 		errorDetails = null;
-		if (onRetry) onRetry();
+		onRetry?.();
 	}
 
 	function handleGoHome() {
@@ -59,65 +66,60 @@
 		else window.location.href = '/';
 	}
 
-	function copyErrorDetails() {
+	async function copyErrorDetails() {
 		if (currentError) {
-			navigator.clipboard.writeText(currentError.stack || currentError.message);
+			await navigator.clipboard.writeText(currentError.stack || currentError.message);
 		}
 	}
 </script>
 
 {#if showError && currentError}
-	<div class="flex min-h-[400px] items-center justify-center p-4 {className || ''}">
-		<div class="card w-full max-w-md bg-base-100 shadow-xl">
-			<div class="card-body text-center">
-				<div class="mb-4 flex justify-center">
-					<div class="flex h-16 w-16 items-center justify-center rounded-full bg-error/10">
-						<AlertTriangle class="h-8 w-8 text-error" />
-					</div>
-				</div>
-
-				<h2 class="mb-2 text-xl font-semibold">Something went wrong</h2>
-				<p class="text-muted-foreground mb-4">
-					We encountered an unexpected error. Please try again or contact support if the problem
-					persists.
-				</p>
-
-				<!-- Error Details (Collapsible) -->
-				<details class="mb-4 text-left">
-					<summary
-						class="text-muted-foreground hover:text-foreground cursor-pointer text-sm font-medium"
+	<div class={cn('flex min-h-[400px] items-center justify-center p-6', className)}>
+		<Card class="border-border/60 bg-surface/80 shadow-marketplace-lg w-full max-w-lg border">
+			<CardHeader class="items-center gap-3 border-0">
+				<span
+					class="border-destructive/50 bg-destructive/15 text-destructive flex h-16 w-16 items-center justify-center rounded-full border"
+				>
+					<AlertTriangle class="h-8 w-8" />
+				</span>
+				<CardTitle>Something went wrong</CardTitle>
+				<CardDescription class="text-center text-sm">
+					We encountered an unexpected error. Try again, head back home, or share the details with
+					support.
+				</CardDescription>
+			</CardHeader>
+			<CardContent class="space-y-4 text-sm">
+				<details class="border-border/60 bg-surface-muted/40 rounded-lg border p-4">
+					<summary class="text-muted-foreground cursor-pointer text-xs font-medium"
+						>Error details</summary
 					>
-						Error Details
-					</summary>
-					<div class="mt-2 rounded bg-base-200 p-3 text-xs">
-						<pre class="break-words whitespace-pre-wrap">{currentError.message}</pre>
+					<div class="text-muted-foreground mt-2 space-y-2 text-xs">
+						<p>{currentError.message}</p>
 						{#if currentError.stack}
-							<details class="mt-2">
-								<summary class="cursor-pointer text-xs">Stack Trace</summary>
-								<pre class="mt-1 text-xs break-words whitespace-pre-wrap">{currentError.stack}</pre>
+							<details>
+								<summary class="cursor-pointer text-xs">Stack trace</summary>
+								<pre
+									class="mt-1 text-[11px] break-words whitespace-pre-wrap">{currentError.stack}</pre>
 							</details>
 						{/if}
 					</div>
 				</details>
-
-				<!-- Action Buttons -->
 				<div class="flex flex-col gap-2 sm:flex-row sm:justify-center">
-					<button class="btn flex-1 btn-primary sm:flex-none" onclick={handleRetry}>
-						<RefreshCw class="mr-2 h-4 w-4" />
-						Try Again
-					</button>
-					<button class="btn flex-1 btn-outline sm:flex-none" onclick={handleGoHome}>
-						<Home class="mr-2 h-4 w-4" />
-						Go Home
-					</button>
+					<Button class="flex-1 gap-2" on:click={handleRetry}>
+						<RefreshCw class="h-4 w-4" />
+						Try again
+					</Button>
+					<Button class="flex-1 gap-2" variant="secondary" on:click={handleGoHome}>
+						<Home class="h-4 w-4" />
+						Go home
+					</Button>
 				</div>
-
-				<!-- Copy Error Button -->
-				<button class="btn mt-2 w-full btn-ghost btn-sm" onclick={copyErrorDetails}>
-					Copy Error Details
-				</button>
-			</div>
-		</div>
+				<Button variant="outline" size="sm" class="w-full gap-2" on:click={copyErrorDetails}>
+					<Clipboard class="h-4 w-4" />
+					Copy error details
+				</Button>
+			</CardContent>
+		</Card>
 	</div>
 {:else if children}
 	{@render children()}

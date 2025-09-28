@@ -10,14 +10,14 @@
 </script>
 
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
 	import { CheckCircle, AlertCircle, Info, X } from 'lucide-svelte';
+	import { Button, Card, CardContent } from '$lib/components/ui';
 
 	export const toasts = writable<Toast[]>([]);
 
 	export function addToast(toast: Omit<Toast, 'id'>) {
-		const id = Math.random().toString(36).substr(2, 9);
+		const id = Math.random().toString(36).slice(2);
 		const newToast: Toast = {
 			id,
 			duration: 5000,
@@ -26,7 +26,6 @@
 
 		toasts.update((list) => [...list, newToast]);
 
-		// Auto remove toast after duration
 		if (newToast.duration && newToast.duration > 0) {
 			setTimeout(() => removeToast(id), newToast.duration);
 		}
@@ -43,109 +42,51 @@
 		error: AlertCircle,
 		info: Info,
 		warning: AlertCircle
-	};
+	} satisfies Record<Toast['type'], typeof CheckCircle>;
 
-	const colorMap = {
-		success: 'alert-success',
-		error: 'alert-error',
-		info: 'alert-info',
-		warning: 'alert-warning'
+	const toneClass: Record<Toast['type'], string> = {
+		success: 'border-success/40 bg-success/10 text-success',
+		error: 'border-destructive/40 bg-destructive/10 text-destructive',
+		info: 'border-info/40 bg-info/10 text-info',
+		warning: 'border-warning/40 bg-warning/10 text-warning-foreground'
 	};
 
 	let toastList: Toast[] = [];
 	toasts.subscribe((value) => (toastList = value));
 </script>
 
-<!-- Toast Container -->
-<div class="toast-top toast-end toast z-[100]">
+<div
+	class="pointer-events-none fixed inset-x-0 top-4 z-[100] flex flex-col items-end gap-3 px-4 sm:top-6 sm:px-6"
+>
 	{#each toastList as toast (toast.id)}
-		<div
-			class="alert {colorMap[
-				toast.type
-			]} animate-in slide-in-from-right-full border border-base-300 shadow-lg duration-300"
-			role="alert"
+		<Card
+			class={`shadow-marketplace-md pointer-events-auto w-full max-w-sm border backdrop-blur ${toneClass[toast.type]}`}
 		>
-			<svelte:component this={iconMap[toast.type]} class="h-5 w-5 flex-shrink-0" />
-
-			<div class="min-w-0 flex-1">
-				<div class="text-sm font-semibold">{toast.title}</div>
-				{#if toast.message}
-					<div class="mt-1 text-xs opacity-80">{toast.message}</div>
-				{/if}
-			</div>
-
-			{#if toast.action}
-				<button class="btn btn-ghost btn-sm" onclick={toast.action.onClick}>
-					{toast.action.label}
-				</button>
-			{/if}
-
-			<button
-				class="btn btn-circle btn-ghost btn-sm"
-				onclick={() => removeToast(toast.id)}
-				aria-label="Close notification"
-			>
-				<X class="h-4 w-4" />
-			</button>
-		</div>
+			<CardContent class="flex items-start gap-3 p-4">
+				<div class="mt-1">
+					<svelte:component this={iconMap[toast.type]} class="h-5 w-5" />
+				</div>
+				<div class="min-w-0 flex-1">
+					<div class="text-foreground text-sm font-semibold">{toast.title}</div>
+					{#if toast.message}
+						<div class="text-muted-foreground mt-1 text-xs">{toast.message}</div>
+					{/if}
+					{#if toast.action}
+						<Button variant="outline" size="sm" class="mt-3 gap-2" on:click={toast.action.onClick}>
+							{toast.action.label}
+						</Button>
+					{/if}
+				</div>
+				<Button
+					variant="ghost"
+					size="icon"
+					class="h-8 w-8"
+					on:click={() => removeToast(toast.id)}
+					aria-label="Close notification"
+				>
+					<X class="h-4 w-4" />
+				</Button>
+			</CardContent>
+		</Card>
 	{/each}
 </div>
-
-<style>
-	.animate-in {
-		animation-fill-mode: both;
-	}
-
-	@keyframes slide-in-from-right-full {
-		from {
-			transform: translateX(100%);
-			opacity: 0;
-		}
-		to {
-			transform: translateX(0);
-			opacity: 1;
-		}
-	}
-
-	.slide-in-from-right-full {
-		animation-name: slide-in-from-right-full;
-	}
-
-	/* Gaming-themed toast enhancements */
-	.toast .alert {
-		backdrop-filter: blur(8px);
-		border-radius: 0.75rem;
-	}
-
-	.alert-success {
-		background: linear-gradient(
-			135deg,
-			rgb(from var(--color-success) r g b / 0.9) 0%,
-			rgb(from var(--color-success) r g b / 0.7) 100%
-		);
-	}
-
-	.alert-error {
-		background: linear-gradient(
-			135deg,
-			rgb(from var(--color-error) r g b / 0.9) 0%,
-			rgb(from var(--color-error) r g b / 0.7) 100%
-		);
-	}
-
-	.alert-info {
-		background: linear-gradient(
-			135deg,
-			rgb(from var(--color-info) r g b / 0.9) 0%,
-			rgb(from var(--color-info) r g b / 0.7) 100%
-		);
-	}
-
-	.alert-warning {
-		background: linear-gradient(
-			135deg,
-			rgb(from var(--color-warning) r g b / 0.9) 0%,
-			rgb(from var(--color-warning) r g b / 0.7) 100%
-		);
-	}
-</style>

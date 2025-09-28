@@ -112,20 +112,82 @@ export interface BattleResult {
 export type CaseRarity = 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary' | 'Contraband';
 
 export type CS2WeaponType =
-	| 'AK-47' | 'M4A4' | 'M4A1-S' | 'AWP' | 'Desert Eagle' | 'Glock-18' | 'USP-S'
-	| 'Galil AR' | 'FAMAS' | 'SSG 08' | 'SG 553' | 'AUG' | 'G3SG1' | 'SCAR-20'
-	| 'P90' | 'MP9' | 'MAC-10' | 'UMP-45' | 'PP-Bizon' | 'MP5-SD' | 'MP7'
-	| 'Nova' | 'XM1014' | 'Sawed-Off' | 'MAG-7' | 'M249' | 'Negev'
-	| 'Five-SeveN' | 'Tec-9' | 'CZ75-Auto' | 'P250' | 'Dual Berettas' | 'R8 Revolver'
-	| 'Karambit' | 'M9 Bayonet' | 'Bayonet' | 'Butterfly Knife' | 'Flip Knife' | 'Gut Knife'
-	| 'Huntsman Knife' | 'Falchion Knife' | 'Bowie Knife' | 'Shadow Daggers' | 'Navaja Knife'
-	| 'Stiletto Knife' | 'Talon Knife' | 'Ursus Knife' | 'Nomad Knife' | 'Paracord Knife'
-	| 'Survival Knife' | 'Skeleton Knife' | 'Hand Wraps' | 'Specialist Gloves' | 'Driver Gloves'
-	| 'Moto Gloves' | 'Hydra Gloves' | 'Bloodhound Gloves' | 'Sport Gloves' | 'Broken Fang Gloves';
+	| 'AK-47'
+	| 'M4A4'
+	| 'M4A1-S'
+	| 'AWP'
+	| 'Desert Eagle'
+	| 'Glock-18'
+	| 'USP-S'
+	| 'Galil AR'
+	| 'FAMAS'
+	| 'SSG 08'
+	| 'SG 553'
+	| 'AUG'
+	| 'G3SG1'
+	| 'SCAR-20'
+	| 'P90'
+	| 'MP9'
+	| 'MAC-10'
+	| 'UMP-45'
+	| 'PP-Bizon'
+	| 'MP5-SD'
+	| 'MP7'
+	| 'Nova'
+	| 'XM1014'
+	| 'Sawed-Off'
+	| 'MAG-7'
+	| 'M249'
+	| 'Negev'
+	| 'Five-SeveN'
+	| 'Tec-9'
+	| 'CZ75-Auto'
+	| 'P250'
+	| 'Dual Berettas'
+	| 'R8 Revolver'
+	| 'Karambit'
+	| 'M9 Bayonet'
+	| 'Bayonet'
+	| 'Butterfly Knife'
+	| 'Flip Knife'
+	| 'Gut Knife'
+	| 'Huntsman Knife'
+	| 'Falchion Knife'
+	| 'Bowie Knife'
+	| 'Shadow Daggers'
+	| 'Navaja Knife'
+	| 'Stiletto Knife'
+	| 'Talon Knife'
+	| 'Ursus Knife'
+	| 'Nomad Knife'
+	| 'Paracord Knife'
+	| 'Survival Knife'
+	| 'Skeleton Knife'
+	| 'Hand Wraps'
+	| 'Specialist Gloves'
+	| 'Driver Gloves'
+	| 'Moto Gloves'
+	| 'Hydra Gloves'
+	| 'Bloodhound Gloves'
+	| 'Sport Gloves'
+	| 'Broken Fang Gloves';
 
-export type CS2WearCondition = 'Factory New' | 'Minimal Wear' | 'Field-Tested' | 'Well-Worn' | 'Battle-Scarred';
+export type CS2WearCondition =
+	| 'Factory New'
+	| 'Minimal Wear'
+	| 'Field-Tested'
+	| 'Well-Worn'
+	| 'Battle-Scarred';
 
-export type CS2Category = 'Rifles' | 'Pistols' | 'SMGs' | 'Shotguns' | 'Sniper Rifles' | 'Machine Guns' | 'Knives' | 'Gloves';
+export type CS2Category =
+	| 'Rifles'
+	| 'Pistols'
+	| 'SMGs'
+	| 'Shotguns'
+	| 'Sniper Rifles'
+	| 'Machine Guns'
+	| 'Knives'
+	| 'Gloves';
 
 export const RARITY_COLORS: Record<CaseRarity, string> = {
 	Common: 'bg-gray-100 text-gray-800 border-gray-200',
@@ -151,11 +213,27 @@ export const CS2Utils = {
 	 * Check if a weapon is a knife
 	 */
 	isKnife(weaponType: string): boolean {
-		const knifeTypes = ['Karambit', 'M9 Bayonet', 'Bayonet', 'Butterfly Knife', 'Flip Knife', 'Gut Knife',
-			'Huntsman Knife', 'Falchion Knife', 'Bowie Knife', 'Shadow Daggers', 'Navaja Knife',
-			'Stiletto Knife', 'Talon Knife', 'Ursus Knife', 'Nomad Knife', 'Paracord Knife',
-			'Survival Knife', 'Skeleton Knife'];
-		return knifeTypes.some(knife => weaponType.includes(knife));
+		const knifeTypes = [
+			'Karambit',
+			'M9 Bayonet',
+			'Bayonet',
+			'Butterfly Knife',
+			'Flip Knife',
+			'Gut Knife',
+			'Huntsman Knife',
+			'Falchion Knife',
+			'Bowie Knife',
+			'Shadow Daggers',
+			'Navaja Knife',
+			'Stiletto Knife',
+			'Talon Knife',
+			'Ursus Knife',
+			'Nomad Knife',
+			'Paracord Knife',
+			'Survival Knife',
+			'Skeleton Knife'
+		];
+		return knifeTypes.some((knife) => weaponType.includes(knife));
 	},
 
 	/**
@@ -174,7 +252,17 @@ export const CS2Utils = {
 
 		const rifles = ['AK-47', 'M4A4', 'M4A1-S', 'Galil AR', 'FAMAS', 'SG 553', 'AUG'];
 		const snipers = ['AWP', 'SSG 08', 'G3SG1', 'SCAR-20'];
-		const pistols = ['Desert Eagle', 'Glock-18', 'USP-S', 'Five-SeveN', 'Tec-9', 'CZ75-Auto', 'P250', 'Dual Berettas', 'R8 Revolver'];
+		const pistols = [
+			'Desert Eagle',
+			'Glock-18',
+			'USP-S',
+			'Five-SeveN',
+			'Tec-9',
+			'CZ75-Auto',
+			'P250',
+			'Dual Berettas',
+			'R8 Revolver'
+		];
 		const smgs = ['P90', 'MP9', 'MAC-10', 'UMP-45', 'PP-Bizon', 'MP5-SD', 'MP7'];
 		const shotguns = ['Nova', 'XM1014', 'Sawed-Off', 'MAG-7'];
 		const mgs = ['M249', 'Negev'];
@@ -193,12 +281,13 @@ export const CS2Utils = {
 	 * Generate safe filename from skin name
 	 */
 	generateFilename(skinName: string): string {
-		return skinName
-			.toLowerCase()
-			.replace(/[★™]/g, '')
-			.replace(/[^a-z0-9-]/g, '-')
-			.replace(/-+/g, '-')
-			.replace(/^-|-$/g, '')
-			+ '.png';
+		return (
+			skinName
+				.toLowerCase()
+				.replace(/[★™]/g, '')
+				.replace(/[^a-z0-9-]/g, '-')
+				.replace(/-+/g, '-')
+				.replace(/^-|-$/g, '') + '.png'
+		);
 	}
 };

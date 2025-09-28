@@ -1,6 +1,7 @@
 <script lang="ts">
 	import type { HTMLAttributes } from 'svelte/elements';
 	import type { CS2Item } from '$lib/types';
+	import { cn } from '$lib/utils';
 
 	interface InventoryGridProps extends HTMLAttributes<HTMLDivElement> {
 		items: CS2Item[];
@@ -14,17 +15,17 @@
 		loading = false,
 		selectable = false,
 		onItemClick,
-		class: className,
+		class: className = '',
 		...restProps
 	}: InventoryGridProps = $props();
 
 	const rarityClasses: Record<string, string> = {
-		'Common': 'bg-gray-100 text-gray-800',
-		'Uncommon': 'bg-green-100 text-green-800',
-		'Rare': 'bg-blue-100 text-blue-800',
-		'Epic': 'bg-purple-100 text-purple-800',
-		'Legendary': 'bg-orange-100 text-orange-800',
-		'Contraband': 'bg-red-100 text-red-800'
+		Common: 'bg-surface-muted/60 text-muted-foreground',
+		Uncommon: 'bg-success/15 text-success',
+		Rare: 'bg-info/15 text-info',
+		Epic: 'bg-secondary/15 text-secondary',
+		Legendary: 'bg-warning/15 text-warning-foreground',
+		Contraband: 'bg-destructive/15 text-destructive'
 	};
 
 	function handleItemClick(item: CS2Item) {
@@ -39,67 +40,70 @@
 	}
 </script>
 
-<div class="grid grid-cols-4 gap-4 {className}" {...restProps}>
+<div class={cn('grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4', className)} {...restProps}>
 	{#if loading}
-		{#each Array.from({ length: 8 }, (_, i) => i) as index (index)}
-			<div class="overflow-hidden rounded-lg border bg-white shadow-sm">
-				<div class="p-0">
-					<div class="h-32 w-full animate-pulse bg-gray-200"></div>
-				</div>
-				<div class="p-4">
-					<div class="mb-2 h-4 w-3/4 animate-pulse bg-gray-200 rounded"></div>
-					<div class="h-3 w-1/2 animate-pulse bg-gray-200 rounded"></div>
+		{#each Array.from({ length: 8 }, (_, index) => index) as index (index)}
+			<div class="border-border/60 bg-surface/70 shadow-marketplace-sm rounded-lg border">
+				<div class="bg-surface-muted/60 h-32 w-full animate-pulse rounded-t-lg"></div>
+				<div class="space-y-2 p-4">
+					<div class="bg-surface-muted/60 h-4 w-3/4 animate-pulse rounded"></div>
+					<div class="bg-surface-muted/60 h-3 w-1/2 animate-pulse rounded"></div>
 				</div>
 			</div>
 		{/each}
 	{:else}
 		{#each items as item (item.assetid)}
-			<div
-				class="cursor-pointer overflow-hidden rounded-lg border bg-white shadow-sm transition-transform hover:scale-105 hover:shadow-md {selectable
-					? 'ring-2 ring-transparent hover:ring-blue-500'
-					: ''}"
-				onclick={() => handleItemClick(item)}
+			<button
+				type="button"
+				class={cn(
+					'group border-border/60 bg-surface/70 shadow-marketplace-sm duration-subtle ease-market-ease hover:border-primary/60 hover:shadow-marketplace-md flex h-full flex-col overflow-hidden rounded-lg border text-left transition-colors',
+					selectable && 'focus-visible:ring-ring/60 focus-visible:ring-2 focus-visible:outline-none'
+				)}
+				on:click={() => handleItemClick(item)}
 			>
-				<div class="relative p-0">
+				<div class="relative">
 					{#if item.icon_url}
 						<img src={item.icon_url} alt={item.market_name} class="h-32 w-full object-cover" />
 					{:else}
-						<div class="bg-gray-100 flex h-32 w-full items-center justify-center">
-							<span class="text-gray-500 text-sm">No Image</span>
+						<div
+							class="bg-surface-muted/60 text-muted-foreground flex h-32 w-full items-center justify-center text-xs"
+						>
+							No preview
 						</div>
 					{/if}
 					{#if item.rarity}
-						<div class="absolute top-2 right-2">
-							<span
-								class="inline-flex items-center rounded-full px-2 py-1 text-xs font-medium {rarityClasses[item.rarity] || 'bg-gray-100 text-gray-800'}"
-							>
-								{item.rarity}
-							</span>
-						</div>
+						<span
+							class={cn(
+								'absolute top-3 right-3 rounded-full px-2 py-1 text-[10px] font-medium tracking-wide uppercase',
+								rarityClasses[item.rarity] || 'bg-surface-muted/60 text-muted-foreground'
+							)}
+						>
+							{item.rarity}
+						</span>
 					{/if}
 					{#if item.wear}
-						<div class="absolute bottom-2 left-2">
-							<span class="inline-flex items-center rounded-full border px-2 py-1 text-xs font-medium bg-white/80">
-								{item.wear}
-							</span>
-						</div>
+						<span
+							class="border-border/60 bg-background/80 text-muted-foreground absolute bottom-3 left-3 rounded-full border px-2 py-1 text-[10px] font-medium"
+						>
+							{item.wear}
+						</span>
 					{/if}
 				</div>
-				<div class="p-4">
-					<h3 class="mb-1 truncate text-sm font-semibold">{item.market_name}</h3>
+				<div class="flex flex-1 flex-col justify-between space-y-2 p-4">
+					<h3 class="text-foreground line-clamp-2 text-sm font-medium">{item.market_name}</h3>
 					{#if item.market_value}
-						<p class="text-gray-500 text-sm">
-							{formatPrice(item.market_value)}
-						</p>
+						<p class="text-primary text-sm font-semibold">{formatPrice(item.market_value)}</p>
 					{/if}
 				</div>
-			</div>
+			</button>
 		{/each}
 	{/if}
 </div>
 
 {#if !loading && items.length === 0}
-	<div class="col-span-full py-8 text-center">
-		<p class="text-gray-500">No items found in inventory</p>
+	<div
+		class="border-border/60 bg-surface/70 text-muted-foreground col-span-full rounded-lg border py-10 text-center text-sm"
+	>
+		No items found in inventory
 	</div>
 {/if}

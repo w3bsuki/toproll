@@ -2,49 +2,75 @@
 	import { page } from '$app/stores';
 	import { toggleChat } from '$lib/stores/ui';
 	import { Home, AppWindow, MessageCircle, Package, User, LogIn } from 'lucide-svelte';
+	import { cn } from '$lib/utils';
 
 	interface BottomNavProps {
 		isAuthenticated?: boolean;
 		class?: string;
 	}
 
-	let { isAuthenticated = false, class: className }: BottomNavProps = $props();
+	let { isAuthenticated = false, class: className = '' }: BottomNavProps = $props();
 
 	function isActiveRoute(href: string): boolean {
 		return $page.url.pathname === href;
 	}
+
+	const items = [
+		{ href: '/', label: 'Home', icon: Home },
+		{ href: '/cases', label: 'Cases', icon: Package },
+		{ href: '/battles', label: 'Battles', icon: AppWindow }
+	];
 </script>
 
-<div class="btm-nav {className || ''}">
-	<a href="/" class={isActiveRoute('/') ? 'active' : ''}>
-		<Home class="h-5 w-5" />
-		<span class="btm-nav-label">Home</span>
-	</a>
+<nav
+	class={cn(
+		'border-border/60 bg-surface/80 shadow-marketplace-lg flex items-center justify-between gap-2 border-t px-3 py-2',
+		className
+	)}
+>
+	{#each items as item}
+		<a
+			href={item.href}
+			class={cn(
+				'text-muted-foreground duration-subtle ease-market-ease flex flex-1 flex-col items-center gap-1 rounded-md px-2 py-2 text-xs font-medium transition-colors',
+				isActiveRoute(item.href)
+					? 'bg-surface-accent/20 text-foreground shadow-marketplace-sm border-primary/50 border'
+					: 'hover:border-border/60 hover:bg-surface-muted/40 hover:text-foreground border border-transparent'
+			)}
+		>
+			<item.icon class="h-5 w-5" />
+			<span>{item.label}</span>
+		</a>
+	{/each}
 
-	<a href="/cases" class={isActiveRoute('/battle') || isActiveRoute('/cases') ? 'active' : ''}>
-		<AppWindow class="h-5 w-5" />
-		<span class="btm-nav-label">Battle</span>
-	</a>
-
-	<button onclick={toggleChat}>
+	<button
+		class="text-muted-foreground duration-subtle ease-market-ease hover:border-border/60 hover:bg-surface-muted/40 hover:text-foreground flex flex-1 flex-col items-center gap-1 rounded-md border border-transparent px-2 py-2 text-xs font-medium transition-colors"
+		on:click={toggleChat}
+	>
 		<MessageCircle class="h-5 w-5" />
-		<span class="btm-nav-label">Chat</span>
+		<span>Chat</span>
 	</button>
 
-	<a href="/case-opening" class={isActiveRoute('/case-opening') ? 'active' : ''}>
-		<Package class="h-5 w-5" />
-		<span class="btm-nav-label">Open</span>
-	</a>
-
 	{#if isAuthenticated}
-		<a href="/profile" class={isActiveRoute('/profile') ? 'active' : ''}>
+		<a
+			href="/profile"
+			class={cn(
+				'text-muted-foreground duration-subtle ease-market-ease flex flex-1 flex-col items-center gap-1 rounded-md border border-transparent px-2 py-2 text-xs font-medium transition-colors',
+				isActiveRoute('/profile')
+					? 'bg-surface-accent/20 text-foreground shadow-marketplace-sm border-primary/50 border'
+					: 'hover:border-border/60 hover:bg-surface-muted/40 hover:text-foreground'
+			)}
+		>
 			<User class="h-5 w-5" />
-			<span class="btm-nav-label">Profile</span>
+			<span>Profile</span>
 		</a>
 	{:else}
-		<a href="/login">
+		<a
+			href="/login"
+			class="border-border/60 bg-primary/15 text-primary duration-subtle ease-market-ease hover:bg-primary/25 flex flex-1 flex-col items-center gap-1 rounded-md border px-2 py-2 text-xs font-medium transition-colors"
+		>
 			<LogIn class="h-5 w-5" />
-			<span class="btm-nav-label">Sign In</span>
+			<span>Sign In</span>
 		</a>
 	{/if}
-</div>
+</nav>

@@ -3,12 +3,20 @@
 	import { X, Send, MessageCircle } from 'lucide-svelte';
 	import { getSupabaseClient } from '$lib/supabase/client';
 	import { onDestroy } from 'svelte';
+	import {
+		Button,
+		Sheet,
+		SheetContent,
+		SheetHeader,
+		SheetFooter,
+		SheetClose
+	} from '$lib/components/ui';
 
 	interface ChatDrawerProps {
 		class?: string;
 	}
 
-	let { class: className }: ChatDrawerProps = $props();
+	let { class: className = '' }: ChatDrawerProps = $props();
 
 	const chatOpen = $derived($uiStore.chatOpen);
 
@@ -17,7 +25,6 @@
 	let input = $state('');
 	const supabase = getSupabaseClient();
 
-	// Subscribe to realtime channel "public:chat_messages"
 	const channel = supabase
 		.channel('realtime:chat_messages')
 		.on('broadcast', { event: 'message' }, (payload) => {
@@ -29,8 +36,8 @@
 	onDestroy(() => {
 		try {
 			supabase.removeChannel(channel);
-		} catch (_) {
-			// ignore
+		} catch (error) {
+			console.error('Failed to remove chat channel', error);
 		}
 	});
 
@@ -50,97 +57,97 @@
 	}
 </script>
 
-<!-- Desktop: Right Panel (Always visible) -->
-<aside class="hidden w-80 flex-col border-l border-base-300 bg-base-100 md:flex {className}">
-	<!-- Header -->
-	<div class="flex items-center justify-between border-b border-base-300 p-4">
-		<div class="flex items-center gap-2">
-			<MessageCircle class="h-5 w-5" />
-			<h2 class="font-semibold">Chat</h2>
-			<span class="rounded-full bg-base-200 p-2 text-xs text-base-content/70">24 online</span>
+<!-- Desktop drawer -->
+<aside
+	class={`border-border/60 bg-surface/60 hidden w-80 flex-col border-l backdrop-blur-sm md:flex ${className}`}
+>
+	<div class="border-border/60 flex items-center justify-between border-b px-5 py-4">
+		<div class="flex items-center gap-3">
+			<span
+				class="border-primary/50 bg-primary/15 text-primary flex h-9 w-9 items-center justify-center rounded-md border"
+			>
+				<MessageCircle class="h-4 w-4" />
+			</span>
+			<div>
+				<h2 class="text-foreground text-sm font-semibold">Live Chat</h2>
+				<p class="text-muted-foreground text-xs">24 traders online</p>
+			</div>
 		</div>
 	</div>
-
-	<!-- Messages -->
-	<div class="flex-1 space-y-3 overflow-y-auto p-4">
+	<div class="marketplace-scrollbar flex-1 space-y-3 overflow-y-auto px-5 py-4">
 		{#each messages as message}
-			<div class="card bg-base-100 shadow-sm">
-				<div class="card-body p-3">
-					<div class="mb-1 flex items-start justify-between text-xs text-base-content/70">
-						<span class="font-medium text-base-content">{message.user}</span>
-						<span>{message.time}</span>
-					</div>
-					<p class="text-sm">{message.message}</p>
+			<div class="border-border/50 bg-surface-muted/40 rounded-lg border p-3 text-sm">
+				<div class="text-muted-foreground mb-1 flex items-center justify-between text-xs">
+					<span class="text-foreground font-medium">{message.user}</span>
+					<span>{message.time}</span>
 				</div>
+				<p class="text-foreground/90 leading-relaxed">{message.message}</p>
 			</div>
 		{/each}
 	</div>
-
-	<!-- Input -->
-	<div class="border-t border-base-300 p-4">
-		<div class="flex gap-2">
+	<div class="border-border/60 border-t px-5 py-4">
+		<div class="flex items-center gap-2">
 			<input
 				bind:value={input}
 				onkeydown={(e) => e.key === 'Enter' && sendMessage()}
 				type="text"
 				placeholder="Type a message..."
-				class="input-bordered input flex-1"
+				class="border-border/60 bg-surface-muted/60 text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-ring/50 h-10 flex-1 rounded-md border px-3 text-sm focus:ring-2 focus:outline-none"
 			/>
-			<button class="btn btn-sm btn-primary" aria-label="Send message" onclick={sendMessage}>
+			<Button size="sm" class="px-3" on:click={sendMessage}>
 				<Send class="h-4 w-4" />
-			</button>
+			</Button>
 		</div>
 	</div>
 </aside>
 
-<!-- Mobile: DaisyUI Modal -->
-{#if chatOpen}
-	<div class="modal-open modal md:hidden">
-		<div class="modal-box flex h-[80vh] max-w-full flex-col">
-			<!-- Header -->
-			<div class="flex items-center justify-between border-b border-base-300 pb-4">
-				<div class="flex items-center gap-2">
-					<MessageCircle class="h-5 w-5" />
-					<h2 class="font-semibold">Chat</h2>
-					<span class="rounded-full bg-base-200 p-2 text-xs text-base-content/70">24 online</span>
+<!-- Mobile sheet -->
+<Sheet open={chatOpen} onOpenChange={(open) => (!open ? closeChat() : undefined)}>
+	<SheetContent side="bottom" class="md:hidden" labelledby="chat-drawer-title">
+		<SheetHeader class="items-start">
+			<div class="flex items-center gap-3">
+				<span
+					class="border-primary/50 bg-primary/15 text-primary flex h-10 w-10 items-center justify-center rounded-md border"
+				>
+					<MessageCircle class="h-4 w-4" />
+				</span>
+				<div>
+					<h2 id="chat-drawer-title" class="text-foreground text-base font-semibold">
+						Community Chat
+					</h2>
+					<p class="text-muted-foreground text-xs">Stay connected with the marketplace</p>
 				</div>
-				<button class="btn btn-circle btn-sm" onclick={closeChat}>
-					<X class="h-4 w-4" />
-				</button>
 			</div>
-			<p class="mt-2 text-sm text-base-content/70">Join the conversation with other players</p>
-
-			<!-- Messages -->
-			<div class="flex-1 space-y-3 overflow-y-auto py-4">
-				{#each messages as message}
-					<div class="card bg-base-100 shadow-sm">
-						<div class="card-body p-3">
-							<div class="mb-1 flex items-start justify-between text-xs text-base-content/70">
-								<span class="font-medium text-base-content">{message.user}</span>
-								<span>{message.time}</span>
-							</div>
-							<p class="text-sm">{message.message}</p>
-						</div>
+			<SheetClose
+				class="border-border/60 bg-surface-muted/60 text-muted-foreground duration-subtle ease-market-ease hover:text-foreground rounded-md border p-2 transition-colors"
+			>
+				<X class="h-4 w-4" />
+			</SheetClose>
+		</SheetHeader>
+		<div class="marketplace-scrollbar max-h-[50vh] space-y-3 overflow-y-auto px-4 py-4">
+			{#each messages as message}
+				<div class="border-border/50 bg-surface-muted/40 rounded-lg border p-3 text-sm">
+					<div class="text-muted-foreground mb-1 flex items-center justify-between text-xs">
+						<span class="text-foreground font-medium">{message.user}</span>
+						<span>{message.time}</span>
 					</div>
-				{/each}
-			</div>
-
-			<!-- Input -->
-			<div class="border-t border-base-300 pt-4">
-				<div class="flex gap-2">
-					<input
-						bind:value={input}
-						onkeydown={(e) => e.key === 'Enter' && sendMessage()}
-						type="text"
-						placeholder="Type a message..."
-						class="input-bordered input flex-1"
-					/>
-					<button class="btn btn-sm btn-primary" aria-label="Send message" onclick={sendMessage}>
-						<Send class="h-4 w-4" />
-					</button>
+					<p class="text-foreground/90 leading-relaxed">{message.message}</p>
 				</div>
-			</div>
+			{/each}
 		</div>
-		<div class="modal-backdrop" onclick={closeChat}></div>
-	</div>
-{/if}
+		<SheetFooter class="border-0 px-4 pt-0 pb-4">
+			<div class="flex items-center gap-2">
+				<input
+					bind:value={input}
+					onkeydown={(e) => e.key === 'Enter' && sendMessage()}
+					type="text"
+					placeholder="Type a message..."
+					class="border-border/60 bg-surface-muted/60 text-foreground placeholder:text-muted-foreground focus:border-primary focus:ring-ring/50 h-11 flex-1 rounded-md border px-3 text-sm focus:ring-2 focus:outline-none"
+				/>
+				<Button size="sm" class="px-3" on:click={sendMessage}>
+					<Send class="h-4 w-4" />
+				</Button>
+			</div>
+		</SheetFooter>
+	</SheetContent>
+</Sheet>

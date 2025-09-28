@@ -1,27 +1,27 @@
 {
-  "timestamp": "2025-09-27T22:00:17.230Z",
-  "cases": [
-    {
-      "id": "d3b7aa92-70a0-4461-b652-bf0601c3694c",
-      "name": "Revolution Case",
-      "itemCount": 15
-    },
-    {
-      "id": "e1e32d70-07d0-4d73-b75d-dd442f51f966",
-      "name": "Dreams & Nightmares Case",
-      "itemCount": 15
-    },
-    {
-      "id": "c0ebf856-582e-42be-a2fd-d3d6eacea744",
-      "name": "Fracture Case",
-      "itemCount": 15
-    },
-    {
-      "id": "4f2cc8cf-11fe-45ed-adc5-f5d89f94ffa3",
-      "name": "Recoil Case",
-      "itemCount": 15
-    }
-  ],
-  "totalCases": 4,
-  "totalItems": 60
+	"timestamp": "2025-09-27T22:00:17.230Z",
+	"cases": [
+		{
+			"id": "d3b7aa92-70a0-4461-b652-bf0601c3694c",
+			"name": "Revolution Case",
+			"itemCount": 15
+		},
+		{
+			"id": "e1e32d70-07d0-4d73-b75d-dd442f51f966",
+			"name": "Dreams & Nightmares Case",
+			"itemCount": 15
+		},
+		{
+			"id": "c0ebf856-582e-42be-a2fd-d3d6eacea744",
+			"name": "Fracture Case",
+			"itemCount": 15
+		},
+		{
+			"id": "4f2cc8cf-11fe-45ed-adc5-f5d89f94ffa3",
+			"name": "Recoil Case",
+			"itemCount": 15
+		}
+	],
+	"totalCases": 4,
+	"totalItems": 60
 }

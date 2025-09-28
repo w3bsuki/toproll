@@ -17,22 +17,27 @@ const CASES_DIR = path.join(__dirname, '..', 'static', 'images', 'cases');
 
 // Real CS2 case images from Steam/community sources
 const CS2_CASE_IMAGES = {
-	'Revolution Case': 'https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA5QeNxQSNHRNz5vCj0FQ-jL_Ag2kFKwNrBEcS',
-	'Dreams & Nightmares Case': 'https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA5QeNxQSNHRNz5vCj0FQ-jL_Ag2kFKwNrCEUQ',
-	'Fracture Case': 'https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA5QeNxQSNHRNz5vCj0FQ-jL_Ag2kFKwNrCUUS',
-	'Recoil Case': 'https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA5QeNxQSNHRNz5vCj0FQ-jL_Ag2kFKwNrC0wT'
+	'Revolution Case':
+		'https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA5QeNxQSNHRNz5vCj0FQ-jL_Ag2kFKwNrBEcS',
+	'Dreams & Nightmares Case':
+		'https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA5QeNxQSNHRNz5vCj0FQ-jL_Ag2kFKwNrCEUQ',
+	'Fracture Case':
+		'https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA5QeNxQSNHRNz5vCj0FQ-jL_Ag2kFKwNrCUUS',
+	'Recoil Case':
+		'https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXA5QeNxQSNHRNz5vCj0FQ-jL_Ag2kFKwNrC0wT'
 };
 
 /**
  * Generate safe filename from case name
  */
 function generateFilename(caseName) {
-	return caseName
-		.toLowerCase()
-		.replace(/[^a-z0-9-]/g, '-')
-		.replace(/-+/g, '-')
-		.replace(/^-|-$/g, '')
-		+ '.png';
+	return (
+		caseName
+			.toLowerCase()
+			.replace(/[^a-z0-9-]/g, '-')
+			.replace(/-+/g, '-')
+			.replace(/^-|-$/g, '') + '.png'
+	);
 }
 
 /**
@@ -96,17 +101,16 @@ async function downloadAllCaseImages() {
 		);
 
 		const results = await Promise.all(downloads);
-		const successful = results.filter(result => result !== null);
+		const successful = results.filter((result) => result !== null);
 
 		console.log('\n🎉 Case image download completed!');
 		console.log(`📂 Images saved to: ${CASES_DIR}`);
 		console.log(`✅ Successful: ${successful.length}/${Object.keys(CS2_CASE_IMAGES).length}`);
 
 		console.log('\n💡 Case images are now available at:');
-		Object.keys(CS2_CASE_IMAGES).forEach(caseName => {
+		Object.keys(CS2_CASE_IMAGES).forEach((caseName) => {
 			console.log(`   /images/cases/${generateFilename(caseName)}`);
 		});
-
 	} catch (error) {
 		console.error('\n❌ Download failed:', error.message);
 		process.exit(1);

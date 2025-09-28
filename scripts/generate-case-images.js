@@ -118,10 +118,9 @@ async function generateAllCaseImages() {
 		console.log(`✅ Generated: ${Object.keys(CS2_CASES).length} case images`);
 
 		console.log('\n💡 Case images are now available at:');
-		Object.values(CS2_CASES).forEach(caseData => {
+		Object.values(CS2_CASES).forEach((caseData) => {
 			console.log(`   /images/cases/${caseData.filename}`);
 		});
-
 	} catch (error) {
 		console.error('\n❌ Generation failed:', error.message);
 		process.exit(1);

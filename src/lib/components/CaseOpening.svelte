@@ -72,8 +72,8 @@
 		<div class="card-body space-y-4">
 			<!-- Case Header -->
 			<div class="flex items-center gap-3">
-				<div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary/10">
-					<Package class="h-6 w-6 text-primary" />
+				<div class="bg-primary/10 flex h-12 w-12 items-center justify-center rounded-lg">
+					<Package class="text-primary h-6 w-6" />
 				</div>
 				<div>
 					<h3 class="text-lg font-semibold">{caseData.case.name}</h3>
@@ -91,14 +91,14 @@
 			<!-- Opening Animation -->
 			{#if showAnimation}
 				<div
-					class="relative h-48 overflow-hidden rounded-lg bg-gradient-to-br from-primary/20 to-accent/20"
+					class="from-primary/20 to-accent/20 relative h-48 overflow-hidden rounded-lg bg-gradient-to-br"
 				>
 					<div class="absolute inset-0 flex items-center justify-center">
 						<motion.div
 							animate={{ rotate: 360 }}
 							transition={{ duration: 2, repeat: Infinity, ease: 'linear' }}
 						>
-							<Zap class="h-16 w-16 text-primary" />
+							<Zap class="text-primary h-16 w-16" />
 						</motion.div>
 					</div>
 					<div class="absolute bottom-4 left-1/2 -translate-x-1/2">
@@ -124,17 +124,17 @@
 						class="inline-block"
 					>
 						<div
-							class="card border-4 bg-base-100 shadow-xl {result?.isWin
+							class="card bg-base-100 border-4 shadow-xl {result?.isWin
 								? 'border-success'
 								: 'border-error'}"
 						>
 							<div class="card-body">
 								<div class="flex items-center gap-4">
-								<img
-									{...createImageProps(revealedItem.image_url, revealedItem.name, 'medium')}
-									class="h-16 w-16 rounded"
-									alt={revealedItem.name}
-								/>
+									<img
+										{...createImageProps(revealedItem.image_url, revealedItem.name, 'medium')}
+										class="h-16 w-16 rounded"
+										alt={revealedItem.name}
+									/>
 									<div class="flex-1">
 										<h5 class="font-semibold">{revealedItem.name}</h5>
 										<p class="text-muted-foreground text-sm">{revealedItem.market_name}</p>
@@ -142,7 +142,7 @@
 											<div class="badge badge-{getRarityBadgeColor(revealedItem.rarity)}">
 												{revealedItem.rarity}
 											</div>
-											<span class="text-sm font-medium text-success">
+											<span class="text-success text-sm font-medium">
 												${revealedItem.market_value.toFixed(2)}
 											</span>
 										</div>
@@ -171,7 +171,7 @@
 						href={`https://steamcommunity.com/market/listings/730/${encodeURIComponent(revealedItem.market_name)}`}
 						target="_blank"
 						rel="noopener noreferrer"
-						class="ring-offset-background focus-visible:ring-ring border-input bg-background hover:text-accent-foreground inline-flex h-9 w-full items-center justify-center rounded-md border px-3 text-sm font-medium transition-colors hover:bg-accent focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
+						class="ring-offset-background focus-visible:ring-ring border-input bg-background hover:text-accent-foreground hover:bg-accent inline-flex h-9 w-full items-center justify-center rounded-md border px-3 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:pointer-events-none disabled:opacity-50"
 					>
 						<ExternalLink class="mr-2 h-4 w-4" />
 						View on Steam Market
@@ -181,7 +181,7 @@
 
 			<!-- Open Button -->
 			{#if !showAnimation && !revealedItem}
-				<button onclick={openCase} disabled={isOpening} class="btn w-full btn-lg btn-primary">
+				<button onclick={openCase} disabled={isOpening} class="btn btn-lg btn-primary w-full">
 					{#if isOpening}
 						<RefreshCw class="mr-2 h-4 w-4 animate-spin" />
 						Opening...

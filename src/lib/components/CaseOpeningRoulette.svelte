@@ -166,7 +166,9 @@
 								class="max-h-full max-w-full"
 							/>
 						{:else}
-							<div class="h-20 w-20 bg-gray-600 rounded flex items-center justify-center text-white text-xs">
+							<div
+								class="flex h-20 w-20 items-center justify-center rounded bg-gray-600 text-xs text-white"
+							>
 								No Image
 							</div>
 						{/if}

@@ -1,6 +1,16 @@
 <script lang="ts">
 	import { Search, Bell, Settings, User, Crown, Gift, Menu, X, ChevronDown } from 'lucide-svelte';
 	import AuthButton from '$lib/components/AuthButton.svelte';
+	import {
+		Button,
+		Badge,
+		DropdownMenu,
+		DropdownMenuTrigger,
+		DropdownMenuContent,
+		DropdownMenuItem,
+		DropdownMenuSeparator
+	} from '$lib/components/ui';
+	import { cn } from '$lib/utils';
 
 	interface NavbarProps {
 		isAuthenticated?: boolean;
@@ -21,287 +31,227 @@
 
 	let { isAuthenticated = false, user, class: className = '' }: NavbarProps = $props();
 
-	// Mobile menu state
+	const userLevel = $derived(Math.floor((user?.totalWagered || 0) / 1000) + 1);
 	let mobileMenuOpen = $state(false);
 
 	function toggleMobileMenu() {
 		mobileMenuOpen = !mobileMenuOpen;
-		// Add haptic feedback
 		if ('vibrate' in navigator) {
-			navigator.vibrate(10);
+			navigator.vibrate(8);
 		}
 	}
-
-	function closeMobileMenu() {
-		mobileMenuOpen = false;
-	}
-
-	// Calculate user level for display
-	const userLevel = $derived(Math.floor((user?.totalWagered || 0) / 1000) + 1);
 </script>
 
-<!-- Enhanced Gaming Navbar with Mobile Support -->
-<div class="navbar min-h-[64px] border-b-2 border-base-300 bg-base-100 px-4 {className}">
-	<!-- Mobile: Start Section (Logo + Hamburger) -->
-	<div class="navbar-start flex w-full items-center justify-between lg:w-1/3">
-		<!-- Logo with Gaming Accent -->
-		<a href="/" class="group flex items-center gap-3">
-			<div
-				class="flex h-8 w-8 items-center justify-center rounded-lg bg-gradient-to-br from-primary to-accent"
+<nav
+	class={cn(
+		'border-border/60 bg-surface/70 duration-subtle ease-market-ease sticky top-0 z-30 border-b px-4 py-3 backdrop-blur-lg transition-colors',
+		className
+	)}
+>
+	<div class="mx-auto flex max-w-7xl items-center gap-4">
+		<div class="flex flex-1 items-center gap-3">
+			<a href="/" class="flex items-center gap-2 text-left">
+				<div
+					class="border-primary/40 bg-primary/15 text-primary shadow-marketplace-sm flex h-9 w-9 items-center justify-center rounded-lg border"
+				>
+					<span class="text-lg font-semibold tracking-tight">T</span>
+				</div>
+				<div class="hidden flex-col sm:flex">
+					<span class="text-muted-foreground text-sm font-medium">TopRoll</span>
+					<span class="text-muted-foreground/70 text-xs tracking-[0.3em] uppercase"
+						>Marketplace</span
+					>
+				</div>
+			</a>
+			<button
+				class="border-border/60 bg-surface-muted/50 text-muted-foreground duration-subtle ease-market-ease hover:text-foreground focus-visible:ring-ring/60 inline-flex items-center rounded-md border px-3 py-2 text-sm transition-colors focus-visible:ring-2 focus-visible:outline-none sm:hidden"
+				on:click={toggleMobileMenu}
+				aria-label="Toggle navigation"
 			>
-				<span class="text-lg font-bold text-base-content">T</span>
-			</div>
-			<h1
-				class="bg-gradient-to-r from-primary to-accent bg-clip-text text-xl font-bold text-transparent transition-transform group-hover:scale-105"
+				{#if mobileMenuOpen}
+					<X class="h-4 w-4" />
+				{:else}
+					<Menu class="h-4 w-4" />
+				{/if}
+			</button>
+		</div>
+
+		<div class="hidden flex-1 items-center gap-3 lg:flex">
+			<label
+				class="border-border/60 bg-surface-muted/60 text-muted-foreground focus-within:border-primary focus-within:ring-ring/40 flex w-full max-w-sm items-center gap-2 rounded-md border px-3 py-2 text-sm focus-within:ring-2"
 			>
-				TopRoll
-			</h1>
-		</a>
-
-		<!-- Mobile Menu Button -->
-		<button
-			class="btn btn-square btn-ghost lg:hidden"
-			onclick={toggleMobileMenu}
-			aria-label="Toggle menu"
-		>
-			{#if mobileMenuOpen}
-				<X class="h-6 w-6" />
-			{:else}
-				<Menu class="h-6 w-6" />
-			{/if}
-		</button>
-	</div>
-
-	<!-- Desktop: Center Section (Search + Quick Actions) -->
-	<div class="navbar-center hidden lg:flex lg:w-1/3">
-		<!-- Search Bar -->
-		<div class="form-control w-full max-w-sm">
-			<div class="join">
+				<Search class="text-muted-foreground h-4 w-4" />
 				<input
 					type="text"
-					placeholder="Search games, cases..."
-					class="input-bordered input join-item w-full focus:border-primary"
+					placeholder="Search skins, cases, players"
+					class="text-foreground placeholder:text-muted-foreground h-8 flex-1 border-0 bg-transparent text-sm focus:outline-none"
 				/>
-				<button class="btn join-item btn-primary">
-					<Search class="h-4 w-4" />
-				</button>
-			</div>
+			</label>
+			<Button variant="outline" class="gap-2">
+				<Settings class="h-4 w-4" />
+				Settings
+			</Button>
+		</div>
+
+		<div class="hidden flex-1 items-center justify-end gap-4 lg:flex">
+			{#if !isAuthenticated}
+				<AuthButton class="hidden lg:inline-flex" />
+			{:else if user}
+				<div class="flex items-center gap-3">
+					<Button variant="secondary" class="gap-2">
+						<Crown class="h-4 w-4" />
+						VIP Lounge
+					</Button>
+					<Button class="gap-2">
+						<Gift class="h-4 w-4" />
+						Deposit
+					</Button>
+					<div class="flex flex-col text-right">
+						<span class="text-muted-foreground text-xs tracking-wide uppercase">Balance</span>
+						<span class="text-primary text-lg font-semibold">${user.balance.toLocaleString()}</span>
+					</div>
+					<DropdownMenu>
+						<DropdownMenuTrigger
+							class="group border-border/60 bg-surface-muted/40 duration-subtle ease-market-ease hover:border-primary/60 hover:bg-surface-muted/60 inline-flex items-center gap-3 rounded-md border px-2 py-1.5 transition-colors"
+						>
+							{#if user.avatar}
+								<img
+									src={user.avatar}
+									alt={user.username}
+									class="border-border/50 h-8 w-8 rounded-md border object-cover"
+								/>
+							{:else}
+								<div
+									class="border-border/60 bg-surface-muted/60 flex h-8 w-8 items-center justify-center rounded-md border"
+								>
+									<User class="text-muted-foreground h-4 w-4" />
+								</div>
+							{/if}
+							<div class="hidden text-left md:block">
+								<p class="text-foreground text-sm leading-tight font-medium">{user.username}</p>
+								<p class="text-muted-foreground text-xs">Level {userLevel}</p>
+							</div>
+							<ChevronDown
+								class="text-muted-foreground duration-subtle ease-market-ease h-4 w-4 transition-transform group-aria-expanded:rotate-180"
+							/>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent labelledby="user-menu">
+							<div class="px-3 pt-1 pb-2">
+								<p id="user-menu" class="text-muted-foreground text-xs tracking-wide uppercase">
+									Signed in as
+								</p>
+								<p class="text-foreground text-sm font-medium">{user.username}</p>
+							</div>
+							<DropdownMenuSeparator />
+							<DropdownMenuItem onSelect={() => {}}>Profile Overview</DropdownMenuItem>
+							<DropdownMenuItem onSelect={() => {}}>Inventory</DropdownMenuItem>
+							<DropdownMenuItem onSelect={() => {}}>Case history</DropdownMenuItem>
+							<DropdownMenuSeparator />
+							<DropdownMenuItem onSelect={() => {}} class="text-destructive">
+								Sign out
+							</DropdownMenuItem>
+						</DropdownMenuContent>
+					</DropdownMenu>
+					<button
+						class="border-border/60 bg-surface-muted/50 text-muted-foreground duration-subtle ease-market-ease hover:text-foreground focus-visible:ring-ring/60 relative flex h-11 w-11 items-center justify-center rounded-md border transition-colors focus-visible:ring-2 focus-visible:outline-none"
+					>
+						<Bell class="h-4 w-4" />
+						<span
+							class="bg-destructive absolute top-2 right-2 flex h-2.5 w-2.5 items-center justify-center rounded-full"
+						></span>
+					</button>
+				</div>
+			{/if}
 		</div>
 	</div>
 
-	<!-- Desktop: End Section (Auth + User Menu) -->
-	<div class="navbar-end hidden lg:flex lg:w-1/3 lg:justify-end">
-		{#if !isAuthenticated}
-			<!-- Desktop Auth Button -->
-			<form method="POST" action="/api/auth/steam/login">
-				<button type="submit" class="btn gap-2 btn-primary">
-					<span class="font-semibold">Sign in with Steam</span>
-				</button>
-			</form>
-		{:else}
-			<!-- Desktop User Menu -->
-			<div class="flex items-center gap-4">
-				<!-- Quick Actions -->
-				<div class="flex items-center gap-2">
-					<button class="btn gap-2 btn-outline btn-sm">
-						<Crown class="h-4 w-4" />
-						<span class="hidden xl:inline">VIP</span>
-					</button>
-					<button class="btn gap-2 btn-sm btn-success">
-						<Gift class="h-4 w-4" />
-						<span class="hidden xl:inline">DEPOSIT</span>
-					</button>
-				</div>
-
-				<!-- Balance Display -->
-				<div class="stats stats-horizontal shadow-sm">
-					<div class="stat px-4 py-2">
-						<div class="stat-value text-lg text-primary">${user?.balance?.toLocaleString()}</div>
-						<div class="stat-title text-xs">Balance</div>
-					</div>
-				</div>
-
-				<!-- Notifications -->
-				<div class="indicator">
-					<span class="indicator-item badge badge-xs badge-error"></span>
-					<button class="btn btn-circle btn-ghost">
-						<Bell class="h-5 w-5" />
-					</button>
-				</div>
-
-				<!-- User Profile Dropdown -->
-				<div class="dropdown dropdown-end">
-					<div tabindex="0" role="button" class="btn gap-2 pl-2 btn-ghost">
-						{#if user?.avatar}
-							<div class="avatar">
-								<div class="w-8 rounded-full ring ring-primary ring-offset-2">
-									<img src={user.avatar} alt={user.username} />
-								</div>
-							</div>
-						{:else}
-							<div class="placeholder avatar">
-								<div class="w-8 rounded-full bg-base-300 text-base-content">
-									<User class="h-4 w-4" />
-								</div>
-							</div>
-						{/if}
-						<div class="hidden text-left xl:block">
-							<div class="text-sm font-semibold">{user?.username}</div>
-							<div class="text-xs text-base-content/60">Level {userLevel}</div>
-						</div>
-						<ChevronDown class="h-4 w-4" />
-					</div>
-					<ul class="dropdown-content menu z-[1] w-52 rounded-box bg-base-100 p-2 shadow">
-						<li><a href="/profile">Profile</a></li>
-						<li><a href="/inventory">Inventory</a></li>
-						<li><a>Settings</a></li>
-						<li><hr /></li>
-						<li><a>Sign Out</a></li>
-					</ul>
-				</div>
-			</div>
-		{/if}
-	</div>
-</div>
-
-<!-- Mobile Menu Drawer -->
-{#if mobileMenuOpen}
-	<!-- Backdrop -->
-	<div
-		class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
-		onclick={closeMobileMenu}
-		role="presentation"
-	></div>
-
-	<!-- Mobile Menu Content -->
-	<div class="fixed inset-y-0 left-0 z-50 w-80 bg-base-100 shadow-xl lg:hidden">
-		<div class="menu min-h-full w-full p-4">
-			<!-- Mobile Search -->
-			<div class="form-control mb-6">
-				<div class="join">
+	{#if mobileMenuOpen}
+		<div class="lg:hidden">
+			<div
+				class="border-border/60 bg-surface shadow-marketplace-lg mt-4 space-y-6 rounded-lg border p-4"
+			>
+				<label
+					class="border-border/60 bg-surface-muted/60 text-muted-foreground focus-within:border-primary focus-within:ring-ring/40 flex items-center gap-2 rounded-md border px-3 py-2 text-sm focus-within:ring-2"
+				>
+					<Search class="text-muted-foreground h-4 w-4" />
 					<input
 						type="text"
-						placeholder="Search..."
-						class="input-bordered input join-item flex-1"
+						placeholder="Search skins, cases, players"
+						class="text-foreground placeholder:text-muted-foreground h-8 flex-1 border-0 bg-transparent text-sm focus:outline-none"
 					/>
-					<button class="btn join-item btn-primary">
-						<Search class="h-4 w-4" />
-					</button>
-				</div>
-			</div>
-
-			{#if isAuthenticated && user}
-				<!-- Mobile User Info -->
-				<div class="card mb-6 bg-gradient-to-br from-primary/10 to-accent/10 shadow-sm">
-					<div class="card-body p-4">
+				</label>
+				{#if !isAuthenticated}
+					<div class="flex flex-col gap-3">
+						<AuthButton />
+						<Button variant="outline" class="w-full">Explore Marketplace</Button>
+					</div>
+				{:else if user}
+					<div class="space-y-4">
 						<div class="flex items-center gap-3">
 							{#if user.avatar}
-								<div class="avatar">
-									<div class="w-12 rounded-full ring ring-primary ring-offset-2">
-										<img src={user.avatar} alt={user.username} />
-									</div>
-								</div>
+								<img
+									src={user.avatar}
+									alt={user.username}
+									class="border-border/50 h-12 w-12 rounded-lg border object-cover"
+								/>
 							{:else}
-								<div class="placeholder avatar">
-									<div class="w-12 rounded-full bg-base-300 text-base-content">
-										<User class="h-6 w-6" />
-									</div>
+								<div
+									class="border-border/60 bg-surface-muted/60 flex h-12 w-12 items-center justify-center rounded-lg border"
+								>
+									<User class="text-muted-foreground h-5 w-5" />
 								</div>
 							{/if}
 							<div>
-								<h3 class="font-bold">{user.username}</h3>
-								<p class="text-sm text-base-content/60">Level {userLevel}</p>
+								<p class="text-foreground font-medium">{user.username}</p>
+								<Badge variant="outline">Level {userLevel}</Badge>
 							</div>
 						</div>
-						<div class="divider my-2"></div>
-						<div class="stats">
-							<div class="stat place-items-center py-2">
-								<div class="stat-value text-lg text-primary">${user.balance.toLocaleString()}</div>
-								<div class="stat-title text-xs">Balance</div>
+						<div class="border-border/60 bg-surface-muted/50 rounded-lg border p-4 text-sm">
+							<div class="flex items-center justify-between">
+								<span class="text-muted-foreground">Balance</span>
+								<span class="text-primary font-semibold">${user.balance.toLocaleString()}</span>
 							</div>
+							<div class="text-muted-foreground mt-2 grid grid-cols-2 gap-2 text-xs">
+								<div>
+									<p class="text-muted-foreground/70">Total wagered</p>
+									<p class="text-foreground font-medium">${user.totalWagered.toLocaleString()}</p>
+								</div>
+								<div>
+									<p class="text-muted-foreground/70">Win rate</p>
+									<p class="text-success font-medium">{user.winRate}%</p>
+								</div>
+							</div>
+						</div>
+						<div class="grid gap-2">
+							<Button class="w-full gap-2">
+								<Gift class="h-4 w-4" />
+								Deposit Funds
+							</Button>
+							<Button variant="secondary" class="w-full gap-2">
+								<Crown class="h-4 w-4" />
+								VIP Lounge
+							</Button>
+						</div>
+						<div class="text-muted-foreground grid gap-2 text-sm">
+							<a
+								href="/profile"
+								class="duration-subtle ease-market-ease hover:border-border/60 hover:text-foreground rounded-md border border-transparent px-3 py-2 transition-colors"
+								>Profile</a
+							>
+							<a
+								href="/inventory"
+								class="duration-subtle ease-market-ease hover:border-border/60 hover:text-foreground rounded-md border border-transparent px-3 py-2 transition-colors"
+								>Inventory</a
+							>
+							<a
+								href="/cases"
+								class="duration-subtle ease-market-ease hover:border-border/60 hover:text-foreground rounded-md border border-transparent px-3 py-2 transition-colors"
+								>Case history</a
+							>
 						</div>
 					</div>
-				</div>
-
-				<!-- Mobile Quick Actions -->
-				<div class="mb-6 grid grid-cols-2 gap-2">
-					<button class="btn justify-start gap-2 btn-outline">
-						<Crown class="h-4 w-4" />
-						VIP Club
-					</button>
-					<button class="btn justify-start gap-2 btn-success">
-						<Gift class="h-4 w-4" />
-						Deposit
-					</button>
-				</div>
-			{/if}
-
-			<!-- Mobile Navigation Links -->
-			<ul class="space-y-2">
-				<li>
-					<a href="/" class="btn w-full justify-start btn-ghost" onclick={closeMobileMenu}>Home</a>
-				</li>
-				<li>
-					<a href="/cases" class="btn w-full justify-start btn-ghost" onclick={closeMobileMenu}
-						>Cases</a
-					>
-				</li>
-				<li>
-					<a href="/inventory" class="btn w-full justify-start btn-ghost" onclick={closeMobileMenu}
-						>Inventory</a
-					>
-				</li>
-				{#if isAuthenticated}
-					<li>
-						<a href="/profile" class="btn w-full justify-start btn-ghost" onclick={closeMobileMenu}
-							>Profile</a
-						>
-					</li>
-					<li><hr /></li>
-					<li><a class="btn w-full justify-start btn-ghost">Settings</a></li>
-					<li><a class="btn w-full justify-start btn-ghost">Sign Out</a></li>
-				{:else}
-					<li><hr /></li>
-					<li>
-						<form method="POST" action="/api/auth/steam/login" class="w-full">
-							<button type="submit" class="btn w-full btn-primary"> Sign in with Steam </button>
-						</form>
-					</li>
 				{/if}
-			</ul>
+			</div>
 		</div>
-	</div>
-{/if}
-
-<style>
-	/* Mobile menu animations */
-	.drawer-side {
-		transform: translateX(-100%);
-		transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	}
-
-	/* Show mobile menu */
-	:global(.mobile-menu-open) .drawer-side {
-		transform: translateX(0);
-	}
-
-	/* Gaming theme enhancements */
-	.navbar {
-		box-shadow: 0 1px 0 0 rgb(from var(--color-primary) r g b / 0.1);
-	}
-
-	/* Responsive adjustments */
-	@media (max-width: 1024px) {
-		.navbar-center,
-		.navbar-end {
-			display: none !important;
-		}
-	}
-
-	/* Touch improvements */
-	@media (hover: none) and (pointer: coarse) {
-		.btn:active {
-			transform: scale(0.95);
-		}
-	}
-</style>
+	{/if}
+</nav>

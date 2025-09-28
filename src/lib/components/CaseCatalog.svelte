@@ -71,7 +71,7 @@
 								</div>
 							</div>
 							<div class="text-right">
-								<div class="text-2xl font-bold text-success">${caseData.price}</div>
+								<div class="text-success text-2xl font-bold">${caseData.price}</div>
 								<div class="text-muted-foreground text-xs">per case</div>
 							</div>
 						</div>
@@ -89,14 +89,14 @@
 							</div>
 							<div class="flex justify-between text-sm">
 								<span class="text-muted-foreground">Avg Profit</span>
-								<span class="font-medium text-success">+$12.45</span>
+								<span class="text-success font-medium">+$12.45</span>
 							</div>
 						</div>
 
 						<!-- Action Buttons -->
 						<div class="space-y-2">
 							<button
-								class="btn w-full btn-lg btn-primary"
+								class="btn btn-lg btn-primary w-full"
 								onclick={() => onSelectCase({ case: caseData, items: [] })}
 								disabled={loading}
 							>
@@ -105,7 +105,7 @@
 							</button>
 
 							<button
-								class="btn w-full btn-outline btn-sm"
+								class="btn btn-outline btn-sm w-full"
 								onclick={() => handleCasePreview(caseData)}
 							>
 								<Info class="mr-2 h-4 w-4" />
@@ -156,7 +156,7 @@
 										</div>
 										<div class="flex-1">
 											<p class="truncate text-xs font-medium">{item.name}</p>
-											<div class="badge text-xs badge-primary">
+											<div class="badge badge-primary text-xs">
 												{item.rarity}
 											</div>
 										</div>
@@ -168,7 +168,7 @@
 
 						<div class="flex gap-2">
 							<button
-								class="btn flex-1 btn-outline"
+								class="btn btn-outline flex-1"
 								onclick={() => {
 									showCasePreview = false;
 									selectedCase = null;
@@ -177,7 +177,7 @@
 								Close
 							</button>
 							<button
-								class="btn flex-1 btn-primary"
+								class="btn btn-primary flex-1"
 								onclick={() => {
 									if (selectedCase) {
 										onSelectCase({ case: selectedCase, items: [] });
