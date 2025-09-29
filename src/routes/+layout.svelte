@@ -5,89 +5,69 @@
 	import Sidebar from '$lib/components/shell/Sidebar.svelte';
 	import BottomNav from '$lib/components/shell/BottomNav.svelte';
 	import ChatDrawer from '$lib/components/shell/ChatDrawer.svelte';
-import CommunityRail from '$lib/components/home/CommunityRail.svelte';
-	import { uiStore } from '$lib/stores/ui';
+	import CommunityRail from '$lib/components/home/CommunityRail.svelte';
+	import { MessageCircle } from 'lucide-svelte';
+	import { uiStore, closeSidebar, toggleChat } from '$lib/stores/ui';
 	import type { LayoutData } from './$types';
 
 	let { children, data }: { children: any; data: LayoutData } = $props();
 
 	const chatOpen = $derived($uiStore.chatOpen);
+	const sidebarOpen = $derived($uiStore.sidebarOpen);
 </script>
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div class="mobile-viewport bg-background text-foreground">
-	<!-- Desktop Layout (1024px+) -->
-	<div class="hidden lg:flex lg:h-screen lg:flex-col">
-		<!-- Top Navbar -->
-		<Navbar isAuthenticated={data.isAuthenticated} user={data.user} />
+<div class="bg-background text-foreground relative flex min-h-screen flex-col">
+	<Navbar isAuthenticated={data.isAuthenticated} user={data.user} />
 
-		<!-- Main Content Area with Sidebar -->
-		<div class="flex flex-1 overflow-hidden">
-			<!-- Sidebar -->
-			<Sidebar isAuthenticated={data.isAuthenticated} class="w-64" />
+	<div class="flex flex-1">
+		<div class="border-border/60 xl:bg-surface/60 hidden xl:flex xl:border-r">
+			<Sidebar isAuthenticated={data.isAuthenticated} user={data.user} class="h-full" />
+		</div>
 
-			<!-- Main Content -->
-			<main class="bg-background flex-1 overflow-y-auto">
-				<div class="mx-auto w-full max-w-7xl px-8 py-12 xl:px-12">
-					{@render children?.()}
-				</div>
-			</main>
+		<main class="flex-1 overflow-x-hidden">
+			<div
+				class="mx-auto w-full max-w-7xl px-5 pt-8 pb-24 sm:pt-10 sm:pb-16 md:px-8 lg:px-10 xl:px-12"
+			>
+				{@render children?.()}
+			</div>
+		</main>
 
-			<!-- Community Rail (Desktop Only) -->
+		<div class="hidden xl:block">
 			<CommunityRail />
-
-			<!-- Collapsible chat drawer for < xl -->
-			<ChatDrawer />
 		</div>
 	</div>
 
-	<!-- Tablet Layout (768px - 1023px) -->
-	<div class="hidden md:flex md:h-screen md:flex-col lg:hidden">
-		<!-- Top Navbar -->
-		<Navbar isAuthenticated={data.isAuthenticated} user={data.user} />
+	<BottomNav
+		isAuthenticated={data.isAuthenticated}
+		class="fixed inset-x-0 bottom-0 z-40 border-t pb-[env(safe-area-inset-bottom)] md:hidden"
+	/>
 
-		<!-- Main Content without Sidebar -->
-		<main class="bg-background flex-1 overflow-y-auto">
-			<div class="mx-auto w-full max-w-4xl px-6 py-10 lg:px-8">
-				{@render children?.()}
-			</div>
-		</main>
+	<button
+		type="button"
+		class="bg-primary text-primary-foreground shadow-marketplace-lg fixed right-4 bottom-20 z-40 flex h-12 w-12 items-center justify-center rounded-full md:hidden"
+		onclick={toggleChat}
+		aria-pressed={chatOpen}
+	>
+		<MessageCircle class="h-6 w-6" />
+		<span class="sr-only">Open chat</span>
+	</button>
 
-		<!-- Chat Sheet -->
-		<ChatDrawer />
-	</div>
+	<ChatDrawer />
 
-	<!-- Mobile Layout (< 768px) - Mobile First -->
-	<div class="flex h-screen flex-col md:hidden">
-		<!-- Mobile Header with Safe Area -->
-		<header class="pt-[env(safe-area-inset-top)]">
-			<Navbar isAuthenticated={data.isAuthenticated} user={data.user} class="min-h-[56px]" />
-		</header>
-
-		<!-- Main Content with Safe Scrolling -->
-		<main class="bg-background flex-1 overflow-y-auto overscroll-contain">
-			<div class="px-5 py-7 pb-28">
-				{@render children?.()}
-			</div>
-		</main>
-
-		<!-- Bottom Navigation with Safe Area -->
-		<div class="fixed right-0 bottom-0 left-0 z-50 pb-[env(safe-area-inset-bottom)]">
-			<BottomNav isAuthenticated={data.isAuthenticated} class="min-h-[64px]" />
-		</div>
-
-		<!-- Mobile Chat Drawer -->
-		<ChatDrawer />
-	</div>
-
-	<!-- Global Loading Overlay -->
-	{#if chatOpen}
+	{#if sidebarOpen}
 		<div
-			class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm md:hidden"
+			class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm xl:hidden"
 			role="presentation"
+			onclick={closeSidebar}
 		></div>
+		<div
+			class="bg-surface/95 shadow-marketplace-lg fixed inset-y-0 left-0 z-50 w-[260px] max-w-full overflow-y-auto px-5 pt-6 pb-8 backdrop-blur-xl xl:hidden"
+		>
+			<Sidebar isAuthenticated={data.isAuthenticated} user={data.user} class="h-full" />
+		</div>
 	{/if}
 </div>
