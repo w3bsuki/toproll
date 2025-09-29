@@ -56,19 +56,20 @@
 			<p class="text-muted-foreground text-xs tracking-[0.3em] uppercase">Navigation</p>
 		</div>
 
-		<nav class="flex-1 overflow-y-auto px-4 py-6">
+		<nav class="flex-1 overflow-y-auto px-4 py-6" aria-label="Primary">
 			<ul class="space-y-1">
 				{#each navItems as item}
 					<li>
 						<button
 							type="button"
 							class={cn(
-								'group duration-subtle ease-market-ease flex w-full items-center justify-between rounded-md border border-transparent px-3 py-2 text-left transition-colors',
+								'group duration-subtle ease-market-ease focus-visible:ring-ring/70 focus-visible:ring-offset-background flex w-full items-center justify-between rounded-md border border-transparent px-3 py-2 text-left transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
 								isActiveRoute(item.href)
 									? 'border-primary/60 bg-surface-accent/30 text-foreground shadow-marketplace-sm'
 									: 'text-muted-foreground hover:border-border/60 hover:bg-surface-muted/40 hover:text-foreground'
 							)}
-							on:click={() => goto(item.href)}
+							onclick={() => goto(item.href)}
+							aria-current={isActiveRoute(item.href) ? 'page' : undefined}
 						>
 							<span class="flex items-center gap-3">
 								<span
@@ -102,7 +103,7 @@
 					<li>
 						<a
 							href={item.href}
-							class="text-muted-foreground duration-subtle ease-market-ease hover:border-border/60 hover:bg-surface-muted/40 hover:text-foreground flex items-center gap-3 rounded-md border border-transparent px-3 py-2 transition-colors"
+							class="text-muted-foreground duration-subtle ease-market-ease hover:border-border/60 hover:bg-surface-muted/40 hover:text-foreground focus-visible:ring-ring/70 focus-visible:ring-offset-background flex items-center gap-3 rounded-md border border-transparent px-3 py-2 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
 						>
 							<span
 								class="border-border/50 bg-surface-muted/40 flex h-8 w-8 items-center justify-center rounded-md border"

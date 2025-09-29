@@ -136,11 +136,12 @@
 	{/if}
 
 	<section class="grid gap-8 lg:grid-cols-[2fr,1fr]">
-		<Card class="border-border/70 bg-surface/70 border">
+		<Card class="border-border/70 bg-surface/70 flex flex-col border">
 			<CardHeader class="border-0 pb-6">
 				<Badge variant="outline" class="w-fit">Phase 1 access</Badge>
-				<CardTitle class="text-3xl font-semibold md:text-4xl">Trust-first CS2 marketplace</CardTitle
-				>
+				<CardTitle class="text-3xl leading-tight font-semibold md:text-4xl">
+					Trust-first CS2 marketplace
+				</CardTitle>
 				<CardDescription class="max-w-2xl text-base leading-relaxed">
 					Trade, open cases, and compete in battles on a desk built for transparency. Deep audit
 					trails, instant settlement, and live risk analytics keep high rollers in control.
@@ -155,7 +156,7 @@
 						<p class="text-foreground mt-2 text-lg font-semibold">Online · Liquidity stable</p>
 						<p class="text-muted-foreground text-xs">Realtime treasury coverage 104%</p>
 					</div>
-					<div class="grid grid-cols-3 gap-3 text-sm">
+					<div class="grid grid-cols-2 gap-3 text-sm sm:grid-cols-3">
 						<div class="border-border/60 bg-surface-muted/40 rounded-md border p-3 text-center">
 							<p class="text-muted-foreground text-xs tracking-wide uppercase">Top win</p>
 							<p class="text-success mt-1 text-lg font-semibold">$24,860</p>
@@ -179,48 +180,57 @@
 									Filtered by volatility index
 								</p>
 							</div>
-							<Button size="sm" variant="outline" on:click={openChat}>
+							<Button size="sm" variant="outline" onclick={openChat}>
 								<MessageCircle class="h-4 w-4" />
 								Talk to traders
 							</Button>
 						</div>
 						<ul class="text-muted-foreground mt-4 space-y-2 text-sm">
-							<li
-								class="duration-subtle ease-market-ease hover:border-border/60 hover:text-foreground flex items-center justify-between rounded-md border border-transparent px-2 py-2 transition-colors"
-							>
-								<span class="flex items-center gap-2"
-									><Zap class="text-primary h-4 w-4" />Instant drops</span
+							<li>
+								<button
+									type="button"
+									class="duration-subtle ease-market-ease hover:border-border/60 hover:text-foreground focus-visible:ring-ring/70 focus-visible:ring-offset-background flex w-full items-center justify-between rounded-md border border-transparent px-2 py-2 text-left transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
 								>
-								<ArrowRight class="h-4 w-4" />
+									<span class="flex items-center gap-2"
+										><Zap class="text-primary h-4 w-4" />Instant drops</span
+									>
+									<ArrowRight class="h-4 w-4" />
+								</button>
 							</li>
-							<li
-								class="duration-subtle ease-market-ease hover:border-border/60 hover:text-foreground flex items-center justify-between rounded-md border border-transparent px-2 py-2 transition-colors"
-							>
-								<span class="flex items-center gap-2"
-									><Shield class="text-secondary h-4 w-4" />Escrow protected</span
+							<li>
+								<button
+									type="button"
+									class="duration-subtle ease-market-ease hover:border-border/60 hover:text-foreground focus-visible:ring-ring/70 focus-visible:ring-offset-background flex w-full items-center justify-between rounded-md border border-transparent px-2 py-2 text-left transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
 								>
-								<ArrowRight class="h-4 w-4" />
+									<span class="flex items-center gap-2"
+										><Shield class="text-secondary h-4 w-4" />Escrow protected</span
+									>
+									<ArrowRight class="h-4 w-4" />
+								</button>
 							</li>
-							<li
-								class="duration-subtle ease-market-ease hover:border-border/60 hover:text-foreground flex items-center justify-between rounded-md border border-transparent px-2 py-2 transition-colors"
-							>
-								<span class="flex items-center gap-2"
-									><Crown class="text-warning-foreground h-4 w-4" />VIP whitelist</span
+							<li>
+								<button
+									type="button"
+									class="duration-subtle ease-market-ease hover:border-border/60 hover:text-foreground focus-visible:ring-ring/70 focus-visible:ring-offset-background flex w-full items-center justify-between rounded-md border border-transparent px-2 py-2 text-left transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
 								>
-								<ArrowRight class="h-4 w-4" />
+									<span class="flex items-center gap-2"
+										><Crown class="text-warning-foreground h-4 w-4" />VIP whitelist</span
+									>
+									<ArrowRight class="h-4 w-4" />
+								</button>
 							</li>
 						</ul>
 					</div>
 					<div class="flex flex-wrap gap-3">
-						<Button class="gap-2">
+						<Button as="a" href="/cases" class="gap-2">
 							<Package class="h-4 w-4" />
 							Open cases
 						</Button>
-						<Button variant="secondary" class="gap-2">
+						<Button as="a" href="/battles" variant="secondary" class="gap-2">
 							<TrendingUp class="h-4 w-4" />
 							Start battle
 						</Button>
-						<Button variant="outline" class="gap-2" on:click={openChat}>
+						<Button variant="outline" class="gap-2" onclick={openChat}>
 							<MessageCircle class="h-4 w-4" />
 							Live support
 						</Button>
@@ -229,7 +239,7 @@
 			</CardContent>
 		</Card>
 
-		<Card class="border-border/70 bg-surface/70 border">
+		<Card class="border-border/70 bg-surface/70 flex h-full flex-col border">
 			<CardHeader class="border-0 pb-4">
 				<CardTitle class="text-xl font-semibold">Market depth</CardTitle>
 				<CardDescription>How the desk is performing in the last 24 hours</CardDescription>
@@ -256,7 +266,7 @@
 					</div>
 				{/each}
 			</CardContent>
-			<CardFooter class="border-border/60 bg-surface-muted/30 border-t">
+			<CardFooter class="border-border/60 bg-surface-muted/30 mt-auto border-t">
 				<div>
 					<p class="text-muted-foreground text-xs tracking-wide uppercase">Counterparty coverage</p>
 					<p class="text-foreground text-sm font-medium">Tier 1 banks · Instant settlement rails</p>
@@ -271,14 +281,14 @@
 				<h2 class="text-foreground text-2xl font-semibold">Featured cases</h2>
 				<p class="text-muted-foreground text-sm">Curated drops monitored by our risk desk</p>
 			</div>
-			<Button variant="outline" class="gap-2">
+			<Button as="a" href="/cases" variant="outline" class="gap-2">
 				View case catalog
 				<ArrowRight class="h-4 w-4" />
 			</Button>
 		</div>
 		<div class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
 			{#each featuredCases as featuredCase}
-				<Card class="border-border/60 bg-surface/80 border">
+				<Card class="border-border/60 bg-surface/80 flex h-full flex-col border">
 					<CardHeader class="border-0 pb-4">
 						<div class="flex items-center justify-between">
 							<div>
@@ -312,8 +322,8 @@
 							<span class="text-success font-medium">Yes</span>
 						</div>
 					</CardContent>
-					<CardFooter class="bg-surface-muted/30">
-						<Button class="w-full gap-2">
+					<CardFooter class="bg-surface-muted/30 mt-auto">
+						<Button as="a" href="/cases" class="w-full gap-2">
 							<Play class="h-4 w-4" />
 							Open case
 						</Button>
@@ -329,18 +339,18 @@
 				<h2 class="text-foreground text-2xl font-semibold">Live trading desk</h2>
 				<p class="text-muted-foreground text-sm">Track battles and instant matches in real time</p>
 			</div>
-			<Button variant="outline" class="gap-2">
+			<Button as="a" href="/battles" variant="outline" class="gap-2">
 				View battle lobby
 				<ArrowRight class="h-4 w-4" />
 			</Button>
 		</div>
 		<Tabs value="battles">
-			<TabsList>
+			<TabsList class="flex flex-wrap gap-2">
 				<TabsTrigger value="battles">Case battles</TabsTrigger>
 				<TabsTrigger value="upgrades">Upgrades</TabsTrigger>
 				<TabsTrigger value="drops">Recent drops</TabsTrigger>
 			</TabsList>
-			<TabsContent value="battles" class="bg-surface/60">
+			<TabsContent value="battles" class="bg-surface/60 border-border/60 rounded-xl border p-5">
 				<div class="grid gap-4 md:grid-cols-2">
 					<div class="border-border/60 bg-surface-muted/40 rounded-lg border p-4">
 						<div class="text-muted-foreground flex items-center justify-between text-sm">
@@ -386,7 +396,7 @@
 					</div>
 				</div>
 			</TabsContent>
-			<TabsContent value="upgrades" class="bg-surface/60">
+			<TabsContent value="upgrades" class="bg-surface/60 border-border/60 rounded-xl border p-5">
 				<div class="grid gap-4 md:grid-cols-2">
 					<div class="border-border/60 bg-surface-muted/40 rounded-lg border p-4 text-sm">
 						<p class="text-muted-foreground">
@@ -401,7 +411,7 @@
 					</div>
 				</div>
 			</TabsContent>
-			<TabsContent value="drops" class="bg-surface/60">
+			<TabsContent value="drops" class="bg-surface/60 border-border/60 rounded-xl border p-5">
 				<div class="grid gap-4 md:grid-cols-2">
 					<div class="border-border/60 bg-surface-muted/40 rounded-lg border p-4 text-sm">
 						<p class="text-foreground font-medium">★ Karambit | Doppler</p>

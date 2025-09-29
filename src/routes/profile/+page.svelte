@@ -32,7 +32,7 @@
 	<div class="grid gap-6 lg:grid-cols-[320px,1fr]">
 		<ProfileCard user={data.profile} status="online" />
 		<div class="grid gap-5 md:grid-cols-2">
-			<Card class="border-border/60 bg-surface/70 border">
+			<Card class="border-border/60 bg-surface/70 flex h-full flex-col border">
 				<CardContent class="space-y-2 p-5">
 					<div
 						class="text-muted-foreground flex items-center gap-2 text-xs tracking-wide uppercase"
@@ -44,7 +44,7 @@
 					</p>
 				</CardContent>
 			</Card>
-			<Card class="border-border/60 bg-surface/70 border">
+			<Card class="border-border/60 bg-surface/70 flex h-full flex-col border">
 				<CardContent class="space-y-2 p-5">
 					<div
 						class="text-muted-foreground flex items-center gap-2 text-xs tracking-wide uppercase"
@@ -58,7 +58,7 @@
 					</p>
 				</CardContent>
 			</Card>
-			<Card class="border-border/60 bg-surface/70 border">
+			<Card class="border-border/60 bg-surface/70 flex h-full flex-col border">
 				<CardContent class="space-y-2 p-5">
 					<div
 						class="text-muted-foreground flex items-center gap-2 text-xs tracking-wide uppercase"
@@ -68,7 +68,7 @@
 					<p class="text-foreground text-2xl font-semibold">{data.profile?.win_rate || 0}%</p>
 				</CardContent>
 			</Card>
-			<Card class="border-border/60 bg-surface/70 border">
+			<Card class="border-border/60 bg-surface/70 flex h-full flex-col border">
 				<CardContent class="space-y-2 p-5">
 					<div
 						class="text-muted-foreground flex items-center gap-2 text-xs tracking-wide uppercase"
@@ -80,7 +80,7 @@
 					</p>
 				</CardContent>
 			</Card>
-			<Card class="border-border/60 bg-surface/70 border md:col-span-2">
+			<Card class="border-border/60 bg-surface/70 flex h-full flex-col border md:col-span-2">
 				<CardHeader class="border-0 pb-2">
 					<CardTitle class="text-muted-foreground text-sm font-medium">Case battle wins</CardTitle>
 					<CardDescription>Lifetime victories secured across all battle types.</CardDescription>
