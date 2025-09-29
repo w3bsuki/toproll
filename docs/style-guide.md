@@ -33,6 +33,17 @@
 
 Fonts: Inter Variable via Tailwind `font-sans`. Enable font features `ss01`, `cv05`, `cv11` globally.
 
+## Responsive Layout Guidelines
+
+- **Breakpoints**: target `sm` (~640px) for two-column case grids, `md` (~768px) for tablet shells, and `lg` (1024px) for full desktop chrome.
+- **Content max-widths**: use `max-w-7xl px-8 xl:px-12` on desktop, `max-w-4xl px-6` on tablets, and `px-5` gutters on mobile.
+- **Hero stack**: headline + description stays left-aligned; CTAs wrap with `flex flex-wrap gap-3` and stats collapse to `grid-cols-2` under 640px.
+- **Cards**: apply `flex h-full flex-col` so footers sit flush; use `mt-auto` on `CardFooter` when buttons anchor the bottom.
+- **Tabs & carousels**: allow wrapping with `flex flex-wrap gap-2` and pad content containers (`rounded-xl border p-5`) for alignment.
+- **Safe areas**: mobile layout includes `pt-[env(safe-area-inset-top)]` and bottom nav `pb-[env(safe-area-inset-bottom)]`.
+- **Chat drawer**: desktop drawer animates from the right (`md:w-80`) and collapses entirely when closed; mobile uses the sheet component.
+- **Focus states**: every interactive element should add `focus-visible:ring-2 focus-visible:ring-ring/70 focus-visible:ring-offset-2 focus-visible:ring-offset-background` (or semantic equivalent).
+
 ## Components
 
 - **Button** (`<Button>`): variants `default`, `secondary`, `outline`, `ghost`, `destructive`. Hover only adjusts fill/border—no lift or glow.
@@ -83,3 +94,7 @@ Fonts: Inter Variable via Tailwind `font-sans`. Enable font features `ss01`, `cv
 | Button (default) | `bg-primary text-primary-foreground`     | `bg-primary/90 border-primary/80`        |
 | Card             | `shadow-marketplace-sm border-border/60` | `shadow-marketplace-md border-border/80` |
 | Tabs trigger     | `text-muted-foreground`                  | Active state only (`bg-surface-accent`)  |
+
+## Visual QA References
+
+- Hero, featured cases, sidebar, and mobile shell screenshots were attempted during this pass but could not be captured due to Playwright/browser availability in the execution environment. Re-run `pnpm dev` locally and use the `browser_container` helper once the browser stack is available to refresh the gallery.

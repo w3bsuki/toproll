@@ -59,7 +59,7 @@
 					'group border-border/60 bg-surface/70 shadow-marketplace-sm duration-subtle ease-market-ease hover:border-primary/60 hover:shadow-marketplace-md flex h-full flex-col overflow-hidden rounded-lg border text-left transition-colors',
 					selectable && 'focus-visible:ring-ring/60 focus-visible:ring-2 focus-visible:outline-none'
 				)}
-				on:click={() => handleItemClick(item)}
+				onclick={() => handleItemClick(item)}
 			>
 				<div class="relative">
 					{#if item.icon_url}
