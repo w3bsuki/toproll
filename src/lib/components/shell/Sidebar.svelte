@@ -57,84 +57,76 @@
 </script>
 
 <aside
-	class={cn('bg-surface/70 flex h-full w-[240px] flex-none flex-col px-5 pt-8 pb-6', className)}
+	class={cn(
+		'bg-surface/80 border-border/40 flex h-full w-full flex-col rounded-[28px] border p-4 shadow-[0_24px_90px_rgba(15,23,42,0.32)] backdrop-blur-xl',
+		className
+	)}
 >
-	<div class="flex flex-col gap-6">
-		<div>
-			<p class="text-muted-foreground text-xs tracking-[0.35em] uppercase">Main</p>
-			<nav class="mt-4 space-y-2" aria-label="Primary navigation">
-				{#each navItems as item}
-					<button
-						type="button"
+	<nav class="space-y-2" aria-label="Primary navigation">
+		{#each navItems as item}
+			<button
+				type="button"
+				class={cn(
+					'group flex w-full items-center justify-between rounded-2xl border border-transparent px-2 py-1.5 text-left transition duration-200',
+					'focus-visible:ring-ring/70 focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
+					isActiveRoute(item.href)
+						? 'border-primary/60 bg-primary/10 text-foreground shadow-marketplace-sm'
+						: 'text-muted-foreground hover:border-border/50 hover:bg-surface-muted/40 hover:text-foreground'
+				)}
+				onclick={() => handleNavigation(item.href)}
+				aria-current={isActiveRoute(item.href) ? 'page' : undefined}
+			>
+				<span class="flex items-center gap-3">
+					<span
 						class={cn(
-							'group flex w-full items-center justify-between rounded-2xl border border-transparent px-3 py-3 text-left transition duration-200',
-							'focus-visible:ring-ring/70 focus-visible:ring-offset-background focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
+							'flex h-14 w-14 items-center justify-center rounded-2xl border text-sm font-semibold transition-colors',
 							isActiveRoute(item.href)
-								? 'border-primary/60 bg-surface-accent/30 text-foreground shadow-marketplace-sm'
-								: 'text-muted-foreground hover:border-border/60 hover:bg-surface-muted/40 hover:text-foreground'
+								? 'border-primary/60 bg-primary/20 text-primary'
+								: 'border-border/50 bg-surface-muted/50 text-muted-foreground group-hover:text-foreground'
 						)}
-						onclick={() => handleNavigation(item.href)}
-						aria-current={isActiveRoute(item.href) ? 'page' : undefined}
 					>
-						<span class="flex items-center gap-3">
-							<span
-								class={cn(
-									'flex h-12 w-12 items-center justify-center rounded-xl border',
-									isActiveRoute(item.href)
-										? 'border-primary/60 bg-primary/15 text-primary'
-										: 'border-border/50 bg-surface-muted/40 text-muted-foreground group-hover:text-foreground'
-								)}
-							>
-								<item.icon class="h-4 w-4" />
-							</span>
-							<span>
-								<span class="text-sm leading-tight font-semibold">{item.label}</span>
-								<span class="text-muted-foreground/75 block text-xs">{item.description}</span>
-							</span>
-						</span>
-						{#if isActiveRoute(item.href)}
-							<Badge
-								variant="outline"
-								class="rounded-full px-2 py-0.5 text-[10px] tracking-[0.3em] uppercase"
-								>Active</Badge
-							>
-						{/if}
-					</button>
-				{/each}
-			</nav>
-		</div>
+						<item.icon class="h-4 w-4" />
+					</span>
+					<span class="text-sm font-semibold tracking-tight">{item.label}</span>
+				</span>
+				{#if isActiveRoute(item.href)}
+					<Badge
+						variant="outline"
+						class="rounded-full px-2 py-0.5 text-[9px] tracking-[0.35em] uppercase">Active</Badge
+					>
+				{/if}
+			</button>
+		{/each}
+	</nav>
 
-		<div
-			class="border-border/40 bg-surface/80 rounded-3xl border p-5 shadow-[0_18px_40px_rgba(15,23,42,0.25)]"
-		>
+	<div class="mt-auto space-y-3">
+		<div class="border-border/50 bg-surface/80 rounded-3xl border p-4">
 			{#if isAuthenticated && user}
-				<div class="space-y-4">
-					<div>
+				<div class="space-y-3 text-sm">
+					<div class="flex items-center justify-between">
 						<p class="text-muted-foreground text-xs tracking-[0.35em] uppercase">Account</p>
-						<p class="mt-1 text-base font-semibold">{user.username}</p>
+						<span class="text-muted-foreground/80 text-xs font-medium">Live</span>
 					</div>
-					<div class="border-border/30 bg-surface-muted/40 space-y-3 rounded-2xl border p-4">
+					<p class="text-base font-semibold">{user.username}</p>
+					<div class="border-border/40 bg-surface-muted/40 grid gap-2 rounded-2xl border p-3">
 						<div>
-							<p class="text-muted-foreground text-[11px] tracking-[0.3em] uppercase">Balance</p>
+							<p class="text-muted-foreground text-[10px] tracking-[0.35em] uppercase">Balance</p>
 							<p class="text-lg font-semibold">${user.balance.toLocaleString()}</p>
 						</div>
 						<div>
-							<p class="text-muted-foreground text-[11px] tracking-[0.3em] uppercase">
-								Total wagered
-							</p>
+							<p class="text-muted-foreground text-[10px] tracking-[0.35em] uppercase">Wagered</p>
 							<p class="text-sm font-medium">${user.totalWagered.toLocaleString()}</p>
 						</div>
-						<Button variant="secondary" class="w-full">Manage funds</Button>
+						<Button variant="secondary" size="sm" class="w-full justify-center">Manage funds</Button
+						>
 					</div>
 				</div>
 			{:else}
-				<div class="space-y-4 text-sm">
-					<div>
-						<p class="text-foreground text-base font-semibold">Sign in to unlock trading</p>
-						<p class="text-muted-foreground text-xs leading-relaxed">
-							Connect your Steam account to deposit, withdraw, and battle with the floor.
-						</p>
-					</div>
+				<div class="space-y-3 text-sm">
+					<p class="text-base leading-tight font-semibold">Sign in to unlock trading</p>
+					<p class="text-muted-foreground text-xs leading-relaxed">
+						Connect Steam to deposit instantly and join live battles.
+					</p>
 					<Button class="w-full gap-2">
 						<LogIn class="h-4 w-4" />
 						Sign in with Steam
@@ -143,19 +135,19 @@
 			{/if}
 		</div>
 
-		<div class="border-border/40 bg-surface/60 rounded-3xl border p-4">
-			<p class="text-muted-foreground text-xs tracking-[0.35em] uppercase">Support</p>
-			<div class="mt-3 grid gap-2">
+		<div class="border-border/40 bg-surface/70 rounded-3xl border p-3">
+			<p class="text-muted-foreground text-[10px] tracking-[0.35em] uppercase">Support</p>
+			<div class="mt-2 grid gap-2">
 				{#each supportItems as item}
 					<Button
 						as="a"
 						href={item.href}
 						variant="ghost"
 						size="sm"
-						class="text-muted-foreground hover:text-foreground justify-start rounded-full px-3 py-2 text-sm"
+						class="text-muted-foreground hover:text-foreground justify-start gap-3 rounded-2xl px-2 py-1.5 text-sm"
 					>
 						<span
-							class="border-border/40 bg-surface-muted/40 mr-2 flex h-8 w-8 items-center justify-center rounded-full border"
+							class="border-border/40 bg-surface-muted/40 flex h-9 w-9 items-center justify-center rounded-xl border"
 						>
 							<item.icon class="h-4 w-4" />
 						</span>

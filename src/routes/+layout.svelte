@@ -20,24 +20,41 @@
 	<link rel="icon" href={favicon} />
 </svelte:head>
 
-<div class="bg-background text-foreground relative flex min-h-screen flex-col">
-	<Navbar isAuthenticated={data.isAuthenticated} user={data.user} />
+<div
+	class="bg-background text-foreground relative flex min-h-screen flex-col"
+	style="--shell-header-height: 76px"
+>
+	<Navbar
+		isAuthenticated={data.isAuthenticated}
+		user={data.user}
+		class="border-border/60 border-b"
+	/>
 
-	<div class="flex flex-1">
-		<div class="border-border/60 xl:bg-surface/60 hidden xl:flex xl:border-r">
-			<Sidebar isAuthenticated={data.isAuthenticated} user={data.user} class="h-full" />
-		</div>
-
-		<main class="flex-1 overflow-x-hidden">
-			<div
-				class="mx-auto w-full max-w-7xl px-5 pt-8 pb-24 sm:pt-10 sm:pb-16 md:px-8 lg:px-10 xl:px-12"
-			>
-				{@render children?.()}
+	<div class="flex-1 overflow-hidden">
+		<div
+			class="mx-auto flex h-full w-full max-w-[1600px] gap-6 px-4 pt-6 pb-20 sm:px-6 lg:px-8 xl:gap-7"
+		>
+			<div class="hidden xl:flex xl:w-[248px] xl:flex-none">
+				<div
+					class="sticky top-[calc(var(--shell-header-height)+1.5rem)] h-[calc(100vh-var(--shell-header-height)-1.5rem)] w-full"
+				>
+					<Sidebar isAuthenticated={data.isAuthenticated} user={data.user} class="h-full" />
+				</div>
 			</div>
-		</main>
 
-		<div class="hidden xl:block">
-			<CommunityRail />
+			<main class="marketplace-scrollbar flex-1 overflow-y-auto" aria-label="Primary content">
+				<div class="mx-auto flex w-full max-w-5xl flex-col gap-12 px-1 pt-6 pb-16 sm:px-2">
+					{@render children?.()}
+				</div>
+			</main>
+
+			<div class="hidden xl:flex xl:w-[296px] xl:flex-none">
+				<div
+					class="sticky top-[calc(var(--shell-header-height)+1.5rem)] h-[calc(100vh-var(--shell-header-height)-1.5rem)] w-full"
+				>
+					<CommunityRail />
+				</div>
+			</div>
 		</div>
 	</div>
 
