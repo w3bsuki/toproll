@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 	import AuthButton from '$lib/components/AuthButton.svelte';
 	import {
 		Home,
@@ -19,7 +20,7 @@
 	import { cn } from '$lib/utils';
 	import { closeSidebar } from '$lib/stores/ui';
 
-	interface SidebarProps {
+	type SidebarProps = {
 		isAuthenticated?: boolean;
 		user?: {
 			username: string;
@@ -27,9 +28,16 @@
 			totalWagered: number;
 		} | null;
 		class?: string;
-	}
+	};
 
-	let { isAuthenticated = false, user = null, class: className = '' }: SidebarProps = $props();
+	const props = $props<SidebarProps>();
+	const inboundUser = $derived(() => props.user ?? null);
+	const inboundAuthenticated = $derived(() => props.isAuthenticated ?? false);
+	const className = $derived(() => props.class ?? '');
+
+	const pageStore = page;
+	const currentPage = $derived(pageStore);
+	const currentPath = $derived(() => currentPage.url.pathname);
 
 	const navItems = [
 		{ href: '/', icon: Home, label: 'Home' },
@@ -37,23 +45,52 @@
 		{ href: '/battles', icon: Swords, label: 'Battles' },
 		{ href: '/inventory', icon: Briefcase, label: 'Inventory' },
 		{ href: '/profile', icon: User, label: 'Profile' }
-	];
+	] as const;
 
 	const supportItems = [
 		{ href: '/support', icon: MessageSquare, label: 'Support desk' },
 		{ href: '/faq', icon: HelpCircle, label: 'FAQ' },
 		{ href: '/terms', icon: Shield, label: 'Terms' },
 		{ href: '/responsible', icon: LifeBuoy, label: 'Responsible play' }
+	] as const;
+
+	let previewSignedIn = $state(inboundAuthenticated);
+
+	$effect(() => {
+		if (inboundAuthenticated) {
+			previewSignedIn = true;
+		}
+	});
+
+	const fallbackUser = {
+		username: 'rainmaker',
+		balance: 1570.0,
+		totalWagered: 42800
+	};
+
+	const activeUser = $derived(() => {
+		if (!previewSignedIn) return null;
+		return inboundUser ?? fallbackUser;
+	});
+
+	const vaultSummary = [
+		{ label: 'Vault', value: '$640.00' },
+		{ label: 'Withdrawable', value: '$930.00' }
 	];
 
-	function isActiveRoute(href: string): boolean {
-		return $page.url.pathname === href;
-	}
+	const togglePreviewState = () => {
+		previewSignedIn = !previewSignedIn;
+	};
 
-	function handleNavigation(href: string) {
-		goto(href);
+	const isActiveRoute = (href: string) => currentPath === href;
+
+	const buildHref = (path: string) => (base ? `${base}${path}` : path);
+
+	const handleNavigation = (href: string) => {
+		// eslint-disable-next-line svelte/no-navigation-without-resolve
+		goto(buildHref(href));
 		closeSidebar();
-	}
+	};
 </script>
 
 <aside
@@ -62,7 +99,8 @@
 		className
 	)}
 >
-	<a href="/" class="flex items-center gap-3">
+	<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+	<a href={buildHref('/')} class="flex items-center gap-3">
 		<span
 			class="border-primary/50 bg-primary/15 text-primary flex h-11 w-11 items-center justify-center rounded-xl border text-base font-semibold"
 		>
@@ -75,40 +113,58 @@
 	</a>
 
 	<div class="border-border/40 bg-surface-muted/30 rounded-3xl border p-4">
-		{#if isAuthenticated && user}
+		{#if activeUser}
 			<div class="space-y-4">
-				<div>
-					<p class="text-muted-foreground text-[11px] tracking-[0.35em] uppercase">Balance</p>
-					<p class="text-2xl font-semibold">${user.balance.toLocaleString()}</p>
+				<div class="flex items-center justify-between">
+					<div>
+						<p class="text-muted-foreground text-[11px] tracking-[0.35em] uppercase">Balance</p>
+						<p class="text-2xl font-semibold">${activeUser.balance.toLocaleString()}</p>
+					</div>
+					<Button
+						variant="ghost"
+						size="sm"
+						onclick={togglePreviewState}
+						class="text-muted-foreground hover:text-foreground h-9 rounded-xl px-3 text-xs tracking-[0.3em] uppercase"
+					>
+						Hide
+					</Button>
 				</div>
 				<div class="grid gap-2 text-sm">
-					<div
-						class="border-border/40 bg-surface/70 flex items-center justify-between rounded-2xl border px-3 py-2"
-					>
-						<span class="text-muted-foreground text-xs tracking-[0.3em] uppercase">Vault</span>
-						<span class="font-medium">$640.00</span>
-					</div>
-					<div
-						class="border-border/40 bg-surface/70 flex items-center justify-between rounded-2xl border px-3 py-2"
-					>
-						<span class="text-muted-foreground text-xs tracking-[0.3em] uppercase"
-							>Withdrawable</span
+					{#each vaultSummary as item (item.label)}
+						<div
+							class="border-border/40 bg-surface/70 flex items-center justify-between rounded-2xl border px-3 py-2"
 						>
-						<span class="font-medium">$930.00</span>
-					</div>
+							<span class="text-muted-foreground text-xs tracking-[0.3em] uppercase"
+								>{item.label}</span
+							>
+							<span class="font-medium">{item.value}</span>
+						</div>
+					{/each}
 				</div>
 				<div class="grid grid-cols-2 gap-3">
-					<Button variant="secondary" class="h-11 rounded-2xl text-sm font-semibold">Deposit</Button
+					<Button variant="secondary" class="h-12 rounded-2xl text-sm font-semibold">Deposit</Button
 					>
-					<Button variant="ghost" class="h-11 rounded-2xl text-sm font-semibold">Withdraw</Button>
+					<Button variant="ghost" class="h-12 rounded-2xl text-sm font-semibold">Withdraw</Button>
 				</div>
 			</div>
 		{:else}
 			<div class="space-y-3">
-				<p class="text-base leading-snug font-semibold">Sign in with Steam</p>
-				<p class="text-muted-foreground text-sm leading-relaxed">
-					Connect to deposit instantly, track balance, and join premium drops.
-				</p>
+				<div class="flex items-start justify-between gap-4">
+					<div class="space-y-1.5">
+						<p class="text-base leading-snug font-semibold">Sign in with Steam</p>
+						<p class="text-muted-foreground text-sm leading-relaxed">
+							Connect to deposit instantly, track balance, and join premium drops.
+						</p>
+					</div>
+					<Button
+						variant="ghost"
+						size="sm"
+						onclick={togglePreviewState}
+						class="text-muted-foreground hover:text-foreground h-9 rounded-xl px-3 text-xs tracking-[0.3em] uppercase"
+					>
+						Preview
+					</Button>
+				</div>
 				<form method="POST" action="/api/auth/steam/login" class="w-full">
 					<AuthButton
 						class="bg-primary text-primary-foreground shadow-marketplace-md w-full justify-center gap-2"
@@ -116,7 +172,7 @@
 				</form>
 				<Button
 					variant="ghost"
-					class="text-muted-foreground hover:text-foreground h-11 w-full gap-2 rounded-2xl text-sm"
+					class="text-muted-foreground hover:text-foreground h-12 w-full gap-2 rounded-2xl text-sm"
 				>
 					<LogIn class="h-4 w-4" />
 					Explore as guest
@@ -126,35 +182,34 @@
 	</div>
 
 	<nav class="space-y-2" aria-label="Primary navigation">
-		{#each navItems as item}
-			<button
+		{#each navItems as item (item.href)}
+			<Button
 				type="button"
-				class={cn(
-					'group focus-visible:ring-ring/70 focus-visible:ring-offset-background relative flex h-14 w-full items-center gap-3 rounded-2xl border px-3 text-left text-sm font-semibold transition duration-200 focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
-					isActiveRoute(item.href)
-						? 'border-primary/60 bg-primary/15 text-foreground shadow-marketplace-sm'
-						: 'text-muted-foreground hover:border-border/60 hover:bg-surface-muted/40 hover:text-foreground border-transparent'
-				)}
+				variant={isActiveRoute(item.href) ? 'secondary' : 'ghost'}
 				onclick={() => handleNavigation(item.href)}
+				class={cn(
+					'group relative h-14 w-full justify-start gap-3 rounded-2xl px-3 text-left text-sm font-semibold transition',
+					isActiveRoute(item.href)
+						? 'border-primary/60 bg-primary/15 text-foreground shadow-marketplace-sm border'
+						: 'text-muted-foreground hover:text-foreground border border-transparent'
+				)}
 				aria-current={isActiveRoute(item.href) ? 'page' : undefined}
 			>
 				<span
 					class={cn(
-						'text-muted-foreground flex h-12 w-12 items-center justify-center rounded-2xl border transition',
+						'flex h-12 w-12 items-center justify-center rounded-2xl border transition',
 						isActiveRoute(item.href)
 							? 'border-primary/50 bg-primary/20 text-primary'
-							: 'border-border/50 bg-surface-muted/60 group-hover:text-foreground'
+							: 'border-border/50 bg-surface-muted/60 text-muted-foreground group-hover:text-foreground'
 					)}
 				>
 					<item.icon class="h-4 w-4" />
 				</span>
-				<span>{item.label}</span>
+				<span class="flex-1">{item.label}</span>
 				{#if isActiveRoute(item.href)}
-					<span class="absolute inset-y-2 right-3 flex w-10 items-center justify-end">
-						<span class="bg-primary/60 h-full w-2 rounded-full"></span>
-					</span>
+					<span class="bg-primary/60 h-2 w-2 rounded-full"></span>
 				{/if}
-			</button>
+			</Button>
 		{/each}
 	</nav>
 
@@ -165,10 +220,10 @@
 				<ArrowDownUp class="h-4 w-4" />
 			</div>
 			<div class="grid gap-2">
-				{#each supportItems as item}
+				{#each supportItems as item (item.href)}
 					<Button
 						as="a"
-						href={item.href}
+						href={buildHref(item.href)}
 						variant="ghost"
 						size="sm"
 						class="text-muted-foreground hover:text-foreground justify-start gap-3 rounded-2xl px-3 py-2 text-sm"

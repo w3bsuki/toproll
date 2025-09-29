@@ -1,32 +1,60 @@
 <script lang="ts">
+	import { get } from 'svelte/store';
 	import { uiStore, closeChat } from '$lib/stores/ui';
-	import { communityMessages, pushCommunityMessage, rainPot } from '$lib/stores/homepage';
+	import {
+		communityMessages,
+		pushCommunityMessage,
+		rainPot,
+		type CommunityMessage,
+		type RainPot
+	} from '$lib/stores/homepage';
 	import { X, Send, MessageCircle, CloudRain, Users } from 'lucide-svelte';
 	import { Button, Sheet, SheetContent } from '$lib/components/ui';
 
-	const chatOpen = $derived($uiStore.chatOpen);
-	const messages = $derived($communityMessages);
-	const currentPot = $derived($rainPot);
+	const uiState = $derived(uiStore);
+	const chatOpen = $derived(() => uiState.chatOpen);
+
+	let messages = $state<CommunityMessage[]>(get(communityMessages));
+	let currentPot = $state<RainPot>(get(rainPot));
 	let input = $state('');
 
-	function sendMessage() {
+	$effect(() => {
+		const unsubscribe = communityMessages.subscribe((value) => {
+			messages = value;
+		});
+		return unsubscribe;
+	});
+
+	$effect(() => {
+		const unsubscribe = rainPot.subscribe((value) => {
+			currentPot = value;
+		});
+		return unsubscribe;
+	});
+
+	const sendMessage = () => {
 		const trimmed = input.trim();
 		if (!trimmed) return;
 		pushCommunityMessage({ username: 'Guest', message: trimmed });
 		input = '';
-	}
+	};
 
-	function handleSubmit(event: SubmitEvent) {
+	const handleSubmit = (event: SubmitEvent) => {
 		event.preventDefault();
 		sendMessage();
-	}
+	};
 
-	function handleKey(event: KeyboardEvent) {
+	const handleKey = (event: KeyboardEvent) => {
 		if (event.key === 'Enter' && !event.shiftKey) {
 			event.preventDefault();
 			sendMessage();
 		}
-	}
+	};
+
+	const handleInput = (event: Event) => {
+		const target = event.target as HTMLTextAreaElement;
+		input = target.value;
+	};
 </script>
 
 <Sheet open={chatOpen} onOpenChange={(open) => (!open ? closeChat() : undefined)}>
@@ -87,7 +115,7 @@
 			</section>
 
 			<div class="marketplace-scrollbar flex-1 space-y-3 overflow-y-auto pr-1">
-				{#each messages as message}
+				{#each messages as message (message.id)}
 					<article class="border-border/50 bg-surface/70 rounded-2xl border px-4 py-3 text-sm">
 						<div class="text-muted-foreground mb-1 flex items-center justify-between text-xs">
 							<div class="flex items-center gap-2">
@@ -120,7 +148,8 @@
 				<label class="sr-only" for="chat-input-mobile">Message</label>
 				<textarea
 					id="chat-input-mobile"
-					bind:value={input}
+					value={input}
+					oninput={handleInput}
 					onkeydown={handleKey}
 					rows={1}
 					placeholder="Drop a message…"

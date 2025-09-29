@@ -12,13 +12,9 @@
 	import { Alert, Button } from '$lib/components/ui';
 	import { AlertCircle } from 'lucide-svelte';
 
-	interface Props {
-		data: any;
-	}
-
-	let { data }: Props = $props();
-
-	const error = $page.url.searchParams.get('error');
+	const pageStore = page;
+	const currentPage = $derived(pageStore);
+	const error = $derived(() => currentPage.url.searchParams.get('error'));
 
 	const errorMessages: Record<string, { title: string; description: string; action?: string }> = {
 		auth_required: {
@@ -48,7 +44,7 @@
 		}
 	};
 
-	const currentError = error ? errorMessages[error] : null;
+	const currentError = $derived(() => (error ? (errorMessages[error] ?? null) : null));
 
 	const categoryTabs: ScrollableTab[] = [
 		{ id: 'featured', label: 'Featured', badge: 'Live' },
@@ -83,7 +79,7 @@
 					highlight: 'Auto-withdraw enabled',
 					cta: 'Enter flash',
 					background:
-						'radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.55), transparent 60%), radial-gradient(circle at 75% 75%, rgba(14, 165, 233, 0.4), transparent 55%), rgba(15, 23, 42, 0.9)'
+						'radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.55), transparent 60%), radial-gradient(circle at 75% 75%, rgba(14, 165, 233, 0.45), transparent 55%), rgba(15, 23, 42, 0.9)'
 				},
 				{
 					id: 'obsidian-vein',
@@ -265,9 +261,9 @@
 					</form>
 				{:else if currentError.action === 'Try Again'}
 					<form method="POST" action="/api/auth/steam/login">
-						<Button type="submit" variant="outline" size="sm" class="mt-1"
-							>Retry authentication</Button
-						>
+						<Button type="submit" variant="outline" size="sm" class="mt-1">
+							Retry authentication
+						</Button>
 					</form>
 				{/if}
 			</div>
@@ -283,7 +279,7 @@
 			on:change={(event) => (activeTab = event.detail)}
 		/>
 		<div class="space-y-8">
-			{#each tabRows[activeTab] as row}
+			{#each tabRows[activeTab] as row (row.title)}
 				<HorizontalScroller title={row.title} caption={row.caption} items={row.items} />
 			{/each}
 		</div>

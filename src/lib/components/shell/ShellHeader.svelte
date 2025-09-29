@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import { base } from '$app/paths';
 	import AuthButton from '$lib/components/AuthButton.svelte';
 	import {
 		DropdownMenu,
@@ -13,7 +14,7 @@
 	import { Bell, ChevronDown, Globe, Menu, Megaphone, Search } from 'lucide-svelte';
 	import { createEventDispatcher } from 'svelte';
 
-	interface ShellHeaderProps {
+	type ShellHeaderProps = {
 		promoTicker: { id: string; label: string; meta: string }[];
 		isAuthenticated?: boolean;
 		user?: {
@@ -22,32 +23,41 @@
 			totalWagered: number;
 		} | null;
 		class?: string;
-	}
+	};
 
-	let {
-		promoTicker,
-		isAuthenticated = false,
-		user = null,
-		class: className = ''
-	}: ShellHeaderProps = $props();
+	const props = $props<ShellHeaderProps>();
+	const promoTicker = $derived(() => props.promoTicker);
+	const isAuthenticated = $derived(() => props.isAuthenticated ?? false);
+	const user = $derived(() => props.user ?? null);
+	const className = $derived(() => props.class ?? '');
 
-	const sidebarOpen = $derived($uiStore.sidebarOpen);
+	const uiState = $derived(uiStore);
+	const sidebarOpen = $derived(() => uiState.sidebarOpen);
+
+	const pageStore = page;
+	const currentPage = $derived(pageStore);
 	const pageTitle = $derived(() => {
-		const pathname = $page.url.pathname;
+		const pathname = currentPage.url.pathname;
 		if (pathname === '/' || pathname === '') return 'Home';
-		const parts = pathname.split('/').filter(Boolean);
-		if (!parts.length) return 'Home';
-		const key = parts[0];
+		const segments = pathname.split('/').filter(Boolean);
+		if (!segments.length) return 'Home';
+		const key = segments[0];
 		return key.charAt(0).toUpperCase() + key.slice(1).replace(/-/g, ' ');
 	});
 
+	const homeHref = base ? `${base}/` : '/';
 	const dispatch = createEventDispatcher<{ search: string }>();
-	let searchValue = '';
+	let searchValue = $state('');
 
-	function handleSearch(event: SubmitEvent) {
+	const handleSearch = (event: SubmitEvent) => {
 		event.preventDefault();
 		dispatch('search', searchValue.trim());
-	}
+	};
+
+	const handleSearchInput = (event: Event) => {
+		const target = event.target as HTMLInputElement;
+		searchValue = target.value;
+	};
 </script>
 
 <header
@@ -68,7 +78,8 @@
 			>
 				<Menu class="h-5 w-5" />
 			</button>
-			<a href="/" class="flex items-center gap-2">
+			<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
+			<a href={homeHref} class="flex items-center gap-2">
 				<span
 					class="border-primary/50 bg-primary/15 text-primary flex h-10 w-10 items-center justify-center rounded-xl border font-semibold"
 				>
@@ -103,7 +114,7 @@
 			>
 				<Megaphone class="h-4 w-4" />
 				<div class="flex min-w-0 items-center gap-3 overflow-hidden">
-					{#each promoTicker as item, index}
+					{#each promoTicker as item, index (item.id)}
 						<div
 							class="text-muted-foreground flex min-w-0 shrink-0 items-center gap-2 text-xs tracking-[0.35em] uppercase"
 						>
@@ -128,7 +139,8 @@
 					id="global-search"
 					type="search"
 					placeholder="Search cases, skins, or players"
-					bind:value={searchValue}
+					value={searchValue}
+					oninput={handleSearchInput}
 					class="text-foreground placeholder:text-muted-foreground/80 flex-1 border-0 bg-transparent text-sm font-medium focus:outline-none"
 				/>
 			</form>
