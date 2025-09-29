@@ -1,30 +1,56 @@
 <script lang="ts">
-	import { communityMessages, pushCommunityMessage, rainPot } from '$lib/stores/homepage';
+	import { get } from 'svelte/store';
 	import { Button } from '$lib/components/ui';
 	import { CloudRain, Send, Users } from 'lucide-svelte';
+	import {
+		communityMessages,
+		pushCommunityMessage,
+		rainPot,
+		type CommunityMessage,
+		type RainPot
+	} from '$lib/stores/homepage';
 
-	const messages = $derived($communityMessages);
-	const currentPot = $derived($rainPot);
+	let messages = $state<CommunityMessage[]>(get(communityMessages));
+	let currentPot = $state<RainPot>(get(rainPot));
 	let input = $state('');
 
-	function sendMessage() {
+	$effect(() => {
+		const unsubscribe = communityMessages.subscribe((value) => {
+			messages = value;
+		});
+		return unsubscribe;
+	});
+
+	$effect(() => {
+		const unsubscribe = rainPot.subscribe((value) => {
+			currentPot = value;
+		});
+		return unsubscribe;
+	});
+
+	const sendMessage = () => {
 		const trimmed = input.trim();
 		if (!trimmed) return;
 		pushCommunityMessage({ username: 'Guest', message: trimmed });
 		input = '';
-	}
+	};
 
-	function handleSubmit(event: SubmitEvent) {
+	const handleSubmit = (event: SubmitEvent) => {
 		event.preventDefault();
 		sendMessage();
-	}
+	};
 
-	function handleKey(event: KeyboardEvent) {
+	const handleKey = (event: KeyboardEvent) => {
 		if (event.key === 'Enter' && !event.shiftKey) {
 			event.preventDefault();
 			sendMessage();
 		}
-	}
+	};
+
+	const handleInput = (event: Event) => {
+		const target = event.target as HTMLInputElement | HTMLTextAreaElement;
+		input = target.value;
+	};
 </script>
 
 <aside
@@ -68,7 +94,7 @@
 
 	<div class="mt-5 flex flex-1 flex-col overflow-hidden">
 		<div class="marketplace-scrollbar flex-1 space-y-3 overflow-y-auto pr-2">
-			{#each messages as message}
+			{#each messages as message (message.id)}
 				<article
 					class="rounded-2xl border border-white/15 bg-black/20 px-4 py-3 text-sm shadow-[0_12px_35px_rgba(12,74,110,0.3)]"
 				>
@@ -106,7 +132,8 @@
 				id="community-message"
 				class="h-10 flex-1 border-0 bg-transparent text-sm text-white placeholder:text-white/50 focus:outline-none"
 				placeholder="Share a drop..."
-				bind:value={input}
+				value={input}
+				oninput={handleInput}
 				onkeydown={handleKey}
 			/>
 			<Button
