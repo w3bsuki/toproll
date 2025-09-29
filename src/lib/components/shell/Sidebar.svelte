@@ -18,6 +18,7 @@
 	import { Button } from '$lib/components/ui';
 	import { cn } from '$lib/utils';
 	import { closeSidebar } from '$lib/stores/ui';
+	import type { Page } from '@sveltejs/kit';
 
 	type SidebarUser = {
 		username: string;
@@ -25,19 +26,19 @@
 		totalWagered: number;
 	};
 
-	const {
-		isAuthenticated = false,
-		user = null,
-		class: className = '',
-		density = 'default'
-	} = $props<{
+	const props = $props<{
 		isAuthenticated?: boolean;
 		user?: SidebarUser | null;
 		class?: string;
 		density?: 'default' | 'compact';
 	}>();
 
-	const currentPath = $derived.by(() => $state.snapshot(page).url.pathname);
+	const inboundAuthenticated = $derived.by(() => props.isAuthenticated ?? false);
+	const inboundUser = $derived.by(() => props.user ?? null);
+	const className = $derived.by(() => props.class ?? '');
+	const density = $derived.by(() => props.density ?? 'default');
+
+	const currentPath = $derived.by(() => ($state.snapshot(page) as unknown as Page).url.pathname);
 
 	const navItems = [
 		{ href: '/', icon: Home, label: 'Home' },
@@ -54,11 +55,14 @@
 		{ href: '/responsible', icon: LifeBuoy, label: 'Responsible play' }
 	] as const;
 
-	let previewSignedIn = $state(isAuthenticated);
+	let previewSignedIn = $state(false);
+	let lastInboundAuthenticated = false;
 
 	$effect(() => {
-		if (isAuthenticated) {
-			previewSignedIn = true;
+		const next = inboundAuthenticated;
+		if (next !== lastInboundAuthenticated) {
+			previewSignedIn = next;
+			lastInboundAuthenticated = next;
 		}
 	});
 
@@ -77,7 +81,7 @@
 		};
 	};
 
-	const activeUser = $derived.by(() => (previewSignedIn ? normalizeUser(user) : null));
+	const activeUser = $derived.by(() => (previewSignedIn ? normalizeUser(inboundUser) : null));
 
 	const vaultSummary = [
 		{ label: 'Vault', value: '$640.00' },
@@ -103,12 +107,22 @@
 	const isActiveRoute = (href: string) => currentPath === href;
 
 	const buildHref = (path: string) => (base ? `${base}${path}` : path);
+
+	let lastPath: string | null = null;
+
+	$effect(() => {
+		const nextPath = currentPath;
+		if (lastPath !== nextPath) {
+			lastPath = nextPath;
+			closeSidebar();
+		}
+	});
 </script>
 
 <aside
 	class={cn(
 		'bg-surface/80 border-border/40 flex h-full w-full flex-col rounded-[32px] border shadow-[0_32px_120px_rgba(15,23,42,0.36)] backdrop-blur-xl',
-		density === 'compact' ? 'gap-4 px-4 py-3' : 'gap-6 px-6 py-6',
+		density === 'compact' ? 'gap-3 px-4 py-4' : 'gap-6 px-6 py-6',
 		className
 	)}
 >
@@ -130,7 +144,6 @@
 				as="a"
 				href={buildHref(item.href)}
 				variant={isActiveRoute(item.href) ? 'secondary' : 'ghost'}
-				onclick={closeSidebar}
 				class={cn(
 					'group relative h-14 w-full justify-start gap-3 rounded-2xl px-3 text-left text-sm font-semibold transition',
 					isActiveRoute(item.href)
