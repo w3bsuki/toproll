@@ -47,7 +47,7 @@
 
 <aside
 	class={cn(
-		'border-border/60 bg-surface/60 hidden h-full w-64 border-r backdrop-blur-sm md:block',
+		'border-border/60 bg-surface/60 hidden h-full w-64 overflow-hidden border-r backdrop-blur-sm md:block',
 		className
 	)}
 >
@@ -56,7 +56,7 @@
 			<p class="text-muted-foreground text-xs tracking-[0.3em] uppercase">Navigation</p>
 		</div>
 
-		<nav class="flex-1 overflow-y-auto px-4 py-6" aria-label="Primary">
+		<nav class="flex-1 px-4 py-6" aria-label="Primary">
 			<ul class="space-y-1">
 				{#each navItems as item}
 					<li>
@@ -98,23 +98,24 @@
 
 		<div class="border-border/60 border-t px-4 py-5">
 			<p class="text-muted-foreground text-xs tracking-[0.3em] uppercase">Support</p>
-			<ul class="mt-3 space-y-1 text-sm">
-				{#each supportItems as item}
-					<li>
-						<a
-							href={item.href}
-							class="text-muted-foreground duration-subtle ease-market-ease hover:border-border/60 hover:bg-surface-muted/40 hover:text-foreground focus-visible:ring-ring/70 focus-visible:ring-offset-background flex items-center gap-3 rounded-md border border-transparent px-3 py-2 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
-						>
-							<span
-								class="border-border/50 bg-surface-muted/40 flex h-8 w-8 items-center justify-center rounded-md border"
-							>
-								<item.icon class="h-4 w-4" />
-							</span>
-							{item.label}
-						</a>
-					</li>
-				{/each}
-			</ul>
+                        <ul class="mt-3 space-y-2 text-sm">
+                                {#each supportItems as item}
+                                        <li>
+                                                <Button
+                                                        as="a"
+                                                        href={item.href}
+                                                        variant="outline"
+                                                        size="sm"
+                                                        class="border-border/60 bg-surface-muted/30 text-muted-foreground hover:text-foreground flex w-full items-center justify-start gap-3 rounded-lg"
+                                                >
+                                                        <span class="border-border/50 bg-surface-muted/50 flex h-8 w-8 items-center justify-center rounded-md border">
+                                                                <item.icon class="h-4 w-4" />
+                                                        </span>
+                                                        {item.label}
+                                                </Button>
+                                        </li>
+                                {/each}
+                        </ul>
 		</div>
 
 		{#if !isAuthenticated}

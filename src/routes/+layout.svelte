@@ -5,6 +5,7 @@
 	import Sidebar from '$lib/components/shell/Sidebar.svelte';
 	import BottomNav from '$lib/components/shell/BottomNav.svelte';
 	import ChatDrawer from '$lib/components/shell/ChatDrawer.svelte';
+import CommunityRail from '$lib/components/home/CommunityRail.svelte';
 	import { uiStore } from '$lib/stores/ui';
 	import type { LayoutData } from './$types';
 
@@ -35,7 +36,10 @@
 				</div>
 			</main>
 
-			<!-- Chat Panel (Desktop Only) -->
+			<!-- Community Rail (Desktop Only) -->
+			<CommunityRail />
+
+			<!-- Collapsible chat drawer for < xl -->
 			<ChatDrawer />
 		</div>
 	</div>
