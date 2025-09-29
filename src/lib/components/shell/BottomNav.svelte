@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { base } from '$app/paths';
-	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import { Home, Package, Swords, ArrowUpRight, Briefcase } from 'lucide-svelte';
 	import { cn } from '$lib/utils';
@@ -20,10 +19,6 @@
 
 	const isActiveRoute = (href: string) => $page.url.pathname === href;
 	const buildHref = (path: string) => (base ? `${base}${path}` : path);
-	const handleNavigation = (href: string) => {
-		// eslint-disable-next-line svelte/no-navigation-without-resolve
-		goto(buildHref(href));
-	};
 </script>
 
 <nav
@@ -34,16 +29,15 @@
 	)}
 >
 	{#each items as item (item.href)}
-		<button
-			type="button"
-			onclick={() => handleNavigation(item.href)}
+		<a
+			href={buildHref(item.href)}
 			class={cn(
 				'text-muted-foreground focus-visible:ring-ring/70 focus-visible:ring-offset-background flex flex-1 flex-col items-center justify-center gap-1 rounded-2xl px-2 py-2 text-[11px] font-medium tracking-[0.25em] uppercase transition duration-200 ease-out focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none',
 				isActiveRoute(item.href)
 					? 'bg-primary/20 text-foreground shadow-marketplace-sm'
 					: 'hover:bg-surface-muted/40 hover:text-foreground'
 			)}
-			aria-pressed={isActiveRoute(item.href)}
+			aria-current={isActiveRoute(item.href) ? 'page' : undefined}
 		>
 			<span
 				class={cn(
@@ -58,6 +52,6 @@
 			<span class="leading-tight tracking-normal normal-case">
 				{item.href === '/inventory' ? (isAuthenticated ? 'Inventory' : 'Locker') : item.label}
 			</span>
-		</button>
+		</a>
 	{/each}
 </nav>

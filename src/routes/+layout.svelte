@@ -29,7 +29,7 @@
 
 <div class="bg-background text-foreground">
 	<div
-		class="mx-auto grid min-h-[100dvh] w-full max-w-[1920px] grid-cols-1 gap-6 px-4 pt-4 pb-[92px] sm:px-6 lg:px-8 lg:pb-6 xl:grid-cols-[260px,minmax(0,1fr),320px] xl:items-start xl:gap-8 xl:px-10 xl:pt-6 xl:pb-6"
+		class="mx-auto grid min-h-[100dvh] w-full max-w-[1920px] grid-cols-1 gap-6 px-4 pt-4 pb-[92px] sm:px-6 lg:px-8 lg:pb-6 xl:grid-cols-[260px_minmax(0,1fr)_320px] xl:items-start xl:gap-10 xl:px-12 xl:pt-6 xl:pb-8"
 	>
 		<aside class="hidden xl:sticky xl:top-0 xl:flex xl:min-h-[100dvh] xl:flex-col">
 			<Sidebar isAuthenticated={data.isAuthenticated} user={data.user} class="flex-1" />
@@ -42,7 +42,7 @@
 				<ShellHeader {promoTicker} isAuthenticated={data.isAuthenticated} user={data.user} />
 			</div>
 			<main
-				class="marketplace-scrollbar flex-1 overflow-y-auto px-1 pt-6 pb-24 sm:px-3 md:px-4 xl:px-8 xl:pb-12"
+				class="marketplace-scrollbar flex-1 px-4 pt-6 pb-24 sm:px-6 md:px-8 xl:overflow-y-auto xl:px-10 xl:pb-12"
 				aria-label="Primary content"
 			>
 				<div class="mx-auto flex w-full max-w-none flex-col gap-10 pb-10">

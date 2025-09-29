@@ -56,11 +56,11 @@
 	] as const;
 
 	let previewSignedIn = $state(false);
-	let lastInboundAuthenticated = false;
+	let lastInboundAuthenticated: boolean | null = null;
 
 	$effect(() => {
 		const next = inboundAuthenticated;
-		if (next !== lastInboundAuthenticated) {
+		if (lastInboundAuthenticated === null || next !== lastInboundAuthenticated) {
 			previewSignedIn = next;
 			lastInboundAuthenticated = next;
 		}
@@ -178,7 +178,7 @@
 						<p class="text-muted-foreground text-[11px] tracking-[0.35em] uppercase">
 							Total balance
 						</p>
-						<p class="text-3xl leading-tight font-semibold tracking-tight">
+						<p class="text-[28px] leading-tight font-semibold tracking-tight">
 							${(activeUser.balance ?? 0).toLocaleString()}
 						</p>
 						<p class="text-muted-foreground text-xs">
