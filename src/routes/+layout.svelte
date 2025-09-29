@@ -29,14 +29,14 @@
 
 <div class="bg-background text-foreground">
 	<div
-		class="mx-auto grid min-h-[100dvh] w-full max-w-[1920px] grid-cols-1 gap-6 px-4 pt-4 pb-[92px] sm:px-6 lg:px-8 xl:grid-cols-[260px,minmax(0,1fr),320px] xl:items-start xl:gap-8 xl:px-10 xl:pt-6 xl:pb-6"
+		class="mx-auto grid min-h-[100dvh] w-full max-w-[1920px] grid-cols-1 gap-6 px-4 pt-4 pb-[92px] sm:px-6 lg:px-8 lg:pb-6 xl:grid-cols-[260px,minmax(0,1fr),320px] xl:items-start xl:gap-8 xl:px-10 xl:pt-6 xl:pb-6"
 	>
 		<aside class="hidden xl:sticky xl:top-0 xl:flex xl:min-h-[100dvh] xl:flex-col">
 			<Sidebar isAuthenticated={data.isAuthenticated} user={data.user} class="flex-1" />
 		</aside>
 
 		<div
-			class="xl:bg-surface/70 relative flex min-h-[100dvh] flex-col rounded-none xl:col-start-2 xl:min-h-0 xl:overflow-hidden xl:rounded-[32px] xl:border xl:border-white/10 xl:shadow-[0_32px_120px_rgba(15,23,42,0.35)] xl:backdrop-blur"
+			class="xl:bg-surface/70 relative flex min-h-[100dvh] flex-col rounded-none xl:col-start-2 xl:min-h-[100dvh] xl:overflow-hidden xl:rounded-[32px] xl:border xl:border-white/10 xl:shadow-[0_32px_120px_rgba(15,23,42,0.35)] xl:backdrop-blur"
 		>
 			<div class="sticky top-0 z-30 xl:rounded-t-[32px]">
 				<ShellHeader {promoTicker} isAuthenticated={data.isAuthenticated} user={data.user} />
