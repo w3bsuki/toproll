@@ -1,6 +1,10 @@
 <script lang="ts">
 	import { get } from 'svelte/store';
 	import { uiStore, closeChat } from '$lib/stores/ui';
+	import { Sheet, SheetContent } from '$lib/components/ui';
+	import ChatList from '$lib/components/chat/ChatList.svelte';
+	import ChatComposer from '$lib/components/chat/ChatComposer.svelte';
+	import { MessageCircle, CloudRain, Users, X } from 'lucide-svelte';
 	import {
 		communityMessages,
 		pushCommunityMessage,
@@ -8,15 +12,13 @@
 		type CommunityMessage,
 		type RainPot
 	} from '$lib/stores/homepage';
-	import { X, Send, MessageCircle, CloudRain, Users } from 'lucide-svelte';
-	import { Button, Sheet, SheetContent } from '$lib/components/ui';
 
 	const uiState = $derived(uiStore);
 	const chatOpen = $derived(() => uiState.chatOpen);
 
 	let messages = $state<CommunityMessage[]>(get(communityMessages));
 	let currentPot = $state<RainPot>(get(rainPot));
-	let input = $state('');
+	let composerValue = $state('');
 
 	$effect(() => {
 		const unsubscribe = communityMessages.subscribe((value) => {
@@ -32,32 +34,29 @@
 		return unsubscribe;
 	});
 
-	const sendMessage = () => {
-		const trimmed = input.trim();
+	const sendMessage = (value: string) => {
+		const trimmed = value.trim();
 		if (!trimmed) return;
 		pushCommunityMessage({ username: 'Guest', message: trimmed });
-		input = '';
 	};
 
-	const handleSubmit = (event: SubmitEvent) => {
-		event.preventDefault();
-		sendMessage();
+	const handleComposerSubmit = (event: CustomEvent<string>) => {
+		sendMessage(event.detail);
+		composerValue = '';
 	};
 
-	const handleKey = (event: KeyboardEvent) => {
-		if (event.key === 'Enter' && !event.shiftKey) {
-			event.preventDefault();
-			sendMessage();
+	const handleComposerInput = (event: CustomEvent<string>) => {
+		composerValue = event.detail;
+	};
+
+	const handleOpenChange = (open: boolean) => {
+		if (!open) {
+			closeChat();
 		}
-	};
-
-	const handleInput = (event: Event) => {
-		const target = event.target as HTMLTextAreaElement;
-		input = target.value;
 	};
 </script>
 
-<Sheet open={chatOpen} onOpenChange={(open) => (!open ? closeChat() : undefined)}>
+<Sheet open={chatOpen} onOpenChange={handleOpenChange}>
 	<SheetContent
 		side="bottom"
 		class="border-border/40 bg-surface/95 max-h-[75vh] w-full translate-y-0 rounded-t-[32px] border px-0 pt-4 pb-[env(safe-area-inset-bottom)] shadow-[0_-40px_120px_rgba(15,23,42,0.65)] backdrop-blur-xl md:max-w-xl"
@@ -73,7 +72,7 @@
 						<MessageCircle class="h-5 w-5" />
 					</span>
 					<div>
-						<h2 id="chat-drawer-title" class="text-base font-semibold">Chat & Rain Pot</h2>
+						<h2 id="chat-drawer-title" class="text-base font-semibold">Chat &amp; Rain Pot</h2>
 						<p class="text-muted-foreground text-xs">
 							Stay current with live drops and floor chatter.
 						</p>
@@ -94,7 +93,7 @@
 			>
 				<div class="flex items-center gap-3">
 					<span
-						class="border-primary/40 bg-primary/15 text-primary flex h-11 w-11 items-center justify-center rounded-2xl border"
+						class="border-border/60 bg-primary/15 text-primary flex h-11 w-11 items-center justify-center rounded-2xl border"
 					>
 						<CloudRain class="h-4 w-4" />
 					</span>
@@ -114,52 +113,16 @@
 				</div>
 			</section>
 
-			<div class="marketplace-scrollbar flex-1 space-y-3 overflow-y-auto pr-1">
-				{#each messages as message (message.id)}
-					<article class="border-border/50 bg-surface/70 rounded-2xl border px-4 py-3 text-sm">
-						<div class="text-muted-foreground mb-1 flex items-center justify-between text-xs">
-							<div class="flex items-center gap-2">
-								<span class="text-foreground font-semibold">{message.username}</span>
-								{#if message.badge}
-									<span
-										class={`rounded-full px-2 py-0.5 text-[10px] tracking-[0.3em] uppercase ${
-											message.badge === 'vip'
-												? 'bg-primary/20 text-primary'
-												: message.badge === 'staff'
-													? 'bg-accent/20 text-accent-foreground'
-													: 'bg-secondary/20 text-secondary-foreground'
-										}`}
-									>
-										{message.badge}
-									</span>
-								{/if}
-							</div>
-							<span>{message.timestamp}</span>
-						</div>
-						<p class="text-foreground/90 leading-relaxed">{message.message}</p>
-					</article>
-				{/each}
-			</div>
+			<ChatList {messages} variant="surface" ariaLive="polite" class="flex-1" />
 
-			<form
-				class="border-border/60 bg-surface-muted/50 flex items-center gap-2 rounded-3xl border p-2"
-				onsubmit={handleSubmit}
-			>
-				<label class="sr-only" for="chat-input-mobile">Message</label>
-				<textarea
-					id="chat-input-mobile"
-					value={input}
-					oninput={handleInput}
-					onkeydown={handleKey}
-					rows={1}
-					placeholder="Drop a message…"
-					class="marketplace-scrollbar max-h-24 flex-1 resize-none border-0 bg-transparent px-2 py-1 text-sm focus:outline-none"
-				/>
-				<Button size="icon" class="h-11 w-11 rounded-2xl" type="submit">
-					<Send class="h-4 w-4" />
-					<span class="sr-only">Send message</span>
-				</Button>
-			</form>
+			<ChatComposer
+				id="chat-input-mobile"
+				value={composerValue}
+				on:input={handleComposerInput}
+				on:submit={handleComposerSubmit}
+				placeholder="Drop a message…"
+				variant="surface"
+			/>
 		</div>
 	</SheetContent>
 </Sheet>

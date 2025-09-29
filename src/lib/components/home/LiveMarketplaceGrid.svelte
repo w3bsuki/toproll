@@ -2,6 +2,7 @@
 	import { marketplaceItems } from '$lib/stores/homepage';
 	import { Badge, Button } from '$lib/components/ui';
 	import { ArrowRight, Users } from 'lucide-svelte';
+	import { formatInt } from '$lib/utils/format';
 
 	const items = $derived($marketplaceItems);
 
@@ -76,7 +77,7 @@
 						<div>
 							<p class="text-[11px] tracking-[0.3em] uppercase">Watching</p>
 							<p class="text-foreground text-sm font-medium">
-								{item.playersOnline.toLocaleString()} live
+								{formatInt(item.playersOnline ?? item.watching ?? 0)} live
 							</p>
 						</div>
 					</div>

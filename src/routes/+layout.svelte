@@ -13,8 +13,8 @@
 
 	const { children, data } = $props<{ children: Snippet; data: LayoutData }>();
 	const uiState = $derived(uiStore);
-	const chatOpen = $derived(() => uiState.chatOpen);
-	const sidebarOpen = $derived(() => uiState.sidebarOpen);
+	const isChatOpen = $derived(() => uiState.chatOpen);
+	const isSidebarOpen = $derived(() => uiState.sidebarOpen);
 
 	const promoTicker = [
 		{ id: 'rain-pot', label: 'Rain pot nearly full', meta: '$12.4k pool · 8 slots left' },
@@ -24,6 +24,23 @@
 
 	const handleChatToggle = () => toggleChat();
 	const handleSidebarClose = () => closeSidebar();
+
+	let chatLauncher: HTMLButtonElement | null = null;
+	let lastChatOpen: boolean | null = null;
+
+	$effect(() => {
+		const open = isChatOpen;
+		if (lastChatOpen === null) {
+			lastChatOpen = open;
+			return;
+		}
+
+		if (!open && lastChatOpen && chatLauncher) {
+			chatLauncher.focus();
+		}
+
+		lastChatOpen = open;
+	});
 </script>
 
 <svelte:head>
@@ -32,30 +49,33 @@
 
 <div class="bg-background text-foreground">
 	<div
-		class="mx-auto grid min-h-[100dvh] w-full max-w-[1920px] grid-cols-1 gap-6 px-4 pt-4 pb-[92px] sm:px-6 lg:px-8 xl:grid-cols-[260px,minmax(0,1fr),320px] xl:items-start xl:gap-8 xl:px-10 xl:pt-6 xl:pb-6"
+		class="mx-auto grid min-h-[100dvh] w-full max-w-[1920px] grid-cols-1 gap-6 px-4 pt-4 pb-[92px] sm:px-6 lg:grid-cols-[260px,minmax(0,1fr)] lg:items-start lg:gap-8 lg:px-8 lg:pt-6 lg:pb-6 xl:grid-cols-[260px,minmax(0,1fr),320px] xl:gap-8 xl:px-10 xl:pt-6 xl:pb-6"
 	>
-		<aside class="hidden xl:sticky xl:top-0 xl:flex xl:min-h-[100dvh] xl:flex-col">
+		<aside class="hidden lg:sticky lg:top-0 lg:flex lg:min-h-[100dvh] lg:flex-col">
 			<Sidebar isAuthenticated={data.isAuthenticated} user={data.user} class="flex-1" />
 		</aside>
 
 		<div
-			class="xl:bg-surface/70 relative flex min-h-[100dvh] flex-col rounded-none xl:col-start-2 xl:min-h-0 xl:overflow-hidden xl:rounded-[32px] xl:border xl:border-white/10 xl:shadow-[0_32px_120px_rgba(15,23,42,0.35)] xl:backdrop-blur"
+			class="lg:bg-surface/70 relative flex min-h-[100dvh] flex-col rounded-none lg:col-start-2 lg:min-h-0 lg:overflow-hidden lg:rounded-[32px] lg:border lg:border-white/10 lg:shadow-[0_32px_120px_rgba(15,23,42,0.35)] lg:backdrop-blur"
 		>
-			<div class="sticky top-0 z-30 xl:rounded-t-[32px]">
+			<div class="sticky top-0 z-30 lg:rounded-t-[32px]">
 				<ShellHeader {promoTicker} isAuthenticated={data.isAuthenticated} user={data.user} />
 			</div>
 			<main
-				class="marketplace-scrollbar flex-1 overflow-y-auto px-1 pt-6 pb-24 sm:px-3 md:px-4 xl:px-8 xl:pb-12"
+				class="marketplace-scrollbar flex-1 overflow-y-auto px-1 pt-6 pb-24 sm:px-3 md:px-4 lg:px-8 lg:pb-12"
 				aria-label="Primary content"
 			>
 				<div class="mx-auto flex w-full max-w-none flex-col gap-10 pb-10">
 					{@render children?.()}
+					<section class="hidden md:mt-12 md:block xl:hidden">
+						<CommunityRail appearance="panel" class="w-full" />
+					</section>
 				</div>
 			</main>
 		</div>
 
 		<aside class="hidden xl:sticky xl:top-0 xl:flex xl:min-h-[100dvh] xl:flex-col">
-			<CommunityRail />
+			<CommunityRail appearance="rail" class="flex-1" />
 		</aside>
 	</div>
 
@@ -68,7 +88,8 @@
 		type="button"
 		class="bg-primary text-primary-foreground shadow-marketplace-lg fixed right-4 bottom-[88px] z-40 flex items-center gap-3 rounded-full px-5 py-3 text-sm font-semibold sm:right-6 sm:bottom-[92px] lg:hidden"
 		onclick={handleChatToggle}
-		aria-pressed={chatOpen}
+		aria-pressed={isChatOpen}
+		bind:this={chatLauncher}
 	>
 		<span class="flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
 			<MessageCircle class="h-4 w-4" />
@@ -78,21 +99,20 @@
 
 	<ChatDrawer />
 
-	{#if sidebarOpen}
+	{#if isSidebarOpen}
 		<div
-			class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm xl:hidden"
+			class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
 			role="presentation"
+			aria-hidden="true"
 			onclick={handleSidebarClose}
 		></div>
-		<div
-			class="bg-surface/95 shadow-marketplace-lg fixed inset-y-0 left-0 z-50 w-[320px] max-w-[88vw] overflow-y-auto px-4 pt-4 pb-8 backdrop-blur-xl xl:hidden"
+		<aside
+			class="bg-surface/95 shadow-marketplace-lg fixed inset-y-0 left-0 z-50 w-[320px] max-w-[88vw] overflow-y-auto px-4 pt-4 pb-8 backdrop-blur-xl lg:hidden"
+			role="dialog"
+			aria-modal="true"
+			aria-label="Primary navigation"
 		>
-			<Sidebar
-				isAuthenticated={data.isAuthenticated}
-				user={data.user}
-				class="h-full"
-				density="compact"
-			/>
-		</div>
+			<Sidebar isAuthenticated={data.isAuthenticated} user={data.user} class="h-full" overlay />
+		</aside>
 	{/if}
 </div>
