@@ -10,7 +10,9 @@ export function getSupabaseClient(): SupabaseClient {
 			if (dev) {
 				// In development, create a mock client to prevent build failures
 				// This allows the app to run without real Supabase credentials
-				console.warn('⚠️ Supabase environment variables not configured. Using mock client for development.');
+				console.warn(
+					'⚠️ Supabase environment variables not configured. Using mock client for development.'
+				);
 				supabase = createClient('https://mock.supabase.co', 'mock-anon-key', {
 					realtime: { params: { eventsPerSecond: 5 } }
 				});

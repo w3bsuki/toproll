@@ -3,19 +3,14 @@
 	import HeroCarousel from '$lib/components/home/HeroCarousel.svelte';
 	import MarketplaceGrid from '$lib/components/home/MarketplaceGrid.svelte';
 	import KpiStrip from '$lib/components/home/KpiStrip.svelte';
-	import CommunityPots from '$lib/components/home/CommunityPots.svelte';
-	import { openChat } from '$lib/stores/ui';
-	import { AlertCircle, MessageCircle, Sparkles } from 'lucide-svelte';
-	import {
-		Alert,
-		Button,
-		Card,
-		CardContent,
-		CardHeader,
-		CardTitle,
-		CardDescription,
-		Badge
-	} from '$lib/components/ui';
+	import HorizontalScroller, {
+		type HorizontalItem
+	} from '$lib/components/home/HorizontalScroller.svelte';
+	import ScrollableTabs, {
+		type ScrollableTab
+	} from '$lib/components/ui/navigation/ScrollableTabs.svelte';
+	import { Alert, Button } from '$lib/components/ui';
+	import { AlertCircle } from 'lucide-svelte';
 
 	interface Props {
 		data: any;
@@ -55,16 +50,202 @@
 
 	const currentError = error ? errorMessages[error] : null;
 
-	const flashUpdates = [
-		{ title: 'Rain pot slots nearly full', caption: '20 spots · $12.4k pool' },
-		{ title: 'VIP battle lobby spinning', caption: 'Avg pot $3.2k · invite only' },
-		{ title: 'Flash drop ends in 2m', caption: 'Boosted odds live' }
+	const categoryTabs: ScrollableTab[] = [
+		{ id: 'featured', label: 'Featured', badge: 'Live' },
+		{ id: 'cases', label: 'Cases' },
+		{ id: 'battles', label: 'Battles' },
+		{ id: 'upgrader', label: 'Upgrader' },
+		{ id: 'pots', label: 'Pots' }
 	];
 
-	const quickCtas = [
-		{ label: 'Launch battle lobby', icon: Sparkles, action: () => {} },
-		{ label: 'Open community chat', icon: MessageCircle, action: openChat }
+	let activeTab = $state(categoryTabs[0].id);
+
+	const featuredRows: { title: string; caption?: string; items: HorizontalItem[] }[] = [
+		{
+			title: 'Featured cases',
+			caption: 'Boosted doppler and exclusive community boxes',
+			items: [
+				{
+					id: 'doppler-feature',
+					title: 'Neon Doppler Run',
+					subtitle: '3.8x legendary multipliers · Live auditing',
+					meta: 'Boosted',
+					highlight: '12% odds boost active',
+					cta: 'Open case',
+					background:
+						'radial-gradient(circle at 20% 20%, rgba(124, 58, 237, 0.65), transparent 55%), radial-gradient(circle at 80% 30%, rgba(6, 182, 212, 0.45), transparent 50%), rgba(17, 25, 40, 0.92)'
+				},
+				{
+					id: 'flash-frost',
+					title: 'Flash Frost Locker',
+					subtitle: 'Limited drop · 2m left · 640 cases remaining',
+					meta: 'Flash',
+					highlight: 'Auto-withdraw enabled',
+					cta: 'Enter flash',
+					background:
+						'radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.55), transparent 60%), radial-gradient(circle at 75% 75%, rgba(14, 165, 233, 0.4), transparent 55%), rgba(15, 23, 42, 0.9)'
+				},
+				{
+					id: 'obsidian-vein',
+					title: 'Obsidian Vein Deluxe',
+					subtitle: 'High volatility pool with transparent rake',
+					meta: 'Legendary',
+					highlight: 'Top pull $14.9k',
+					cta: 'View odds',
+					background:
+						'radial-gradient(circle at 25% 75%, rgba(248, 113, 113, 0.5), transparent 60%), radial-gradient(circle at 75% 25%, rgba(168, 85, 247, 0.45), transparent 55%), rgba(24, 24, 27, 0.92)'
+				}
+			]
+		},
+		{
+			title: 'High volatility drops',
+			caption: 'Curated pots with dynamic multiplier windows',
+			items: [
+				{
+					id: 'high-roller-lobby',
+					title: 'High Roller Lobby',
+					subtitle: '2v2 battles · Average pot $3.2k',
+					meta: 'Battles',
+					highlight: 'Queue depth 6 teams',
+					cta: 'Launch lobby',
+					background:
+						'radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.55), transparent 55%), radial-gradient(circle at 70% 70%, rgba(59, 130, 246, 0.35), transparent 50%), rgba(17, 24, 39, 0.9)'
+				},
+				{
+					id: 'vip-rain',
+					title: 'VIP Rain Cycle',
+					subtitle: 'Invite-only rain pot with loyalty kickbacks',
+					meta: 'Community',
+					highlight: 'Pool $12.4k',
+					cta: 'View slots',
+					background:
+						'radial-gradient(circle at 30% 70%, rgba(16, 185, 129, 0.55), transparent 55%), radial-gradient(circle at 70% 30%, rgba(45, 212, 191, 0.35), transparent 55%), rgba(12, 74, 110, 0.88)'
+				},
+				{
+					id: 'turbo-upgrader',
+					title: 'Turbo Upgrader',
+					subtitle: 'Variable odds with auto lock-in protection',
+					meta: 'Upgrader',
+					highlight: 'Best streak 9x',
+					cta: 'Run upgrade',
+					background:
+						'radial-gradient(circle at 25% 20%, rgba(236, 72, 153, 0.55), transparent 60%), radial-gradient(circle at 75% 70%, rgba(129, 140, 248, 0.4), transparent 50%), rgba(24, 24, 27, 0.94)'
+				}
+			]
+		}
 	];
+
+	const casesRows = [
+		{
+			title: 'Curated community cases',
+			items: [
+				{
+					id: 'spectrum',
+					title: 'Spectrum II Refresh',
+					subtitle: 'Live demand spikes · Transparent odds',
+					meta: 'Community',
+					cta: 'Browse cases',
+					background:
+						'radial-gradient(circle at 30% 30%, rgba(34, 197, 94, 0.5), transparent 60%), radial-gradient(circle at 70% 70%, rgba(74, 222, 128, 0.4), transparent 55%), rgba(17, 24, 39, 0.92)'
+				},
+				{
+					id: 'recoil',
+					title: 'Recoil Reloaded',
+					subtitle: 'Stable odds with boosted streak multipliers',
+					meta: 'Stable',
+					cta: 'Inspect lineup',
+					background:
+						'radial-gradient(circle at 30% 35%, rgba(99, 102, 241, 0.5), transparent 60%), radial-gradient(circle at 75% 65%, rgba(165, 180, 252, 0.4), transparent 55%), rgba(30, 41, 59, 0.92)'
+				}
+			]
+		}
+	];
+
+	const battlesRows = [
+		{
+			title: 'Live battle rotations',
+			items: [
+				{
+					id: 'double-up',
+					title: 'Double-Up Frenzy',
+					subtitle: '4 case rotation · Transparent rake 5%',
+					meta: '2v2',
+					cta: 'Join queue',
+					background:
+						'radial-gradient(circle at 25% 30%, rgba(59, 130, 246, 0.45), transparent 55%), radial-gradient(circle at 70% 70%, rgba(29, 78, 216, 0.35), transparent 50%), rgba(15, 23, 42, 0.92)'
+				},
+				{
+					id: 'clash-night',
+					title: 'Clash Night Finals',
+					subtitle: 'Average pot $2.1k · 3 seats remaining',
+					meta: 'Finals',
+					cta: 'Spectate',
+					background:
+						'radial-gradient(circle at 20% 70%, rgba(253, 186, 116, 0.6), transparent 55%), radial-gradient(circle at 80% 30%, rgba(248, 113, 113, 0.4), transparent 50%), rgba(24, 24, 27, 0.9)'
+				}
+			]
+		}
+	];
+
+	const upgraderRows = [
+		{
+			title: 'Smart upgrade paths',
+			items: [
+				{
+					id: 'safe-upgrade',
+					title: 'Safe climb 1.5x',
+					subtitle: 'Low variance ladder · Auto cashout',
+					meta: 'Secure',
+					cta: 'Start ladder',
+					background:
+						'radial-gradient(circle at 25% 20%, rgba(45, 212, 191, 0.5), transparent 60%), radial-gradient(circle at 75% 70%, rgba(56, 189, 248, 0.45), transparent 55%), rgba(12, 74, 110, 0.85)'
+				},
+				{
+					id: 'all-in',
+					title: 'All-in 5x push',
+					subtitle: 'Manual commit with safety net rollbacks',
+					meta: 'High risk',
+					cta: 'Configure odds',
+					background:
+						'radial-gradient(circle at 35% 35%, rgba(236, 72, 153, 0.6), transparent 60%), radial-gradient(circle at 80% 70%, rgba(79, 70, 229, 0.45), transparent 55%), rgba(24, 24, 27, 0.95)'
+				}
+			]
+		}
+	];
+
+	const potsRows = [
+		{
+			title: 'Community rain cycles',
+			items: [
+				{
+					id: 'flash-rain',
+					title: 'Flash rain boost',
+					subtitle: 'Ends in 1m · 6 slots left',
+					meta: 'Flash',
+					cta: 'Secure slot',
+					background:
+						'radial-gradient(circle at 20% 50%, rgba(34, 197, 94, 0.55), transparent 60%), radial-gradient(circle at 80% 40%, rgba(16, 185, 129, 0.35), transparent 55%), rgba(15, 118, 110, 0.85)'
+				},
+				{
+					id: 'vip-cycle',
+					title: 'VIP cycle',
+					subtitle: 'Guaranteed daily payout · 3 invites pending',
+					meta: 'VIP',
+					cta: 'View invites',
+					background:
+						'radial-gradient(circle at 70% 30%, rgba(59, 130, 246, 0.45), transparent 60%), radial-gradient(circle at 30% 70%, rgba(147, 197, 253, 0.3), transparent 55%), rgba(15, 23, 42, 0.92)'
+				}
+			]
+		}
+	];
+
+	const tabRows: Record<string, { title: string; caption?: string; items: HorizontalItem[] }[]> = {
+		featured: featuredRows,
+		cases: casesRows,
+		battles: battlesRows,
+		upgrader: upgraderRows,
+		pots: potsRows
+	};
 </script>
 
 <svelte:head>
@@ -93,38 +274,21 @@
 		</Alert>
 	{/if}
 
-	<div class="space-y-8">
-		<HeroCarousel />
-		<MarketplaceGrid />
-		<KpiStrip />
-	</div>
+	<HeroCarousel />
 
-	<section class="grid gap-8 xl:grid-cols-[1.35fr,1fr]">
-		<CommunityPots />
-		<Card class="border-border/50 bg-surface/80 border">
-			<CardHeader class="gap-2">
-				<Badge variant="outline" class="w-fit text-[10px] tracking-[0.35em] uppercase"
-					>Desk feed</Badge
-				>
-				<CardTitle class="text-xl font-semibold tracking-tight">Flash updates</CardTitle>
-				<CardDescription class="text-sm">Quick reads from the operations desk.</CardDescription>
-			</CardHeader>
-			<CardContent class="space-y-4">
-				{#each flashUpdates as update}
-					<div class="border-border/60 bg-surface-muted/40 rounded-2xl border p-4">
-						<p class="text-sm font-semibold tracking-tight">{update.title}</p>
-						<p class="text-muted-foreground text-xs leading-relaxed">{update.caption}</p>
-					</div>
-				{/each}
-				<div class="flex flex-wrap gap-3">
-					{#each quickCtas as cta}
-						<Button variant="secondary" class="gap-2" onclick={cta.action}>
-							<cta.icon class="h-4 w-4" />
-							{cta.label}
-						</Button>
-					{/each}
-				</div>
-			</CardContent>
-		</Card>
+	<section class="space-y-6">
+		<ScrollableTabs
+			tabs={categoryTabs}
+			activeId={activeTab}
+			on:change={(event) => (activeTab = event.detail)}
+		/>
+		<div class="space-y-8">
+			{#each tabRows[activeTab] as row}
+				<HorizontalScroller title={row.title} caption={row.caption} items={row.items} />
+			{/each}
+		</div>
 	</section>
+
+	<KpiStrip />
+	<MarketplaceGrid />
 </div>
