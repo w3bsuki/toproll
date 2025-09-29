@@ -89,6 +89,8 @@
 		{ label: 'Withdrawable', value: '$930.00' }
 	];
 
+	const formatNumber = (value: number | null | undefined) => Number(value ?? 0).toLocaleString();
+
 	const togglePreviewState = () => {
 		previewSignedIn = !previewSignedIn;
 	};
@@ -180,10 +182,10 @@
 							Total balance
 						</p>
 						<p class="text-[28px] leading-tight font-semibold tracking-tight">
-							${activeUser.balance.toLocaleString()}
+							${formatNumber(activeUser.balance)}
 						</p>
 						<p class="text-muted-foreground text-xs">
-							Lifetime wagered ${activeUser.totalWagered.toLocaleString()}
+							Lifetime wagered {formatNumber(activeUser.totalWagered)}
 						</p>
 					</div>
 					<Button
