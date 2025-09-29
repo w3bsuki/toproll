@@ -4,14 +4,14 @@
 	type ButtonVariant = 'default' | 'secondary' | 'outline' | 'ghost' | 'destructive';
 	type ButtonSize = 'sm' | 'md' | 'lg' | 'icon';
 
-        type ButtonProps = {
-                as?: keyof HTMLElementTagNameMap;
-                type?: HTMLButtonElement['type'];
-                variant?: ButtonVariant;
-                size?: ButtonSize;
-                class?: string;
-                disabled?: boolean;
-        } & Record<string, unknown>;
+	type ButtonProps = {
+		as?: keyof HTMLElementTagNameMap;
+		type?: HTMLButtonElement['type'];
+		variant?: ButtonVariant;
+		size?: ButtonSize;
+		class?: string;
+		disabled?: boolean;
+	} & Record<string, unknown>;
 
 	let {
 		as: asProp = undefined,
@@ -19,10 +19,9 @@
 		variant = 'default' as ButtonVariant,
 		size = 'md' as ButtonSize,
 		class: className = '',
-		disabled = false
+		disabled = false,
+		...restProps
 	}: ButtonProps = $props();
-
-	const restProps = $restProps<Record<string, unknown>>();
 
 	const variantClasses: Record<ButtonVariant, string> = {
 		default:
