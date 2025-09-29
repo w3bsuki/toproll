@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { cn } from '$lib/utils';
+	import type { Snippet } from 'svelte';
 
 	type ButtonVariant = 'default' | 'secondary' | 'outline' | 'ghost' | 'destructive';
 	type ButtonSize = 'sm' | 'md' | 'lg' | 'icon';
@@ -11,15 +12,17 @@
 		size?: ButtonSize;
 		class?: string;
 		disabled?: boolean;
+		children?: Snippet;
 	} & Record<string, unknown>;
 
-	let {
+	const {
 		as: asProp = undefined,
 		type = 'button',
-		variant = 'default' as ButtonVariant,
-		size = 'md' as ButtonSize,
+		variant = 'default',
+		size = 'md',
 		class: className = '',
 		disabled = false,
+		children,
 		...restProps
 	}: ButtonProps = $props();
 
@@ -56,5 +59,5 @@
 	{disabled}
 	{...restProps}
 >
-	<slot />
+	{@render children?.()}
 </svelte:element>

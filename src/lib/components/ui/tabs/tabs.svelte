@@ -1,32 +1,34 @@
 <script lang="ts">
 	import { cn } from '$lib/utils';
-	import { writable } from 'svelte/store';
 	import { initTabsContext } from './context';
+	import type { Snippet } from 'svelte';
 
-	let {
+	const {
 		value = '',
 		class: className = '',
-		onValueChange
-	}: {
+		onValueChange,
+		children
+	} = $props<{
 		value?: string;
 		class?: string;
 		onValueChange?: (value: string) => void;
-	} = $props();
+		children?: Snippet;
+	}>();
 
-	const internal = writable(value);
+	let selected = $state(value);
 
 	$effect(() => {
-		internal.set(value);
+		selected = value;
 	});
 
-	function setValue(next: string) {
-		internal.set(next);
+	const setValue = (next: string) => {
+		selected = next;
 		onValueChange?.(next);
-	}
+	};
 
-	initTabsContext({ value: internal, setValue });
+	initTabsContext({ value: () => selected, setValue });
 </script>
 
 <div class={cn('grid gap-4', className)}>
-	<slot />
+	{@render children?.()}
 </div>

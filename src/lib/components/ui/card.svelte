@@ -1,7 +1,11 @@
 <script lang="ts">
 	import { cn } from '$lib/utils';
+	import type { Snippet } from 'svelte';
 
-	let { class: className = '' } = $props();
+	const { class: className = '', children } = $props<{
+		class?: string;
+		children?: Snippet;
+	}>();
 </script>
 
 <div
@@ -10,5 +14,5 @@
 		className
 	)}
 >
-	<slot />
+	{@render children?.()}
 </div>

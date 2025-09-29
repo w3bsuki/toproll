@@ -1,8 +1,7 @@
 import { getContext, setContext } from 'svelte';
-import type { Writable } from 'svelte/store';
 
 export interface TabsContext {
-	value: Writable<string>;
+	value: () => string;
 	setValue: (value: string) => void;
 }
 

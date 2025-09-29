@@ -5,18 +5,10 @@
 	import { Home, Package, Swords, ArrowUpRight, Briefcase } from 'lucide-svelte';
 	import { cn } from '$lib/utils';
 
-	type BottomNavProps = {
+	const { isAuthenticated = false, class: className = '' } = $props<{
 		isAuthenticated?: boolean;
 		class?: string;
-	};
-
-	const props = $props<BottomNavProps>();
-	const isAuthenticated = $derived(() => props.isAuthenticated ?? false);
-	const className = $derived(() => props.class ?? '');
-
-	const pageStore = page;
-	const currentPage = $derived(pageStore);
-	const currentPath = $derived(() => currentPage.url.pathname);
+	}>();
 
 	const items = [
 		{ href: '/', label: 'Home', icon: Home },
@@ -26,7 +18,7 @@
 		{ href: '/inventory', label: 'Inventory', icon: Briefcase }
 	] as const;
 
-	const isActiveRoute = (href: string) => currentPath === href;
+	const isActiveRoute = (href: string) => $page.url.pathname === href;
 	const buildHref = (path: string) => (base ? `${base}${path}` : path);
 	const handleNavigation = (href: string) => {
 		// eslint-disable-next-line svelte/no-navigation-without-resolve

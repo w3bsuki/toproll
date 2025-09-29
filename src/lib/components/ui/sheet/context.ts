@@ -1,8 +1,7 @@
 import { getContext, setContext } from 'svelte';
-import type { Writable } from 'svelte/store';
 
 export interface SheetContext {
-	open: Writable<boolean>;
+	open: () => boolean;
 	close: () => void;
 	openSheet: () => void;
 }

@@ -1,9 +1,18 @@
 <script lang="ts">
 	import { cn } from '$lib/utils';
+	import type { Snippet } from 'svelte';
 
 	type AlertVariant = 'default' | 'success' | 'info' | 'warning' | 'destructive';
 
-	let { variant = 'default' as AlertVariant, class: className = '' } = $props();
+	const {
+		variant = 'default',
+		class: className = '',
+		children
+	} = $props<{
+		variant?: AlertVariant;
+		class?: string;
+		children?: Snippet;
+	}>();
 
 	const variants: Record<AlertVariant, string> = {
 		default: 'border border-border/70 bg-surface-muted/60 text-foreground',
@@ -22,5 +31,5 @@
 		className
 	)}
 >
-	<slot />
+	{@render children?.()}
 </div>

@@ -1,8 +1,12 @@
 <script lang="ts">
 	import { useSheetContext } from './context';
 	import { cn } from '$lib/utils';
+	import type { Snippet } from 'svelte';
 
-	let { class: className = '' } = $props();
+	const { class: className = '', children } = $props<{
+		class?: string;
+		children?: Snippet;
+	}>();
 	const { openSheet } = useSheetContext();
 </script>
 
@@ -11,5 +15,5 @@
 	class={cn('inline-flex items-center justify-center', className)}
 	onclick={() => openSheet()}
 >
-	<slot />
+	{@render children?.()}
 </button>

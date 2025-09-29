@@ -1,8 +1,7 @@
 import { getContext, setContext } from 'svelte';
-import type { Writable } from 'svelte/store';
 
 export interface DropdownContext {
-	open: Writable<boolean>;
+	open: () => boolean;
 	setOpen: (open: boolean) => void;
 }
 

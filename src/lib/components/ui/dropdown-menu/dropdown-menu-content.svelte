@@ -2,16 +2,22 @@
 	import { onMount } from 'svelte';
 	import { cn } from '$lib/utils';
 	import { useDropdownContext } from './context';
-	import { derived } from 'svelte/store';
+	import type { Snippet } from 'svelte';
 
-	let {
-		align = 'end' as 'start' | 'end',
+	const {
+		align = 'end',
 		class: className = '',
-		labelledby
-	}: { align?: 'start' | 'end'; class?: string; labelledby?: string } = $props();
+		labelledby,
+		children
+	} = $props<{
+		align?: 'start' | 'end';
+		class?: string;
+		labelledby?: string;
+		children?: Snippet<{ setOpen: (open: boolean) => void }>;
+	}>();
 
 	const { open, setOpen } = useDropdownContext();
-	const visible = derived(open, ($open) => $open);
+	const visible = $derived(open());
 	let container: HTMLDivElement | null = null;
 
 	onMount(() => {
@@ -24,11 +30,16 @@
 		window.addEventListener('click', handleClick);
 		return () => window.removeEventListener('click', handleClick);
 	});
+
+	const handleContainerClick = (event: MouseEvent) => {
+		event.stopPropagation();
+	};
 </script>
 
-{#if $visible}
+{#if visible}
 	<div
 		role="menu"
+		tabindex="-1"
 		aria-labelledby={labelledby}
 		class={cn(
 			'border-border/60 bg-popover shadow-marketplace-lg animate-slide-up absolute z-50 mt-2 min-w-[14rem] overflow-hidden rounded-lg border p-2 text-sm',
@@ -36,8 +47,8 @@
 			className
 		)}
 		bind:this={container}
-		on:click|stopPropagation
+		onclick={handleContainerClick}
 	>
-		<slot {setOpen} />
+		{@render children?.({ setOpen })}
 	</div>
 {/if}

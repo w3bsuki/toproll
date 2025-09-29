@@ -14,7 +14,12 @@
 	import { Bell, ChevronDown, Globe, Menu, Megaphone, Search } from 'lucide-svelte';
 	import { createEventDispatcher } from 'svelte';
 
-	type ShellHeaderProps = {
+	const {
+		promoTicker,
+		isAuthenticated = false,
+		user = null,
+		class: className = ''
+	} = $props<{
 		promoTicker: { id: string; label: string; meta: string }[];
 		isAuthenticated?: boolean;
 		user?: {
@@ -23,22 +28,11 @@
 			totalWagered: number;
 		} | null;
 		class?: string;
-	};
+	}>();
 
-	const props = $props<ShellHeaderProps>();
-	const promoTicker = $derived(() => props.promoTicker);
-	const isAuthenticated = $derived(() => props.isAuthenticated ?? false);
-	const user = $derived(() => props.user ?? null);
-	const className = $derived(() => props.class ?? '');
-
-	const uiState = $derived(uiStore);
-	const sidebarOpen = $derived(() => uiState.sidebarOpen);
-
-	const pageStore = page;
-	const currentPage = $derived(pageStore);
 	const pageTitle = $derived(() => {
-		const pathname = currentPage.url.pathname;
-		if (pathname === '/' || pathname === '') return 'Home';
+		const pathname = $page.url.pathname;
+		if (pathname === '/') return 'Home';
 		const segments = pathname.split('/').filter(Boolean);
 		if (!segments.length) return 'Home';
 		const key = segments[0];
@@ -73,7 +67,7 @@
 				type="button"
 				class="border-border/70 bg-surface-muted/60 text-muted-foreground focus-visible:ring-ring/70 flex h-11 w-11 items-center justify-center rounded-2xl border transition focus-visible:ring-2 focus-visible:outline-none"
 				onclick={toggleSidebar}
-				aria-expanded={sidebarOpen}
+				aria-expanded={$uiStore.sidebarOpen}
 				aria-label="Open navigation"
 			>
 				<Menu class="h-5 w-5" />
@@ -166,7 +160,11 @@
 						class="border-border/60 bg-surface-muted/60 hover:border-primary/50 hover:bg-surface-muted/80 focus-visible:ring-ring/70 focus-visible:ring-offset-background flex items-center gap-3 rounded-2xl border px-2 py-1.5 transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
 					>
 						{#if user.avatar}
-							<img src={user.avatar} alt={user.username || 'User'} class="h-9 w-9 rounded-xl object-cover" />
+							<img
+								src={user.avatar}
+								alt={user.username || 'User'}
+								class="h-9 w-9 rounded-xl object-cover"
+							/>
 						{:else}
 							<div
 								class="border-border/60 bg-surface-muted/70 text-muted-foreground flex h-9 w-9 items-center justify-center rounded-xl border font-semibold"

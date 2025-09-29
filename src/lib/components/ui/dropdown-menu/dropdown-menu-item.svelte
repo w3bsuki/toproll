@@ -1,14 +1,26 @@
 <script lang="ts">
 	import { cn } from '$lib/utils';
 	import { useDropdownContext } from './context';
+	import type { Snippet } from 'svelte';
 
-	let {
+	const {
 		inset = false,
 		class: className = '',
-		onSelect
-	}: { inset?: boolean; class?: string; onSelect?: (event: MouseEvent) => void } = $props();
+		onSelect,
+		children
+	} = $props<{
+		inset?: boolean;
+		class?: string;
+		onSelect?: (event: MouseEvent) => void;
+		children?: Snippet;
+	}>();
 
 	const { setOpen } = useDropdownContext();
+
+	const handleClick = (event: MouseEvent) => {
+		onSelect?.(event);
+		setOpen(false);
+	};
 </script>
 
 <button
@@ -19,10 +31,7 @@
 		inset && 'pl-9',
 		className
 	)}
-	onclick={(event) => {
-		onSelect?.(event);
-		setOpen(false);
-	}}
+	onclick={handleClick}
 >
-	<slot />
+	{@render children?.()}
 </button>

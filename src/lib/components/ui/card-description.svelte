@@ -1,8 +1,13 @@
 <script lang="ts">
 	import { cn } from '$lib/utils';
-	let { class: className = '' } = $props();
+	import type { Snippet } from 'svelte';
+
+	const { class: className = '', children } = $props<{
+		class?: string;
+		children?: Snippet;
+	}>();
 </script>
 
 <p class={cn('text-muted-foreground text-sm', className)}>
-	<slot />
+	{@render children?.()}
 </p>

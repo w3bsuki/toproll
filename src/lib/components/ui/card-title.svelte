@@ -1,8 +1,13 @@
 <script lang="ts">
 	import { cn } from '$lib/utils';
-	let { class: className = '' } = $props();
+	import type { Snippet } from 'svelte';
+
+	const { class: className = '', children } = $props<{
+		class?: string;
+		children?: Snippet;
+	}>();
 </script>
 
 <h3 class={cn('text-card-foreground text-lg font-semibold', className)}>
-	<slot />
+	{@render children?.()}
 </h3>

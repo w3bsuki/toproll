@@ -1,8 +1,17 @@
 <script lang="ts">
 	import { cn } from '$lib/utils';
+	import type { Snippet } from 'svelte';
 
 	type BadgeVariant = 'default' | 'outline' | 'success' | 'warning' | 'info' | 'destructive';
-	let { variant = 'default' as BadgeVariant, class: className = '' } = $props();
+	const {
+		variant = 'default',
+		class: className = '',
+		children
+	} = $props<{
+		variant?: BadgeVariant;
+		class?: string;
+		children?: Snippet;
+	}>();
 
 	const variants: Record<BadgeVariant, string> = {
 		default: 'bg-primary/15 text-primary border border-primary/35',
@@ -21,5 +30,5 @@
 		className
 	)}
 >
-	<slot />
+	{@render children?.()}
 </span>

@@ -1,21 +1,29 @@
 <script lang="ts">
 	import { cn } from '$lib/utils';
 	import { useTabsContext } from './context';
-	import { derived } from 'svelte/store';
+	import type { Snippet } from 'svelte';
 
-	let { value, class: className = '' } = $props<{ value: string; class?: string }>();
+	const {
+		value,
+		class: className = '',
+		children
+	} = $props<{
+		value: string;
+		class?: string;
+		children?: Snippet;
+	}>();
 
-	const { value: store } = useTabsContext();
-	const selected = derived(store, ($value) => $value === value);
+	const { value: getValue } = useTabsContext();
+	const selected = $derived(getValue() === value);
 </script>
 
 <div
 	role="tabpanel"
 	class={cn(
 		'border-border/60 bg-surface/40 shadow-marketplace-sm rounded-lg border p-6',
-		!$selected && 'hidden',
+		!selected && 'hidden',
 		className
 	)}
 >
-	<slot />
+	{@render children?.()}
 </div>

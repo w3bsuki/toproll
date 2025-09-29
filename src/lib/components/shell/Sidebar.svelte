@@ -13,31 +13,30 @@
 		MessageSquare,
 		Shield,
 		LifeBuoy,
-		ArrowDownUp,
+		ChevronDown,
 		Briefcase
 	} from 'lucide-svelte';
 	import { Button } from '$lib/components/ui';
 	import { cn } from '$lib/utils';
 	import { closeSidebar } from '$lib/stores/ui';
 
-	type SidebarProps = {
-		isAuthenticated?: boolean;
-		user?: {
-			username: string;
-			balance: number;
-			totalWagered: number;
-		} | null;
-		class?: string;
+	type SidebarUser = {
+		username: string;
+		balance: number;
+		totalWagered: number;
 	};
 
-	const props = $props<SidebarProps>();
-	const inboundUser = $derived(() => props.user ?? null);
-	const inboundAuthenticated = $derived(() => props.isAuthenticated ?? false);
-	const className = $derived(() => props.class ?? '');
-
-	const pageStore = page;
-	const currentPage = $derived(pageStore);
-	const currentPath = $derived(() => currentPage.url.pathname);
+	const {
+		isAuthenticated = false,
+		user = null,
+		class: className = '',
+		density = 'default'
+	} = $props<{
+		isAuthenticated?: boolean;
+		user?: SidebarUser | null;
+		class?: string;
+		density?: 'default' | 'compact';
+	}>();
 
 	const navItems = [
 		{ href: '/', icon: Home, label: 'Home' },
@@ -54,10 +53,10 @@
 		{ href: '/responsible', icon: LifeBuoy, label: 'Responsible play' }
 	] as const;
 
-	let previewSignedIn = $state(inboundAuthenticated);
+	let previewSignedIn = $state(isAuthenticated);
 
 	$effect(() => {
-		if (inboundAuthenticated) {
+		if (isAuthenticated) {
 			previewSignedIn = true;
 		}
 	});
@@ -66,16 +65,21 @@
 		username: 'rainmaker',
 		balance: 1570.0,
 		totalWagered: 42800
+	} satisfies SidebarUser;
+
+	const normalizeUser = (value: SidebarUser | null) => {
+		const base = value ?? fallbackUser;
+		return {
+			username: base.username,
+			balance: base.balance ?? 0,
+			totalWagered: base.totalWagered ?? 0
+		};
 	};
 
-	const activeUser = $derived(() => {
-		if (!previewSignedIn) return null;
-		const user = inboundUser ?? fallbackUser;
-		// Ensure balance is always defined
-		return {
-			...user,
-			balance: user?.balance ?? 0
-		};
+	let activeUser = $state<ReturnType<typeof normalizeUser> | null>(null);
+
+	$effect(() => {
+		activeUser = previewSignedIn ? normalizeUser(user) : null;
 	});
 
 	const vaultSummary = [
@@ -87,7 +91,19 @@
 		previewSignedIn = !previewSignedIn;
 	};
 
-	const isActiveRoute = (href: string) => currentPath === href;
+	let showBreakdown = $state(false);
+
+	const toggleBreakdown = () => {
+		showBreakdown = !showBreakdown;
+	};
+
+	$effect(() => {
+		if (!activeUser) {
+			showBreakdown = false;
+		}
+	});
+
+	const isActiveRoute = (href: string) => $page.url.pathname === href;
 
 	const buildHref = (path: string) => (base ? `${base}${path}` : path);
 
@@ -100,7 +116,8 @@
 
 <aside
 	class={cn(
-		'bg-surface/80 border-border/40 flex h-full w-full flex-col gap-6 rounded-[32px] border px-6 py-6 shadow-[0_32px_120px_rgba(15,23,42,0.36)] backdrop-blur-xl',
+		'bg-surface/80 border-border/40 flex h-full w-full flex-col rounded-[32px] border shadow-[0_32px_120px_rgba(15,23,42,0.36)] backdrop-blur-xl',
+		density === 'compact' ? 'gap-4 px-4 py-3' : 'gap-6 px-6 py-6',
 		className
 	)}
 >
@@ -116,75 +133,6 @@
 			<p class="text-muted-foreground text-[11px] tracking-[0.35em] uppercase">CS2 Marketplace</p>
 		</div>
 	</a>
-
-	<div class="border-border/40 bg-surface-muted/30 rounded-3xl border p-4">
-		{#if activeUser}
-			<div class="space-y-4">
-				<div class="flex items-center justify-between">
-					<div>
-						<p class="text-muted-foreground text-[11px] tracking-[0.35em] uppercase">Balance</p>
-						<p class="text-2xl font-semibold">${(activeUser.balance ?? 0).toLocaleString()}</p>
-					</div>
-					<Button
-						variant="ghost"
-						size="sm"
-						onclick={togglePreviewState}
-						class="text-muted-foreground hover:text-foreground h-9 rounded-xl px-3 text-xs tracking-[0.3em] uppercase"
-					>
-						Hide
-					</Button>
-				</div>
-				<div class="grid gap-2 text-sm">
-					{#each vaultSummary as item (item.label)}
-						<div
-							class="border-border/40 bg-surface/70 flex items-center justify-between rounded-2xl border px-3 py-2"
-						>
-							<span class="text-muted-foreground text-xs tracking-[0.3em] uppercase"
-								>{item.label}</span
-							>
-							<span class="font-medium">{item.value}</span>
-						</div>
-					{/each}
-				</div>
-				<div class="grid grid-cols-2 gap-3">
-					<Button variant="secondary" class="h-12 rounded-2xl text-sm font-semibold">Deposit</Button
-					>
-					<Button variant="ghost" class="h-12 rounded-2xl text-sm font-semibold">Withdraw</Button>
-				</div>
-			</div>
-		{:else}
-			<div class="space-y-3">
-				<div class="flex items-start justify-between gap-4">
-					<div class="space-y-1.5">
-						<p class="text-base leading-snug font-semibold">Sign in with Steam</p>
-						<p class="text-muted-foreground text-sm leading-relaxed">
-							Connect to deposit instantly, track balance, and join premium drops.
-						</p>
-					</div>
-					<Button
-						variant="ghost"
-						size="sm"
-						onclick={togglePreviewState}
-						class="text-muted-foreground hover:text-foreground h-9 rounded-xl px-3 text-xs tracking-[0.3em] uppercase"
-					>
-						Preview
-					</Button>
-				</div>
-				<form method="POST" action="/api/auth/steam/login" class="w-full">
-					<AuthButton
-						class="bg-primary text-primary-foreground shadow-marketplace-md w-full justify-center gap-2"
-					/>
-				</form>
-				<Button
-					variant="ghost"
-					class="text-muted-foreground hover:text-foreground h-12 w-full gap-2 rounded-2xl text-sm"
-				>
-					<LogIn class="h-4 w-4" />
-					Explore as guest
-				</Button>
-			</div>
-		{/if}
-	</div>
 
 	<nav class="space-y-2" aria-label="Primary navigation">
 		{#each navItems as item (item.href)}
@@ -218,12 +166,101 @@
 		{/each}
 	</nav>
 
+	<section class="border-border/40 bg-surface-muted/30 rounded-3xl border p-4">
+		{#if activeUser}
+			<div class="space-y-3">
+				<div class="flex items-start justify-between gap-4">
+					<div class="space-y-1">
+						<p class="text-muted-foreground text-[11px] tracking-[0.35em] uppercase">
+							Total balance
+						</p>
+						<p class="text-3xl leading-tight font-semibold tracking-tight">
+							${(activeUser.balance ?? 0).toLocaleString()}
+						</p>
+						<p class="text-muted-foreground text-xs">
+							Lifetime wagered ${activeUser.totalWagered.toLocaleString()}
+						</p>
+					</div>
+					<Button
+						variant="ghost"
+						size="sm"
+						onclick={togglePreviewState}
+						class="text-muted-foreground hover:text-foreground h-9 rounded-xl px-3 text-[11px] tracking-[0.3em] uppercase"
+					>
+						Hide
+					</Button>
+				</div>
+				<Button
+					variant="ghost"
+					size="sm"
+					onclick={toggleBreakdown}
+					class="text-muted-foreground hover:text-foreground flex w-full items-center justify-between rounded-2xl px-3 py-2 text-[11px] tracking-[0.3em] uppercase"
+				>
+					Balance breakdown
+					<ChevronDown
+						class={cn(
+							'h-4 w-4 transition-transform duration-200',
+							showBreakdown ? 'rotate-180' : ''
+						)}
+					/>
+				</Button>
+				{#if showBreakdown}
+					<div class="grid gap-2 text-sm">
+						{#each vaultSummary as item (item.label)}
+							<div
+								class="border-border/40 bg-surface/70 flex items-center justify-between rounded-2xl border px-3 py-2"
+							>
+								<span class="text-muted-foreground text-xs tracking-[0.3em] uppercase"
+									>{item.label}</span
+								>
+								<span class="font-medium">{item.value}</span>
+							</div>
+						{/each}
+					</div>
+				{/if}
+				<div class="grid grid-cols-2 gap-3">
+					<Button variant="secondary" class="h-12 rounded-2xl text-sm font-semibold">Deposit</Button
+					>
+					<Button variant="ghost" class="h-12 rounded-2xl text-sm font-semibold">Withdraw</Button>
+				</div>
+			</div>
+		{:else}
+			<div class="space-y-3">
+				<div class="space-y-1">
+					<p class="text-base leading-snug font-semibold">Sign in with Steam</p>
+					<p class="text-muted-foreground text-sm leading-relaxed">
+						Connect to deposit instantly, track balance, and join premium drops.
+					</p>
+				</div>
+				<form method="POST" action="/api/auth/steam/login" class="w-full">
+					<AuthButton
+						class="bg-primary text-primary-foreground shadow-marketplace-md w-full justify-center gap-2"
+					/>
+				</form>
+				<div class="flex items-center justify-between gap-3">
+					<Button
+						variant="ghost"
+						size="sm"
+						onclick={togglePreviewState}
+						class="text-muted-foreground hover:text-foreground h-9 rounded-xl px-3 text-[11px] tracking-[0.3em] uppercase"
+					>
+						Preview
+					</Button>
+					<Button
+						variant="ghost"
+						class="text-muted-foreground hover:text-foreground h-12 flex-1 gap-2 rounded-2xl text-sm"
+					>
+						<LogIn class="h-4 w-4" />
+						Explore as guest
+					</Button>
+				</div>
+			</div>
+		{/if}
+	</section>
+
 	<div class="mt-auto space-y-4">
 		<div class="border-border/40 bg-surface/70 rounded-3xl border p-4">
-			<div class="text-muted-foreground mb-3 flex items-center justify-between text-xs">
-				<span class="tracking-[0.3em] uppercase">Live support</span>
-				<ArrowDownUp class="h-4 w-4" />
-			</div>
+			<p class="text-muted-foreground mb-3 text-[11px] tracking-[0.35em] uppercase">Support</p>
 			<div class="grid gap-2">
 				{#each supportItems as item (item.href)}
 					<Button

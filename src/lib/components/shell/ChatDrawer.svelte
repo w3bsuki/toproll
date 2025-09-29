@@ -11,9 +11,6 @@
 	import { X, Send, MessageCircle, CloudRain, Users } from 'lucide-svelte';
 	import { Button, Sheet, SheetContent } from '$lib/components/ui';
 
-	const uiState = $derived(uiStore);
-	const chatOpen = $derived(() => uiState.chatOpen);
-
 	let messages = $state<CommunityMessage[]>(get(communityMessages));
 	let currentPot = $state<RainPot>(get(rainPot));
 	let input = $state('');
@@ -57,7 +54,7 @@
 	};
 </script>
 
-<Sheet open={chatOpen} onOpenChange={(open) => (!open ? closeChat() : undefined)}>
+<Sheet open={$uiStore.chatOpen} onOpenChange={(open) => (!open ? closeChat() : undefined)}>
 	<SheetContent
 		side="bottom"
 		class="border-border/40 bg-surface/95 max-h-[75vh] w-full translate-y-0 rounded-t-[32px] border px-0 pt-4 pb-[env(safe-area-inset-bottom)] shadow-[0_-40px_120px_rgba(15,23,42,0.65)] backdrop-blur-xl md:max-w-xl"
@@ -154,7 +151,7 @@
 					rows={1}
 					placeholder="Drop a message…"
 					class="marketplace-scrollbar max-h-24 flex-1 resize-none border-0 bg-transparent px-2 py-1 text-sm focus:outline-none"
-				/>
+				></textarea>
 				<Button size="icon" class="h-11 w-11 rounded-2xl" type="submit">
 					<Send class="h-4 w-4" />
 					<span class="sr-only">Send message</span>
