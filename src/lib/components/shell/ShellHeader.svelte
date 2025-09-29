@@ -166,16 +166,16 @@
 						class="border-border/60 bg-surface-muted/60 hover:border-primary/50 hover:bg-surface-muted/80 focus-visible:ring-ring/70 focus-visible:ring-offset-background flex items-center gap-3 rounded-2xl border px-2 py-1.5 transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
 					>
 						{#if user.avatar}
-							<img src={user.avatar} alt={user.username} class="h-9 w-9 rounded-xl object-cover" />
+							<img src={user.avatar} alt={user.username || 'User'} class="h-9 w-9 rounded-xl object-cover" />
 						{:else}
 							<div
 								class="border-border/60 bg-surface-muted/70 text-muted-foreground flex h-9 w-9 items-center justify-center rounded-xl border font-semibold"
 							>
-								{user.username.slice(0, 2).toUpperCase()}
+								{(user.username || 'U').slice(0, 2).toUpperCase()}
 							</div>
 						{/if}
 						<div class="text-left">
-							<p class="text-sm leading-tight font-semibold">{user.username}</p>
+							<p class="text-sm leading-tight font-semibold">{user.username || 'User'}</p>
 							<p class="text-muted-foreground text-xs">
 								Lvl {Math.floor((user.totalWagered || 0) / 1000) + 1}
 							</p>
