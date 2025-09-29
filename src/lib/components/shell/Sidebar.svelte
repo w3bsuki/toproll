@@ -17,6 +17,7 @@
 	} from 'lucide-svelte';
 	import { Button } from '$lib/components/ui';
 	import { cn } from '$lib/utils';
+	import { formatCurrency } from '$lib/utils/format';
 	import { closeSidebar } from '$lib/stores/ui';
 
 	type SidebarUser = {
@@ -29,13 +30,13 @@
 		isAuthenticated?: boolean;
 		user?: SidebarUser | null;
 		class?: string;
-		density?: 'default' | 'compact';
+		overlay?: boolean;
 	}>();
 
 	const inboundAuthenticated = $derived(() => props.isAuthenticated ?? false);
 	const inboundUser = $derived(() => props.user ?? null);
 	const className = $derived(() => props.class ?? '');
-	const density = $derived(() => props.density ?? 'default');
+	const overlay = $derived(() => props.overlay ?? false);
 
 	const pageStore = page;
 	const currentPage = $derived(pageStore);
@@ -85,8 +86,8 @@
 	const activeUser = $derived(() => (previewSignedIn ? normalizeUser(inboundUser) : null));
 
 	const vaultSummary = [
-		{ label: 'Vault', value: '$640.00' },
-		{ label: 'Withdrawable', value: '$930.00' }
+		{ label: 'Vault', value: 640 },
+		{ label: 'Withdrawable', value: 930 }
 	];
 
 	const togglePreviewState = () => {
@@ -105,7 +106,30 @@
 		}
 	});
 
-	const isActiveRoute = (href: string) => currentPath === href;
+	const normalizePath = (path: string) => {
+		if (!path) return '/';
+		if (path === '/') return '/';
+		return path.endsWith('/') ? path.slice(0, -1) : path;
+	};
+
+	const relativePath = $derived(() => {
+		if (!base) return normalizePath(currentPath);
+		if (currentPath.startsWith(base)) {
+			const trimmed = currentPath.slice(base.length) || '/';
+			const normalized = trimmed.startsWith('/') ? trimmed : `/${trimmed}`;
+			return normalizePath(normalized);
+		}
+		return normalizePath(currentPath);
+	});
+
+	const isActiveRoute = (href: string) => {
+		const target = normalizePath(href);
+		if (target === '/') {
+			return relativePath === '/' || relativePath === '';
+		}
+
+		return relativePath === target || relativePath.startsWith(`${target}/`);
+	};
 
 	const buildHref = (path: string) => (base ? `${base}${path}` : path);
 
@@ -115,15 +139,16 @@
 		const nextPath = currentPath;
 		if (lastPath !== nextPath) {
 			lastPath = nextPath;
-			closeSidebar();
+			if (overlay) {
+				closeSidebar();
+			}
 		}
 	});
 </script>
 
 <aside
 	class={cn(
-		'bg-surface/80 border-border/40 flex h-full w-full flex-col rounded-[32px] border shadow-[0_32px_120px_rgba(15,23,42,0.36)] backdrop-blur-xl',
-		density === 'compact' ? 'gap-3 px-4 py-4' : 'gap-6 px-6 py-6',
+		'bg-surface/80 border-border/40 flex h-full w-full flex-col gap-6 rounded-[32px] border p-6 shadow-[0_32px_120px_rgba(15,23,42,0.36)] backdrop-blur-xl',
 		className
 	)}
 >
@@ -139,14 +164,14 @@
 		</div>
 	</a>
 
-	<nav class="space-y-2" aria-label="Primary navigation">
+	<nav class="space-y-2" role="navigation" aria-label="Primary">
 		{#each navItems as item (item.href)}
 			<Button
 				as="a"
 				href={buildHref(item.href)}
 				variant={isActiveRoute(item.href) ? 'secondary' : 'ghost'}
 				class={cn(
-					'group relative h-14 w-full justify-start gap-3 rounded-2xl px-3 text-left text-sm font-semibold transition',
+					'group focus-visible:ring-ring/70 focus-visible:ring-offset-background relative h-14 w-full justify-start gap-3 rounded-2xl px-3 text-left text-sm font-semibold transition focus-visible:ring-2 focus-visible:ring-offset-2',
 					isActiveRoute(item.href)
 						? 'border-primary/60 bg-primary/15 text-foreground shadow-marketplace-sm border'
 						: 'text-muted-foreground hover:text-foreground border border-transparent'
@@ -180,10 +205,10 @@
 							Total balance
 						</p>
 						<p class="text-[28px] leading-tight font-semibold tracking-tight">
-							${activeUser.balance.toLocaleString()}
+							{formatCurrency(activeUser.balance)}
 						</p>
 						<p class="text-muted-foreground text-xs">
-							Lifetime wagered ${activeUser.totalWagered.toLocaleString()}
+							Lifetime wagered {formatCurrency(activeUser.totalWagered)}
 						</p>
 					</div>
 					<Button
@@ -218,7 +243,7 @@
 								<span class="text-muted-foreground text-xs tracking-[0.3em] uppercase">
 									{item.label}
 								</span>
-								<span class="font-medium">{item.value}</span>
+								<span class="font-medium">{formatCurrency(item.value)}</span>
 							</div>
 						{/each}
 					</div>

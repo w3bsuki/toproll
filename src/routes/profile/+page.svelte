@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ProfileCard from '$lib/components/ProfileCard.svelte';
 	import { Trophy, Target, TrendingUp, DollarSign } from 'lucide-svelte';
+	import { formatCurrency } from '$lib/utils/format';
 	import type { PageData } from './$types';
 	import {
 		Card,
@@ -40,7 +41,7 @@
 						<DollarSign class="h-4 w-4" /> Total wagered
 					</div>
 					<p class="text-foreground text-2xl font-semibold">
-						${data.profile?.total_wagered?.toLocaleString() || '0'}
+						{formatCurrency(data.profile?.total_wagered ?? 0)}
 					</p>
 				</CardContent>
 			</Card>
@@ -54,7 +55,7 @@
 					<p
 						class={`text-2xl font-semibold ${data.profile?.total_profit && data.profile.total_profit >= 0 ? 'text-success' : 'text-destructive'}`}
 					>
-						${data.profile?.total_profit?.toLocaleString() || '0'}
+						{formatCurrency(data.profile?.total_profit ?? 0)}
 					</p>
 				</CardContent>
 			</Card>
@@ -76,7 +77,7 @@
 						<Trophy class="h-4 w-4" /> Biggest win
 					</div>
 					<p class="text-foreground text-2xl font-semibold">
-						${data.profile?.biggest_win?.toLocaleString() || '0'}
+						{formatCurrency(data.profile?.biggest_win ?? 0)}
 					</p>
 				</CardContent>
 			</Card>
