@@ -93,26 +93,27 @@
 		</Alert>
 	{/if}
 
-	<HeroCarousel />
-
-	<section class="space-y-10">
+	<div class="space-y-8">
+		<HeroCarousel />
 		<MarketplaceGrid />
 		<KpiStrip />
-	</section>
+	</div>
 
-	<section class="grid gap-8 xl:grid-cols-[1.4fr,1fr]">
+	<section class="grid gap-8 xl:grid-cols-[1.35fr,1fr]">
 		<CommunityPots />
-		<Card class="border-border/60 bg-surface/70 border">
-			<CardHeader class="gap-1">
-				<Badge variant="outline" class="w-fit">Trading floor</Badge>
-				<CardTitle class="text-xl font-semibold">Flash updates</CardTitle>
-				<CardDescription>Real-time signals from the operations desk.</CardDescription>
+		<Card class="border-border/50 bg-surface/80 border">
+			<CardHeader class="gap-2">
+				<Badge variant="outline" class="w-fit text-[10px] tracking-[0.35em] uppercase"
+					>Desk feed</Badge
+				>
+				<CardTitle class="text-xl font-semibold tracking-tight">Flash updates</CardTitle>
+				<CardDescription class="text-sm">Quick reads from the operations desk.</CardDescription>
 			</CardHeader>
 			<CardContent class="space-y-4">
 				{#each flashUpdates as update}
 					<div class="border-border/60 bg-surface-muted/40 rounded-2xl border p-4">
-						<p class="text-sm font-semibold">{update.title}</p>
-						<p class="text-muted-foreground text-xs">{update.caption}</p>
+						<p class="text-sm font-semibold tracking-tight">{update.title}</p>
+						<p class="text-muted-foreground text-xs leading-relaxed">{update.caption}</p>
 					</div>
 				{/each}
 				<div class="flex flex-wrap gap-3">
