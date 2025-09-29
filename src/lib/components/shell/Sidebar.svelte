@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import AuthButton from '$lib/components/AuthButton.svelte';
 	import {
@@ -20,20 +19,21 @@
 	import { cn } from '$lib/utils';
 	import { closeSidebar } from '$lib/stores/ui';
 
-	type SidebarProps = {
-		isAuthenticated?: boolean;
-		user?: {
-			username: string;
-			balance: number;
-			totalWagered: number;
-		} | null;
-		class?: string;
-		density?: 'default' | 'compact';
+	type SidebarUser = {
+		username: string;
+		balance: number;
+		totalWagered: number;
 	};
 
-	const props = $props<SidebarProps>();
-	const inboundUser = $derived(() => props.user ?? null);
+	const props = $props<{
+		isAuthenticated?: boolean;
+		user?: SidebarUser | null;
+		class?: string;
+		density?: 'default' | 'compact';
+	}>();
+
 	const inboundAuthenticated = $derived(() => props.isAuthenticated ?? false);
+	const inboundUser = $derived(() => props.user ?? null);
 	const className = $derived(() => props.class ?? '');
 	const density = $derived(() => props.density ?? 'default');
 
@@ -56,28 +56,33 @@
 		{ href: '/responsible', icon: LifeBuoy, label: 'Responsible play' }
 	] as const;
 
-	let previewSignedIn = $state(inboundAuthenticated);
+	let previewSignedIn = $state(false);
+	let lastInboundAuthenticated: boolean | null = null;
 
 	$effect(() => {
-		if (inboundAuthenticated) {
-			previewSignedIn = true;
+		const next = inboundAuthenticated;
+		if (lastInboundAuthenticated === null || next !== lastInboundAuthenticated) {
+			previewSignedIn = next;
+			lastInboundAuthenticated = next;
 		}
 	});
 
 	const fallbackUser = {
 		username: 'rainmaker',
-		balance: 1570.0,
+		balance: 1570,
 		totalWagered: 42800
+	} satisfies SidebarUser;
+
+	const normalizeUser = (value: SidebarUser | null) => {
+		const baseUser = value ?? fallbackUser;
+		return {
+			username: baseUser.username,
+			balance: baseUser.balance ?? 0,
+			totalWagered: baseUser.totalWagered ?? 0
+		} satisfies SidebarUser;
 	};
 
-	const activeUser = $derived(() => {
-		if (!previewSignedIn) return null;
-		const user = inboundUser ?? fallbackUser;
-		return {
-			...user,
-			balance: user?.balance ?? 0
-		};
-	});
+	const activeUser = $derived(() => (previewSignedIn ? normalizeUser(inboundUser) : null));
 
 	const vaultSummary = [
 		{ label: 'Vault', value: '$640.00' },
@@ -104,21 +109,24 @@
 
 	const buildHref = (path: string) => (base ? `${base}${path}` : path);
 
-	const handleNavigation = (href: string) => {
-		// eslint-disable-next-line svelte/no-navigation-without-resolve
-		goto(buildHref(href));
-		closeSidebar();
-	};
+	let lastPath: string | null = null;
+
+	$effect(() => {
+		const nextPath = currentPath;
+		if (lastPath !== nextPath) {
+			lastPath = nextPath;
+			closeSidebar();
+		}
+	});
 </script>
 
 <aside
 	class={cn(
 		'bg-surface/80 border-border/40 flex h-full w-full flex-col rounded-[32px] border shadow-[0_32px_120px_rgba(15,23,42,0.36)] backdrop-blur-xl',
-		density === 'compact' ? 'gap-4 px-4 py-3' : 'gap-6 px-6 py-6',
+		density === 'compact' ? 'gap-3 px-4 py-4' : 'gap-6 px-6 py-6',
 		className
 	)}
 >
-	<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 	<a href={buildHref('/')} class="flex items-center gap-3">
 		<span
 			class="border-primary/50 bg-primary/15 text-primary flex h-11 w-11 items-center justify-center rounded-xl border text-base font-semibold"
@@ -134,9 +142,9 @@
 	<nav class="space-y-2" aria-label="Primary navigation">
 		{#each navItems as item (item.href)}
 			<Button
-				type="button"
+				as="a"
+				href={buildHref(item.href)}
 				variant={isActiveRoute(item.href) ? 'secondary' : 'ghost'}
-				onclick={() => handleNavigation(item.href)}
 				class={cn(
 					'group relative h-14 w-full justify-start gap-3 rounded-2xl px-3 text-left text-sm font-semibold transition',
 					isActiveRoute(item.href)
@@ -171,8 +179,8 @@
 						<p class="text-muted-foreground text-[11px] tracking-[0.35em] uppercase">
 							Total balance
 						</p>
-						<p class="text-3xl leading-tight font-semibold tracking-tight">
-							${(activeUser.balance ?? 0).toLocaleString()}
+						<p class="text-[28px] leading-tight font-semibold tracking-tight">
+							${activeUser.balance.toLocaleString()}
 						</p>
 						<p class="text-muted-foreground text-xs">
 							Lifetime wagered ${activeUser.totalWagered.toLocaleString()}
@@ -207,9 +215,9 @@
 							<div
 								class="border-border/40 bg-surface/70 flex items-center justify-between rounded-2xl border px-3 py-2"
 							>
-								<span class="text-muted-foreground text-xs tracking-[0.3em] uppercase"
-									>{item.label}</span
-								>
+								<span class="text-muted-foreground text-xs tracking-[0.3em] uppercase">
+									{item.label}
+								</span>
 								<span class="font-medium">{item.value}</span>
 							</div>
 						{/each}
