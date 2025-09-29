@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { goto } from '$app/navigation';
 	import { base } from '$app/paths';
 	import AuthButton from '$lib/components/AuthButton.svelte';
 	import {
@@ -38,6 +37,8 @@
 		density?: 'default' | 'compact';
 	}>();
 
+	const currentPath = $derived.by(() => $state.snapshot(page).url.pathname);
+
 	const navItems = [
 		{ href: '/', icon: Home, label: 'Home' },
 		{ href: '/cases', icon: Package, label: 'Cases' },
@@ -63,24 +64,20 @@
 
 	const fallbackUser = {
 		username: 'rainmaker',
-		balance: 1570.0,
+		balance: 1570,
 		totalWagered: 42800
 	} satisfies SidebarUser;
 
 	const normalizeUser = (value: SidebarUser | null) => {
-		const base = value ?? fallbackUser;
+		const baseUser = value ?? fallbackUser;
 		return {
-			username: base.username,
-			balance: base.balance ?? 0,
-			totalWagered: base.totalWagered ?? 0
+			username: baseUser.username,
+			balance: baseUser.balance ?? 0,
+			totalWagered: baseUser.totalWagered ?? 0
 		};
 	};
 
-	let activeUser = $state<ReturnType<typeof normalizeUser> | null>(null);
-
-	$effect(() => {
-		activeUser = previewSignedIn ? normalizeUser(user) : null;
-	});
+	const activeUser = $derived.by(() => (previewSignedIn ? normalizeUser(user) : null));
 
 	const vaultSummary = [
 		{ label: 'Vault', value: '$640.00' },
@@ -103,15 +100,9 @@
 		}
 	});
 
-	const isActiveRoute = (href: string) => $page.url.pathname === href;
+	const isActiveRoute = (href: string) => currentPath === href;
 
 	const buildHref = (path: string) => (base ? `${base}${path}` : path);
-
-	const handleNavigation = (href: string) => {
-		// eslint-disable-next-line svelte/no-navigation-without-resolve
-		goto(buildHref(href));
-		closeSidebar();
-	};
 </script>
 
 <aside
@@ -121,7 +112,6 @@
 		className
 	)}
 >
-	<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 	<a href={buildHref('/')} class="flex items-center gap-3">
 		<span
 			class="border-primary/50 bg-primary/15 text-primary flex h-11 w-11 items-center justify-center rounded-xl border text-base font-semibold"
@@ -137,9 +127,10 @@
 	<nav class="space-y-2" aria-label="Primary navigation">
 		{#each navItems as item (item.href)}
 			<Button
-				type="button"
+				as="a"
+				href={buildHref(item.href)}
 				variant={isActiveRoute(item.href) ? 'secondary' : 'ghost'}
-				onclick={() => handleNavigation(item.href)}
+				onclick={closeSidebar}
 				class={cn(
 					'group relative h-14 w-full justify-start gap-3 rounded-2xl px-3 text-left text-sm font-semibold transition',
 					isActiveRoute(item.href)
@@ -210,9 +201,9 @@
 							<div
 								class="border-border/40 bg-surface/70 flex items-center justify-between rounded-2xl border px-3 py-2"
 							>
-								<span class="text-muted-foreground text-xs tracking-[0.3em] uppercase"
-									>{item.label}</span
-								>
+								<span class="text-muted-foreground text-xs tracking-[0.3em] uppercase">
+									{item.label}
+								</span>
 								<span class="font-medium">{item.value}</span>
 							</div>
 						{/each}
