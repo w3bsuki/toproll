@@ -4,14 +4,14 @@
 	type ButtonVariant = 'default' | 'secondary' | 'outline' | 'ghost' | 'destructive';
 	type ButtonSize = 'sm' | 'md' | 'lg' | 'icon';
 
-	type ButtonProps = {
-		as?: keyof HTMLElementTagNameMap;
-		type?: HTMLButtonElement['type'];
-		variant?: ButtonVariant;
-		size?: ButtonSize;
-		class?: string;
-		disabled?: boolean;
-	};
+        type ButtonProps = {
+                as?: keyof HTMLElementTagNameMap;
+                type?: HTMLButtonElement['type'];
+                variant?: ButtonVariant;
+                size?: ButtonSize;
+                class?: string;
+                disabled?: boolean;
+        } & Record<string, unknown>;
 
 	let {
 		as: asProp = undefined,
@@ -21,6 +21,8 @@
 		class: className = '',
 		disabled = false
 	}: ButtonProps = $props();
+
+	const restProps = $restProps<Record<string, unknown>>();
 
 	const variantClasses: Record<ButtonVariant, string> = {
 		default:
@@ -53,6 +55,7 @@
 		className
 	)}
 	{disabled}
+	{...restProps}
 >
 	<slot />
 </svelte:element>

@@ -28,7 +28,7 @@
 				Monitor your CS2 skins, mark-to-market valuations, and liquidation status.
 			</p>
 		</div>
-		<div class="flex items-center gap-3">
+		<div class="flex flex-wrap items-center gap-3">
 			<Badge variant={data.inventoryPublic ? 'success' : 'destructive'} class="gap-1">
 				<Shield class="h-3.5 w-3.5" />
 				{data.inventoryPublic ? 'Public' : 'Private'}
@@ -53,7 +53,7 @@
 					href="https://help.steampowered.com/en/faqs/view/2A12-9D79-DA21-31"
 					target="_blank"
 					rel="noopener noreferrer"
-					class="text-primary duration-subtle ease-market-ease hover:text-primary/80 inline-flex items-center gap-1 transition-colors"
+					class="text-primary duration-subtle ease-market-ease hover:text-primary/80 focus-visible:ring-primary/60 focus-visible:ring-offset-background inline-flex items-center gap-1 transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
 				>
 					How to update privacy
 					<ExternalLink class="h-3.5 w-3.5" />

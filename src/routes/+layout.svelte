@@ -30,7 +30,7 @@
 
 			<!-- Main Content -->
 			<main class="bg-background flex-1 overflow-y-auto">
-				<div class="mx-auto max-w-7xl px-10 py-12">
+				<div class="mx-auto w-full max-w-7xl px-8 py-12 xl:px-12">
 					{@render children?.()}
 				</div>
 			</main>
@@ -47,7 +47,7 @@
 
 		<!-- Main Content without Sidebar -->
 		<main class="bg-background flex-1 overflow-y-auto">
-			<div class="mx-auto max-w-4xl px-8 py-10">
+			<div class="mx-auto w-full max-w-4xl px-6 py-10 lg:px-8">
 				{@render children?.()}
 			</div>
 		</main>
@@ -65,7 +65,7 @@
 
 		<!-- Main Content with Safe Scrolling -->
 		<main class="bg-background flex-1 overflow-y-auto overscroll-contain">
-			<div class="px-5 py-6 pb-24">
+			<div class="px-5 py-7 pb-28">
 				{@render children?.()}
 			</div>
 		</main>

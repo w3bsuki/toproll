@@ -4,7 +4,7 @@
 	import LoadingSkeleton from '$lib/components/LoadingSkeleton.svelte';
 	import ErrorBoundary from '$lib/components/ErrorBoundary.svelte';
 	import { Package, Users, TrendingUp, Zap, Sword, Sparkles } from 'lucide-svelte';
-	import type { CS2Item } from '$lib/types';
+	import type { CaseItem } from '$lib/types';
 	import type { PageData } from './$types';
 	import {
 		Button,
@@ -46,7 +46,7 @@
 		}
 	];
 
-	function handleCaseOpen(caseId: string, item: CS2Item) {
+	function handleCaseOpen(caseId: string, item: CaseItem) {
 		console.log(`Opened case ${caseId}, got item:`, item);
 	}
 
@@ -57,7 +57,7 @@
 	}
 
 	const rouletteItems = $derived(
-		cases[0]?.case_items?.map((item: CS2Item) => {
+		cases[0]?.case_items?.map((item: CaseItem) => {
 			const rarityMap: Record<
 				string,
 				'common' | 'uncommon' | 'rare' | 'epic' | 'legendary' | 'mythical'
@@ -109,19 +109,19 @@
 					traders.
 				</p>
 			</div>
-			<div class="flex gap-3">
-				<Button class="gap-2">
+			<div class="flex flex-wrap gap-3">
+				<Button as="a" href="/cases" class="gap-2">
 					<Package class="h-4 w-4" />
 					Open featured case
 				</Button>
-				<Button variant="secondary" class="gap-2">
+				<Button as="a" href="/battles" variant="secondary" class="gap-2">
 					<Zap class="h-4 w-4" />
 					Launch battle
 				</Button>
 			</div>
 		</header>
 
-		<section class="grid gap-4 md:grid-cols-3">
+		<section class="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
 			<Card class="border-border/60 bg-surface/70 border">
 				<CardContent class="flex items-center gap-3 p-5">
 					<span
@@ -200,7 +200,7 @@
 
 		<section class="grid gap-10 xl:grid-cols-[2fr,1fr]">
 			<div class="space-y-6">
-				<div class="flex items-center justify-between">
+				<div class="flex flex-wrap items-center justify-between gap-3">
 					<div>
 						<h3 class="text-foreground text-xl font-semibold">Case catalog</h3>
 						<p class="text-muted-foreground text-sm">
@@ -214,7 +214,7 @@
 				</div>
 				<div class="grid gap-5 md:grid-cols-2">
 					{#each cases as caseData}
-						<Card class="border-border/60 bg-surface/70 border">
+						<Card class="border-border/60 bg-surface/70 flex h-full flex-col border">
 							<CardHeader class="border-0 pb-3">
 								<CardTitle>{caseData.name}</CardTitle>
 								<CardDescription>{caseData.description}</CardDescription>
@@ -239,8 +239,8 @@
 									{/each}
 								</div>
 							</CardContent>
-							<CardFooter class="border-border/60 bg-surface-muted/30 border-t">
-								<div class="flex w-full items-center justify-between">
+							<CardFooter class="border-border/60 bg-surface-muted/30 mt-auto border-t">
+								<div class="flex w-full flex-wrap items-center justify-between gap-2">
 									<Button size="sm" class="gap-2">
 										<Package class="h-4 w-4" />
 										Open now
@@ -256,7 +256,7 @@
 				</div>
 			</div>
 			<div class="space-y-5">
-				<div class="flex items-center justify-between">
+				<div class="flex flex-wrap items-center justify-between gap-2">
 					<h3 class="text-foreground text-lg font-semibold">Battle lobby</h3>
 					<Badge variant="outline">Live</Badge>
 				</div>
@@ -280,14 +280,14 @@
 										<Button
 											size="sm"
 											variant="secondary"
-											on:click={() => handleBattleJoin(battle.id)}
+											onclick={() => handleBattleJoin(battle.id)}
 										>
 											Join
 										</Button>
 										<Button
 											size="sm"
 											variant="outline"
-											on:click={() => handleBattleLeave(battle.id)}
+											onclick={() => handleBattleLeave(battle.id)}
 										>
 											Watch
 										</Button>
