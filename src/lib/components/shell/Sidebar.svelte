@@ -70,7 +70,12 @@
 
 	const activeUser = $derived(() => {
 		if (!previewSignedIn) return null;
-		return inboundUser ?? fallbackUser;
+		const user = inboundUser ?? fallbackUser;
+		// Ensure balance is always defined
+		return {
+			...user,
+			balance: user?.balance ?? 0
+		};
 	});
 
 	const vaultSummary = [
@@ -118,7 +123,7 @@
 				<div class="flex items-center justify-between">
 					<div>
 						<p class="text-muted-foreground text-[11px] tracking-[0.35em] uppercase">Balance</p>
-						<p class="text-2xl font-semibold">${activeUser.balance.toLocaleString()}</p>
+						<p class="text-2xl font-semibold">${(activeUser.balance ?? 0).toLocaleString()}</p>
 					</div>
 					<Button
 						variant="ghost"
