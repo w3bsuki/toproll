@@ -1,22 +1,24 @@
 <script lang="ts">
-	import { cn } from '$lib/utils';
-	import { useSheetContext } from './context';
-	import { derived } from 'svelte/store';
-	import { onDestroy, tick } from 'svelte';
+        import { cn } from '$lib/utils';
+        import { useSheetContext } from './context';
+        import { derived } from 'svelte/store';
+        import { onDestroy, tick } from 'svelte';
+        import type { Snippet } from 'svelte';
 
-	type SheetSide = 'left' | 'right' | 'bottom';
+        type SheetSide = 'left' | 'right' | 'bottom';
 
-	let {
-		side = 'right' as SheetSide,
-		class: className = '',
-		labelledby
-	}: { side?: SheetSide; class?: string; labelledby?: string } = $props();
+        const props = $props<{ side?: SheetSide; class?: string; labelledby?: string; children?: Snippet }>();
+
+        const side = $derived(() => (props.side ?? 'right') as SheetSide);
+        const className = $derived(() => props.class ?? '');
+        const labelledby = $derived(() => props.labelledby);
+        const children = $derived(() => props.children);
 
 	const { open, close } = useSheetContext();
 	const visible = derived(open, ($open) => $open);
 
-	let contentEl: HTMLDivElement | null = null;
-	let previouslyFocused: HTMLElement | null = null;
+        let contentEl = $state<HTMLDivElement | null>(null);
+        let previouslyFocused = $state<HTMLElement | null>(null);
 
 	const focusableSelectors =
 		'a[href], button:not([disabled]), textarea:not([disabled]), input:not([type="hidden"]):not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])';
@@ -95,23 +97,24 @@
 
 {#if $visible}
 	<div class="fixed inset-0 z-40 flex" role="dialog" aria-modal="true" aria-labelledby={labelledby}>
-		<div
-			class="absolute inset-0 bg-black/60 backdrop-blur-sm"
-			aria-hidden="true"
-			onclick={() => close()}
-		></div>
-		<div
-			class={cn(
-				'bg-surface text-surface-foreground shadow-marketplace-lg border-border/60 relative z-10 border',
-				side === 'bottom' ? 'mx-auto max-h-[90vh] overflow-y-auto' : 'h-full overflow-y-auto',
-				sideClasses[side],
-				className
-			)}
-			tabindex="-1"
-			bind:this={contentEl}
-			on:keydown={handleKeydown}
-		>
-			<slot />
-		</div>
-	</div>
+                <div
+                        class="absolute inset-0 bg-black/60 backdrop-blur-sm"
+                        aria-hidden="true"
+                        onclick={() => close()}
+                ></div>
+                <div
+                        class={cn(
+                                'bg-surface text-surface-foreground shadow-marketplace-lg border-border/60 relative z-10 border',
+                                side === 'bottom' ? 'mx-auto max-h-[90vh] overflow-y-auto' : 'h-full overflow-y-auto',
+                                sideClasses[side],
+                                className
+                        )}
+                        tabindex="-1"
+                        bind:this={contentEl}
+                        role="dialog"
+                        onkeydown={handleKeydown}
+                >
+                        {@render children?.({})}
+                </div>
+        </div>
 {/if}

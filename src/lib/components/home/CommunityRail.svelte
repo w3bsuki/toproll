@@ -147,15 +147,15 @@
 			class="flex-1"
 			labelledby={appearance === 'rail' ? undefined : 'community-rail-title'}
 		/>
-		<ChatComposer
-			id={appearance === 'rail' ? 'community-message' : 'community-message-panel'}
-			class="mt-4"
-			value={composerValue}
-			on:input={handleComposerInput}
-			on:submit={handleComposerSubmit}
-			placeholder="Share a drop..."
-			variant={chatVariant}
-			multiline={multilineComposer}
-		/>
+                <ChatComposer
+                        id={appearance === 'rail' ? 'community-message' : 'community-message-panel'}
+                        class="mt-4"
+                        value={composerValue}
+                        oninput={handleComposerInput}
+                        onsubmit={handleComposerSubmit}
+                        placeholder="Share a drop..."
+                        variant={chatVariant}
+                        multiline={multilineComposer}
+                />
 	</div>
 </aside>

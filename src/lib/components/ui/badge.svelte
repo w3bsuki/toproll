@@ -1,8 +1,12 @@
 <script lang="ts">
-	import { cn } from '$lib/utils';
+        import { cn } from '$lib/utils';
+        import type { Snippet } from 'svelte';
 
-	type BadgeVariant = 'default' | 'outline' | 'success' | 'warning' | 'info' | 'destructive';
-	let { variant = 'default' as BadgeVariant, class: className = '' } = $props();
+        type BadgeVariant = 'default' | 'outline' | 'success' | 'warning' | 'info' | 'destructive';
+        const props = $props<{ variant?: BadgeVariant; class?: string; children?: Snippet }>();
+        const variant = $derived(() => (props.variant ?? 'default') as BadgeVariant);
+        const className = $derived(() => props.class ?? '');
+        const children = $derived(() => props.children);
 
 	const variants: Record<BadgeVariant, string> = {
 		default: 'bg-primary/15 text-primary border border-primary/35',
@@ -15,11 +19,11 @@
 </script>
 
 <span
-	class={cn(
-		'inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium tracking-wide uppercase',
-		variants[variant],
-		className
-	)}
+        class={cn(
+                'inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium tracking-wide uppercase',
+                variants[variant],
+                className
+        )}
 >
-	<slot />
+        {@render children?.({})}
 </span>

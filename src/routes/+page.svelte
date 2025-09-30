@@ -2,15 +2,16 @@
 	import { page } from '$app/stores';
 	import HeroCarousel from '$lib/components/home/HeroCarousel.svelte';
 	import MarketplaceGrid from '$lib/components/home/MarketplaceGrid.svelte';
-	import KpiStrip from '$lib/components/home/KpiStrip.svelte';
-	import HorizontalScroller, {
-		type HorizontalItem
-	} from '$lib/components/home/HorizontalScroller.svelte';
-	import ScrollableTabs, {
-		type ScrollableTab
-	} from '$lib/components/ui/navigation/ScrollableTabs.svelte';
-	import { Alert, Button } from '$lib/components/ui';
-	import { AlertCircle } from 'lucide-svelte';
+        import KpiStrip from '$lib/components/home/KpiStrip.svelte';
+        import HorizontalScroller, {
+                type HorizontalItem
+        } from '$lib/components/home/HorizontalScroller.svelte';
+        import ScrollableTabs, {
+                type ScrollableTab
+        } from '$lib/components/ui/navigation/ScrollableTabs.svelte';
+        import { Alert, Button } from '$lib/components/ui';
+        import { AlertCircle } from 'lucide-svelte';
+        import SearchSection from '$lib/components/home/SearchSection.svelte';
 
 	const pageStore = page;
 	const currentPage = $derived(pageStore);
@@ -54,7 +55,21 @@
 		{ id: 'pots', label: 'Pots' }
 	];
 
-	let activeTab = $state(categoryTabs[0].id);
+        const filterChips = [
+                { id: 'lobby', label: 'Lobby' },
+                { id: 'featured-slots', label: 'Featured Slots' },
+                { id: 'live-casino', label: 'Live Casino' },
+                { id: 'game-shows', label: 'Game Shows' },
+                { id: 'clutch-originals', label: 'Clutch Originals' }
+        ];
+
+        let activeTab = $state(categoryTabs[0].id);
+        let activeFilter = $state(filterChips[0].id);
+        let searchTerm = $state('');
+
+        const activeFilterLabel = $derived(
+                () => filterChips.find((chip) => chip.id === activeFilter)?.label ?? ''
+        );
 
 	const featuredRows: { title: string; caption?: string; items: HorizontalItem[] }[] = [
 		{
@@ -270,14 +285,29 @@
 		</Alert>
 	{/if}
 
-	<HeroCarousel />
+        <HeroCarousel />
 
-	<section class="space-y-6">
-		<ScrollableTabs
-			tabs={categoryTabs}
-			activeId={activeTab}
-			on:change={(event) => (activeTab = event.detail)}
-		/>
+        <SearchSection
+                chips={filterChips}
+                activeId={activeFilter}
+                placeholder="Search game or providers"
+                onsearch={(event) => (searchTerm = event.detail)}
+                onfilter={(event) => (activeFilter = event.detail)}
+        />
+
+        <p class="text-muted-foreground/80 text-sm font-medium tracking-tight">
+                Exploring: {activeFilterLabel}
+                {#if searchTerm}
+                        · Matching “{searchTerm}”
+                {/if}
+        </p>
+
+        <section class="space-y-6">
+                <ScrollableTabs
+                        tabs={categoryTabs}
+                        activeId={activeTab}
+                        onchange={(event) => (activeTab = event.detail)}
+                />
 		<div class="space-y-8">
 			{#each tabRows[activeTab] as row (row.title)}
 				<HorizontalScroller title={row.title} caption={row.caption} items={row.items} />

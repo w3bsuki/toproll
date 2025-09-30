@@ -1,27 +1,44 @@
 <script lang="ts">
-	import { cn } from '$lib/utils';
+        import { cn } from '$lib/utils';
+        import type { Snippet } from 'svelte';
 
-	type ButtonVariant = 'default' | 'secondary' | 'outline' | 'ghost' | 'destructive';
-	type ButtonSize = 'sm' | 'md' | 'lg' | 'icon';
+        type ButtonVariant = 'default' | 'secondary' | 'outline' | 'ghost' | 'destructive';
+        type ButtonSize = 'sm' | 'md' | 'lg' | 'icon';
 
-	type ButtonProps = {
-		as?: keyof HTMLElementTagNameMap;
-		type?: HTMLButtonElement['type'];
-		variant?: ButtonVariant;
-		size?: ButtonSize;
-		class?: string;
-		disabled?: boolean;
-	} & Record<string, unknown>;
+        type ButtonProps = {
+                as?: keyof HTMLElementTagNameMap;
+                type?: HTMLButtonElement['type'];
+                variant?: ButtonVariant;
+                size?: ButtonSize;
+                class?: string;
+                disabled?: boolean;
+                children?: Snippet;
+        } & Record<string, unknown>;
 
-	let {
-		as: asProp = undefined,
-		type = 'button',
-		variant = 'default' as ButtonVariant,
-		size = 'md' as ButtonSize,
-		class: className = '',
-		disabled = false,
-		...restProps
-	}: ButtonProps = $props();
+        const props = $props<ButtonProps>();
+
+        const asTag = $derived(() => (props.as ?? 'button') as keyof HTMLElementTagNameMap);
+        const typeAttr = $derived(() => (asTag === 'button' ? (props.type ?? 'button') : undefined) as
+                | HTMLButtonElement['type']
+                | undefined);
+        const variant = $derived(() => (props.variant ?? 'default') as ButtonVariant);
+        const size = $derived(() => (props.size ?? 'md') as ButtonSize);
+        const className = $derived(() => props.class ?? '');
+        const disabled = $derived(() => props.disabled ?? false);
+        const slotContent = $derived(() => props.children);
+        const restProps = $derived(() => {
+                const {
+                        as: _as,
+                        type: _type,
+                        variant: _variant,
+                        size: _size,
+                        class: _class,
+                        disabled: _disabled,
+                        children: _children,
+                        ...rest
+                } = props;
+                return rest;
+        });
 
 	const variantClasses: Record<ButtonVariant, string> = {
 		default:
@@ -44,17 +61,31 @@
 	};
 </script>
 
-<svelte:element
-	this={asProp ?? 'button'}
-	type={asProp ? undefined : (type as HTMLButtonElement['type'])}
-	class={cn(
-		'duration-subtle ease-market-ease focus-visible:ring-ring/70 focus-visible:ring-offset-background inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
-		variantClasses[variant],
-		sizeClasses[size],
-		className
-	)}
-	{disabled}
-	{...restProps}
->
-	<slot />
-</svelte:element>
+{#if asTag === 'a'}
+        <a
+                class={cn(
+                        'duration-subtle ease-market-ease focus-visible:ring-ring/70 focus-visible:ring-offset-background inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+                        variantClasses[variant],
+                        sizeClasses[size],
+                        className
+                )}
+                aria-disabled={disabled || undefined}
+                {...restProps}
+        >
+                {@render slotContent?.({})}
+        </a>
+{:else}
+        <button
+                type={typeAttr}
+                class={cn(
+                        'duration-subtle ease-market-ease focus-visible:ring-ring/70 focus-visible:ring-offset-background inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+                        variantClasses[variant],
+                        sizeClasses[size],
+                        className
+                )}
+                {disabled}
+                {...restProps}
+        >
+                {@render slotContent?.({})}
+        </button>
+{/if}

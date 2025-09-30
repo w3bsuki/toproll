@@ -1,12 +1,16 @@
 <script lang="ts">
-	import { cn } from '$lib/utils';
-	import { useTabsContext } from './context';
-	import { derived } from 'svelte/store';
+        import { cn } from '$lib/utils';
+        import { useTabsContext } from './context';
+        import { derived } from 'svelte/store';
+        import type { Snippet } from 'svelte';
 
-	let { class: className = '' } = $props();
+        const props = $props<{ class?: string; children?: Snippet }>();
 
-	const { value } = useTabsContext();
-	const active = derived(value, ($value) => $value);
+        const className = $derived(() => props.class ?? '');
+        const children = $derived(() => props.children);
+
+        const { value } = useTabsContext();
+        const active = derived(value, ($value) => $value);
 </script>
 
 <div
@@ -18,5 +22,5 @@
 	)}
 	data-active={$active}
 >
-	<slot />
+        {@render children?.({})}
 </div>

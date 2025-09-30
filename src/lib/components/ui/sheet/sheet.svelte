@@ -1,32 +1,34 @@
 <script lang="ts">
-	import { cn } from '$lib/utils';
-	import { writable } from 'svelte/store';
-	import { initSheetContext } from './context';
+        import { cn } from '$lib/utils';
+        import { writable } from 'svelte/store';
+        import type { Snippet } from 'svelte';
+        import { initSheetContext } from './context';
 
-	let {
-		open = false,
-		class: className = '',
-		onOpenChange
-	}: { open?: boolean; class?: string; onOpenChange?: (open: boolean) => void } = $props();
+        const props = $props<{ open?: boolean; class?: string; onOpenChange?: (open: boolean) => void; children?: Snippet }>();
 
-	const internal = writable(open);
+        const open = $derived(() => props.open ?? false);
+        const className = $derived(() => props.class ?? '');
+        const onOpenChange = $derived(() => props.onOpenChange);
+        const children = $derived(() => props.children);
 
-	$effect(() => {
-		internal.set(open);
-	});
+        const internal = writable(false);
 
-	function setOpen(next: boolean) {
-		internal.set(next);
-		onOpenChange?.(next);
-	}
+        $effect(() => {
+                internal.set(open);
+        });
 
-	initSheetContext({
-		open: internal,
-		close: () => setOpen(false),
-		openSheet: () => setOpen(true)
-	});
+        function setOpen(next: boolean) {
+                internal.set(next);
+                onOpenChange?.(next);
+        }
+
+        initSheetContext({
+                open: internal,
+                close: () => setOpen(false),
+                openSheet: () => setOpen(true)
+        });
 </script>
 
 <div class={cn(className)}>
-	<slot />
+        {@render children?.({})}
 </div>

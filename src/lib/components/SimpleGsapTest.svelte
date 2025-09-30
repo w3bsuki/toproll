@@ -110,11 +110,11 @@
 <div class="space-y-6 p-8">
 	<h1 class="text-2xl font-bold">Simple GSAP Test</h1>
 
-	<button
-		on:click={startTest}
-		class="rounded bg-blue-500 px-6 py-3 text-white hover:bg-blue-600 disabled:opacity-50"
-		disabled={isAnimating}
-	>
+        <button
+                onclick={startTest}
+                class="rounded bg-blue-500 px-6 py-3 text-white hover:bg-blue-600 disabled:opacity-50"
+                disabled={isAnimating}
+        >
 		{isAnimating ? 'Animating...' : 'Start Animation'}
 	</button>
 

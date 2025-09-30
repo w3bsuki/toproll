@@ -1,5 +1,6 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+        import { onMount } from 'svelte';
+        import type { Snippet } from 'svelte';
 	import { AlertTriangle, RefreshCw, Home, Clipboard } from 'lucide-svelte';
 	import {
 		Button,
@@ -11,12 +12,12 @@
 	} from '$lib/components/ui';
 	import { cn } from '$lib/utils';
 
-	interface ErrorBoundaryProps {
-		error?: Error | null;
-		onRetry?: () => void;
-		onGoHome?: () => void;
-		class?: string;
-		children?: Snippet;
+        interface ErrorBoundaryProps {
+                error?: Error | null;
+                onRetry?: () => void;
+                onGoHome?: () => void;
+                class?: string;
+                children?: Snippet;
 	}
 
 	let {
@@ -50,8 +51,8 @@
 		};
 	});
 
-	const currentError = error || errorDetails;
-	const showError = hasError || !!error;
+        const currentError = $derived(() => error ?? errorDetails);
+        const showError = $derived(() => hasError || !!error);
 
 	function handleRetry() {
 		hasError = false;
@@ -105,16 +106,16 @@
 					</div>
 				</details>
 				<div class="flex flex-col gap-2 sm:flex-row sm:justify-center">
-					<Button class="flex-1 gap-2" on:click={handleRetry}>
+                                        <Button class="flex-1 gap-2" onclick={handleRetry}>
 						<RefreshCw class="h-4 w-4" />
 						Try again
 					</Button>
-					<Button class="flex-1 gap-2" variant="secondary" on:click={handleGoHome}>
+                                        <Button class="flex-1 gap-2" variant="secondary" onclick={handleGoHome}>
 						<Home class="h-4 w-4" />
 						Go home
 					</Button>
 				</div>
-				<Button variant="outline" size="sm" class="w-full gap-2" on:click={copyErrorDetails}>
+                                <Button variant="outline" size="sm" class="w-full gap-2" onclick={copyErrorDetails}>
 					<Clipboard class="h-4 w-4" />
 					Copy error details
 				</Button>
@@ -122,5 +123,5 @@
 		</Card>
 	</div>
 {:else if children}
-	{@render children()}
+        {@render children?.()}
 {/if}

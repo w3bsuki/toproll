@@ -1,28 +1,30 @@
 <script lang="ts">
-	import { cn } from '$lib/utils';
-	import { writable } from 'svelte/store';
-	import { initDropdownContext } from './context';
+        import { cn } from '$lib/utils';
+        import { writable } from 'svelte/store';
+        import type { Snippet } from 'svelte';
+        import { initDropdownContext } from './context';
 
-	let {
-		open = false,
-		class: className = '',
-		onOpenChange
-	}: { open?: boolean; class?: string; onOpenChange?: (open: boolean) => void } = $props();
+        const props = $props<{ open?: boolean; class?: string; onOpenChange?: (open: boolean) => void; children?: Snippet }>();
 
-	const internal = writable(open);
+        const open = $derived(() => props.open ?? false);
+        const className = $derived(() => props.class ?? '');
+        const onOpenChange = $derived(() => props.onOpenChange);
+        const children = $derived(() => props.children);
 
-	$effect(() => {
-		internal.set(open);
-	});
+        const internal = writable(false);
 
-	function setOpen(next: boolean) {
-		internal.set(next);
-		onOpenChange?.(next);
-	}
+        $effect(() => {
+                internal.set(open);
+        });
 
-	initDropdownContext({ open: internal, setOpen });
+        function setOpen(next: boolean) {
+                internal.set(next);
+                onOpenChange?.(next);
+        }
+
+        initDropdownContext({ open: internal, setOpen });
 </script>
 
 <div class={cn('relative inline-block text-left', className)}>
-	<slot />
+        {@render children?.({})}
 </div>

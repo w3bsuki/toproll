@@ -118,9 +118,9 @@ export const heroPromotions = readable<HeroPromotion[]>([
 ]);
 
 export const marketplaceItems = readable<MarketplaceItem[]>([
-	{
-		id: 'emerald-web',
-		name: '★ Karambit | Emerald Web',
+        {
+                id: 'emerald-web',
+                name: '★ Karambit | Emerald Web',
 		image:
 			'radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.6), transparent 60%), radial-gradient(circle at 80% 80%, rgba(45, 212, 191, 0.4), transparent 55%), rgba(15, 23, 42, 0.9)',
 		price: '$7,820.00',
@@ -193,11 +193,61 @@ export const marketplaceItems = readable<MarketplaceItem[]>([
 		name: 'Clutch Case',
 		image:
 			'radial-gradient(circle at 25% 20%, rgba(248, 113, 113, 0.5), transparent 60%), radial-gradient(circle at 70% 75%, rgba(251, 146, 60, 0.4), transparent 55%), rgba(38, 38, 38, 0.9)',
-		price: '$2.45',
-		rarity: 'Common',
-		volatility: 'Low',
-		watching: 524
-	}
+                price: '$2.45',
+                rarity: 'Common',
+                volatility: 'Low',
+                watching: 524
+        },
+        {
+                id: 'neon-revolution',
+                name: 'AK-47 | Neon Revolution',
+                image:
+                        'radial-gradient(circle at 30% 30%, rgba(249, 115, 22, 0.55), transparent 60%), radial-gradient(circle at 70% 70%, rgba(217, 70, 239, 0.4), transparent 55%), rgba(24, 24, 27, 0.92)',
+                price: '$228.75',
+                rarity: 'Epic',
+                volatility: 'High',
+                watching: 163
+        },
+        {
+                id: 'howl',
+                name: 'M4A4 | Howl',
+                image:
+                        'radial-gradient(circle at 25% 20%, rgba(244, 63, 94, 0.55), transparent 60%), radial-gradient(circle at 80% 75%, rgba(251, 191, 36, 0.35), transparent 55%), rgba(31, 41, 55, 0.94)',
+                price: '$3,540.00',
+                rarity: 'Legendary',
+                volatility: 'Ultra',
+                watching: 54
+        },
+        {
+                id: 'glove-emerald',
+                name: '★ Sport Gloves | Emerald Web',
+                image:
+                        'radial-gradient(circle at 35% 35%, rgba(34, 197, 94, 0.55), transparent 60%), radial-gradient(circle at 75% 65%, rgba(20, 184, 166, 0.4), transparent 55%), rgba(15, 23, 42, 0.92)',
+                price: '$1,780.00',
+                rarity: 'Legendary',
+                volatility: 'High',
+                watching: 88
+        },
+        {
+                id: 'case-megaways',
+                name: 'Megaways Booster Case',
+                image:
+                        'radial-gradient(circle at 20% 70%, rgba(59, 130, 246, 0.55), transparent 60%), radial-gradient(circle at 80% 30%, rgba(129, 140, 248, 0.4), transparent 55%), rgba(15, 23, 42, 0.92)',
+                price: '$6.85',
+                rarity: 'Rare',
+                volatility: 'High',
+                watching: 298
+        },
+        {
+                id: 'clutch-original',
+                name: 'Clutch Originals Bundle',
+                image:
+                        'radial-gradient(circle at 25% 75%, rgba(236, 72, 153, 0.5), transparent 60%), radial-gradient(circle at 75% 25%, rgba(79, 70, 229, 0.45), transparent 55%), rgba(24, 24, 27, 0.95)',
+                price: '$89.00',
+                rarity: 'Epic',
+                volatility: 'Medium',
+                watching: 207
+        }
 ]);
 
 export const marketplaceKpis = readable<MarketplaceKpi[]>([

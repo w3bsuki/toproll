@@ -115,14 +115,14 @@
 
 			<ChatList {messages} variant="surface" ariaLive="polite" class="flex-1" />
 
-			<ChatComposer
-				id="chat-input-mobile"
-				value={composerValue}
-				on:input={handleComposerInput}
-				on:submit={handleComposerSubmit}
-				placeholder="Drop a message…"
-				variant="surface"
-			/>
+                        <ChatComposer
+                                id="chat-input-mobile"
+                                value={composerValue}
+                                oninput={handleComposerInput}
+                                onsubmit={handleComposerSubmit}
+                                placeholder="Drop a message…"
+                                variant="surface"
+                        />
 		</div>
 	</SheetContent>
 </Sheet>

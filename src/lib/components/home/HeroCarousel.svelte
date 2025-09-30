@@ -40,13 +40,13 @@
 </script>
 
 {#if slides.length}
-	<section
-		class="border-border/70 bg-surface/70 relative overflow-hidden rounded-[32px] border shadow-[0_28px_120px_rgba(15,23,42,0.35)]"
-	>
-		<div
-			class="relative grid min-h-[420px] gap-10 overflow-hidden lg:grid-cols-[1.2fr,0.8fr]"
-			style={`background:${slides[activeIndex]?.background ?? 'var(--surface)'}`}
-		>
+        <section
+                class="border-border/70 bg-surface/70 relative overflow-hidden rounded-[32px] border shadow-[0_28px_120px_rgba(15,23,42,0.35)]"
+        >
+                <div
+                        class="relative grid min-h-[360px] gap-8 overflow-hidden sm:min-h-[400px] lg:min-h-[460px] lg:grid-cols-[1.2fr,0.8fr] xl:min-h-[500px]"
+                        style={`background:${slides[activeIndex]?.background ?? 'var(--surface)'}`}
+                >
 			<div class="relative flex flex-col justify-between p-8 sm:p-12">
 				<div class="space-y-6 text-white">
 					<div class="flex flex-wrap items-center gap-3">
@@ -135,15 +135,15 @@
 						</button>
 					{/each}
 				</div>
-				<div class="flex items-center justify-center gap-2">
-					{#each slides as _, index}
-						<span
-							class={`h-1.5 rounded-full transition-all ${
-								index === activeIndex ? 'w-8 bg-white' : 'w-3 bg-white/40'
-							}`}
-						/>
-					{/each}
-				</div>
+                                <div class="flex items-center justify-center gap-2">
+                                        {#each slides as _, index}
+                                                <span
+                                                        class={`h-1.5 rounded-full transition-all ${
+                                                                index === activeIndex ? 'w-8 bg-white' : 'w-3 bg-white/40'
+                                                        }`}
+                                                ></span>
+                                        {/each}
+                                </div>
 			</aside>
 
 			<div
@@ -157,15 +157,15 @@
 				>
 					<ChevronLeft class="h-4 w-4" />
 				</button>
-				<div class="flex flex-1 justify-center gap-2">
-					{#each slides as _, index}
-						<span
-							class={`h-1.5 rounded-full transition-all ${
-								index === activeIndex ? 'w-8 bg-white' : 'w-3 bg-white/40'
-							}`}
-						/>
-					{/each}
-				</div>
+                                <div class="flex flex-1 justify-center gap-2">
+                                        {#each slides as _, index}
+                                                <span
+                                                        class={`h-1.5 rounded-full transition-all ${
+                                                                index === activeIndex ? 'w-8 bg-white' : 'w-3 bg-white/40'
+                                                        }`}
+                                                ></span>
+                                        {/each}
+                                </div>
 				<button
 					class="h-10 w-10 rounded-full border border-white/30 text-white/70 transition hover:border-white/60 hover:text-white/90 focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none"
 					type="button"

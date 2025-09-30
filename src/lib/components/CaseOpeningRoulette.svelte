@@ -141,10 +141,10 @@
 		class="relative h-48 overflow-hidden rounded-lg border border-slate-700/50 bg-slate-900/40 backdrop-blur-sm"
 	>
 		<!-- Center Indicator Line -->
-		<div
-			bind:this={indicatorRef}
-			class="absolute top-0 left-1/2 z-10 h-full w-0.5 -translate-x-1/2 transform bg-red-500 shadow-lg shadow-red-500/30"
-		/>
+                <div
+                        bind:this={indicatorRef}
+                        class="absolute top-0 left-1/2 z-10 h-full w-0.5 -translate-x-1/2 transform bg-red-500 shadow-lg shadow-red-500/30"
+                ></div>
 
 		<!-- Items Roulette Track -->
 		<div
@@ -189,18 +189,18 @@
 		</div>
 
 		<!-- Edge Fade Effects -->
-		<div
-			class="pointer-events-none absolute top-0 left-0 h-full w-24 bg-gradient-to-r from-slate-900/80 to-transparent"
-		/>
-		<div
-			class="pointer-events-none absolute top-0 right-0 h-full w-24 bg-gradient-to-l from-slate-900/80 to-transparent"
-		/>
+                <div
+                        class="pointer-events-none absolute top-0 left-0 h-full w-24 bg-gradient-to-r from-slate-900/80 to-transparent"
+                ></div>
+                <div
+                        class="pointer-events-none absolute top-0 right-0 h-full w-24 bg-gradient-to-l from-slate-900/80 to-transparent"
+                ></div>
 	</div>
 
 	<!-- Controls -->
 	<div class="flex justify-center">
-		<button
-			on:click={startAnimation}
+                <button
+                        onclick={startAnimation}
 			disabled={isSpinning}
 			class="transform rounded-lg bg-orange-600 px-8 py-3 font-bold text-white shadow-lg transition-all hover:scale-105 hover:bg-orange-700 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-gray-600 disabled:opacity-50"
 		>
@@ -235,8 +235,8 @@
 					</div>
 				</div>
 
-				<button
-					on:click={() => (showResult = false)}
+                                <button
+                                        onclick={() => (showResult = false)}
 					class="rounded-lg bg-slate-700 px-6 py-2 text-white transition-colors hover:bg-slate-600"
 				>
 					Close

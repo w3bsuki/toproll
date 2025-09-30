@@ -106,30 +106,32 @@
 		}
 	});
 
-	const normalizePath = (path: string) => {
-		if (!path) return '/';
-		if (path === '/') return '/';
-		return path.endsWith('/') ? path.slice(0, -1) : path;
-	};
+        const normalizePath = (path: string) => {
+                if (!path) return '/';
+                if (path === '/') return '/';
+                return path.endsWith('/') ? path.slice(0, -1) : path;
+        };
 
-	const relativePath = $derived(() => {
-		if (!base) return normalizePath(currentPath);
-		if (currentPath.startsWith(base)) {
-			const trimmed = currentPath.slice(base.length) || '/';
-			const normalized = trimmed.startsWith('/') ? trimmed : `/${trimmed}`;
-			return normalizePath(normalized);
-		}
-		return normalizePath(currentPath);
-	});
+        const relativePath = $derived(() => {
+                const source = typeof currentPath === 'string' ? currentPath : String(currentPath ?? '/');
+                if (!base) return normalizePath(source);
+                if (source.startsWith(base)) {
+                        const trimmed = source.slice(base.length) || '/';
+                        const normalized = trimmed.startsWith('/') ? trimmed : `/${trimmed}`;
+                        return normalizePath(normalized);
+                }
+                return normalizePath(source);
+        });
 
-	const isActiveRoute = (href: string) => {
-		const target = normalizePath(href);
-		if (target === '/') {
-			return relativePath === '/' || relativePath === '';
-		}
+        const isActiveRoute = (href: string) => {
+                const target = normalizePath(href);
+                const path = normalizePath(String(relativePath ?? '/'));
+                if (target === '/') {
+                        return path === '/' || path === '';
+                }
 
-		return relativePath === target || relativePath.startsWith(`${target}/`);
-	};
+                return path === target || path.startsWith(`${target}/`);
+        };
 
 	const buildHref = (path: string) => (base ? `${base}${path}` : path);
 
@@ -164,7 +166,7 @@
 		</div>
 	</a>
 
-	<nav class="space-y-2" role="navigation" aria-label="Primary">
+        <nav class="space-y-2" aria-label="Primary">
 		{#each navItems as item (item.href)}
 			<Button
 				as="a"

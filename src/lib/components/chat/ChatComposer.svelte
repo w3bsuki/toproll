@@ -32,13 +32,13 @@
 	const disabled = $derived(() => props.disabled ?? false);
 	const inboundValue = $derived(() => props.value ?? '');
 
-	let localValue = $state(inboundValue);
+        let localValue = $state('');
 
-	const dispatch = createEventDispatcher<ChatComposerEvents>();
+        const dispatch = createEventDispatcher<ChatComposerEvents>();
 
-	$effect(() => {
-		localValue = inboundValue;
-	});
+        $effect(() => {
+                localValue = inboundValue;
+        });
 
 	const variantClasses = {
 		dark: {
@@ -92,33 +92,33 @@
 >
 	<label class="sr-only" for={id}>{label}</label>
 	{#if multiline}
-		<textarea
-			{id}
-			rows={1}
-			{placeholder}
-			value={localValue}
-			oninput={handleInput}
-			onkeydown={handleKeydown}
-			class={cn(
-				'marketplace-scrollbar max-h-24 flex-1 resize-none border-0 bg-transparent px-2 py-1 text-sm focus:outline-none',
-				variantClasses[variant].input
-			)}
-			{disabled}
-		/>
+                <textarea
+                        {id}
+                        rows={1}
+                        {placeholder}
+                        value={localValue}
+                        oninput={handleInput}
+                        onkeydown={handleKeydown}
+                        class={cn(
+                                'marketplace-scrollbar max-h-24 flex-1 resize-none border-0 bg-transparent px-2 py-1 text-sm focus:outline-none',
+                                variantClasses[variant].input
+                        )}
+                        {disabled}
+                ></textarea>
 	{:else}
-		<input
-			{id}
-			type="text"
-			{placeholder}
-			value={localValue}
-			oninput={handleInput}
-			onkeydown={handleKeydown}
-			class={cn(
-				'h-10 flex-1 border-0 bg-transparent px-2 text-sm focus:outline-none',
-				variantClasses[variant].input
-			)}
-			{disabled}
-		/>
+                <input
+                        {id}
+                        type="text"
+                        {placeholder}
+                        value={localValue}
+                        oninput={handleInput}
+                        onkeydown={handleKeydown}
+                        class={cn(
+                                'h-10 flex-1 border-0 bg-transparent px-2 text-sm focus:outline-none',
+                                variantClasses[variant].input
+                        )}
+                        {disabled}
+                />
 	{/if}
 	<Button
 		type="submit"
