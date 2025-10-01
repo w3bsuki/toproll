@@ -11,6 +11,9 @@ export interface UserProfile {
 	case_battle_wins?: number;
 	created_at?: string;
 	updated_at?: string;
+	session_token_hash?: string | null;
+	session_expires_at?: string | null;
+	last_login_at?: string | null;
 }
 
 export interface CS2Item {
@@ -190,12 +193,12 @@ export type CS2Category =
 	| 'Gloves';
 
 export const RARITY_COLORS: Record<CaseRarity, string> = {
-	Common: 'bg-gray-100 text-gray-800 border-gray-200',
-	Uncommon: 'bg-green-100 text-green-800 border-green-200',
-	Rare: 'bg-blue-100 text-blue-800 border-blue-200',
-	Epic: 'bg-purple-100 text-purple-800 border-purple-200',
-	Legendary: 'bg-orange-100 text-orange-800 border-orange-200',
-	Contraband: 'bg-red-100 text-red-800 border-red-200'
+	Common: 'bg-surface-muted text-surface-muted-foreground border-border/70',
+	Uncommon: 'bg-secondary/20 text-secondary-foreground border-secondary/60',
+	Rare: 'bg-primary/15 text-primary border-primary/50',
+	Epic: 'bg-accent/20 text-accent-foreground border-accent/50',
+	Legendary: 'bg-warning/20 text-warning-foreground border-warning/55',
+	Contraband: 'bg-destructive/20 text-destructive-foreground border-destructive/60'
 };
 
 export const RARITY_PROBABILITIES: Record<CaseRarity, number> = {

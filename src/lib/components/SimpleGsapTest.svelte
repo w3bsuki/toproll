@@ -7,12 +7,12 @@
 	let isAnimating = false;
 
 	const items = [
-		{ id: 1, name: 'AK-47', color: 'bg-red-500' },
-		{ id: 2, name: 'AWP', color: 'bg-blue-500' },
-		{ id: 3, name: 'M4A4', color: 'bg-green-500' },
-		{ id: 4, name: 'Glock', color: 'bg-yellow-500' },
-		{ id: 5, name: 'USP', color: 'bg-purple-500' },
-		{ id: 6, name: 'Knife', color: 'bg-orange-500' }
+		{ id: 1, name: 'AK-47', color: 'bg-primary' },
+		{ id: 2, name: 'AWP', color: 'bg-secondary' },
+		{ id: 3, name: 'M4A4', color: 'bg-success' },
+		{ id: 4, name: 'Glock', color: 'bg-warning' },
+		{ id: 5, name: 'USP', color: 'bg-accent' },
+		{ id: 6, name: 'Knife', color: 'bg-destructive' }
 	];
 
 	let extendedItems = [...items, ...items, ...items, ...items];
@@ -112,15 +112,15 @@
 
 	<button
 		on:click={startTest}
-		class="rounded bg-blue-500 px-6 py-3 text-white hover:bg-blue-600 disabled:opacity-50"
+		class="bg-primary text-primary-foreground hover:bg-primary/90 rounded px-6 py-3 transition-colors disabled:opacity-50"
 		disabled={isAnimating}
 	>
 		{isAnimating ? 'Animating...' : 'Start Animation'}
 	</button>
 
-	<div bind:this={containerRef} class="relative h-32 overflow-hidden rounded bg-gray-800">
+	<div bind:this={containerRef} class="bg-surface relative h-32 overflow-hidden rounded">
 		<!-- Red line indicator -->
-		<div class="absolute top-0 left-1/2 z-10 h-full w-1 bg-red-500"></div>
+		<div class="bg-destructive absolute top-0 left-1/2 z-10 h-full w-1"></div>
 
 		<!-- Items strip -->
 		<div
@@ -130,7 +130,7 @@
 		>
 			{#each extendedItems as item, i}
 				<div
-					class="h-24 w-24 {item.color} flex items-center justify-center rounded font-bold text-white"
+					class="h-24 w-24 {item.color} text-foreground flex items-center justify-center rounded font-bold"
 				>
 					{item.name}
 				</div>
@@ -138,7 +138,7 @@
 		</div>
 	</div>
 
-	<div class="text-sm text-gray-400">
+	<div class="text-muted-foreground text-sm">
 		Open browser console to see debug info. You can also run `testGsap()` in console.
 	</div>
 </div>

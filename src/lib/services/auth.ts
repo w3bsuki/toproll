@@ -1,5 +1,5 @@
+import { createHash } from 'node:crypto';
 import { getSupabaseServer } from '$lib/supabase/server';
-import { getSupabaseClient } from '$lib/supabase/client';
 import type { UserProfile } from '$lib/types';
 
 export interface AuthUser {
@@ -13,16 +13,37 @@ export interface AuthUser {
  */
 export async function getCurrentUser(cookies: any): Promise<AuthUser | null> {
 	const userId = cookies.get('user_id');
-	const steamId = cookies.get('steam_id');
+	const sessionToken = cookies.get('session_token');
 
-	if (!userId || !steamId) {
+	if (!userId || !sessionToken) {
+		return null;
+	}
+
+	const supabase = getSupabaseServer();
+	const sessionHash = createHash('sha256').update(sessionToken).digest('hex');
+
+	const { data: profile, error } = await supabase
+		.from('user_profiles')
+		.select('steam_id, session_token_hash, session_expires_at')
+		.eq('user_id', userId)
+		.maybeSingle();
+
+	if (error || !profile) {
+		return null;
+	}
+
+	if (!profile.session_token_hash || profile.session_token_hash !== sessionHash) {
+		return null;
+	}
+
+	if (profile.session_expires_at && new Date(profile.session_expires_at).getTime() <= Date.now()) {
 		return null;
 	}
 
 	return {
 		id: userId,
-		steamId: steamId,
-		email: `${steamId}@steam.toproll.gg`
+		steamId: profile.steam_id,
+		email: `${profile.steam_id}@steam.toproll.gg`
 	};
 }
 

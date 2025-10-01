@@ -29,10 +29,16 @@
 	}
 
 	function getCaseTypeColor(caseName: string): string {
-		if (caseName.toLowerCase().includes('knife')) return 'bg-purple-100 text-purple-800';
-		if (caseName.toLowerCase().includes('glove')) return 'bg-orange-100 text-orange-800';
-		if (caseName.toLowerCase().includes('weapon')) return 'bg-blue-100 text-blue-800';
-		return 'bg-gray-100 text-gray-800';
+		if (caseName.toLowerCase().includes('knife')) {
+			return 'bg-accent/20 text-accent-foreground';
+		}
+		if (caseName.toLowerCase().includes('glove')) {
+			return 'bg-warning/20 text-warning-foreground';
+		}
+		if (caseName.toLowerCase().includes('weapon')) {
+			return 'bg-primary/15 text-primary';
+		}
+		return 'bg-surface-muted text-surface-muted-foreground';
 	}
 </script>
 
@@ -53,7 +59,9 @@
 				transition={{ duration: 0.3 }}
 				class="group"
 			>
-				<div class="card bg-base-100 shadow-xl transition-shadow duration-300 hover:shadow-2xl">
+				<div
+					class="card border-border/60 bg-surface/70 shadow-marketplace-sm hover:shadow-marketplace-lg border transition-shadow duration-300"
+				>
 					<div class="card-body space-y-4">
 						<!-- Case Header -->
 						<div class="flex items-center justify-between">
@@ -120,13 +128,13 @@
 
 	<!-- Case Preview Modal -->
 	{#if showCasePreview && selectedCase}
-		<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
+		<div class="bg-background/80 fixed inset-0 z-50 flex items-center justify-center p-4">
 			<motion.div
 				initial={{ scale: 0.9, opacity: 0 }}
 				animate={{ scale: 1, opacity: 1 }}
 				class="w-full max-w-2xl"
 			>
-				<div class="card bg-base-100 shadow-xl">
+				<div class="card border-border/60 bg-surface/80 shadow-marketplace-lg border">
 					<div class="card-body space-y-4">
 						<div class="flex items-center justify-between">
 							<h3 class="text-xl font-bold">{selectedCase.name}</h3>

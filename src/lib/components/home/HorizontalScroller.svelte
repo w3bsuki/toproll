@@ -48,28 +48,28 @@
 	<div class="marketplace-scrollbar -mx-1 flex snap-x gap-4 overflow-x-auto px-1 pb-1">
 		{#each items as item}
 			<article
-				class="border-border/40 shrink-0 basis-[88%] snap-start rounded-[28px] border bg-cover bg-center bg-no-repeat p-6 text-white shadow-[0_18px_65px_rgba(15,23,42,0.45)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_28px_80px_rgba(12,74,110,0.55)] sm:basis-[58%] lg:basis-[38%] xl:basis-[28%]"
+				class="border-border/40 text-foreground shadow-marketplace-md hover:shadow-marketplace-lg shrink-0 basis-[88%] snap-start rounded-[28px] border bg-cover bg-center bg-no-repeat p-6 transition duration-300 hover:-translate-y-1 sm:basis-[58%] lg:basis-[38%] xl:basis-[28%]"
 				style={`background:${item.background}`}
 			>
 				<div class="flex flex-col gap-4">
 					<div class="space-y-3">
 						<Badge
 							variant="outline"
-							class="border-white/30 bg-white/10 text-[10px] tracking-[0.4em] text-white/80 uppercase"
+							class="border-border/50 bg-surface/40 text-foreground/80 text-[10px] tracking-[0.4em] uppercase backdrop-blur-sm"
 						>
 							{item.meta ?? 'Featured'}
 						</Badge>
 						<div class="space-y-1">
 							<h4 class="text-lg leading-snug font-semibold">{item.title}</h4>
-							<p class="text-sm leading-relaxed text-white/70">{item.subtitle}</p>
+							<p class="text-foreground/70 text-sm leading-relaxed">{item.subtitle}</p>
 						</div>
 						{#if item.highlight}
-							<p class="text-xs tracking-[0.35em] text-white/80 uppercase">{item.highlight}</p>
+							<p class="text-foreground/80 text-xs tracking-[0.35em] uppercase">{item.highlight}</p>
 						{/if}
 					</div>
 					{#if item.cta}
 						<Button
-							class="w-full rounded-2xl bg-white text-sm font-semibold text-slate-900 hover:bg-white/90"
+							class="bg-card text-card-foreground hover:bg-card/90 w-full rounded-2xl text-sm font-semibold"
 						>
 							{item.cta}
 						</Button>

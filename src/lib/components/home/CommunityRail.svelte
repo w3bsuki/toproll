@@ -54,29 +54,29 @@
 </script>
 
 <aside
-	class="hidden h-full w-full flex-col overflow-hidden rounded-[32px] border border-white/10 bg-[radial-gradient(circle_at_20%_20%,rgba(45,212,191,0.16),transparent_55%),radial-gradient(circle_at_80%_40%,rgba(59,130,246,0.18),transparent_60%),rgba(15,23,42,0.82)] p-6 text-white shadow-[0_36px_140px_rgba(15,23,42,0.45)] backdrop-blur-2xl xl:flex"
+	class="border-border/50 text-foreground shadow-marketplace-lg hidden h-full w-full flex-col overflow-hidden rounded-[32px] border bg-[radial-gradient(circle_at_20%_20%,oklch(var(--accent)/0.16),transparent_55%),radial-gradient(circle_at_80%_40%,oklch(var(--primary)/0.18),transparent_60%),oklch(var(--surface)/0.85)] p-6 backdrop-blur-2xl xl:flex"
 >
 	<header class="space-y-1">
-		<p class="text-[11px] tracking-[0.35em] text-white/60 uppercase">Community rail</p>
+		<p class="text-muted-foreground text-[11px] tracking-[0.35em] uppercase">Community rail</p>
 		<h2 class="text-lg font-semibold">Trading floor chat</h2>
 	</header>
 
 	<section
-		class="mt-4 rounded-3xl border border-white/25 bg-white/10 p-5 text-sm shadow-[0_18px_45px_rgba(12,74,110,0.25)]"
+		class="border-border/50 bg-surface/60 shadow-marketplace-md mt-4 rounded-3xl border p-5 text-sm"
 	>
 		<div class="flex items-center gap-4">
 			<span
-				class="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/30 bg-white/15 text-white"
+				class="border-border/50 bg-surface/50 text-foreground flex h-14 w-14 items-center justify-center rounded-2xl border"
 			>
 				<CloudRain class="h-5 w-5" />
 			</span>
 			<div>
-				<p class="text-[11px] tracking-[0.3em] text-white/70 uppercase">Rain pot</p>
+				<p class="text-muted-foreground text-[11px] tracking-[0.3em] uppercase">Rain pot</p>
 				<p class="text-2xl font-semibold">{currentPot.total}</p>
 			</div>
 		</div>
 		<div
-			class="mt-4 flex items-center justify-between text-[11px] tracking-[0.3em] text-white/70 uppercase"
+			class="text-muted-foreground mt-4 flex items-center justify-between text-[11px] tracking-[0.3em] uppercase"
 		>
 			<span class="flex items-center gap-2">
 				<Users class="h-3.5 w-3.5" />
@@ -85,7 +85,7 @@
 			<span>Ends in {currentPot.endsIn}</span>
 		</div>
 		<Button
-			class="mt-5 w-full rounded-2xl bg-white/15 text-white hover:bg-white/25"
+			class="bg-surface/40 text-foreground hover:bg-surface/60 mt-5 w-full rounded-2xl"
 			variant="secondary"
 		>
 			Join rain pot
@@ -96,21 +96,21 @@
 		<div class="marketplace-scrollbar flex-1 space-y-3 overflow-y-auto pr-2">
 			{#each messages as message (message.id)}
 				<article
-					class="rounded-2xl border border-white/15 bg-black/20 px-4 py-3 text-sm shadow-[0_12px_35px_rgba(12,74,110,0.3)]"
+					class="border-border/40 bg-surface/50 shadow-marketplace-sm rounded-2xl border px-4 py-3 text-sm"
 				>
 					<div
-						class="mb-1 flex items-center justify-between text-[11px] tracking-[0.3em] text-white/60 uppercase"
+						class="text-muted-foreground mb-1 flex items-center justify-between text-[11px] tracking-[0.3em] uppercase"
 					>
 						<div class="flex items-center gap-2 text-xs normal-case">
-							<span class="font-semibold text-white">{message.username}</span>
+							<span class="text-foreground font-semibold">{message.username}</span>
 							{#if message.badge}
 								<span
 									class={`rounded-full px-2 py-0.5 text-[10px] tracking-[0.3em] uppercase ${
 										message.badge === 'vip'
-											? 'bg-primary/25 text-white'
+											? 'bg-primary/20 text-primary-foreground'
 											: message.badge === 'staff'
-												? 'bg-accent/25 text-white'
-												: 'bg-secondary/25 text-white'
+												? 'bg-accent/20 text-accent-foreground'
+												: 'bg-secondary/20 text-secondary-foreground'
 									}`}
 								>
 									{message.badge}
@@ -119,18 +119,18 @@
 						</div>
 						<span class="text-[11px] normal-case">{message.timestamp}</span>
 					</div>
-					<p class="leading-relaxed text-white/80">{message.message}</p>
+					<p class="text-foreground/80 leading-relaxed">{message.message}</p>
 				</article>
 			{/each}
 		</div>
 		<form
-			class="mt-4 flex items-center gap-2 rounded-2xl border border-white/20 bg-black/30 px-4 py-3"
+			class="border-border/40 bg-surface/60 mt-4 flex items-center gap-2 rounded-2xl border px-4 py-3"
 			onsubmit={handleSubmit}
 		>
 			<label class="sr-only" for="community-message">Message</label>
 			<input
 				id="community-message"
-				class="h-10 flex-1 border-0 bg-transparent text-sm text-white placeholder:text-white/50 focus:outline-none"
+				class="text-foreground placeholder:text-muted-foreground h-10 flex-1 border-0 bg-transparent text-sm focus:outline-none"
 				placeholder="Share a drop..."
 				value={input}
 				oninput={handleInput}
@@ -139,7 +139,7 @@
 			<Button
 				size="icon"
 				variant="secondary"
-				class="h-10 w-10 rounded-full border border-white/30 bg-white/15"
+				class="border-border/50 bg-surface/40 h-10 w-10 rounded-full border"
 				type="submit"
 			>
 				<Send class="h-4 w-4" />

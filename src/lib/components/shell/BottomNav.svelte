@@ -37,7 +37,7 @@
 <nav
 	aria-label="Mobile"
 	class={cn(
-		'border-border/70 bg-surface/90 flex items-center justify-between gap-1 border-t px-2 py-2 shadow-[0_-20px_60px_rgba(15,23,42,0.55)] backdrop-blur-xl',
+		'border-border/70 bg-surface/90 shadow-marketplace-lg flex items-center justify-between gap-1 border-t px-2 py-2 backdrop-blur-xl',
 		className
 	)}
 >

@@ -41,28 +41,29 @@
 
 {#if slides.length}
 	<section
-		class="border-border/70 bg-surface/70 relative overflow-hidden rounded-[32px] border shadow-[0_28px_120px_rgba(15,23,42,0.35)]"
+		class="border-border/70 bg-surface/70 shadow-marketplace-lg relative overflow-hidden rounded-[32px] border"
 	>
 		<div
 			class="relative grid min-h-[420px] gap-10 overflow-hidden lg:grid-cols-[1.2fr,0.8fr]"
 			style={`background:${slides[activeIndex]?.background ?? 'var(--surface)'}`}
 		>
 			<div class="relative flex flex-col justify-between p-8 sm:p-12">
-				<div class="space-y-6 text-white">
+				<div class="text-foreground space-y-6">
 					<div class="flex flex-wrap items-center gap-3">
 						<Badge
 							variant="outline"
-							class="border-white/40 bg-white/10 text-xs tracking-[0.35em] uppercase"
+							class="border-border/50 bg-surface/40 text-foreground/80 text-xs tracking-[0.35em] uppercase backdrop-blur-sm"
 						>
 							{slides[activeIndex].tag}
 						</Badge>
-						<span class="text-xs text-white/70 sm:text-sm">{slides[activeIndex].subtitle}</span>
+						<span class="text-foreground/70 text-xs sm:text-sm">{slides[activeIndex].subtitle}</span
+						>
 					</div>
 					<div class="space-y-4">
 						<h1 class="text-3xl leading-tight font-semibold sm:text-4xl lg:text-5xl">
 							{slides[activeIndex].title}
 						</h1>
-						<p class="max-w-2xl text-sm leading-relaxed text-white/80 sm:text-base">
+						<p class="text-foreground/80 max-w-2xl text-sm leading-relaxed sm:text-base">
 							{slides[activeIndex].description}
 						</p>
 					</div>
@@ -72,8 +73,8 @@
 								variant={cta.variant ?? 'default'}
 								class={`${
 									cta.variant === 'outline'
-										? 'border-white/70 bg-transparent text-white hover:bg-white/10'
-										: 'bg-white text-slate-900 hover:bg-white/90'
+										? 'border-border/60 text-foreground hover:bg-surface/40 bg-transparent'
+										: 'bg-card text-card-foreground hover:bg-card/90'
 								} w-full sm:w-auto`}
 							>
 								{cta.label}
@@ -83,12 +84,14 @@
 				</div>
 
 				<div
-					class="grid gap-4 rounded-3xl border border-white/20 bg-black/20 p-6 text-white/80 backdrop-blur"
+					class="border-border/40 bg-surface/60 text-foreground/80 grid gap-4 rounded-3xl border p-6 backdrop-blur"
 				>
 					<div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
 						{#each slides[activeIndex].stats as stat}
-							<div class="rounded-2xl border border-white/15 bg-white/5 px-4 py-3 text-center">
-								<p class="text-[11px] tracking-[0.3em] text-white/60 uppercase">{stat.label}</p>
+							<div class="border-border/30 bg-surface/40 rounded-2xl border px-4 py-3 text-center">
+								<p class="text-muted-foreground text-[11px] tracking-[0.3em] uppercase">
+									{stat.label}
+								</p>
 								<p class="mt-1 text-lg font-semibold">{stat.value}</p>
 							</div>
 						{/each}
@@ -96,12 +99,12 @@
 				</div>
 			</div>
 
-			<aside class="relative hidden h-full flex-col gap-4 border-l border-white/15 p-6 lg:flex">
-				<div class="flex items-center justify-between text-white/80">
+			<aside class="border-border/40 relative hidden h-full flex-col gap-4 border-l p-6 lg:flex">
+				<div class="text-foreground/80 flex items-center justify-between">
 					<p class="text-xs tracking-[0.35em] uppercase">Now trending</p>
 					<div class="flex gap-2">
 						<button
-							class="h-10 w-10 rounded-full border border-white/30 text-white/70 transition hover:border-white/60 hover:text-white/90 focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none"
+							class="border-border/50 text-muted-foreground hover:border-border/60 hover:text-foreground focus-visible:ring-primary/40 h-10 w-10 rounded-full border transition focus-visible:ring-2 focus-visible:outline-none"
 							type="button"
 							onclick={() => step(-1)}
 							aria-label="Previous slide"
@@ -109,7 +112,7 @@
 							<ChevronLeft class="h-4 w-4" />
 						</button>
 						<button
-							class="h-10 w-10 rounded-full border border-white/30 text-white/70 transition hover:border-white/60 hover:text-white/90 focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none"
+							class="border-border/50 text-muted-foreground hover:border-border/60 hover:text-foreground focus-visible:ring-primary/40 h-10 w-10 rounded-full border transition focus-visible:ring-2 focus-visible:outline-none"
 							type="button"
 							onclick={() => step(1)}
 							aria-label="Next slide"
@@ -124,14 +127,14 @@
 							type="button"
 							class={`w-full rounded-2xl border px-4 py-3 text-left transition ${
 								index === activeIndex
-									? 'border-white/40 bg-white/10 text-white shadow-lg'
-									: 'border-transparent bg-white/5 text-white/70 hover:border-white/20 hover:text-white'
+									? 'border-border/50 bg-surface/40 text-foreground shadow-marketplace-sm'
+									: 'bg-surface/30 text-muted-foreground hover:border-border/40 hover:text-foreground border-transparent'
 							}`}
 							onclick={() => goTo(index)}
 						>
 							<p class="text-[11px] tracking-[0.3em] uppercase">{slide.tag}</p>
 							<p class="mt-2 text-sm font-semibold">{slide.title}</p>
-							<p class="text-xs text-white/60">{slide.subtitle}</p>
+							<p class="text-muted-foreground text-xs">{slide.subtitle}</p>
 						</button>
 					{/each}
 				</div>
@@ -139,7 +142,7 @@
 					{#each slides as _, index}
 						<span
 							class={`h-1.5 rounded-full transition-all ${
-								index === activeIndex ? 'w-8 bg-white' : 'w-3 bg-white/40'
+								index === activeIndex ? 'bg-foreground w-8' : 'bg-foreground/40 w-3'
 							}`}
 						/>
 					{/each}
@@ -150,7 +153,7 @@
 				class="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 p-5 lg:hidden"
 			>
 				<button
-					class="h-10 w-10 rounded-full border border-white/30 text-white/70 transition hover:border-white/60 hover:text-white/90 focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none"
+					class="border-border/50 text-muted-foreground hover:border-border/60 hover:text-foreground focus-visible:ring-primary/40 h-10 w-10 rounded-full border transition focus-visible:ring-2 focus-visible:outline-none"
 					type="button"
 					onclick={() => step(-1)}
 					aria-label="Previous slide"
@@ -161,13 +164,13 @@
 					{#each slides as _, index}
 						<span
 							class={`h-1.5 rounded-full transition-all ${
-								index === activeIndex ? 'w-8 bg-white' : 'w-3 bg-white/40'
+								index === activeIndex ? 'bg-foreground w-8' : 'bg-foreground/40 w-3'
 							}`}
 						/>
 					{/each}
 				</div>
 				<button
-					class="h-10 w-10 rounded-full border border-white/30 text-white/70 transition hover:border-white/60 hover:text-white/90 focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:outline-none"
+					class="border-border/50 text-muted-foreground hover:border-border/60 hover:text-foreground focus-visible:ring-primary/40 h-10 w-10 rounded-full border transition focus-visible:ring-2 focus-visible:outline-none"
 					type="button"
 					onclick={() => step(1)}
 					aria-label="Next slide"

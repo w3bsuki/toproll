@@ -46,7 +46,7 @@
 
 {#if promotions.length}
 	<section
-		class="border-border/70 bg-surface/80 relative overflow-hidden rounded-3xl border shadow-[0_18px_60px_rgba(15,23,42,0.35)]"
+		class="border-border/70 bg-surface/80 shadow-marketplace-lg relative overflow-hidden rounded-3xl border"
 	>
 		<div class="grid gap-8 lg:grid-cols-[7fr,5fr]">
 			<div
@@ -57,17 +57,17 @@
 					<div class="flex items-center gap-3">
 						<Badge
 							variant="outline"
-							class="border-white/40 bg-white/10 text-xs tracking-[0.35em] uppercase"
+							class="border-border/50 bg-surface/40 text-foreground/85 text-xs tracking-[0.35em] uppercase backdrop-blur-sm"
 						>
 							{promotions[activeIndex].tag}
 						</Badge>
-						<span class="text-xs text-white/70">{promotions[activeIndex].subtitle}</span>
+						<span class="text-foreground/70 text-xs">{promotions[activeIndex].subtitle}</span>
 					</div>
 					<div class="space-y-3">
 						<h1 class="text-4xl leading-tight font-semibold sm:text-5xl">
 							{promotions[activeIndex].title}
 						</h1>
-						<p class="max-w-2xl text-base leading-relaxed text-white/75">
+						<p class="text-foreground/80 max-w-2xl text-base leading-relaxed">
 							{promotions[activeIndex].description}
 						</p>
 					</div>
@@ -75,7 +75,11 @@
 						{#each promotions[activeIndex].ctas as cta, ctaIndex}
 							<Button
 								variant={cta.variant ?? 'default'}
-								class={`backdrop-blur-sm ${cta.variant === 'outline' ? 'border-white/60 text-white/80 hover:text-white' : 'bg-white/95 text-slate-900 hover:bg-white'}`}
+								class={`backdrop-blur-sm ${
+									cta.variant === 'outline'
+										? 'border-border/60 text-foreground/85 hover:text-foreground'
+										: 'bg-card text-card-foreground hover:bg-card/90'
+								}`}
 							>
 								{cta.label}
 							</Button>
@@ -84,23 +88,25 @@
 				</div>
 
 				<div
-					class="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-white/15 bg-black/20 px-6 py-5 backdrop-blur"
+					class="border-border/40 bg-surface/60 flex flex-wrap items-center justify-between gap-4 rounded-2xl border px-6 py-5 backdrop-blur"
 				>
-					<div class="flex items-center gap-3 text-white/80">
+					<div class="text-foreground/80 flex items-center gap-3">
 						<span
-							class="flex h-11 w-11 items-center justify-center rounded-xl border border-white/30 bg-white/10"
+							class="border-border/50 bg-surface/40 flex h-11 w-11 items-center justify-center rounded-xl border"
 						>
 							<svelte:component this={highlightIcon} class="h-5 w-5" />
 						</span>
 						<div>
-							<p class="text-xs tracking-[0.35em] text-white/60 uppercase">Highlight</p>
+							<p class="text-muted-foreground text-xs tracking-[0.35em] uppercase">Highlight</p>
 							<p class="text-lg font-semibold">{promotions[activeIndex].highlight}</p>
 						</div>
 					</div>
-					<div class="grid flex-1 grid-cols-3 gap-4 text-white/80">
+					<div class="text-foreground/80 grid flex-1 grid-cols-3 gap-4">
 						{#each promotions[activeIndex].stats as stat}
-							<div class="rounded-xl border border-white/10 bg-black/10 px-4 py-2 text-center">
-								<p class="text-[11px] tracking-[0.3em] text-white/50 uppercase">{stat.label}</p>
+							<div class="border-border/40 bg-surface/50 rounded-xl border px-4 py-2 text-center">
+								<p class="text-muted-foreground text-[11px] tracking-[0.3em] uppercase">
+									{stat.label}
+								</p>
 								<p class="mt-1 text-base font-semibold">{stat.value}</p>
 							</div>
 						{/each}
@@ -108,7 +114,7 @@
 				</div>
 			</div>
 
-			<aside class="flex flex-col gap-4 border-l border-white/10 p-6">
+			<aside class="border-border/40 flex flex-col gap-4 border-l p-6">
 				<div class="flex items-center justify-between">
 					<p class="text-muted-foreground text-sm tracking-[0.3em] uppercase">Now trending</p>
 					<div class="flex gap-2">

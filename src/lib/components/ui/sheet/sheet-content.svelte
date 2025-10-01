@@ -23,7 +23,7 @@
 
 {#if $visible}
 	<div class="fixed inset-0 z-40 flex" role="dialog" aria-modal="true" aria-labelledby={labelledby}>
-		<div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick={() => close()}></div>
+		<div class="bg-background/75 absolute inset-0 backdrop-blur-sm" onclick={() => close()}></div>
 		<div
 			class={cn(
 				'bg-surface text-surface-foreground shadow-marketplace-lg border-border/60 relative z-10 border',

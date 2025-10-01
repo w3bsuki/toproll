@@ -23,17 +23,17 @@
 	<div class="marketplace-scrollbar grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
 		{#each items as item}
 			<article
-				class="border-border/60 bg-surface/80 hover:border-primary/60 group relative flex h-full flex-col overflow-hidden rounded-[28px] border shadow-[0_18px_60px_rgba(15,23,42,0.4)] transition duration-300 hover:-translate-y-1"
+				class="border-border/60 bg-surface/80 hover:border-primary/60 group shadow-marketplace-lg relative flex h-full flex-col overflow-hidden rounded-[28px] border transition duration-300 hover:-translate-y-1"
 			>
 				<div class="relative w-full overflow-hidden">
 					<div class="aspect-[16/10] w-full" style={`background:${item.image}`}></div>
 					<div
-						class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"
+						class="from-background/80 via-background/20 absolute inset-0 bg-gradient-to-t to-transparent"
 					></div>
 					<div class="absolute top-5 left-5 flex items-center gap-2">
 						<Badge
 							variant="outline"
-							class="border-white/40 bg-white/10 text-xs tracking-[0.35em] text-white uppercase"
+							class="border-border/50 bg-surface/40 text-foreground/85 text-xs tracking-[0.35em] uppercase backdrop-blur-sm"
 						>
 							{item.rarity}
 						</Badge>

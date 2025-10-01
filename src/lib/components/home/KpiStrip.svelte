@@ -11,7 +11,7 @@
 	>
 		{#each kpis as kpi}
 			<article
-				class="border-border/50 bg-surface/80 shrink-0 basis-[70%] snap-start rounded-2xl border px-4 py-3 shadow-[0_12px_30px_rgba(15,23,42,0.25)] md:basis-auto"
+				class="border-border/50 bg-surface/80 shadow-marketplace-sm shrink-0 basis-[70%] snap-start rounded-2xl border px-4 py-3 md:basis-auto"
 			>
 				<p class="text-muted-foreground text-[11px] tracking-[0.3em] uppercase">{kpi.label}</p>
 				<div class="mt-2 flex items-baseline justify-between">
