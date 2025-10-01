@@ -45,7 +45,7 @@
 		</Button>
 	</div>
 
-	<div class="marketplace-scrollbar -mx-1 flex snap-x gap-4 overflow-x-auto px-1 pb-1">
+	<div class="scrollbar-elevated -mx-1 flex snap-x gap-4 overflow-x-auto px-1 pb-1">
 		{#each items as item}
 			<article
 				class="border-border/40 text-foreground shadow-marketplace-md hover:shadow-marketplace-lg shrink-0 basis-[88%] snap-start rounded-[28px] border bg-cover bg-center bg-no-repeat p-6 transition duration-300 hover:-translate-y-1 sm:basis-[58%] lg:basis-[38%] xl:basis-[28%]"

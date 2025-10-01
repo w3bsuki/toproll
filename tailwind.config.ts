@@ -1,110 +1,144 @@
 import type { Config } from 'tailwindcss';
 import defaultTheme from 'tailwindcss/defaultTheme';
 
+const withAlpha = (variable: string) => `oklch(var(${variable}) / <alpha-value>)`;
+
+/**
+ * Design token driven Tailwind theme.
+ * Tokens are expressed as CSS variables in src/app.css and surfaced here for utility classes.
+ */
 const config = {
 	darkMode: ['class'],
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	theme: {
 		extend: {
 			colors: {
-				background: 'oklch(var(--background) / <alpha-value>)',
-				foreground: 'oklch(var(--foreground) / <alpha-value>)',
-				card: {
-					DEFAULT: 'oklch(var(--card) / <alpha-value>)',
-					foreground: 'oklch(var(--card-foreground) / <alpha-value>)'
-				},
-				popover: {
-					DEFAULT: 'oklch(var(--popover) / <alpha-value>)',
-					foreground: 'oklch(var(--popover-foreground) / <alpha-value>)'
-				},
-				surface: {
-					DEFAULT: 'oklch(var(--surface) / <alpha-value>)',
-					foreground: 'oklch(var(--surface-foreground) / <alpha-value>)',
-					muted: 'oklch(var(--surface-muted) / <alpha-value>)',
-					mutedForeground: 'oklch(var(--surface-muted-foreground) / <alpha-value>)',
-					accent: 'oklch(var(--surface-accent) / <alpha-value>)',
-					accentForeground: 'oklch(var(--surface-accent-foreground) / <alpha-value>)'
-				},
-				muted: {
-					DEFAULT: 'oklch(var(--muted) / <alpha-value>)',
-					foreground: 'oklch(var(--muted-foreground) / <alpha-value>)'
-				},
-				border: {
-					DEFAULT: 'oklch(var(--border) / <alpha-value>)',
-					strong: 'oklch(var(--border-strong) / <alpha-value>)'
-				},
-				input: 'oklch(var(--input) / <alpha-value>)',
-				ring: 'oklch(var(--ring) / <alpha-value>)',
-				primary: {
-					DEFAULT: 'oklch(var(--primary) / <alpha-value>)',
-					foreground: 'oklch(var(--primary-foreground) / <alpha-value>)'
-				},
-				secondary: {
-					DEFAULT: 'oklch(var(--secondary) / <alpha-value>)',
-					foreground: 'oklch(var(--secondary-foreground) / <alpha-value>)'
+				neutral: {
+					0: withAlpha('--color-neutral-0'),
+					50: withAlpha('--color-neutral-50'),
+					100: withAlpha('--color-neutral-100'),
+					200: withAlpha('--color-neutral-200'),
+					300: withAlpha('--color-neutral-300'),
+					400: withAlpha('--color-neutral-400'),
+					500: withAlpha('--color-neutral-500'),
+					600: withAlpha('--color-neutral-600'),
+					700: withAlpha('--color-neutral-700'),
+					800: withAlpha('--color-neutral-800'),
+					900: withAlpha('--color-neutral-900'),
+					950: withAlpha('--color-neutral-950')
 				},
 				accent: {
-					DEFAULT: 'oklch(var(--accent) / <alpha-value>)',
-					foreground: 'oklch(var(--accent-foreground) / <alpha-value>)'
+					50: withAlpha('--color-accent-50'),
+					100: withAlpha('--color-accent-100'),
+					200: withAlpha('--color-accent-200'),
+					300: withAlpha('--color-accent-300'),
+					400: withAlpha('--color-accent-400'),
+					500: withAlpha('--color-accent-500'),
+					600: withAlpha('--color-accent-600'),
+					700: withAlpha('--color-accent-700'),
+					800: withAlpha('--color-accent-800'),
+					900: withAlpha('--color-accent-900')
 				},
-				destructive: {
-					DEFAULT: 'oklch(var(--destructive) / <alpha-value>)',
-					foreground: 'oklch(var(--destructive-foreground) / <alpha-value>)'
+				primary: {
+					DEFAULT: withAlpha('--color-primary'),
+					foreground: withAlpha('--color-on-primary')
 				},
 				success: {
-					DEFAULT: 'oklch(var(--success) / <alpha-value>)',
-					foreground: 'oklch(var(--success-foreground) / <alpha-value>)'
-				},
-				info: {
-					DEFAULT: 'oklch(var(--info) / <alpha-value>)',
-					foreground: 'oklch(var(--info-foreground) / <alpha-value>)'
+					DEFAULT: withAlpha('--color-success'),
+					foreground: withAlpha('--color-on-success')
 				},
 				warning: {
-					DEFAULT: 'oklch(var(--warning) / <alpha-value>)',
-					foreground: 'oklch(var(--warning-foreground) / <alpha-value>)'
-				}
+					DEFAULT: withAlpha('--color-warning'),
+					foreground: withAlpha('--color-on-warning')
+				},
+				danger: {
+					DEFAULT: withAlpha('--color-danger'),
+					foreground: withAlpha('--color-on-danger')
+				},
+				background: withAlpha('--color-background'),
+				foreground: withAlpha('--color-foreground'),
+				muted: {
+					DEFAULT: withAlpha('--color-muted'),
+					foreground: withAlpha('--color-on-muted')
+				},
+				surface: {
+					DEFAULT: withAlpha('--color-surface'),
+					foreground: withAlpha('--color-on-surface'),
+					raised: withAlpha('--color-surface-raised'),
+					subdued: withAlpha('--color-surface-subdued')
+				},
+				border: {
+					DEFAULT: withAlpha('--color-border'),
+					strong: withAlpha('--color-border-strong')
+				},
+				input: withAlpha('--color-input'),
+				ring: withAlpha('--color-ring'),
+				focus: withAlpha('--color-focus')
 			},
 			borderRadius: {
-				lg: 'var(--radius-lg)',
+				xs: 'var(--radius-xs)',
+				sm: 'var(--radius-sm)',
 				md: 'var(--radius-md)',
-				sm: 'var(--radius-sm)'
-			},
-			fontFamily: {
-				sans: ['Inter Variable', ...defaultTheme.fontFamily.sans]
+				lg: 'var(--radius-lg)',
+				xl: 'var(--radius-xl)',
+				'2xl': 'var(--radius-2xl)'
 			},
 			boxShadow: {
-				'marketplace-sm':
-					'0 1px 0 0 oklch(var(--border) / 0.6), 0 6px 16px -8px oklch(var(--border) / 0.45)',
-				'marketplace-md':
-					'0 1px 0 0 oklch(var(--border-strong) / 0.55), 0 14px 32px -20px oklch(var(--border-strong) / 0.7)',
-				'marketplace-lg':
-					'0 2px 0 0 oklch(var(--border-strong) / 0.55), 0 24px 48px -32px oklch(var(--border-strong) / 0.65)'
+				'elevated-sm': 'var(--shadow-sm)',
+				'elevated-md': 'var(--shadow-md)',
+				'elevated-lg': 'var(--shadow-lg)'
+			},
+			fontFamily: {
+				sans: ['var(--font-sans)', ...defaultTheme.fontFamily.sans]
+			},
+			fontSize: {
+				xs: ['var(--font-size-xs)', 'var(--font-line-xs)'],
+				sm: ['var(--font-size-sm)', 'var(--font-line-sm)'],
+				base: ['var(--font-size-base)', 'var(--font-line-base)'],
+				lg: ['var(--font-size-lg)', 'var(--font-line-lg)'],
+				xl: ['var(--font-size-xl)', 'var(--font-line-xl)'],
+				'2xl': ['var(--font-size-2xl)', 'var(--font-line-2xl)'],
+				'3xl': ['var(--font-size-3xl)', 'var(--font-line-3xl)']
 			},
 			spacing: {
-				'18': '4.5rem',
-				'22': '5.5rem'
+				'3xs': 'var(--space-3xs)',
+				'2xs': 'var(--space-2xs)',
+				xs: 'var(--space-xs)',
+				sm: 'var(--space-sm)',
+				md: 'var(--space-md)',
+				lg: 'var(--space-lg)',
+				xl: 'var(--space-xl)',
+				'2xl': 'var(--space-2xl)',
+				'3xl': 'var(--space-3xl)'
+			},
+			zIndex: {
+				base: 'var(--z-base)',
+				header: 'var(--z-header)',
+				overlay: 'var(--z-overlay)',
+				popover: 'var(--z-popover)'
 			},
 			transitionTimingFunction: {
-				'market-ease': 'cubic-bezier(0.32, 0.72, 0, 1)'
+				'ease-snappy': 'var(--easing-snappy)',
+				'ease-relaxed': 'var(--easing-relaxed)'
 			},
 			transitionDuration: {
-				subtle: '150ms',
-				default: '220ms',
-				accent: '280ms'
+				swift: 'var(--duration-swift)',
+				default: 'var(--duration-default)',
+				gentle: 'var(--duration-gentle)'
 			},
 			keyframes: {
 				'fade-in': {
 					'0%': { opacity: '0' },
 					'100%': { opacity: '1' }
 				},
-				'slide-up': {
-					'0%': { transform: 'translateY(12px)', opacity: '0' },
-					'100%': { transform: 'translateY(0)', opacity: '1' }
+				'scale-in': {
+					'0%': { opacity: '0', transform: 'scale(0.96)' },
+					'100%': { opacity: '1', transform: 'scale(1)' }
 				}
 			},
 			animation: {
-				'fade-in': 'fade-in 200ms ease-out both',
-				'slide-up': 'slide-up 220ms cubic-bezier(0.32, 0.72, 0, 1) both'
+				'fade-in': 'fade-in var(--duration-default) ease-out both',
+				'scale-in': 'scale-in var(--duration-gentle) var(--easing-relaxed) both'
 			}
 		}
 	}

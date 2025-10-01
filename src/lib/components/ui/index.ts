@@ -22,3 +22,6 @@ export { default as DropdownMenuTrigger } from './dropdown-menu/dropdown-menu-tr
 export { default as DropdownMenuContent } from './dropdown-menu/dropdown-menu-content.svelte';
 export { default as DropdownMenuItem } from './dropdown-menu/dropdown-menu-item.svelte';
 export { default as DropdownMenuSeparator } from './dropdown-menu/dropdown-menu-separator.svelte';
+export { default as Input } from './input.svelte';
+export { default as Textarea } from './textarea.svelte';
+export { default as ScrollArea } from './scroll-area.svelte';

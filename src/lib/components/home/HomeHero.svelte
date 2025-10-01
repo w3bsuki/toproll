@@ -137,7 +137,7 @@
 					</div>
 				</div>
 
-				<div class="marketplace-scrollbar grid flex-1 gap-3 overflow-y-auto pr-1">
+				<div class="scrollbar-elevated grid flex-1 gap-3 overflow-y-auto pr-1">
 					{#each promotions as promo, index}
 						<button
 							type="button"

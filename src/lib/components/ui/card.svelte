@@ -6,7 +6,7 @@
 
 <div
 	class={cn(
-		'border-border/60 bg-card text-card-foreground shadow-marketplace-sm duration-subtle ease-market-ease hover:border-border/80 hover:shadow-marketplace-md rounded-lg border transition-colors',
+		'border-border/60 bg-surface-subdued text-foreground shadow-elevated-sm duration-default ease-relaxed hover:border-border/50 hover:shadow-elevated-md rounded-lg border transition-colors',
 		className
 	)}
 >

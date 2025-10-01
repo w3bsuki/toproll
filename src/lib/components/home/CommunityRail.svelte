@@ -93,7 +93,7 @@
 	</section>
 
 	<div class="mt-5 flex flex-1 flex-col overflow-hidden">
-		<div class="marketplace-scrollbar flex-1 space-y-3 overflow-y-auto pr-2">
+		<div class="scrollbar-elevated flex-1 space-y-3 overflow-y-auto pr-2">
 			{#each messages as message (message.id)}
 				<article
 					class="border-border/40 bg-surface/50 shadow-marketplace-sm rounded-2xl border px-4 py-3 text-sm"
