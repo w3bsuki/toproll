@@ -7,7 +7,7 @@
 <section class="space-y-3">
 	<h2 class="text-lg font-semibold tracking-tight">Live marketplace KPIs</h2>
 	<div
-		class="marketplace-scrollbar -mx-1 flex snap-x gap-3 overflow-x-auto px-1 pb-1 md:grid md:snap-none md:grid-cols-3 md:gap-3 md:overflow-visible md:px-0 md:pb-0"
+		class="scrollbar-elevated -mx-1 flex snap-x gap-3 overflow-x-auto px-1 pb-1 md:grid md:snap-none md:grid-cols-3 md:gap-3 md:overflow-visible md:px-0 md:pb-0"
 	>
 		{#each kpis as kpi}
 			<article

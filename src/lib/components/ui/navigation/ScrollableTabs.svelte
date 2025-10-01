@@ -31,7 +31,7 @@
 	<div
 		class="from-background via-background/60 pointer-events-none absolute inset-y-0 right-0 hidden w-8 bg-gradient-to-l to-transparent xl:block"
 	></div>
-	<div class="marketplace-scrollbar -mx-4 overflow-x-auto px-4 pb-2">
+	<div class="scrollbar-elevated -mx-4 overflow-x-auto px-4 pb-2">
 		<div class="flex gap-2">
 			{#each tabs as tab}
 				<button

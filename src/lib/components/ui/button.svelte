@@ -25,15 +25,13 @@
 
 	const variantClasses: Record<ButtonVariant, string> = {
 		default:
-			'bg-primary text-primary-foreground shadow-marketplace-sm border border-primary/60 hover:bg-primary/90 hover:border-primary/80',
+			'border border-primary/50 bg-primary text-primary-foreground shadow-elevated-sm hover:bg-primary/85',
 		secondary:
-			'bg-secondary text-secondary-foreground border border-secondary/55 shadow-marketplace-sm hover:bg-secondary/90',
-		outline:
-			'border border-border/70 bg-transparent text-foreground hover:border-primary/70 hover:text-primary hover:bg-surface-muted/40',
+			'border border-border/60 bg-surface-subdued text-foreground shadow-elevated-sm hover:bg-surface-subdued/70',
+		outline: 'border border-border/60 bg-transparent text-foreground hover:bg-surface-subdued/60',
 		ghost:
-			'bg-transparent text-muted-foreground hover:text-foreground hover:bg-surface-muted/30 border border-transparent',
-		destructive:
-			'bg-destructive text-destructive-foreground border border-destructive/60 hover:bg-destructive/90'
+			'border border-transparent bg-transparent text-muted-foreground hover:bg-surface-subdued/60 hover:text-foreground',
+		destructive: 'border border-danger/60 bg-danger text-danger-foreground hover:bg-danger/90'
 	};
 
 	const sizeClasses: Record<ButtonSize, string> = {
@@ -48,7 +46,7 @@
 	this={asProp ?? 'button'}
 	type={asProp ? undefined : (type as HTMLButtonElement['type'])}
 	class={cn(
-		'duration-subtle ease-market-ease focus-visible:ring-ring/70 focus-visible:ring-offset-background inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
+		'duration-default ease-snappy focus-visible:ring-ring focus-visible:ring-offset-background inline-flex items-center justify-center gap-2 rounded-md font-medium transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50',
 		variantClasses[variant],
 		sizeClasses[size],
 		className

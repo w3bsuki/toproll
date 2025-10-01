@@ -4,73 +4,150 @@
 	:root {
 		color-scheme: dark;
 
-		--background: 18.8% 0.018 255;
-		--foreground: 95.2% 0.014 255;
+		--font-sans:
+			'Inter Variable', 'Inter', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+			'Segoe UI', sans-serif;
 
-		--muted: 26.5% 0.02 255;
-		--muted-foreground: 72% 0.014 255;
+		--font-size-xs: 0.75rem;
+		--font-size-sm: 0.875rem;
+		--font-size-base: 1rem;
+		--font-size-lg: 1.125rem;
+		--font-size-xl: 1.25rem;
+		--font-size-2xl: 1.5rem;
+		--font-size-3xl: 1.875rem;
 
-		--card: 21.8% 0.02 255;
-		--card-foreground: 92.4% 0.015 255;
+		--font-line-xs: 1.1;
+		--font-line-sm: 1.35;
+		--font-line-base: 1.5;
+		--font-line-lg: 1.55;
+		--font-line-xl: 1.35;
+		--font-line-2xl: 1.25;
+		--font-line-3xl: 1.2;
 
-		--popover: 19.6% 0.018 255;
-		--popover-foreground: 93.2% 0.014 255;
+		--space-3xs: 0.25rem;
+		--space-2xs: 0.375rem;
+		--space-xs: 0.5rem;
+		--space-sm: 0.75rem;
+		--space-md: 1rem;
+		--space-lg: 1.5rem;
+		--space-xl: 2rem;
+		--space-2xl: 2.5rem;
+		--space-3xl: 3rem;
 
-		--surface: 23.5% 0.022 255;
-		--surface-foreground: 92% 0.015 255;
-		--surface-muted: 27.5% 0.026 255;
-		--surface-muted-foreground: 80% 0.016 255;
-		--surface-accent: 34% 0.045 252;
-		--surface-accent-foreground: 95% 0.015 252;
-
-		--border: 32% 0.022 255;
-		--border-strong: 40% 0.026 255;
-		--input: 30% 0.024 255;
-		--ring: 62.5% 0.2 254;
-
-		--primary: 62.5% 0.2 254;
-		--primary-foreground: 98% 0.02 252;
-
-		--secondary: 55% 0.13 202;
-		--secondary-foreground: 97% 0.02 205;
-
-		--accent: 68% 0.19 210;
-		--accent-foreground: 98% 0.018 210;
-
-		--success: 63% 0.17 152;
-		--success-foreground: 96% 0.018 150;
-
-		--info: 66% 0.16 232;
-		--info-foreground: 16% 0.02 232;
-
-		--warning: 78% 0.17 95;
-		--warning-foreground: 24% 0.045 95;
-
-		--destructive: 56% 0.22 25;
-		--destructive-foreground: 96% 0.02 18;
-
+		--radius-xs: 0.375rem;
 		--radius-sm: 0.5rem;
 		--radius-md: 0.75rem;
-		--radius-lg: 1.25rem;
+		--radius-lg: 1rem;
+		--radius-xl: 1.5rem;
+		--radius-2xl: 2rem;
+
+		--shadow-sm:
+			0 1px 0 0 oklch(var(--color-border) / 0.4),
+			0 6px 14px -10px oklch(var(--color-border-strong) / 0.6);
+		--shadow-md:
+			0 2px 0 0 oklch(var(--color-border) / 0.35),
+			0 22px 42px -24px oklch(var(--color-border-strong) / 0.65);
+		--shadow-lg:
+			0 3px 0 0 oklch(var(--color-border) / 0.3),
+			0 38px 60px -32px oklch(var(--color-border-strong) / 0.7);
+
+		--duration-swift: 120ms;
+		--duration-default: 200ms;
+		--duration-gentle: 320ms;
+		--easing-snappy: cubic-bezier(0.38, 0.7, 0.22, 1);
+		--easing-relaxed: cubic-bezier(0.16, 1, 0.3, 1);
+
+		--z-base: 0;
+		--z-header: 20;
+		--z-overlay: 30;
+		--z-popover: 40;
+
+		--color-neutral-0: 0% 0 0;
+		--color-neutral-50: 96% 0.012 255;
+		--color-neutral-100: 92% 0.014 255;
+		--color-neutral-200: 86% 0.016 255;
+		--color-neutral-300: 78% 0.018 255;
+		--color-neutral-400: 68% 0.02 255;
+		--color-neutral-500: 58% 0.022 255;
+		--color-neutral-600: 46% 0.022 255;
+		--color-neutral-700: 36% 0.02 255;
+		--color-neutral-800: 28% 0.018 255;
+		--color-neutral-850: 24% 0.017 255;
+		--color-neutral-900: 21% 0.016 255;
+		--color-neutral-950: 15% 0.015 255;
+
+		--color-accent-50: 95% 0.032 232;
+		--color-accent-100: 88% 0.05 232;
+		--color-accent-200: 80% 0.08 232;
+		--color-accent-300: 72% 0.12 232;
+		--color-accent-400: 64% 0.16 232;
+		--color-accent-500: 58% 0.18 232;
+		--color-accent-600: 50% 0.18 232;
+		--color-accent-700: 43% 0.16 232;
+		--color-accent-800: 34% 0.14 232;
+		--color-accent-900: 28% 0.12 232;
+
+		--color-primary: 62% 0.19 232;
+		--color-on-primary: 97% 0.015 230;
+		--color-success: 63% 0.16 152;
+		--color-on-success: 95% 0.02 150;
+		--color-warning: 78% 0.17 95;
+		--color-on-warning: 24% 0.05 95;
+		--color-danger: 56% 0.22 25;
+		--color-on-danger: 96% 0.02 15;
+
+		--color-background: var(--color-neutral-950);
+		--color-foreground: var(--color-neutral-50);
+		--color-surface: var(--color-neutral-900);
+		--color-surface-raised: var(--color-neutral-850, 24% 0.02 255);
+		--color-surface-subdued: var(--color-neutral-800);
+		--color-muted: var(--color-neutral-700);
+		--color-on-muted: var(--color-neutral-200);
+		--color-border: var(--color-neutral-700);
+		--color-border-strong: var(--color-neutral-600);
+		--color-input: var(--color-neutral-800);
+		--color-ring: var(--color-accent-500);
+		--color-focus: var(--color-accent-300);
+
+		--size-header: 4.5rem;
+	}
+
+	[data-theme='light'] {
+		color-scheme: light;
+
+		--color-neutral-50: 99% 0.007 255;
+		--color-neutral-100: 98% 0.01 255;
+		--color-neutral-200: 94% 0.012 255;
+		--color-neutral-300: 88% 0.014 255;
+		--color-neutral-400: 78% 0.016 255;
+		--color-neutral-500: 70% 0.018 255;
+		--color-neutral-600: 58% 0.016 255;
+		--color-neutral-700: 46% 0.015 255;
+		--color-neutral-800: 34% 0.014 255;
+		--color-neutral-900: 26% 0.012 255;
+		--color-neutral-950: 14% 0.01 255;
+
+		--color-background: var(--color-neutral-50);
+		--color-foreground: var(--color-neutral-900);
+		--color-surface: var(--color-neutral-0, 100% 0 0);
+		--color-surface-raised: var(--color-neutral-100);
+		--color-surface-subdued: var(--color-neutral-200);
+		--color-muted: var(--color-neutral-200);
+		--color-on-muted: var(--color-neutral-800);
+		--color-border: var(--color-neutral-300);
+		--color-border-strong: var(--color-neutral-400);
+		--color-input: var(--color-neutral-0, 100% 0 0);
 	}
 
 	* {
-		border-color: oklch(var(--border) / 0.65);
+		border-color: oklch(var(--color-border) / 0.65);
 	}
 
 	body {
 		min-height: 100vh;
-		background: oklch(var(--background));
-		color: oklch(var(--foreground));
-		font-family:
-			'Inter Variable',
-			'Inter',
-			ui-sans-serif,
-			system-ui,
-			-apple-system,
-			BlinkMacSystemFont,
-			'Segoe UI',
-			sans-serif;
+		background: oklch(var(--color-background));
+		color: oklch(var(--color-foreground));
+		font-family: var(--font-sans);
 		font-feature-settings: 'ss01', 'cv05', 'cv11';
 		letter-spacing: -0.01em;
 	}
@@ -86,8 +163,8 @@
 	}
 
 	::selection {
-		background: oklch(var(--primary) / 0.2);
-		color: oklch(var(--primary-foreground));
+		background: oklch(var(--color-primary) / 0.2);
+		color: oklch(var(--color-on-primary));
 	}
 
 	:focus-visible {
@@ -96,40 +173,20 @@
 }
 
 @layer utilities {
-	.surface {
-		background: oklch(var(--surface));
-		color: oklch(var(--surface-foreground));
+	.scrollbar-elevated {
+		scrollbar-color: oklch(var(--color-border) / 0.6) transparent;
 	}
 
-	.surface-muted {
-		background: oklch(var(--surface-muted));
-		color: oklch(var(--surface-muted-foreground));
-	}
-
-	.surface-accent {
-		background: oklch(var(--surface-accent));
-		color: oklch(var(--surface-accent-foreground));
-	}
-
-	.card-grid {
-		display: grid;
-		gap: 1.5rem;
-	}
-
-	.marketplace-scrollbar {
-		scrollbar-color: oklch(var(--border) / 0.6) oklch(var(--surface));
-	}
-
-	.marketplace-scrollbar::-webkit-scrollbar {
+	.scrollbar-elevated::-webkit-scrollbar {
 		width: 8px;
 	}
 
-	.marketplace-scrollbar::-webkit-scrollbar-track {
+	.scrollbar-elevated::-webkit-scrollbar-track {
 		background: transparent;
 	}
 
-	.marketplace-scrollbar::-webkit-scrollbar-thumb {
-		background: oklch(var(--border) / 0.65);
+	.scrollbar-elevated::-webkit-scrollbar-thumb {
+		background: oklch(var(--color-border) / 0.65);
 		border-radius: 999px;
 	}
 }
