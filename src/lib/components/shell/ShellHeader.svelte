@@ -60,6 +60,18 @@
 		return unsubscribe;
 	});
 
+	const pageTitle = $derived(() => {
+		const pathname = currentPath || '/';
+		if (pathname === '/' || pathname === '') return 'Home';
+		const segments = pathname.split('/').filter(Boolean);
+		if (segments.length === 0) return 'Home';
+		const lastSegment = segments[segments.length - 1];
+		return lastSegment
+			.split('-')
+			.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+			.join(' ');
+	});
+
 	const homeHref = base ? `${base}/` : '/';
 	const dispatch = createEventDispatcher<{ search: string }>();
 	let searchValue = $state('');
@@ -124,7 +136,7 @@
 				<span class="text-sm font-bold text-foreground">TopRoll</span>
 			</a>
 		</div>
-		<h1 class="text-sm font-bold text-foreground">{pageTitle}</h1>
+		<h1 class="text-sm font-bold text-foreground">{pageTitle()}</h1>
 		<div class="flex items-center gap-2">
 			<button
 				type="button"
