@@ -154,7 +154,7 @@
 					rows={1}
 					placeholder="Drop a message…"
 					class="marketplace-scrollbar max-h-24 flex-1 resize-none border-0 bg-transparent px-2 py-1 text-sm focus:outline-none"
-				/>
+				></textarea>
 				<Button size="icon" class="h-11 w-11 rounded-2xl" type="submit">
 					<Send class="h-4 w-4" />
 					<span class="sr-only">Send message</span>

@@ -12,7 +12,10 @@
 
 	const { open, setOpen } = useDropdownContext();
 	const visible = derived(open, ($open) => $open);
-	let container: HTMLDivElement | null = null;
+	let container = $state<HTMLDivElement | null>(null);
+	const slots = $slots();
+	type DropdownSlot = (props: { setOpen: (value: boolean) => void }) => unknown;
+	const renderDefault = slots.default as DropdownSlot | undefined;
 
 	onMount(() => {
 		const handleClick = (event: MouseEvent) => {
@@ -36,8 +39,10 @@
 			className
 		)}
 		bind:this={container}
-		on:click|stopPropagation
+		onclick={(event) => {
+			event.stopPropagation();
+		}}
 	>
-		<slot {setOpen} />
+		{@render renderDefault?.({ setOpen })}
 	</div>
 {/if}

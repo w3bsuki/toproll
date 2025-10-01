@@ -9,6 +9,8 @@
 	}: { inset?: boolean; class?: string; onSelect?: (event: MouseEvent) => void } = $props();
 
 	const { setOpen } = useDropdownContext();
+	const slots = $slots<{ default?: () => unknown }>();
+	const renderDefault = slots.default;
 </script>
 
 <button
@@ -19,10 +21,10 @@
 		inset && 'pl-9',
 		className
 	)}
-	onclick={(event) => {
+	on:click={(event) => {
 		onSelect?.(event);
 		setOpen(false);
 	}}
 >
-	<slot />
+	{@render renderDefault?.({})}
 </button>

@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { page } from '$app/stores';
 	import { base } from '$app/paths';
 	import AuthButton from '$lib/components/AuthButton.svelte';
@@ -18,6 +18,7 @@
 	import { Button } from '$lib/components/ui';
 	import { cn } from '$lib/utils';
 	import { closeSidebar } from '$lib/stores/ui';
+	import type { Snippet } from 'svelte';
 
 	type SidebarUser = {
 		username: string;
@@ -30,16 +31,21 @@
 		user?: SidebarUser | null;
 		class?: string;
 		density?: 'default' | 'compact';
+		children?: Snippet;
 	}>();
 
-	const inboundAuthenticated = $derived(() => props.isAuthenticated ?? false);
-	const inboundUser = $derived(() => props.user ?? null);
-	const className = $derived(() => props.class ?? '');
-	const density = $derived(() => props.density ?? 'default');
+	const inboundAuthenticated = $derived(props.isAuthenticated ?? false);
+	const inboundUser = $derived(props.user ?? null);
+	const className = $derived(props.class ?? '');
+	const density = $derived(props.density ?? 'default');
 
-	const pageStore = page;
-	const currentPage = $derived(pageStore);
-	const currentPath = $derived(() => currentPage.url.pathname);
+	let currentPath = $state('/');
+	$effect(() => {
+		const unsubscribe = page.subscribe(($page) => {
+			currentPath = $page.url.pathname;
+		});
+		return unsubscribe;
+	});
 
 	const navItems = [
 		{ href: '/', icon: Home, label: 'Home' },
@@ -82,14 +88,12 @@
 		} satisfies SidebarUser;
 	};
 
-	const activeUser = $derived(() => (previewSignedIn ? normalizeUser(inboundUser) : null));
+	const activeUser = $derived(previewSignedIn ? normalizeUser(inboundUser) : null);
 
 	const vaultSummary = [
 		{ label: 'Vault', value: '$640.00' },
 		{ label: 'Withdrawable', value: '$930.00' }
 	];
-
-	const formatNumber = (value: number | null | undefined) => Number(value ?? 0).toLocaleString();
 
 	const togglePreviewState = () => {
 		previewSignedIn = !previewSignedIn;
@@ -182,10 +186,10 @@
 							Total balance
 						</p>
 						<p class="text-[28px] leading-tight font-semibold tracking-tight">
-							${formatNumber(activeUser.balance)}
+							${(activeUser?.balance ?? 0).toLocaleString()}
 						</p>
 						<p class="text-muted-foreground text-xs">
-							Lifetime wagered {formatNumber(activeUser.totalWagered)}
+							Lifetime wagered ${(activeUser?.totalWagered ?? 0).toLocaleString()}
 						</p>
 					</div>
 					<Button
