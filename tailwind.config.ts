@@ -98,7 +98,9 @@ const config = {
 				lg: ['var(--font-size-lg)', 'var(--font-line-lg)'],
 				xl: ['var(--font-size-xl)', 'var(--font-line-xl)'],
 				'2xl': ['var(--font-size-2xl)', 'var(--font-line-2xl)'],
-				'3xl': ['var(--font-size-3xl)', 'var(--font-line-3xl)']
+				'3xl': ['var(--font-size-3xl)', 'var(--font-line-3xl)'],
+				'4xl': ['var(--font-size-4xl)', 'var(--font-line-4xl)'],
+				'5xl': ['var(--font-size-5xl)', 'var(--font-line-5xl)']
 			},
 			spacing: {
 				'3xs': 'var(--space-3xs)',

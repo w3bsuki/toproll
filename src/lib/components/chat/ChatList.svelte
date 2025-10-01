@@ -56,30 +56,36 @@
 </script>
 
 <section
-	class={cn('gap-lg flex min-h-0 flex-1 flex-col', className)}
+	class={cn('gap-xl flex min-h-0 flex-1 flex-col', className)}
 	aria-labelledby="community-chat-title"
 >
 	<header class="gap-md flex items-center justify-between">
-		<span class="bg-primary/15 text-primary flex h-12 w-12 items-center justify-center rounded-xl">
+		<span class="bg-primary/15 text-primary flex h-12 w-12 items-center justify-center rounded-2xl">
 			<MessageCircle class="h-5 w-5" aria-hidden="true" />
 		</span>
 		<div class="flex flex-1 flex-col">
-			<h2 id="community-chat-title" class="text-base font-semibold">Community chat</h2>
-			<p class="text-muted-foreground text-xs">Live pulls, rain updates and support pings.</p>
+			<h2 id="community-chat-title" class="text-lg font-semibold">Community chat</h2>
+			<p class="text-muted-foreground text-sm leading-relaxed">
+				Live pulls, rain updates and support pings.
+			</p>
 		</div>
 		<slot name="header-action" />
 	</header>
 
-	<div class="border-border/60 bg-surface-subdued/80 p-md shadow-elevated-sm rounded-xl border">
+	<div
+		class="border-border/50 bg-surface/70 p-lg shadow-elevated-sm rounded-2xl border backdrop-blur"
+	>
 		<div class="gap-md flex items-center">
 			<span
-				class="border-primary/40 bg-primary/15 text-primary flex h-11 w-11 items-center justify-center rounded-lg border"
+				class="border-primary/40 bg-primary/15 text-primary flex h-11 w-11 items-center justify-center rounded-xl border"
 			>
 				<CloudRain class="h-4 w-4" aria-hidden="true" />
 			</span>
 			<div class="flex flex-1 flex-col">
-				<p class="text-muted-foreground text-xs font-medium tracking-[0.3em] uppercase">Rain pot</p>
-				<p class="text-foreground text-lg font-semibold">{pot.total}</p>
+				<p class="text-muted-foreground text-[11px] font-medium tracking-[0.3em] uppercase">
+					Rain pot
+				</p>
+				<p class="text-foreground text-2xl font-semibold">{pot.total}</p>
 			</div>
 		</div>
 		<div
@@ -96,7 +102,7 @@
 	<ScrollArea class="min-h-0 flex-1" viewportClass="flex flex-col gap-sm pr-1">
 		{#each messages as message (message.id)}
 			<article
-				class="border-border/50 bg-surface-subdued/70 p-md rounded-lg border text-sm shadow-none"
+				class="border-border/50 bg-surface/70 p-md shadow-elevated-sm rounded-xl border text-sm backdrop-blur"
 			>
 				<header
 					class="gap-xs text-muted-foreground mb-1 flex flex-wrap items-center justify-between text-xs"
@@ -128,10 +134,10 @@
 				oninput={handleInput}
 				onkeydown={handleKey}
 				placeholder="Drop a message…"
-				class="h-full min-h-[3.25rem] resize-none"
+				class="border-border/60 bg-input/80 text-foreground placeholder:text-muted-foreground/70 focus-visible:ring-ring focus-visible:ring-offset-background px-md py-sm h-full min-h-[3.25rem] resize-none rounded-xl border text-sm shadow-none backdrop-blur focus-visible:ring-2 focus-visible:ring-offset-2"
 			/>
 		</div>
-		<Button type="submit" size="icon" class="h-12 w-12 rounded-lg">
+		<Button type="submit" size="icon" class="h-12 w-12 rounded-xl">
 			<Send class="h-4 w-4" aria-hidden="true" />
 			<span class="sr-only">Send message</span>
 		</Button>

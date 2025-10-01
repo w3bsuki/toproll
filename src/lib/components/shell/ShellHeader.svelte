@@ -63,7 +63,7 @@
 	<div class="gap-md flex w-full items-center justify-between lg:hidden">
 		<button
 			type="button"
-			class="border-border/60 bg-surface-subdued/70 text-muted-foreground hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background flex h-10 w-10 items-center justify-center rounded-lg border transition focus-visible:ring-2 focus-visible:ring-offset-2"
+			class="border-border/60 bg-surface-subdued/70 text-muted-foreground hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background flex h-11 w-11 items-center justify-center rounded-xl border transition focus-visible:ring-2 focus-visible:ring-offset-2"
 			onclick={toggleSidebar}
 			aria-label="Open navigation"
 			aria-expanded={sidebarOpen}
@@ -71,9 +71,9 @@
 			<Menu class="h-4 w-4" aria-hidden="true" />
 		</button>
 		<div class="gap-sm flex items-center">
-			<a href={homeHref} class="gap-xs text-foreground flex items-center text-sm font-semibold">
+			<a href={homeHref} class="gap-sm text-foreground flex items-center text-sm font-semibold">
 				<span
-					class="border-primary/40 bg-primary/15 text-primary flex h-8 w-8 items-center justify-center rounded-md border"
+					class="border-primary/40 bg-primary/15 text-primary flex h-9 w-9 items-center justify-center rounded-lg border"
 				>
 					TR
 				</span>
@@ -83,14 +83,14 @@
 		<div class="gap-xs flex items-center">
 			<button
 				type="button"
-				class="border-border/60 text-muted-foreground hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background flex h-10 w-10 items-center justify-center rounded-lg border transition focus-visible:ring-2 focus-visible:ring-offset-2"
+				class="border-border/60 text-muted-foreground hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background flex h-11 w-11 items-center justify-center rounded-xl border transition focus-visible:ring-2 focus-visible:ring-offset-2"
 				aria-label="Search"
 			>
 				<Search class="h-4 w-4" aria-hidden="true" />
 			</button>
 			<button
 				type="button"
-				class="border-border/60 text-muted-foreground hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background flex h-10 w-10 items-center justify-center rounded-lg border transition focus-visible:ring-2 focus-visible:ring-offset-2"
+				class="border-border/60 text-muted-foreground hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background flex h-11 w-11 items-center justify-center rounded-xl border transition focus-visible:ring-2 focus-visible:ring-offset-2"
 				aria-label="Notifications"
 			>
 				<Bell class="h-4 w-4" aria-hidden="true" />
@@ -98,11 +98,11 @@
 		</div>
 	</div>
 
-	<div class="gap-xl hidden w-full items-center lg:flex">
+	<div class="gap-2xl hidden w-full items-center lg:flex">
 		<div class="gap-md flex min-w-0 items-center">
 			<a href={homeHref} class="gap-sm flex items-center text-left">
 				<span
-					class="border-primary/40 bg-primary/15 text-primary flex h-11 w-11 items-center justify-center rounded-lg border text-sm font-semibold"
+					class="border-primary/40 bg-primary/15 text-primary flex h-11 w-11 items-center justify-center rounded-xl border text-sm font-semibold"
 				>
 					TR
 				</span>
@@ -136,20 +136,20 @@
 		<div class="gap-sm flex items-center">
 			<button
 				type="button"
-				class="border-border/60 text-muted-foreground hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background hidden h-10 w-10 items-center justify-center rounded-lg border transition focus-visible:ring-2 focus-visible:ring-offset-2 xl:flex"
+				class="border-border/60 text-muted-foreground hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background hidden h-11 w-11 items-center justify-center rounded-xl border transition focus-visible:ring-2 focus-visible:ring-offset-2 xl:flex"
 				aria-label="Search"
 			>
 				<Search class="h-4 w-4" aria-hidden="true" />
 			</button>
 			<button
 				type="button"
-				class="border-border/60 text-muted-foreground hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background hidden h-10 w-10 items-center justify-center rounded-lg border transition focus-visible:ring-2 focus-visible:ring-offset-2 xl:flex"
+				class="border-border/60 text-muted-foreground hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background hidden h-11 w-11 items-center justify-center rounded-xl border transition focus-visible:ring-2 focus-visible:ring-offset-2 xl:flex"
 				aria-label="Notifications"
 			>
 				<Bell class="h-4 w-4" aria-hidden="true" />
 			</button>
 			{#if isAuthenticated && user}
-				<Button variant="ghost" class="px-md text-foreground h-10 rounded-full text-sm font-medium">
+				<Button variant="ghost" class="px-lg text-foreground h-11 rounded-full text-sm font-medium">
 					{user.username}
 				</Button>
 			{:else}

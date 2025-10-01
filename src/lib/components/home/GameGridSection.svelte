@@ -22,19 +22,19 @@
 	const actionLabel = $derived(props.actionLabel ?? 'view all');
 </script>
 
-<section class="space-y-lg">
+<section class="space-y-xl">
 	<div class="gap-sm flex flex-wrap items-center justify-between">
 		<h3 class="text-foreground text-2xl font-semibold">
 			{title}
 		</h3>
 		<a
 			href="/cases"
-			class="border-primary/40 bg-primary/15 px-md py-xs text-primary hover:bg-primary hover:text-primary-foreground rounded-full border text-sm font-medium transition-colors"
+			class="border-primary/40 bg-primary/15 px-lg py-sm text-primary hover:bg-primary hover:text-primary-foreground focus-visible:ring-ring focus-visible:ring-offset-background rounded-full border text-sm font-semibold transition-colors focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
 		>
 			{actionLabel}
 		</a>
 	</div>
-	<div class="gap-md grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+	<div class="gap-lg grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
 		{#each items as item (item.id)}
 			<GameCard
 				title={item.title}

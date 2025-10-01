@@ -42,13 +42,11 @@
 
 {#if slides.length}
 	<section
-		class="border-border/60 bg-surface-raised/80 shadow-elevated-lg relative overflow-hidden rounded-2xl border"
+		class="hero-shell border-border/60 bg-surface-raised/80 shadow-elevated-lg relative overflow-hidden rounded-3xl border"
+		style={`--hero-background:${slides[activeIndex]?.background ?? 'radial-gradient(circle at 20% 20%, oklch(var(--color-accent-400)/0.45), transparent 55%), rgba(15,23,42,0.92)'};`}
 	>
-		<div
-			class="gap-xl relative grid min-h-[420px] overflow-hidden lg:grid-cols-[1.2fr,0.8fr]"
-			style={`background:${slides[activeIndex]?.background ?? 'var(--color-surface)'}`}
-		>
-			<div class="p-lg sm:p-xl relative flex flex-col justify-between">
+		<div class="hero-grid">
+			<div class="hero-primary">
 				<div class="space-y-lg text-foreground">
 					<div class="gap-sm flex flex-wrap items-center">
 						<Badge
@@ -62,10 +60,10 @@
 						>
 					</div>
 					<div class="space-y-sm">
-						<h1 class="text-3xl leading-tight font-semibold sm:text-4xl lg:text-5xl">
+						<h1 class="text-4xl font-semibold sm:text-5xl">
 							{slides[activeIndex].title}
 						</h1>
-						<p class="text-foreground/85 max-w-2xl text-sm leading-relaxed sm:text-base">
+						<p class="text-foreground/85 max-w-2xl text-base leading-relaxed">
 							{slides[activeIndex].description}
 						</p>
 					</div>
@@ -87,29 +85,31 @@
 				</div>
 
 				<div
-					class="border-border/50 bg-surface-subdued/80 p-md shadow-elevated-sm rounded-xl border"
+					class="hero-stats border-border/50 bg-surface/70 p-lg shadow-elevated-sm rounded-2xl border backdrop-blur"
 				>
-					<div class="gap-sm grid grid-cols-1 sm:grid-cols-3">
+					<div
+						class="divide-border/60 grid grid-cols-1 divide-y sm:grid-cols-3 sm:divide-x sm:divide-y-0"
+					>
 						{#each slides[activeIndex].stats as stat}
-							<div class="border-border/40 bg-surface/80 px-sm py-sm rounded-lg border text-center">
-								<p class="text-muted-foreground text-[11px] font-medium tracking-[0.3em] uppercase">
+							<div class="stat-tile">
+								<p
+									class="text-muted-foreground text-[11px] font-semibold tracking-[0.3em] uppercase"
+								>
 									{stat.label}
 								</p>
-								<p class="mt-xs text-lg font-semibold">{stat.value}</p>
+								<p class="mt-xs text-foreground text-xl font-semibold">{stat.value}</p>
 							</div>
 						{/each}
 					</div>
 				</div>
 			</div>
 
-			<aside class="gap-md border-border/50 p-lg relative hidden h-full flex-col border-l lg:flex">
-				<div
-					class="text-muted-foreground flex items-center justify-between text-xs font-medium tracking-[0.3em] uppercase"
-				>
+			<aside class="hero-rail">
+				<div class="hero-rail__header">
 					<p>Now trending</p>
-					<div class="gap-xs flex">
+					<div class="flex gap-2">
 						<button
-							class="border-border/60 text-muted-foreground hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background flex h-9 w-9 items-center justify-center rounded-full border transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+							class="hero-rail__control"
 							type="button"
 							onclick={() => step(-1)}
 							aria-label="Previous slide"
@@ -117,7 +117,7 @@
 							<ChevronLeft class="h-4 w-4" />
 						</button>
 						<button
-							class="border-border/60 text-muted-foreground hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background flex h-9 w-9 items-center justify-center rounded-full border transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+							class="hero-rail__control"
 							type="button"
 							onclick={() => step(1)}
 							aria-label="Next slide"
@@ -158,11 +158,9 @@
 				</div>
 			</aside>
 
-			<div
-				class="gap-sm p-md absolute inset-x-0 bottom-0 flex items-center justify-between lg:hidden"
-			>
+			<div class="hero-mobile-controls">
 				<button
-					class="border-border/60 text-muted-foreground hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background flex h-9 w-9 items-center justify-center rounded-full border transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+					class="hero-rail__control"
 					type="button"
 					onclick={() => step(-1)}
 					aria-label="Previous slide"
@@ -180,7 +178,7 @@
 					{/each}
 				</div>
 				<button
-					class="border-border/60 text-muted-foreground hover:text-foreground focus-visible:ring-ring focus-visible:ring-offset-background flex h-9 w-9 items-center justify-center rounded-full border transition focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none"
+					class="hero-rail__control"
 					type="button"
 					onclick={() => step(1)}
 					aria-label="Next slide"
@@ -191,3 +189,139 @@
 		</div>
 	</section>
 {/if}
+
+<style lang="postcss">
+	.hero-shell {
+		position: relative;
+		isolation: isolate;
+	}
+
+	.hero-shell::before {
+		content: '';
+		position: absolute;
+		inset: 0;
+		background: var(--hero-background);
+		z-index: 0;
+	}
+
+	.hero-shell::after {
+		content: '';
+		position: absolute;
+		inset: 0;
+		border-radius: inherit;
+		background:
+			radial-gradient(circle at 20% 20%, oklch(var(--color-accent-300) / 0.28), transparent 65%),
+			radial-gradient(circle at 80% 30%, oklch(var(--color-accent-500) / 0.22), transparent 60%),
+			linear-gradient(
+				135deg,
+				oklch(var(--color-background) / 0.92),
+				oklch(var(--color-background) / 0.35)
+			);
+		mix-blend-mode: normal;
+		pointer-events: none;
+	}
+
+	.hero-grid {
+		position: relative;
+		display: grid;
+		min-height: 26rem;
+		gap: var(--space-xl);
+		padding: var(--space-xl);
+		z-index: 1;
+	}
+
+	@media (min-width: 1024px) {
+		.hero-grid {
+			grid-template-columns: 1.25fr 0.75fr;
+		}
+	}
+
+	.hero-primary {
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+		gap: var(--space-xl);
+	}
+
+	.hero-stats .stat-tile {
+		padding: var(--space-sm) var(--space-md);
+		text-align: left;
+	}
+
+	@media (min-width: 640px) {
+		.hero-stats .stat-tile {
+			text-align: center;
+		}
+	}
+
+	.hero-rail {
+		display: none;
+	}
+
+	@media (min-width: 1024px) {
+		.hero-rail {
+			display: flex;
+			flex-direction: column;
+			gap: var(--space-md);
+			padding: var(--space-lg);
+			border-left: 1px solid oklch(var(--color-border) / 0.6);
+			background: oklch(var(--color-background) / 0.3);
+			backdrop-filter: blur(16px);
+		}
+	}
+
+	.hero-rail__header {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		color: oklch(var(--color-muted));
+		font-size: var(--font-size-xs);
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.3em;
+	}
+
+	.hero-rail__control {
+		display: inline-flex;
+		height: 2.5rem;
+		width: 2.5rem;
+		align-items: center;
+		justify-content: center;
+		border-radius: 999px;
+		border: 1px solid oklch(var(--color-border) / 0.6);
+		background: oklch(var(--color-surface) / 0.6);
+		color: oklch(var(--color-muted));
+		transition:
+			color var(--duration-default) var(--easing-snappy),
+			border-color var(--duration-default) var(--easing-snappy),
+			background-color var(--duration-default) var(--easing-snappy);
+	}
+
+	.hero-rail__control:hover {
+		color: oklch(var(--color-foreground));
+		border-color: oklch(var(--color-primary) / 0.5);
+	}
+
+	.hero-rail__control:focus-visible {
+		outline: 2px solid oklch(var(--color-ring));
+		outline-offset: 2px;
+	}
+
+	.hero-mobile-controls {
+		position: absolute;
+		inset-inline: 0;
+		bottom: 0;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: var(--space-sm);
+		padding: var(--space-md);
+		background: linear-gradient(to top, oklch(var(--color-background) / 0.85), transparent);
+	}
+
+	@media (min-width: 1024px) {
+		.hero-mobile-controls {
+			display: none;
+		}
+	}
+</style>

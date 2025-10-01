@@ -33,16 +33,16 @@
 </svelte:head>
 
 <div class="bg-background text-foreground">
-	<div class="mx-auto flex min-h-[100dvh] w-full max-w-[1920px]">
-		<aside class="hidden lg:flex lg:w-[min(320px,24vw)] lg:flex-col lg:px-6 xl:px-8">
-			<div class="top-lg sticky flex h-[calc(100dvh-var(--space-xl))] flex-col">
+	<div class="mx-auto flex min-h-[100dvh] w-full max-w-[1920px] px-4 sm:px-6 lg:px-8">
+		<aside class="lg:pr-lg xl:pr-xl hidden lg:flex lg:w-[min(320px,24vw)] lg:flex-col">
+			<div class="sticky top-[var(--space-xl)] flex h-[calc(100dvh-var(--space-xl)*2)] flex-col">
 				<Sidebar isAuthenticated={data.isAuthenticated} user={data.user} class="flex-1">
 					<SidebarCTA />
 				</Sidebar>
 			</div>
 		</aside>
 
-		<div class="flex min-h-[100dvh] flex-1 flex-col lg:pr-6 xl:pr-8">
+		<div class="lg:pl-lg xl:pl-xl flex min-h-[100dvh] flex-1 flex-col">
 			<ShellHeader
 				class="z-header border-border/50 bg-surface/80 sticky top-0 border-b backdrop-blur"
 				{promoTicker}
@@ -51,14 +51,14 @@
 			/>
 
 			<div
-				class="gap-lg pt-lg flex min-h-0 flex-1 flex-col px-4 pb-[calc(var(--space-xl)+env(safe-area-inset-bottom))] sm:px-6 md:px-8"
+				class="gap-xl pt-xl flex min-h-0 flex-1 flex-col pb-[calc(var(--space-2xl)+env(safe-area-inset-bottom))]"
 			>
 				<div
-					class="gap-lg flex min-h-0 flex-1 flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start"
+					class="gap-xl flex min-h-0 flex-1 flex-col lg:grid lg:grid-cols-[minmax(0,1fr)_360px] lg:items-start"
 				>
 					<main aria-label="Primary content" class="flex min-h-0 flex-1 flex-col">
 						<div class="scrollbar-elevated flex-1 overflow-y-auto">
-							<div class="gap-xl pb-2xl mx-auto flex w-full max-w-[1100px] flex-col">
+							<div class="gap-2xl pb-3xl mx-auto flex w-full max-w-[1100px] flex-col">
 								{@render children?.()}
 							</div>
 						</div>
@@ -66,7 +66,7 @@
 
 					<aside id="chat" class="hidden min-h-0 flex-col lg:flex">
 						<div
-							class="border-border/60 bg-surface-raised/90 p-md shadow-elevated-md sticky top-[calc(var(--size-header)+var(--space-lg))] flex max-h-[calc(100dvh-var(--size-header)-var(--space-xl)*2)] flex-1 rounded-xl border backdrop-blur"
+							class="border-border/60 bg-surface-raised/90 p-lg shadow-elevated-lg sticky top-[calc(var(--size-header)+var(--space-xl))] flex max-h-[calc(100dvh-var(--size-header)-var(--space-2xl)*2)] flex-1 rounded-2xl border backdrop-blur"
 						>
 							<ChatList />
 						</div>

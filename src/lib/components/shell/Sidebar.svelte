@@ -71,13 +71,13 @@
 
 <aside
 	class={cn(
-		'gap-lg border-border/60 bg-surface/80 p-lg shadow-elevated-lg flex h-full min-h-0 flex-col rounded-2xl border backdrop-blur',
+		'gap-xl border-border/60 bg-surface/85 p-xl shadow-elevated-lg flex h-full min-h-0 flex-col rounded-2xl border backdrop-blur',
 		className
 	)}
 >
 	<a href={buildHref('/')} class="gap-sm flex items-center text-left">
 		<div
-			class="border-primary/40 bg-primary/15 text-primary flex h-11 w-11 items-center justify-center rounded-lg border text-sm font-semibold"
+			class="border-primary/40 bg-primary/15 text-primary flex h-11 w-11 items-center justify-center rounded-xl border text-sm font-semibold"
 		>
 			TR
 		</div>
@@ -93,7 +93,7 @@
 				<a
 					href={buildHref(item.href)}
 					class={cn(
-						'group gap-sm px-md flex min-h-12 items-center rounded-lg border border-transparent text-sm font-medium transition-colors',
+						'group gap-sm px-md flex min-h-12 items-center rounded-xl border border-transparent text-sm font-semibold transition-colors',
 						isActiveRoute(item.href)
 							? 'bg-primary/15 text-foreground border-primary/40'
 							: 'text-muted-foreground hover:bg-surface-subdued/70 hover:text-foreground'
@@ -103,7 +103,7 @@
 				>
 					<span
 						class={cn(
-							'flex h-10 w-10 items-center justify-center rounded-md border border-transparent transition-colors',
+							'flex h-10 w-10 items-center justify-center rounded-lg border border-transparent transition-colors',
 							isActiveRoute(item.href)
 								? 'bg-primary/20 text-primary'
 								: 'bg-surface-subdued/80 text-muted-foreground group-hover:text-foreground'
@@ -116,11 +116,11 @@
 			{:else}
 				<button
 					type="button"
-					class="group gap-sm px-md text-muted-foreground hover:bg-surface-subdued/70 hover:text-foreground flex min-h-12 items-center rounded-lg border border-transparent text-left text-sm font-medium transition-colors"
+					class="group gap-sm px-md text-muted-foreground hover:bg-surface-subdued/70 hover:text-foreground flex min-h-12 items-center rounded-xl border border-transparent text-left text-sm font-semibold transition-colors"
 					onclick={() => handleNavClick(item)}
 				>
 					<span
-						class="bg-surface-subdued/80 text-muted-foreground group-hover:text-foreground flex h-10 w-10 items-center justify-center rounded-md transition-colors"
+						class="bg-surface-subdued/80 text-muted-foreground group-hover:text-foreground flex h-10 w-10 items-center justify-center rounded-lg transition-colors"
 					>
 						<item.icon class="h-4 w-4" aria-hidden="true" />
 					</span>
@@ -133,7 +133,7 @@
 	<div class="gap-lg mt-auto flex flex-col">
 		{#if isAuthenticated && inboundUser}
 			<section
-				class="border-border/50 bg-surface-raised/80 p-md shadow-elevated-sm rounded-xl border"
+				class="border-border/50 bg-surface-raised/85 p-lg shadow-elevated-sm rounded-2xl border"
 			>
 				<header class="gap-sm flex items-center">
 					<span
