@@ -35,11 +35,11 @@
 			>
 				<div class="space-y-4">
 					<div
-						class="relative overflow-hidden rounded-2xl border border-white/10 bg-black/40 p-5"
+						class="border-border/50 bg-surface/50 relative overflow-hidden rounded-2xl border p-5"
 						style={`background:${item.image}`}
 					>
 						<div
-							class="absolute inset-0 bg-gradient-to-br from-black/40 via-transparent to-black/60"
+							class="from-background/60 to-background/80 absolute inset-0 bg-gradient-to-br via-transparent"
 							aria-hidden="true"
 						></div>
 						<div class="relative z-[1] flex items-start justify-between">
@@ -47,16 +47,16 @@
 								{item.rarity}
 							</Badge>
 							<span
-								class="rounded-full border border-white/40 bg-black/50 px-2 py-1 text-[10px] tracking-[0.3em] text-white/80 uppercase"
+								class="border-border/50 bg-surface/60 text-muted-foreground rounded-full border px-2 py-1 text-[10px] tracking-[0.3em] uppercase"
 							>
 								{item.volatility}
 							</span>
 						</div>
 						<div class="relative z-[1] mt-16 text-left">
-							<p class="text-xs tracking-[0.3em] text-white/60 uppercase">
+							<p class="text-muted-foreground text-xs tracking-[0.3em] uppercase">
 								{item.playersOnline} players
 							</p>
-							<p class="text-lg font-semibold text-white">{item.name}</p>
+							<p class="text-foreground text-lg font-semibold">{item.name}</p>
 						</div>
 					</div>
 

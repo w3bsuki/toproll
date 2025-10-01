@@ -9,5 +9,5 @@
 <SimpleGsapTest />
 
 <div class="p-8">
-	<a href="/cases" class="text-blue-400 hover:underline">← Back to Cases</a>
+	<a href="/cases" class="text-primary hover:underline">← Back to Cases</a>
 </div>

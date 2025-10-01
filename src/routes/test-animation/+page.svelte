@@ -82,10 +82,10 @@
 	<!-- Simple Test -->
 	<div class="space-y-4">
 		<h2 class="text-xl">Simple Animation Test</h2>
-		<div bind:this={testDiv} class="h-20 w-20 rounded bg-red-500"></div>
+		<div bind:this={testDiv} class="bg-primary h-20 w-20 rounded"></div>
 		<button
 			on:click={testAnimation}
-			class="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+			class="bg-primary text-primary-foreground hover:bg-primary/90 rounded px-4 py-2"
 		>
 			Test GSAP Animation
 		</button>
@@ -97,17 +97,20 @@
 		<div class="flex gap-4 overflow-x-auto">
 			{#each testItems as item}
 				<div
-					class="flex min-w-36 flex-col items-center rounded-lg border-2 border-blue-400 bg-slate-800 p-3"
+					class="border-primary/50 bg-surface flex min-w-36 flex-col items-center rounded-lg border-2 p-3"
 				>
 					<img src={item.image} alt={item.name} class="mb-2 h-16 w-16" />
-					<h3 class="text-center text-sm text-white">{item.name}</h3>
-					<p class="text-xs text-green-400">${item.value}</p>
+					<h3 class="text-foreground text-center text-sm">{item.name}</h3>
+					<p class="text-success text-xs">${item.value}</p>
 				</div>
 			{/each}
 		</div>
 	</div>
 
-	<a href="/cases" class="inline-block rounded bg-gray-600 px-4 py-2 text-white hover:bg-gray-700">
+	<a
+		href="/cases"
+		class="bg-surface-muted text-foreground hover:bg-surface-muted/80 inline-block rounded px-4 py-2 transition-colors"
+	>
 		← Back to Cases
 	</a>
 </div>

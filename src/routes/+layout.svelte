@@ -45,7 +45,7 @@
 		</aside>
 
 		<div
-			class="relative flex min-h-[100dvh] flex-col rounded-none lg:col-start-2 lg:rounded-[32px] lg:border lg:border-white/10 lg:bg-surface/70 lg:shadow-[0_32px_120px_rgba(15,23,42,0.35)] lg:backdrop-blur"
+			class="lg:border-border/50 lg:bg-surface/70 lg:shadow-marketplace-lg relative flex min-h-[100dvh] flex-col rounded-none lg:col-start-2 lg:rounded-[32px] lg:border lg:backdrop-blur"
 		>
 			<div class="sticky top-0 z-30 lg:rounded-t-[32px]">
 				<ShellHeader {promoTicker} isAuthenticated={data.isAuthenticated} user={data.user} />
@@ -62,7 +62,9 @@
 
 		<aside class="block">
 			<div class="sticky top-4 flex h-[calc(100dvh-2rem)] flex-col">
-				<div class="flex-1 rounded-[32px] border border-white/10 bg-surface/80 p-6 shadow-[0_36px_140px_rgba(15,23,42,0.45)] backdrop-blur-xl">
+				<div
+					class="border-border/50 bg-surface/80 shadow-marketplace-lg flex-1 rounded-[32px] border p-6 backdrop-blur-xl"
+				>
 					<ChatPanel />
 				</div>
 			</div>
@@ -76,11 +78,11 @@
 
 	<button
 		type="button"
-		class="fixed right-4 bottom-[92px] z-40 flex items-center gap-3 rounded-full bg-primary px-4 py-3 text-sm font-medium text-primary-foreground shadow-marketplace-lg md:right-6 md:bottom-[96px] lg:hidden"
+		class="bg-primary text-primary-foreground shadow-marketplace-lg fixed right-4 bottom-[92px] z-40 flex items-center gap-3 rounded-full px-4 py-3 text-sm font-medium md:right-6 md:bottom-[96px] lg:hidden"
 		onclick={handleChatToggle}
 		aria-pressed={chatOpen}
 	>
-		<span class="flex h-9 w-9 items-center justify-center rounded-full bg-white/15">
+		<span class="bg-surface/40 flex h-9 w-9 items-center justify-center rounded-full">
 			<MessageCircle class="h-4 w-4" />
 		</span>
 		Chat & Rain Pot
@@ -90,12 +92,12 @@
 
 	{#if sidebarOpen}
 		<div
-			class="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
+			class="bg-background/75 fixed inset-0 z-40 backdrop-blur-sm lg:hidden"
 			role="presentation"
 			onclick={handleSidebarClose}
 		></div>
 		<div
-			class="fixed inset-y-0 left-0 z-50 w-[320px] max-w-[88vw] overflow-y-auto bg-surface/95 px-6 pt-6 pb-8 shadow-marketplace-lg backdrop-blur-xl lg:hidden"
+			class="bg-surface/95 shadow-marketplace-lg fixed inset-y-0 left-0 z-50 w-[320px] max-w-[88vw] overflow-y-auto px-6 pt-6 pb-8 backdrop-blur-xl lg:hidden"
 		>
 			<Sidebar isAuthenticated={data.isAuthenticated} user={data.user} class="h-full">
 				<SidebarCTA />

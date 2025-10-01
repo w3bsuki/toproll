@@ -60,7 +60,7 @@
 <Sheet open={chatOpen} onOpenChange={(open) => (!open ? closeChat() : undefined)}>
 	<SheetContent
 		side="bottom"
-		class="border-border/40 bg-surface/95 max-h-[75vh] w-full translate-y-0 rounded-t-[32px] border px-0 pt-4 pb-[env(safe-area-inset-bottom)] shadow-[0_-40px_120px_rgba(15,23,42,0.65)] backdrop-blur-xl md:max-w-xl"
+		class="border-border/40 bg-surface/95 shadow-marketplace-lg max-h-[75vh] w-full translate-y-0 rounded-t-[32px] border px-0 pt-4 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:max-w-xl"
 		labelledby="chat-drawer-title"
 	>
 		<div class="mx-auto flex h-full w-full max-w-lg flex-col gap-4 px-4">

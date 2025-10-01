@@ -1,6 +1,6 @@
 import { redirect, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { validateSteamCallback, createOrUpdateUserProfile } from '$lib/services/steamAuth';
+import { createOrUpdateUserProfile, validateSteamCallback } from '$lib/services/steamAuth';
 
 export const GET: RequestHandler = async ({ url, cookies }) => {
 	try {
@@ -12,25 +12,26 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 		// Create or update user profile in Supabase
 		const authResult = await createOrUpdateUserProfile(steamUser);
 
-		// Set secure cookies for the session
-		cookies.set('user_id', authResult.supabaseUserId, {
+		const cookieOptions = {
 			path: '/',
-			maxAge: 60 * 60 * 24 * 7, // 7 days
+			maxAge: 60 * 60 * 24 * 7,
 			httpOnly: true,
 			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'lax'
+			sameSite: 'lax' as const
+		};
+
+		cookies.set('session_token', authResult.sessionToken, {
+			...cookieOptions,
+			expires: new Date(authResult.sessionExpiresAt)
 		});
 
-		cookies.set('steam_id', authResult.user.steamid, {
-			path: '/',
-			maxAge: 60 * 60 * 24 * 7, // 7 days
-			httpOnly: true,
-			secure: process.env.NODE_ENV === 'production',
-			sameSite: 'lax'
-		});
+		// Set secure cookies for the session
+		cookies.set('user_id', authResult.supabaseUserId, cookieOptions);
+
+		cookies.set('steam_id', authResult.user.steamid, cookieOptions);
 
 		// Log successful authentication
-		console.log(
+		console.info(
 			`User ${authResult.user.personaname} (${authResult.user.steamid}) authenticated successfully`
 		);
 

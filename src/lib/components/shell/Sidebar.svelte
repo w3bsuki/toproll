@@ -128,7 +128,7 @@
 
 <aside
 	class={cn(
-		'bg-surface/80 border-border/40 flex h-full w-full flex-col rounded-[32px] border shadow-[0_32px_120px_rgba(15,23,42,0.36)] backdrop-blur-xl',
+		'bg-surface/80 border-border/40 shadow-marketplace-lg flex h-full w-full flex-col rounded-[32px] border backdrop-blur-xl',
 		density === 'compact' ? 'gap-3 px-4 py-4' : 'gap-6 px-6 py-6',
 		className
 	)}

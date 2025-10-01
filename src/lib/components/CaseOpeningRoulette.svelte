@@ -27,22 +27,22 @@
 	$: extendedItems = [...items, ...items, ...items, ...items, ...items];
 
 	const rarityBorders = {
-		common: 'border-gray-400',
-		uncommon: 'border-green-400',
-		rare: 'border-blue-400',
-		epic: 'border-purple-400',
-		legendary: 'border-orange-400',
-		mythical: 'border-red-400'
-	};
+		common: 'border-border/60',
+		uncommon: 'border-secondary/50',
+		rare: 'border-primary/50',
+		epic: 'border-accent/50',
+		legendary: 'border-warning/55',
+		mythical: 'border-destructive/60'
+	} as const;
 
 	const rarityText = {
-		common: 'text-gray-400',
-		uncommon: 'text-green-400',
-		rare: 'text-blue-400',
-		epic: 'text-purple-400',
-		legendary: 'text-orange-400',
-		mythical: 'text-red-400'
-	};
+		common: 'text-muted-foreground',
+		uncommon: 'text-secondary-foreground',
+		rare: 'text-primary',
+		epic: 'text-accent-foreground',
+		legendary: 'text-warning-foreground',
+		mythical: 'text-destructive-foreground'
+	} as const;
 
 	async function startAnimation() {
 		console.log('Animation triggered:', {
@@ -138,12 +138,12 @@
 	<!-- Roulette Container -->
 	<div
 		bind:this={containerRef}
-		class="relative h-48 overflow-hidden rounded-lg border border-slate-700/50 bg-slate-900/40 backdrop-blur-sm"
+		class="border-border/60 bg-surface/40 relative h-48 overflow-hidden rounded-lg border backdrop-blur-sm"
 	>
 		<!-- Center Indicator Line -->
 		<div
 			bind:this={indicatorRef}
-			class="absolute top-0 left-1/2 z-10 h-full w-0.5 -translate-x-1/2 transform bg-red-500 shadow-lg shadow-red-500/30"
+			class="bg-destructive shadow-marketplace-sm absolute top-0 left-1/2 z-10 h-full w-0.5 -translate-x-1/2 transform"
 		/>
 
 		<!-- Items Roulette Track -->
@@ -154,7 +154,7 @@
 		>
 			{#each extendedItems as item, index (item.id + '-' + index)}
 				<div
-					class="h-40 w-36 flex-shrink-0 border-2 bg-slate-800/80 {rarityBorders[
+					class="bg-surface/70 h-40 w-36 flex-shrink-0 border-2 {rarityBorders[
 						item.rarity
 					]} flex flex-col items-center justify-between rounded-lg p-3 backdrop-blur-sm"
 				>
@@ -167,7 +167,7 @@
 							/>
 						{:else}
 							<div
-								class="flex h-20 w-20 items-center justify-center rounded bg-gray-600 text-xs text-white"
+								class="bg-surface-muted text-foreground flex h-20 w-20 items-center justify-center rounded text-xs"
 							>
 								No Image
 							</div>
@@ -176,10 +176,10 @@
 
 					<!-- Item Info -->
 					<div class="space-y-1 text-center">
-						<h3 class="w-full truncate text-xs font-medium text-white" title={item.name}>
+						<h3 class="text-foreground w-full truncate text-xs font-medium" title={item.name}>
 							{item.name}
 						</h3>
-						<p class="text-xs font-bold text-green-400">${item.value}</p>
+						<p class="text-success text-xs font-bold">${item.value}</p>
 						<p class="{rarityText[item.rarity]} text-xs font-medium capitalize">
 							{item.rarity}
 						</p>
@@ -190,10 +190,10 @@
 
 		<!-- Edge Fade Effects -->
 		<div
-			class="pointer-events-none absolute top-0 left-0 h-full w-24 bg-gradient-to-r from-slate-900/80 to-transparent"
+			class="from-background/80 pointer-events-none absolute top-0 left-0 h-full w-24 bg-gradient-to-r to-transparent"
 		/>
 		<div
-			class="pointer-events-none absolute top-0 right-0 h-full w-24 bg-gradient-to-l from-slate-900/80 to-transparent"
+			class="from-background/80 pointer-events-none absolute top-0 right-0 h-full w-24 bg-gradient-to-l to-transparent"
 		/>
 	</div>
 
@@ -202,7 +202,7 @@
 		<button
 			on:click={startAnimation}
 			disabled={isSpinning}
-			class="transform rounded-lg bg-orange-600 px-8 py-3 font-bold text-white shadow-lg transition-all hover:scale-105 hover:bg-orange-700 disabled:scale-100 disabled:cursor-not-allowed disabled:bg-gray-600 disabled:opacity-50"
+			class="bg-primary text-primary-foreground shadow-marketplace-md hover:bg-primary/90 disabled:bg-surface-muted transform rounded-lg px-8 py-3 font-bold transition-all hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed disabled:opacity-50"
 		>
 			{isSpinning ? 'Opening Case...' : 'Open Case'}
 		</button>
@@ -210,13 +210,13 @@
 
 	<!-- Result Modal -->
 	{#if showResult && winningItem}
-		<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/70">
+		<div class="bg-background/80 fixed inset-0 z-50 flex items-center justify-center">
 			<div
-				class="border-2 bg-slate-800 {rarityBorders[
+				class="bg-surface border-2 {rarityBorders[
 					winningItem.rarity
-				]} mx-4 max-w-md space-y-6 rounded-2xl p-8 text-center shadow-2xl"
+				]} shadow-marketplace-lg mx-4 max-w-md space-y-6 rounded-2xl p-8 text-center"
 			>
-				<h2 class="text-3xl font-bold text-white">Case Opened!</h2>
+				<h2 class="text-foreground text-3xl font-bold">Case Opened!</h2>
 
 				<div class="space-y-4">
 					<div class="mx-auto flex h-32 w-32 items-center justify-center">
@@ -227,8 +227,8 @@
 					</div>
 
 					<div>
-						<h3 class="mb-1 text-xl font-bold text-white">{winningItem.name}</h3>
-						<p class="mb-2 text-lg font-bold text-green-400">${winningItem.value}</p>
+						<h3 class="text-foreground mb-1 text-xl font-bold">{winningItem.name}</h3>
+						<p class="text-success mb-2 text-lg font-bold">${winningItem.value}</p>
 						<p class="{rarityText[winningItem.rarity]} text-sm font-medium capitalize">
 							{winningItem.rarity} Skin
 						</p>
@@ -237,7 +237,7 @@
 
 				<button
 					on:click={() => (showResult = false)}
-					class="rounded-lg bg-slate-700 px-6 py-2 text-white transition-colors hover:bg-slate-600"
+					class="bg-surface-muted text-foreground hover:bg-surface-muted/80 rounded-lg px-6 py-2 transition-colors"
 				>
 					Close
 				</button>

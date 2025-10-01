@@ -1,6 +1,6 @@
-import { getSupabaseServer } from '$lib/supabase/server';
 import { env } from '$env/dynamic/private';
-import type { UserProfile } from '$lib/types';
+import { getSupabaseServer } from '$lib/supabase/server';
+import { createHash, randomUUID } from 'node:crypto';
 
 export interface SteamUser {
 	steamid: string;
@@ -15,6 +15,51 @@ export interface SteamUser {
 export interface SteamAuthResult {
 	user: SteamUser;
 	supabaseUserId: string;
+	sessionToken: string;
+	sessionExpiresAt: string;
+}
+
+const OPEN_ID_ENDPOINT = 'https://steamcommunity.com/openid/login';
+const SESSION_TTL_SECONDS = 60 * 60 * 24 * 7; // 7 days
+
+function extractSteamId(claimedId: string): string {
+	const steamIdMatch = claimedId.match(/\/id\/(\d+)$/);
+
+	if (!steamIdMatch) {
+		throw new Error('Invalid Steam ID format');
+	}
+
+	return steamIdMatch[1];
+}
+
+async function verifyOpenIdResponse(params: URLSearchParams): Promise<void> {
+	const verificationPayload = new URLSearchParams();
+
+	params.forEach((value, key) => {
+		if (key.startsWith('openid.')) {
+			verificationPayload.set(key, value);
+		}
+	});
+
+	verificationPayload.set('openid.mode', 'check_authentication');
+
+	const response = await fetch(OPEN_ID_ENDPOINT, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/x-www-form-urlencoded'
+		},
+		body: verificationPayload.toString()
+	});
+
+	if (!response.ok) {
+		throw new Error('Failed to verify OpenID response');
+	}
+
+	const body = await response.text();
+
+	if (!/is_valid\s*:\s*true/.test(body)) {
+		throw new Error('Invalid OpenID signature');
+	}
 }
 
 /**
@@ -26,18 +71,10 @@ export async function validateSteamCallback(params: URLSearchParams): Promise<St
 		throw new Error('Invalid OpenID mode');
 	}
 
-	// Extract Steam ID from claimed_id
 	const claimedId = params.get('openid.claimed_id') || '';
-	const steamIdMatch = claimedId.match(/\/id\/(\d+)$/);
+	const steamId = extractSteamId(claimedId);
 
-	if (!steamIdMatch) {
-		throw new Error('Invalid Steam ID format');
-	}
-
-	const steamId = steamIdMatch[1];
-
-	// Verify the signature (in production, implement proper OpenID signature verification)
-	// For now, we'll verify by fetching the profile from Steam API
+	await verifyOpenIdResponse(params);
 
 	if (!env.STEAM_API_KEY) {
 		throw new Error('Steam API key not configured');
@@ -65,15 +102,38 @@ export async function validateSteamCallback(params: URLSearchParams): Promise<St
  */
 export async function createOrUpdateUserProfile(steamUser: SteamUser): Promise<SteamAuthResult> {
 	const supabase = getSupabaseServer();
+	const sessionToken = randomUUID();
+	const sessionTokenHash = createHash('sha256').update(sessionToken).digest('hex');
+	const sessionExpiresAt = new Date(Date.now() + SESSION_TTL_SECONDS * 1000).toISOString();
+	const loginTimestamp = new Date().toISOString();
 
-	// Check if user already exists
-	const { data: existingProfile } = await supabase
+	const { data: existingProfile, error: profileLookupError } = await supabase
 		.from('user_profiles')
 		.select('user_id')
 		.eq('steam_id', steamUser.steamid)
-		.single();
+		.maybeSingle();
+
+	if (profileLookupError) {
+		throw new Error(`Failed to check existing profile: ${profileLookupError.message}`);
+	}
 
 	if (existingProfile) {
+		const { error: updateUserError } = await supabase.auth.admin.updateUserById(
+			existingProfile.user_id,
+			{
+				user_metadata: {
+					steam_id: steamUser.steamid,
+					username: steamUser.personaname,
+					avatar_url: steamUser.avatarfull,
+					steam_profile_url: steamUser.profileurl
+				}
+			}
+		);
+
+		if (updateUserError) {
+			throw new Error(`Failed to sync auth metadata: ${updateUserError.message}`);
+		}
+
 		// Update existing profile with latest Steam data
 		const { data: updatedProfile, error } = await supabase
 			.from('user_profiles')
@@ -81,7 +141,9 @@ export async function createOrUpdateUserProfile(steamUser: SteamUser): Promise<S
 				username: steamUser.personaname,
 				avatar_url: steamUser.avatarfull,
 				steam_profile_url: steamUser.profileurl,
-				updated_at: new Date().toISOString()
+				session_token_hash: sessionTokenHash,
+				session_expires_at: sessionExpiresAt,
+				last_login_at: loginTimestamp
 			})
 			.eq('steam_id', steamUser.steamid)
 			.select()
@@ -93,7 +155,9 @@ export async function createOrUpdateUserProfile(steamUser: SteamUser): Promise<S
 
 		return {
 			user: steamUser,
-			supabaseUserId: updatedProfile.user_id
+			supabaseUserId: updatedProfile.user_id,
+			sessionToken,
+			sessionExpiresAt
 		};
 	}
 
@@ -120,7 +184,10 @@ export async function createOrUpdateUserProfile(steamUser: SteamUser): Promise<S
 			steam_id: steamUser.steamid,
 			username: steamUser.personaname,
 			avatar_url: steamUser.avatarfull,
-			steam_profile_url: steamUser.profileurl
+			steam_profile_url: steamUser.profileurl,
+			session_token_hash: sessionTokenHash,
+			session_expires_at: sessionExpiresAt,
+			last_login_at: loginTimestamp
 		})
 		.select()
 		.single();
@@ -133,6 +200,8 @@ export async function createOrUpdateUserProfile(steamUser: SteamUser): Promise<S
 
 	return {
 		user: steamUser,
-		supabaseUserId: newProfile.user_id
+		supabaseUserId: newProfile.user_id,
+		sessionToken,
+		sessionExpiresAt
 	};
 }

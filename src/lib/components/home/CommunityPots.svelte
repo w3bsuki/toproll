@@ -6,12 +6,9 @@
 	const pots = $derived($communityPots);
 
 	const variantAccent = {
-		primary:
-			'from-primary/20 via-primary/10 to-transparent border-primary/50 shadow-[0_18px_40px_rgba(59,130,246,0.18)]',
-		secondary:
-			'from-secondary/20 via-secondary/10 to-transparent border-secondary/50 shadow-[0_18px_40px_rgba(14,165,233,0.18)]',
-		accent:
-			'from-accent/20 via-accent/10 to-transparent border-accent/50 shadow-[0_18px_40px_rgba(34,197,94,0.15)]'
+		primary: 'from-primary/20 via-primary/10 to-transparent',
+		secondary: 'from-secondary/20 via-secondary/10 to-transparent',
+		accent: 'from-accent/20 via-accent/10 to-transparent'
 	} as const;
 </script>
 
@@ -39,35 +36,37 @@
 				<div class="relative z-[1] flex flex-col gap-6">
 					<div class="flex items-center justify-between">
 						<div>
-							<p class="text-xs tracking-[0.3em] text-white/70 uppercase">{pot.title}</p>
-							<h3 class="text-3xl font-semibold text-white">{pot.jackpot}</h3>
+							<p class="text-foreground/80 text-xs tracking-[0.3em] uppercase">{pot.title}</p>
+							<h3 class="text-foreground text-3xl font-semibold">{pot.jackpot}</h3>
 						</div>
 						<span
-							class="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/30 bg-black/30 text-white/80"
+							class="border-border/50 bg-surface/50 text-foreground/85 flex h-12 w-12 items-center justify-center rounded-2xl border"
 						>
 							<Crown class="h-5 w-5" />
 						</span>
 					</div>
 					<div class="flex items-center justify-between gap-3">
-						<div class="flex items-center gap-3 text-white/80">
+						<div class="text-foreground/80 flex items-center gap-3">
 							<span
-								class="flex h-10 w-10 items-center justify-center rounded-xl border border-white/30 bg-black/30"
+								class="border-border/50 bg-surface/50 flex h-10 w-10 items-center justify-center rounded-xl border"
 							>
 								<Timer class="h-4 w-4" />
 							</span>
 							<div>
-								<p class="text-[11px] tracking-[0.3em] text-white/60 uppercase">Ends in</p>
+								<p class="text-muted-foreground text-[11px] tracking-[0.3em] uppercase">Ends in</p>
 								<p class="text-sm font-medium">{pot.expiresIn}</p>
 							</div>
 						</div>
-						<div class="flex items-center gap-3 text-white/80">
+						<div class="text-foreground/80 flex items-center gap-3">
 							<span
-								class="flex h-10 w-10 items-center justify-center rounded-xl border border-white/30 bg-black/30"
+								class="border-border/50 bg-surface/50 flex h-10 w-10 items-center justify-center rounded-xl border"
 							>
 								<Users class="h-4 w-4" />
 							</span>
 							<div>
-								<p class="text-[11px] tracking-[0.3em] text-white/60 uppercase">Participants</p>
+								<p class="text-muted-foreground text-[11px] tracking-[0.3em] uppercase">
+									Participants
+								</p>
 								<p class="text-sm font-medium">{pot.participants}</p>
 							</div>
 						</div>
@@ -76,14 +75,14 @@
 						{#if pot.streak}
 							<Badge
 								variant="secondary"
-								class="border-white/20 bg-black/30 text-[10px] tracking-[0.3em] text-white/80 uppercase"
+								class="border-border/40 bg-surface/50 text-foreground/80 text-[10px] tracking-[0.3em] uppercase"
 							>
 								{pot.streak}
 							</Badge>
 						{:else}
-							<span class="text-xs tracking-[0.3em] text-white/60 uppercase">Live pot</span>
+							<span class="text-muted-foreground text-xs tracking-[0.3em] uppercase">Live pot</span>
 						{/if}
-						<Button size="sm" class="gap-2 bg-white/90 text-slate-900 hover:bg-white">
+						<Button size="sm" class="bg-card text-card-foreground hover:bg-card/90 gap-2">
 							Join pot
 							<ArrowRight class="h-4 w-4" />
 						</Button>

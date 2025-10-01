@@ -18,7 +18,7 @@
 {#if href}
 	<a
 		{href}
-		class="group block rounded-[22px] focus:outline-none focus-visible:ring-2 focus-visible:ring-ring/60"
+		class="group focus-visible:ring-ring/60 block rounded-[22px] focus:outline-none focus-visible:ring-2"
 	>
 		<div
 			class="duration-accent ease-market-ease relative flex h-full flex-col justify-end overflow-hidden rounded-[22px] bg-cover bg-center transition-all hover:-translate-y-1"
@@ -26,34 +26,34 @@
 		>
 			<!-- Gradient Frame -->
 			<div
-				class="duration-accent ease-market-ease absolute inset-0 rounded-[22px] bg-gradient-to-br from-accent/20 via-transparent to-accent/10 opacity-0 transition-opacity group-hover:opacity-100"
+				class="duration-accent ease-market-ease from-accent/20 to-accent/10 absolute inset-0 rounded-[22px] bg-gradient-to-br via-transparent opacity-0 transition-opacity group-hover:opacity-100"
 			></div>
 
 			<!-- Spotlight Effect -->
 			<div
-				class="duration-accent ease-market-ease absolute inset-0 rounded-[22px] bg-gradient-to-br from-white/5 via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100"
+				class="duration-accent ease-market-ease from-foreground/10 absolute inset-0 rounded-[22px] bg-gradient-to-br via-transparent to-transparent opacity-0 transition-opacity group-hover:opacity-100"
 			></div>
 
 			<!-- Neon Border Glow -->
 			<div
-				class="duration-accent ease-market-ease absolute inset-0 rounded-[22px] opacity-0 ring-1 ring-accent/30 transition-opacity group-hover:opacity-100 group-hover:ring-accent/60"
+				class="duration-accent ease-market-ease ring-accent/30 group-hover:ring-accent/60 absolute inset-0 rounded-[22px] opacity-0 ring-1 transition-opacity group-hover:opacity-100"
 			></div>
 
 			<!-- Shadow Enhancement -->
 			<div
-				class="duration-accent ease-market-ease absolute inset-0 rounded-[22px] shadow-marketplace-md transition-shadow group-hover:shadow-marketplace-lg"
+				class="duration-accent ease-market-ease shadow-marketplace-md group-hover:shadow-marketplace-lg absolute inset-0 rounded-[22px] transition-shadow"
 			></div>
 
 			<!-- Content Overlay -->
 			<div
-				class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"
+				class="from-background/85 via-background/25 pointer-events-none absolute inset-0 bg-gradient-to-t to-transparent"
 			></div>
 
 			<!-- Vendor Tag -->
 			{#if vendor}
 				<div class="absolute top-4 left-4 z-10">
 					<div
-						class="rounded-full border border-accent/30 bg-surface-accent/90 px-3 py-1 text-xs font-bold tracking-wider text-surface-accent-foreground uppercase backdrop-blur-sm"
+						class="border-accent/30 bg-surface-accent/90 text-surface-accent-foreground rounded-full border px-3 py-1 text-xs font-bold tracking-wider uppercase backdrop-blur-sm"
 					>
 						{vendor}
 					</div>
@@ -65,7 +65,7 @@
 				class="duration-accent ease-market-ease absolute top-4 right-4 z-10 translate-y-2 opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100"
 			>
 				<div
-					class="rounded-full bg-accent px-4 py-2 text-xs font-bold tracking-wider text-accent-foreground uppercase shadow-marketplace-sm backdrop-blur-sm"
+					class="bg-accent text-accent-foreground shadow-marketplace-sm rounded-full px-4 py-2 text-xs font-bold tracking-wider uppercase backdrop-blur-sm"
 				>
 					Play Now
 				</div>
@@ -73,11 +73,11 @@
 
 			<!-- Card Content -->
 			<div class="relative z-10 p-6">
-				<h4 class="mb-1 text-xl leading-tight font-black text-white uppercase drop-shadow-lg">
+				<h4 class="text-foreground mb-1 text-xl leading-tight font-black uppercase drop-shadow-lg">
 					{title}
 				</h4>
 				{#if subtitle}
-					<p class="text-sm font-medium text-white/90">
+					<p class="text-foreground/90 text-sm font-medium">
 						{subtitle}
 					</p>
 				{/if}
@@ -91,14 +91,14 @@
 	>
 		<!-- Content Overlay -->
 		<div
-			class="pointer-events-none absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"
+			class="from-background/85 via-background/25 pointer-events-none absolute inset-0 bg-gradient-to-t to-transparent"
 		></div>
 
 		<!-- Vendor Tag -->
 		{#if vendor}
 			<div class="absolute top-4 left-4 z-10">
 				<div
-					class="rounded-full border border-accent/30 bg-surface-accent/90 px-3 py-1 text-xs font-bold tracking-wider text-surface-accent-foreground uppercase backdrop-blur-sm"
+					class="border-accent/30 bg-surface-accent/90 text-surface-accent-foreground rounded-full border px-3 py-1 text-xs font-bold tracking-wider uppercase backdrop-blur-sm"
 				>
 					{vendor}
 				</div>
@@ -107,11 +107,11 @@
 
 		<!-- Card Content -->
 		<div class="relative z-10 p-6">
-			<h4 class="mb-1 text-xl leading-tight font-black text-white uppercase drop-shadow-lg">
+			<h4 class="text-foreground mb-1 text-xl leading-tight font-black uppercase drop-shadow-lg">
 				{title}
 			</h4>
 			{#if subtitle}
-				<p class="text-sm font-medium text-white/90">
+				<p class="text-foreground/90 text-sm font-medium">
 					{subtitle}
 				</p>
 			{/if}
