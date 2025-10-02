@@ -7,6 +7,7 @@
 	} from '$lib/stores/homepage';
 	import { Send } from '@lucide/svelte';
 	import { Button } from '$lib/components/ui';
+	import { Textarea } from '$lib/components/ui/textarea';
 
 	let messages = $state<CommunityMessage[]>(get(communityMessages));
 	let input = $state('');
@@ -35,11 +36,6 @@
 			event.preventDefault();
 			sendMessage();
 		}
-	};
-
-	const handleInput = (event: Event) => {
-		const target = event.target as HTMLTextAreaElement;
-		input = target.value;
 	};
 </script>
 
@@ -71,21 +67,17 @@
 		{/each}
 	</div>
 
-	<form
-		class="border-input bg-background focus-within:border-ring focus-within:ring-ring/50 flex items-center gap-2 rounded-xl border p-1.5 transition-colors focus-within:ring-2"
-		onsubmit={handleSubmit}
-	>
+	<form class="flex items-center gap-2" onsubmit={handleSubmit}>
 		<label class="sr-only" for="chat-input">Message</label>
-		<textarea
+		<Textarea
 			id="chat-input"
-			value={input}
-			oninput={handleInput}
+			bind:value={input}
 			onkeydown={handleKey}
 			rows={1}
 			placeholder="Drop a message…"
-			class="marketplace-scrollbar text-foreground placeholder:text-muted-foreground max-h-20 flex-1 resize-none border-0 bg-transparent px-2 py-1.5 text-sm outline-none"
-		></textarea>
-		<Button size="icon" class="h-9 w-9 rounded-lg" type="submit">
+			class="max-h-20 resize-none"
+		/>
+		<Button size="icon" class="h-9 w-9 shrink-0 rounded-lg" type="submit">
 			<Send class="h-3.5 w-3.5" />
 			<span class="sr-only">Send message</span>
 		</Button>

@@ -25,20 +25,7 @@
 	const isActiveRoute = (href: string) => currentPath === href;
 </script>
 
-<div class="flex h-full flex-col gap-6 p-6">
-	<!-- Logo -->
-	<a href={buildHref('/')} class="gap-sm flex items-center text-left">
-		<div
-			class="border-primary/40 bg-primary/15 text-primary flex h-11 w-11 items-center justify-center rounded-lg border text-sm font-semibold"
-		>
-			TR
-		</div>
-		<div class="flex flex-col">
-			<span class="text-foreground text-sm font-semibold">TopRoll</span>
-			<span class="text-muted-foreground text-xs">CS2 Marketplace</span>
-		</div>
-	</a>
-
+<div class="flex h-full flex-col gap-4 p-6">
 	<!-- Navigation -->
 	<nav aria-label="Main" class="flex flex-col gap-1">
 		{#each navItems as item}

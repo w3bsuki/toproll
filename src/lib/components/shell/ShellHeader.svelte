@@ -13,6 +13,7 @@
 		TabsTrigger,
 		Button
 	} from '$lib/components/ui';
+	import { Input } from '$lib/components/ui/input';
 	import { uiStore, toggleSidebar, type UIState } from '$lib/stores/ui';
 	import { cn } from '$lib/utils';
 	import { Bell, ChevronDown, Gift, Globe, Menu, Search, Sparkles, Wallet } from '@lucide/svelte';
@@ -199,20 +200,16 @@
 		</div>
 
 		<!-- Search & Actions -->
-		<div class="flex items-center gap-4">
-			<form
-				class="duration-accent ease-market-ease border-border/50 bg-surface-muted/60 focus-within:border-primary/40 focus-within:bg-surface-muted focus-within:shadow-marketplace-sm hover:border-primary/30 flex items-center gap-3 rounded-xl border px-4 py-2.5 transition-all"
-				onsubmit={handleSearch}
-			>
-				<Search class="text-muted-foreground h-4 w-4" />
+		<div class="flex items-center gap-3">
+			<form class="relative" onsubmit={handleSearch}>
+				<Search class="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
 				<label class="sr-only" for="desktop-search">Search</label>
-				<input
+				<Input
 					id="desktop-search"
 					type="search"
 					placeholder="Search cases, skins, or players"
-					value={searchValue}
-					oninput={handleSearchInput}
-					class="text-foreground placeholder:text-muted-foreground/70 min-w-[200px] flex-1 border-0 bg-transparent text-sm focus:outline-none"
+					bind:value={searchValue}
+					class="min-w-[240px] pl-9"
 				/>
 			</form>
 
