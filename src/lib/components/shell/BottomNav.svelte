@@ -2,7 +2,7 @@
 	import { base } from '$app/paths';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { Home, Package, Swords, ArrowUpRight, Briefcase } from 'lucide-svelte';
+	import { Home, Package, Swords, ArrowUpRight, Briefcase } from '@lucide/svelte';
 	import { cn } from '$lib/utils';
 
 	type BottomNavProps = {
@@ -35,9 +35,9 @@
 </script>
 
 <nav
-	aria-label="Mobile"
+	aria-label="Mobile navigation"
 	class={cn(
-		'border-border/70 bg-surface/90 shadow-marketplace-lg flex items-center justify-between gap-1 border-t px-2 py-2 backdrop-blur-xl',
+		'flex items-center justify-between gap-1 px-2 py-2',
 		className
 	)}
 >

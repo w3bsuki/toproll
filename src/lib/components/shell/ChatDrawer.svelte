@@ -8,7 +8,7 @@
 		type CommunityMessage,
 		type RainPot
 	} from '$lib/stores/homepage';
-	import { X, Send, MessageCircle, CloudRain, Users } from 'lucide-svelte';
+	import { X, Send, MessageCircle, CloudRain, Users } from '@lucide/svelte';
 	import { Button, Sheet, SheetContent } from '$lib/components/ui';
 
 	const uiState = $derived(uiStore);

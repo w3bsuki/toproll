@@ -3,65 +3,64 @@
 @layer base {
 	:root {
 		color-scheme: dark;
-
-		--background: 18.8% 0.018 255;
-		--foreground: 95.2% 0.014 255;
-
-		--muted: 26.5% 0.02 255;
-		--muted-foreground: 72% 0.014 255;
-
-		--card: 21.8% 0.02 255;
-		--card-foreground: 92.4% 0.015 255;
-
-		--popover: 19.6% 0.018 255;
-		--popover-foreground: 93.2% 0.014 255;
-
-		--surface: 23.5% 0.022 255;
-		--surface-foreground: 92% 0.015 255;
-		--surface-muted: 27.5% 0.026 255;
-		--surface-muted-foreground: 80% 0.016 255;
-		--surface-accent: 34% 0.045 252;
-		--surface-accent-foreground: 95% 0.015 252;
-
-		--border: 32% 0.022 255;
-		--border-strong: 40% 0.026 255;
-		--input: 30% 0.024 255;
-		--ring: 62.5% 0.2 254;
-
-		--primary: 62.5% 0.2 254;
-		--primary-foreground: 98% 0.02 252;
-
-		--secondary: 55% 0.13 202;
-		--secondary-foreground: 97% 0.02 205;
-
-		--accent: 68% 0.19 210;
-		--accent-foreground: 98% 0.018 210;
-
-		--success: 63% 0.17 152;
-		--success-foreground: 96% 0.018 150;
-
-		--info: 66% 0.16 232;
-		--info-foreground: 16% 0.02 232;
-
-		--warning: 78% 0.17 95;
-		--warning-foreground: 24% 0.045 95;
-
-		--destructive: 56% 0.22 25;
-		--destructive-foreground: 96% 0.02 18;
-
+		
+		/* Dark slate theme - OKLCH for perceptual uniformity */
+		--background: oklch(0.18 0.01 240);          /* Dark slate blue-grey */
+		--foreground: oklch(0.95 0.005 240);         /* Clean white */
+		--card: oklch(0.24 0.012 240);               /* Elevated dark slate */
+		--card-foreground: oklch(0.95 0.005 240);
+		--popover: oklch(0.24 0.012 240);
+		--popover-foreground: oklch(0.95 0.005 240);
+		
+		/* Primary - Bright lime green (CS2 style from your image) */
+		--primary: oklch(0.85 0.28 130);             /* Bright lime/chartreuse */
+		--primary-foreground: oklch(0.18 0.01 240);  /* Dark text on bright button */
+		
+		--secondary: oklch(0.30 0.012 240);
+		--secondary-foreground: oklch(0.95 0.005 240);
+		--muted: oklch(0.28 0.012 240);
+		--muted-foreground: oklch(0.60 0.008 240);
+		--accent: oklch(0.35 0.015 240);
+		--accent-foreground: oklch(0.95 0.005 240);
+		--destructive: oklch(0.60 0.25 20);
+		--destructive-foreground: oklch(0.95 0.005 240);
+		
+		/* Borders - visible grey */
+		--border: oklch(0.95 0.005 240 / 0.12);
+		--input: oklch(0.95 0.005 240 / 0.15);
+		--ring: oklch(0.85 0.28 130);
+		
+		/* Radii */
+		--radius: 0.65rem;
 		--radius-sm: 0.5rem;
 		--radius-md: 0.75rem;
 		--radius-lg: 1.25rem;
+		
+		/* Legacy surface tokens */
+		--surface: oklch(0.24 0.012 240);
+		--surface-foreground: oklch(0.95 0.005 240);
+		--surface-muted: oklch(0.28 0.012 240);
+		--surface-muted-foreground: oklch(0.60 0.008 240);
+		--surface-accent: oklch(0.35 0.015 240);
+		--surface-accent-foreground: oklch(0.95 0.005 240);
+		--border-strong: oklch(0.95 0.005 240 / 0.18);
 	}
 
 	* {
-		border-color: oklch(var(--border) / 0.65);
+		border-color: var(--border);
+	}
+
+	html {
+		height: 100%;
+		overflow: hidden;
 	}
 
 	body {
-		min-height: 100vh;
-		background: oklch(var(--background));
-		color: oklch(var(--foreground));
+		height: 100%;
+		margin: 0;
+		overflow: hidden;
+		background: var(--background);
+		color: var(--foreground);
 		font-family:
 			'Inter Variable',
 			'Inter',
@@ -75,6 +74,11 @@
 		letter-spacing: -0.01em;
 	}
 
+	/* Ensure app shell fills viewport */
+	#svelte {
+		height: 100%;
+	}
+
 	h1,
 	h2,
 	h3,
@@ -86,8 +90,8 @@
 	}
 
 	::selection {
-		background: oklch(var(--primary) / 0.2);
-		color: oklch(var(--primary-foreground));
+		background: color-mix(in oklch, var(--primary) 20%, transparent);
+		color: var(--primary-foreground);
 	}
 
 	:focus-visible {
@@ -97,18 +101,18 @@
 
 @layer utilities {
 	.surface {
-		background: oklch(var(--surface));
-		color: oklch(var(--surface-foreground));
+		background: var(--surface);
+		color: var(--surface-foreground);
 	}
 
 	.surface-muted {
-		background: oklch(var(--surface-muted));
-		color: oklch(var(--surface-muted-foreground));
+		background: var(--surface-muted);
+		color: var(--surface-muted-foreground);
 	}
 
 	.surface-accent {
-		background: oklch(var(--surface-accent));
-		color: oklch(var(--surface-accent-foreground));
+		background: var(--surface-accent);
+		color: var(--surface-accent-foreground);
 	}
 
 	.card-grid {
@@ -117,7 +121,7 @@
 	}
 
 	.marketplace-scrollbar {
-		scrollbar-color: oklch(var(--border) / 0.6) oklch(var(--surface));
+		scrollbar-color: var(--border) var(--surface);
 	}
 
 	.marketplace-scrollbar::-webkit-scrollbar {
@@ -129,7 +133,7 @@
 	}
 
 	.marketplace-scrollbar::-webkit-scrollbar-thumb {
-		background: oklch(var(--border) / 0.65);
+		background: var(--border);
 		border-radius: 999px;
 	}
 }

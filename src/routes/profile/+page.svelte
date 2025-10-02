@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ProfileCard from '$lib/components/ProfileCard.svelte';
-	import { Trophy, Target, TrendingUp, DollarSign } from 'lucide-svelte';
+	import { Trophy, Target, TrendingUp, DollarSign } from '@lucide/svelte';
 	import type { PageData } from './$types';
 	import {
 		Card,

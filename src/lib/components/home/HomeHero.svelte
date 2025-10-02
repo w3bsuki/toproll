@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { heroPromotions } from '$lib/stores/homepage';
 	import { Button, Badge } from '$lib/components/ui';
-	import { ChevronLeft, ChevronRight, Flame, Sparkles, Timer } from 'lucide-svelte';
+	import { ChevronLeft, ChevronRight, Flame, Sparkles, Timer } from '@lucide/svelte';
 	import { onMount } from 'svelte';
 
 	const promotions = $derived($heroPromotions);

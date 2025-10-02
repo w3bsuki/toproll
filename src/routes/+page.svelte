@@ -10,7 +10,7 @@
 		type ScrollableTab
 	} from '$lib/components/ui/navigation/ScrollableTabs.svelte';
 	import { Alert, Button } from '$lib/components/ui';
-	import { AlertCircle } from 'lucide-svelte';
+	import { AlertCircle } from '@lucide/svelte';
 
 	const pageStore = page;
 	const currentPage = $derived(pageStore);

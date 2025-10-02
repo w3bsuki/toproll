@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 	import { heroPromotions } from '$lib/stores/homepage';
 	import { Button, Badge } from '$lib/components/ui';
-	import { ChevronLeft, ChevronRight } from 'lucide-svelte';
+	import { ChevronLeft, ChevronRight } from '@lucide/svelte';
 
 	const slides = $derived($heroPromotions);
 	let activeIndex = $state(0);

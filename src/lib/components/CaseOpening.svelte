@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { motion } from 'framer-motion';
-	import { Package, Zap, RefreshCw, AlertCircle, ExternalLink } from 'lucide-svelte';
+	import { Package, Zap, RefreshCw, AlertCircle, ExternalLink } from '@lucide/svelte';
 	import type { Case, CaseItem } from '$lib/types';
 	import { createImageProps } from '$lib/utils/images';
 

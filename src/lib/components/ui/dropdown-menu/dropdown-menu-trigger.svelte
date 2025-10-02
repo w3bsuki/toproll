@@ -1,17 +1,7 @@
 <script lang="ts">
-	import { useDropdownContext } from './context';
-	import { cn } from '$lib/utils';
+	import { DropdownMenu as DropdownMenuPrimitive } from "bits-ui";
 
-	let { class: className = '' } = $props();
-	const { open, setOpen } = useDropdownContext();
+	let { ref = $bindable(null), ...restProps }: DropdownMenuPrimitive.TriggerProps = $props();
 </script>
 
-<button
-	type="button"
-	aria-haspopup="menu"
-	aria-expanded={$open}
-	class={cn('inline-flex items-center justify-center', className)}
-	on:click|stopPropagation={() => setOpen(!$open)}
->
-	<slot />
-</button>
+<DropdownMenuPrimitive.Trigger bind:ref data-slot="dropdown-menu-trigger" {...restProps} />

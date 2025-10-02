@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { AlertTriangle, RefreshCw, Home, Clipboard } from 'lucide-svelte';
+	import { AlertTriangle, RefreshCw, Home, Clipboard } from '@lucide/svelte';
 	import {
 		Button,
 		Card,

@@ -7,61 +7,49 @@ const config = {
 	theme: {
 		extend: {
 			colors: {
-				background: 'oklch(var(--background) / <alpha-value>)',
-				foreground: 'oklch(var(--foreground) / <alpha-value>)',
+				background: 'var(--background)',
+				foreground: 'var(--foreground)',
 				card: {
-					DEFAULT: 'oklch(var(--card) / <alpha-value>)',
-					foreground: 'oklch(var(--card-foreground) / <alpha-value>)'
+					DEFAULT: 'var(--card)',
+					foreground: 'var(--card-foreground)'
 				},
 				popover: {
-					DEFAULT: 'oklch(var(--popover) / <alpha-value>)',
-					foreground: 'oklch(var(--popover-foreground) / <alpha-value>)'
+					DEFAULT: 'var(--popover)',
+					foreground: 'var(--popover-foreground)'
 				},
 				surface: {
-					DEFAULT: 'oklch(var(--surface) / <alpha-value>)',
-					foreground: 'oklch(var(--surface-foreground) / <alpha-value>)',
-					muted: 'oklch(var(--surface-muted) / <alpha-value>)',
-					mutedForeground: 'oklch(var(--surface-muted-foreground) / <alpha-value>)',
-					accent: 'oklch(var(--surface-accent) / <alpha-value>)',
-					accentForeground: 'oklch(var(--surface-accent-foreground) / <alpha-value>)'
+					DEFAULT: 'var(--surface)',
+					foreground: 'var(--surface-foreground)',
+					muted: 'var(--surface-muted)',
+					mutedForeground: 'var(--surface-muted-foreground)',
+					accent: 'var(--surface-accent)',
+					accentForeground: 'var(--surface-accent-foreground)'
 				},
 				muted: {
-					DEFAULT: 'oklch(var(--muted) / <alpha-value>)',
-					foreground: 'oklch(var(--muted-foreground) / <alpha-value>)'
+					DEFAULT: 'var(--muted)',
+					foreground: 'var(--muted-foreground)'
 				},
 				border: {
-					DEFAULT: 'oklch(var(--border) / <alpha-value>)',
-					strong: 'oklch(var(--border-strong) / <alpha-value>)'
+					DEFAULT: 'var(--border)',
+					strong: 'var(--border-strong)'
 				},
-				input: 'oklch(var(--input) / <alpha-value>)',
-				ring: 'oklch(var(--ring) / <alpha-value>)',
+				input: 'var(--input)',
+				ring: 'var(--ring)',
 				primary: {
-					DEFAULT: 'oklch(var(--primary) / <alpha-value>)',
-					foreground: 'oklch(var(--primary-foreground) / <alpha-value>)'
+					DEFAULT: 'var(--primary)',
+					foreground: 'var(--primary-foreground)'
 				},
 				secondary: {
-					DEFAULT: 'oklch(var(--secondary) / <alpha-value>)',
-					foreground: 'oklch(var(--secondary-foreground) / <alpha-value>)'
+					DEFAULT: 'var(--secondary)',
+					foreground: 'var(--secondary-foreground)'
 				},
 				accent: {
-					DEFAULT: 'oklch(var(--accent) / <alpha-value>)',
-					foreground: 'oklch(var(--accent-foreground) / <alpha-value>)'
+					DEFAULT: 'var(--accent)',
+					foreground: 'var(--accent-foreground)'
 				},
 				destructive: {
-					DEFAULT: 'oklch(var(--destructive) / <alpha-value>)',
-					foreground: 'oklch(var(--destructive-foreground) / <alpha-value>)'
-				},
-				success: {
-					DEFAULT: 'oklch(var(--success) / <alpha-value>)',
-					foreground: 'oklch(var(--success-foreground) / <alpha-value>)'
-				},
-				info: {
-					DEFAULT: 'oklch(var(--info) / <alpha-value>)',
-					foreground: 'oklch(var(--info-foreground) / <alpha-value>)'
-				},
-				warning: {
-					DEFAULT: 'oklch(var(--warning) / <alpha-value>)',
-					foreground: 'oklch(var(--warning-foreground) / <alpha-value>)'
+					DEFAULT: 'var(--destructive)',
+					foreground: 'var(--destructive-foreground)'
 				}
 			},
 			borderRadius: {
@@ -74,11 +62,11 @@ const config = {
 			},
 			boxShadow: {
 				'marketplace-sm':
-					'0 1px 0 0 oklch(var(--border) / 0.6), 0 6px 16px -8px oklch(var(--border) / 0.45)',
+					'0 1px 0 0 color-mix(in oklch, var(--border) 60%, transparent), 0 6px 16px -8px color-mix(in oklch, var(--border) 45%, transparent)',
 				'marketplace-md':
-					'0 1px 0 0 oklch(var(--border-strong) / 0.55), 0 14px 32px -20px oklch(var(--border-strong) / 0.7)',
+					'0 1px 0 0 color-mix(in oklch, var(--border-strong) 55%, transparent), 0 14px 32px -20px color-mix(in oklch, var(--border-strong) 70%, transparent)',
 				'marketplace-lg':
-					'0 2px 0 0 oklch(var(--border-strong) / 0.55), 0 24px 48px -32px oklch(var(--border-strong) / 0.65)'
+					'0 2px 0 0 color-mix(in oklch, var(--border-strong) 55%, transparent), 0 24px 48px -32px color-mix(in oklch, var(--border-strong) 65%, transparent)'
 			},
 			spacing: {
 				'18': '4.5rem',

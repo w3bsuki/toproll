@@ -1,0 +1,78 @@
+<script lang="ts">
+	import { page } from '$app/stores';
+	import { base } from '$app/paths';
+	import { Home, Package, Swords, Briefcase, Settings, LifeBuoy } from '@lucide/svelte';
+	import { Button } from '$lib/components/ui';
+	import { cn } from '$lib/utils';
+	import AuthButton from './AuthButton.svelte';
+
+	let { isAuthenticated = false, user = null }: { isAuthenticated?: boolean; user?: any } = $props();
+
+	const currentPath = $derived($page.url.pathname);
+	
+	const navItems = [
+		{ label: 'Home', icon: Home, href: '/' },
+		{ label: 'Cases', icon: Package, href: '/cases' },
+		{ label: 'Battles', icon: Swords, href: '/battles' },
+		{ label: 'Inventory', icon: Briefcase, href: '/inventory' },
+		{ label: 'Support', icon: LifeBuoy, href: '/support' },
+		{ label: 'Settings', icon: Settings, href: '/settings' }
+	];
+
+	const buildHref = (path: string) => (base ? `${base}${path}` : path);
+	const isActiveRoute = (href: string) => currentPath === href;
+</script>
+
+<div class="flex h-full flex-col gap-6 p-6">
+	<!-- Logo -->
+	<a href={buildHref('/')} class="gap-sm flex items-center text-left">
+		<div class="border-primary/40 bg-primary/15 text-primary flex h-11 w-11 items-center justify-center rounded-lg border text-sm font-semibold">
+			TR
+		</div>
+		<div class="flex flex-col">
+			<span class="text-foreground text-sm font-semibold">TopRoll</span>
+			<span class="text-muted-foreground text-xs">CS2 Marketplace</span>
+		</div>
+	</a>
+
+	<!-- Navigation -->
+	<nav aria-label="Main" class="flex flex-col gap-1">
+		{#each navItems as item}
+			<Button
+				as="a"
+				href={buildHref(item.href)}
+				variant={isActiveRoute(item.href) ? 'default' : 'ghost'}
+				class={cn(
+					'justify-start gap-3 text-sm font-medium',
+					isActiveRoute(item.href) ? 'shadow-sm' : ''
+				)}
+			>
+				<item.icon class="h-4 w-4" />
+				{item.label}
+			</Button>
+		{/each}
+	</nav>
+
+	<!-- Auth Section (Bottom) -->
+	<div class="mt-auto">
+		{#if isAuthenticated && user}
+			<div class="border-border/50 bg-card/60 rounded-xl border p-4">
+				<div class="flex items-center gap-3">
+					<div class="bg-primary/15 text-primary flex h-10 w-10 items-center justify-center rounded-full">
+						<span class="text-sm font-semibold">{user.username?.[0]?.toUpperCase() || 'U'}</span>
+					</div>
+					<div class="flex-1 min-w-0">
+						<p class="text-foreground text-sm font-semibold truncate">{user.username || 'User'}</p>
+						<p class="text-muted-foreground text-xs">
+							${((user.balance || 0) / 100).toFixed(2)}
+						</p>
+					</div>
+				</div>
+			</div>
+		{:else}
+			<form method="POST" action="/api/auth/steam/login" class="w-full">
+				<AuthButton class="w-full" />
+			</form>
+		{/if}
+	</div>
+</div>

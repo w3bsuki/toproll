@@ -1,30 +1,27 @@
 <script lang="ts">
-	import { cn } from '$lib/utils';
-	import { useDropdownContext } from './context';
+	import { cn } from "$lib/utils.js";
+	import { DropdownMenu as DropdownMenuPrimitive } from "bits-ui";
 
 	let {
-		inset = false,
-		class: className = '',
-		onSelect
-	}: { inset?: boolean; class?: string; onSelect?: (event: MouseEvent) => void } = $props();
-
-	const { setOpen } = useDropdownContext();
-	const slots = $slots<{ default?: () => unknown }>();
-	const renderDefault = slots.default;
+		ref = $bindable(null),
+		class: className,
+		inset,
+		variant = "default",
+		...restProps
+	}: DropdownMenuPrimitive.ItemProps & {
+		inset?: boolean;
+		variant?: "default" | "destructive";
+	} = $props();
 </script>
 
-<button
-	type="button"
-	role="menuitem"
+<DropdownMenuPrimitive.Item
+	bind:ref
+	data-slot="dropdown-menu-item"
+	data-inset={inset}
+	data-variant={variant}
 	class={cn(
-		'text-foreground/80 duration-subtle ease-market-ease hover:bg-surface-muted/40 hover:text-foreground focus-visible:ring-ring/60 flex w-full items-center gap-2 rounded-md px-3 py-2 text-left text-sm transition-colors focus-visible:ring-2 focus-visible:outline-none',
-		inset && 'pl-9',
+		"data-highlighted:bg-accent data-highlighted:text-accent-foreground data-[variant=destructive]:text-destructive data-[variant=destructive]:data-highlighted:bg-destructive/10 dark:data-[variant=destructive]:data-highlighted:bg-destructive/20 data-[variant=destructive]:data-highlighted:text-destructive data-[variant=destructive]:*:[svg]:!text-destructive [&_svg:not([class*='text-'])]:text-muted-foreground outline-hidden relative flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm data-[disabled]:pointer-events-none data-[inset]:pl-8 data-[disabled]:opacity-50 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
 		className
 	)}
-	on:click={(event) => {
-		onSelect?.(event);
-		setOpen(false);
-	}}
->
-	{@render renderDefault?.({})}
-</button>
+	{...restProps}
+/>

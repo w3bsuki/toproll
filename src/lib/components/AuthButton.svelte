@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { HTMLAttributes } from 'svelte/elements';
-	import { Loader2, Shield } from 'lucide-svelte';
+	import { Loader2, Shield } from '@lucide/svelte';
 	import { Button } from '$lib/components/ui';
 	import { cn } from '$lib/utils';
 

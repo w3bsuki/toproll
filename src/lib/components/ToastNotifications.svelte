@@ -11,7 +11,7 @@
 
 <script lang="ts">
 	import { writable } from 'svelte/store';
-	import { CheckCircle, AlertCircle, Info, X } from 'lucide-svelte';
+	import { CheckCircle, AlertCircle, Info, X } from '@lucide/svelte';
 	import { Button, Card, CardContent } from '$lib/components/ui';
 
 	export const toasts = writable<Toast[]>([]);

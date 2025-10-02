@@ -1,15 +1,7 @@
 <script lang="ts">
-	import { useSheetContext } from './context';
-	import { cn } from '$lib/utils';
+	import { Dialog as SheetPrimitive } from "bits-ui";
 
-	let { class: className = '' } = $props();
-	const { close } = useSheetContext();
+	let { ref = $bindable(null), ...restProps }: SheetPrimitive.CloseProps = $props();
 </script>
 
-<button
-	type="button"
-	class={cn('inline-flex items-center justify-center', className)}
-	onclick={() => close()}
->
-	<slot />
-</button>
+<SheetPrimitive.Close bind:ref data-slot="sheet-close" {...restProps} />

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { get } from 'svelte/store';
 	import { Button } from '$lib/components/ui';
-	import { CloudRain, Send, Users } from 'lucide-svelte';
+	import { CloudRain, Send, Users } from '@lucide/svelte';
 	import {
 		communityMessages,
 		pushCommunityMessage,

@@ -3,7 +3,7 @@
 	import ParticleEffects from '$lib/components/ParticleEffects.svelte';
 	import LoadingSkeleton from '$lib/components/LoadingSkeleton.svelte';
 	import ErrorBoundary from '$lib/components/ErrorBoundary.svelte';
-	import { Package, Users, TrendingUp, Zap, Sword, Sparkles } from 'lucide-svelte';
+	import { Package, Users, TrendingUp, Zap, Sword, Sparkles } from '@lucide/svelte';
 	import type { CaseItem } from '$lib/types';
 	import type { PageData } from './$types';
 	import {

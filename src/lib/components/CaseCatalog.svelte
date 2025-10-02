@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { motion } from 'framer-motion';
-	import { Package, Star, Zap, Trophy, Info } from 'lucide-svelte';
+	import { Package, Star, Zap, Trophy, Info } from '@lucide/svelte';
 	import type { Case, CaseItem } from '$lib/types';
 
 	interface CaseCatalogProps {

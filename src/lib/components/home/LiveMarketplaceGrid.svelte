@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { marketplaceItems } from '$lib/stores/homepage';
 	import { Badge, Button } from '$lib/components/ui';
-	import { ArrowRight, Users } from 'lucide-svelte';
+	import { ArrowRight, Users } from '@lucide/svelte';
 
 	const items = $derived($marketplaceItems);
 

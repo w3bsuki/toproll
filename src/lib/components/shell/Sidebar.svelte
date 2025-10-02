@@ -14,7 +14,7 @@
 		LifeBuoy,
 		ChevronDown,
 		Briefcase
-	} from 'lucide-svelte';
+	} from '@lucide/svelte';
 	import { Button } from '$lib/components/ui';
 	import { cn } from '$lib/utils';
 	import { closeSidebar } from '$lib/stores/ui';

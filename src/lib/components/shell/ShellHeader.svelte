@@ -24,7 +24,7 @@
 		Search,
 		Sparkles,
 		Wallet
-	} from 'lucide-svelte';
+	} from '@lucide/svelte';
 	import { createEventDispatcher } from 'svelte';
 
 	type ShellHeaderProps = {
@@ -101,18 +101,27 @@
 	let activeCategory = $state(categoryTabs[0]?.id ?? 'live');
 
 	const walletBalance = $derived(() => (user?.totalWagered ?? 0) / 2 + 1561);
+
+	// Helper to get icon for ticker items
+	const getTickerIcon = (id: string) => {
+		switch(id) {
+			case 'rain-pot': return Gift;
+			case 'battle-queue': return Sparkles;
+			case 'flash-drop': return Wallet;
+			default: return Bell;
+		}
+	};
 </script>
 
-<header
+<div
 	class={cn(
-		'relative z-30 border-b border-border/40 bg-surface/90 shadow-marketplace-sm backdrop-blur-xl',
+		'relative',
 		className
 	)}
 	style="--shell-header-height: 72px"
 >
-	<!-- Gradient Bridge Effect -->
+	<!-- Gradient accent at bottom -->
 	<div class="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
-	<div class="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-b from-surface-accent/10 to-transparent"></div>
 
 	<!-- Mobile Header -->
 	<div class="flex h-[var(--shell-header-height)] items-center justify-between px-4 md:hidden">
@@ -271,4 +280,4 @@
 			</div>
 		</div>
 	</div>
-</header>
+</div>

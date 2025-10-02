@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { communityPots } from '$lib/stores/homepage';
 	import { Badge, Button } from '$lib/components/ui';
-	import { ArrowRight, Crown, Users, Timer } from 'lucide-svelte';
+	import { ArrowRight, Crown, Users, Timer } from '@lucide/svelte';
 
 	const pots = $derived($communityPots);
 

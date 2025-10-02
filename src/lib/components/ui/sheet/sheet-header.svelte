@@ -1,10 +1,20 @@
 <script lang="ts">
-	import { cn } from '$lib/utils';
-	let { class: className = '' } = $props();
+	import type { HTMLAttributes } from "svelte/elements";
+	import { cn, type WithElementRef } from "$lib/utils.js";
+
+	let {
+		ref = $bindable(null),
+		class: className,
+		children,
+		...restProps
+	}: WithElementRef<HTMLAttributes<HTMLDivElement>> = $props();
 </script>
 
-<header
-	class={cn('border-border/60 flex items-center justify-between border-b px-6 py-4', className)}
+<div
+	bind:this={ref}
+	data-slot="sheet-header"
+	class={cn("flex flex-col gap-1.5 p-4", className)}
+	{...restProps}
 >
-	<slot />
-</header>
+	{@render children?.()}
+</div>

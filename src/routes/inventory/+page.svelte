@@ -1,6 +1,6 @@
 <script lang="ts">
 	import InventoryGrid from '$lib/components/InventoryGrid.svelte';
-	import { ExternalLink, RefreshCw, Shield } from 'lucide-svelte';
+	import { ExternalLink, RefreshCw, Shield } from '@lucide/svelte';
 	import type { PageData } from './$types';
 	import {
 		Button,
