@@ -8,15 +8,22 @@
 		type CommunityMessage,
 		type RainPot
 	} from '$lib/stores/homepage';
-	import { X, Send, MessageCircle, CloudRain, Users } from '@lucide/svelte';
-	import { Button, Sheet, SheetContent } from '$lib/components/ui';
+	import { X, Send, MessageCircle, CloudRain, Users, User } from '@lucide/svelte';
+	import { Button, Badge } from '$lib/components/ui';
+	import * as Sheet from '$lib/components/ui/sheet/index.js';
+	import { Avatar, AvatarImage, AvatarFallback } from '$lib/components/ui/avatar';
 
-	const uiState = $derived(uiStore);
-	const chatOpen = $derived(() => uiState.chatOpen);
-
+	let chatOpen = $state(false);
 	let messages = $state<CommunityMessage[]>(get(communityMessages));
 	let currentPot = $state<RainPot>(get(rainPot));
 	let input = $state('');
+
+	$effect(() => {
+		const unsubscribe = uiStore.subscribe((value) => {
+			chatOpen = value.chatOpen;
+		});
+		return unsubscribe;
+	});
 
 	$effect(() => {
 		const unsubscribe = communityMessages.subscribe((value) => {
@@ -57,8 +64,8 @@
 	};
 </script>
 
-<Sheet open={chatOpen} onOpenChange={(open) => (!open ? closeChat() : undefined)}>
-	<SheetContent
+<Sheet.Root open={chatOpen} onOpenChange={(open) => (!open ? closeChat() : undefined)}>
+	<Sheet.Content
 		side="bottom"
 		class="border-border/40 bg-surface/95 shadow-marketplace-lg max-h-[75vh] w-full translate-y-0 rounded-t-[32px] border px-0 pt-4 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:max-w-xl"
 		labelledby="chat-drawer-title"
@@ -119,19 +126,20 @@
 					<article class="border-border/50 bg-surface/70 rounded-2xl border px-4 py-3 text-sm">
 						<div class="text-muted-foreground mb-1 flex items-center justify-between text-xs">
 							<div class="flex items-center gap-2">
+								<Avatar class="h-7 w-7">
+									<AvatarImage src={message.avatar} alt={message.username} />
+									<AvatarFallback class="text-xs">
+										<User class="h-3.5 w-3.5" />
+									</AvatarFallback>
+								</Avatar>
 								<span class="text-foreground font-semibold">{message.username}</span>
 								{#if message.badge}
-									<span
-										class={`rounded-full px-2 py-0.5 text-[10px] tracking-[0.3em] uppercase ${
-											message.badge === 'vip'
-												? 'bg-primary/20 text-primary'
-												: message.badge === 'staff'
-													? 'bg-accent/20 text-accent-foreground'
-													: 'bg-secondary/20 text-secondary-foreground'
-										}`}
+									<Badge
+										variant={message.badge === 'vip' ? 'default' : message.badge === 'staff' ? 'secondary' : 'outline'}
+										class="text-[10px] px-1.5 py-0 h-4"
 									>
 										{message.badge}
-									</span>
+									</Badge>
 								{/if}
 							</div>
 							<span>{message.timestamp}</span>
@@ -161,5 +169,5 @@
 				</Button>
 			</form>
 		</div>
-	</SheetContent>
-</Sheet>
+	</Sheet.Content>
+</Sheet.Root>

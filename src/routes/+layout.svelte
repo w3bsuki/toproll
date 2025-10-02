@@ -41,7 +41,7 @@
 	<div class="bg-background flex flex-1 overflow-hidden">
 		<!-- Left Sidebar (Desktop Only) -->
 		<aside
-			class="border-border bg-card hidden w-[280px] flex-shrink-0 border-r lg:flex lg:flex-col"
+			class="border-border bg-card hidden w-[360px] flex-shrink-0 border-r lg:flex lg:flex-col"
 		>
 			<div class="flex h-full flex-col overflow-y-auto">
 				<SidebarLeft isAuthenticated={data.isAuthenticated} user={data.user} />

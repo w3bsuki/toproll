@@ -2,7 +2,6 @@
 	import { page } from '$app/stores';
 	import HeroCarousel from '$lib/components/home/HeroCarousel.svelte';
 	import MarketplaceGrid from '$lib/components/home/MarketplaceGrid.svelte';
-	import KpiStrip from '$lib/components/home/KpiStrip.svelte';
 	import HorizontalScroller, {
 		type HorizontalItem
 	} from '$lib/components/home/HorizontalScroller.svelte';
@@ -58,74 +57,38 @@
 
 	const featuredRows: { title: string; caption?: string; items: HorizontalItem[] }[] = [
 		{
-			title: 'Featured cases',
-			caption: 'Boosted doppler and exclusive community boxes',
+			title: 'Community Pots',
+			caption: 'Active rain pots and community bonuses',
 			items: [
 				{
-					id: 'doppler-feature',
-					title: 'Neon Doppler Run',
-					subtitle: '3.8x legendary multipliers · Live auditing',
-					meta: 'Boosted',
-					highlight: '12% odds boost active',
-					cta: 'Open case',
+					id: 'rain-pot-active',
+					title: 'Rain Pot Active',
+					subtitle: '312 contributors · Active now',
+					meta: 'Live',
+					highlight: '$12,400 pool',
+					cta: 'Join Rain Pot',
 					background:
-						'radial-gradient(circle at 20% 20%, rgba(124, 58, 237, 0.65), transparent 55%), radial-gradient(circle at 80% 30%, rgba(6, 182, 212, 0.45), transparent 50%), rgba(17, 25, 40, 0.92)'
+						'radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.55), transparent 55%), radial-gradient(circle at 80% 30%, rgba(45, 212, 191, 0.35), transparent 50%), rgba(12, 74, 110, 0.88)'
 				},
 				{
-					id: 'flash-frost',
-					title: 'Flash Frost Locker',
-					subtitle: 'Limited drop · 2m left · 640 cases remaining',
-					meta: 'Flash',
-					highlight: 'Auto-withdraw enabled',
-					cta: 'Enter flash',
-					background:
-						'radial-gradient(circle at 25% 25%, rgba(59, 130, 246, 0.55), transparent 60%), radial-gradient(circle at 75% 75%, rgba(14, 165, 233, 0.45), transparent 55%), rgba(15, 23, 42, 0.9)'
-				},
-				{
-					id: 'obsidian-vein',
-					title: 'Obsidian Vein Deluxe',
-					subtitle: 'High volatility pool with transparent rake',
-					meta: 'Legendary',
-					highlight: 'Top pull $14.9k',
-					cta: 'View odds',
-					background:
-						'radial-gradient(circle at 25% 75%, rgba(248, 113, 113, 0.5), transparent 60%), radial-gradient(circle at 75% 25%, rgba(168, 85, 247, 0.45), transparent 55%), rgba(24, 24, 27, 0.92)'
-				}
-			]
-		},
-		{
-			title: 'High volatility drops',
-			caption: 'Curated pots with dynamic multiplier windows',
-			items: [
-				{
-					id: 'high-roller-lobby',
-					title: 'High Roller Lobby',
-					subtitle: '2v2 battles · Average pot $3.2k',
-					meta: 'Battles',
-					highlight: 'Queue depth 6 teams',
-					cta: 'Launch lobby',
-					background:
-						'radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.55), transparent 55%), radial-gradient(circle at 70% 70%, rgba(59, 130, 246, 0.35), transparent 50%), rgba(17, 24, 39, 0.9)'
-				},
-				{
-					id: 'vip-rain',
+					id: 'vip-rain-cycle',
 					title: 'VIP Rain Cycle',
-					subtitle: 'Invite-only rain pot with loyalty kickbacks',
-					meta: 'Community',
+					subtitle: 'Daily guaranteed · 3 invites',
+					meta: 'VIP',
 					highlight: 'Pool $12.4k',
-					cta: 'View slots',
+					cta: 'View invites',
 					background:
-						'radial-gradient(circle at 30% 70%, rgba(16, 185, 129, 0.55), transparent 55%), radial-gradient(circle at 70% 30%, rgba(45, 212, 191, 0.35), transparent 55%), rgba(12, 74, 110, 0.88)'
+						'radial-gradient(circle at 30% 70%, rgba(59, 130, 246, 0.45), transparent 60%), radial-gradient(circle at 70% 30%, rgba(147, 197, 253, 0.3), transparent 55%), rgba(15, 23, 42, 0.92)'
 				},
 				{
-					id: 'turbo-upgrader',
-					title: 'Turbo Upgrader',
-					subtitle: 'Variable odds with auto lock-in protection',
-					meta: 'Upgrader',
-					highlight: 'Best streak 9x',
-					cta: 'Run upgrade',
+					id: 'flash-rain-boost',
+					title: 'Flash Rain Boost',
+					subtitle: 'Limited time · 6 slots left',
+					meta: 'Flash',
+					highlight: '2x multiplier',
+					cta: 'Secure slot',
 					background:
-						'radial-gradient(circle at 25% 20%, rgba(236, 72, 153, 0.55), transparent 60%), radial-gradient(circle at 75% 70%, rgba(129, 140, 248, 0.4), transparent 50%), rgba(24, 24, 27, 0.94)'
+						'radial-gradient(circle at 25% 30%, rgba(34, 197, 94, 0.55), transparent 60%), radial-gradient(circle at 75% 70%, rgba(16, 185, 129, 0.35), transparent 55%), rgba(15, 118, 110, 0.85)'
 				}
 			]
 		}
@@ -249,26 +212,6 @@
 </svelte:head>
 
 <div class="space-y-12">
-	{#if currentError}
-		<Alert variant="destructive" class="items-start">
-			<AlertCircle class="h-5 w-5" />
-			<div class="space-y-2">
-				<p class="text-sm font-semibold">{currentError.title}</p>
-				<p class="text-muted-foreground text-sm">{currentError.description}</p>
-				{#if currentError.action === 'Sign In'}
-					<form method="POST" action="/api/auth/steam/login">
-						<Button type="submit" size="sm" class="mt-1">Sign in with Steam</Button>
-					</form>
-				{:else if currentError.action === 'Try Again'}
-					<form method="POST" action="/api/auth/steam/login">
-						<Button type="submit" variant="outline" size="sm" class="mt-1">
-							Retry authentication
-						</Button>
-					</form>
-				{/if}
-			</div>
-		</Alert>
-	{/if}
 
 	<HeroCarousel />
 
@@ -285,6 +228,5 @@
 		</div>
 	</section>
 
-	<KpiStrip />
 	<MarketplaceGrid />
 </div>

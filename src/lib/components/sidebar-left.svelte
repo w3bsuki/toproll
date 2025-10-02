@@ -25,27 +25,33 @@
 	const isActiveRoute = (href: string) => currentPath === href;
 </script>
 
-<div class="flex h-full flex-col gap-4 p-6">
-	<!-- Navigation -->
-	<nav aria-label="Main" class="flex flex-col gap-1">
-		{#each navItems as item}
-			<Button
-				as="a"
-				href={buildHref(item.href)}
-				variant={isActiveRoute(item.href) ? 'default' : 'ghost'}
-				class={cn(
-					'justify-start gap-3 text-sm font-medium',
-					isActiveRoute(item.href) ? 'shadow-sm' : ''
-				)}
-			>
-				<item.icon class="h-4 w-4" />
-				{item.label}
-			</Button>
-		{/each}
-	</nav>
+<div class="flex h-full flex-col">
+	<!-- Main Navigation Section -->
+	<div class="flex-1 p-4">
+		<nav aria-label="Main" class="flex flex-col gap-1">
+			{#each navItems as item}
+				<Button
+					as="a"
+					href={buildHref(item.href)}
+					variant={isActiveRoute(item.href) ? 'default' : 'ghost'}
+					size="lg"
+					class={cn(
+						'justify-start gap-4 w-full text-base font-semibold',
+						'h-14 px-4'
+					)}
+				>
+					<item.icon class="h-6 w-6 flex-shrink-0" />
+					<span class="text-left">{item.label}</span>
+				</Button>
+			{/each}
+		</nav>
+	</div>
+
+	<!-- Separator -->
+	<div class="mx-4 h-px bg-border/50"></div>
 
 	<!-- Rain Pot Section -->
-	<div class="mt-auto space-y-3">
+	<div class="p-4 space-y-4">
 		<RainPotCard />
 
 		<!-- Auth Section -->
@@ -69,7 +75,7 @@
 					<Button size="sm" variant="outline" class="flex-1 text-xs">Withdraw</Button>
 				</div>
 			</div>
-		{:else}
+			{:else}
 			<form method="POST" action="/api/auth/steam/login" class="w-full">
 				<AuthButton class="w-full" />
 			</form>

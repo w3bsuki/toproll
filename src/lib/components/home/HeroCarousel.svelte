@@ -1,180 +1,156 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { heroPromotions } from '$lib/stores/homepage';
-	import { Button, Badge } from '$lib/components/ui';
-	import { ChevronLeft, ChevronRight } from '@lucide/svelte';
+	import { Gift, Users, Zap, ChevronLeft, ChevronRight } from '@lucide/svelte';
 
-	const slides = $derived($heroPromotions);
-	let activeIndex = $state(0);
-	let timer: ReturnType<typeof setInterval> | null = null;
+	let currentIndex = $state(0);
+	let interval: ReturnType<typeof setInterval>;
 
-	function goTo(index: number) {
-		activeIndex = index;
-		startTimer();
-	}
-
-	function step(direction: 1 | -1) {
-		const nextIndex = (activeIndex + direction + slides.length) % slides.length;
-		goTo(nextIndex);
-	}
-
-	function startTimer() {
-		stopTimer();
-		if (!slides.length) return;
-		timer = setInterval(() => {
-			activeIndex = (activeIndex + 1) % slides.length;
-		}, 6500);
-	}
-
-	function stopTimer() {
-		if (timer) {
-			clearInterval(timer);
-			timer = null;
+	const slides = [
+		{
+			id: 'rain-pot',
+			title: 'Rain Pot Active',
+			subtitle: '312 contributors · 08:19 remaining',
+			badge: 'Live',
+			highlight: '$12,400 pool',
+			cta: 'Join Rain Pot',
+			icon: Gift,
+			background: 'linear-gradient(135deg, #10b981 0%, #2dd4bf 100%)'
+		},
+		{
+			id: 'skin-giveaway',
+			title: '★ Karambit | Fade Giveaway',
+			subtitle: 'Premium knife giveaway · 50 slots remaining',
+			badge: 'Giveaway',
+			highlight: 'Free Entry',
+			cta: 'Enter Now',
+			icon: Users,
+			background: 'linear-gradient(135deg, #a855f7 0%, #ec4899 100%)'
+		},
+		{
+			id: 'flash-rain',
+			title: 'Flash Rain Boost',
+			subtitle: 'Limited time · 6 slots left · 2x multiplier',
+			badge: 'Flash',
+			highlight: '2x Multiplier',
+			cta: 'Secure Slot',
+			icon: Zap,
+			background: 'linear-gradient(135deg, #22c55e 0%, #10b981 100%)'
 		}
+	];
+
+	function nextSlide() {
+		currentIndex = (currentIndex + 1) % slides.length;
 	}
 
-	onMount(() => {
-		startTimer();
-		return () => stopTimer();
+	function prevSlide() {
+		currentIndex = (currentIndex - 1 + slides.length) % slides.length;
+	}
+
+	function goToSlide(index: number) {
+		currentIndex = index;
+	}
+
+	function startAutoplay() {
+		stopAutoplay();
+		interval = setInterval(nextSlide, 4000);
+	}
+
+	function stopAutoplay() {
+		if (interval) clearInterval(interval);
+	}
+
+	$effect(() => {
+		startAutoplay();
+		return stopAutoplay;
 	});
 </script>
 
-{#if slides.length}
-	<section
-		class="border-border/50 bg-surface shadow-marketplace-sm relative overflow-hidden rounded-3xl border"
-	>
+<div class="relative w-full">
+	<div class="relative overflow-hidden rounded-2xl">
+		<!-- Main container -->
 		<div
-			class="relative grid min-h-[360px] gap-8 overflow-hidden lg:grid-cols-[1.2fr,0.8fr]"
-			style={`background:${slides[activeIndex]?.background ?? 'var(--surface)'}`}
+			class="flex transition-transform duration-500 ease-in-out h-full"
+			style="transform: translateX(-{currentIndex * 100}%)"
 		>
-			<div class="relative flex flex-col justify-between p-6 sm:p-8">
-				<div class="text-foreground space-y-5">
-					<div class="flex flex-wrap items-center gap-2">
-						<Badge
-							variant="outline"
-							class="border-border/50 bg-surface/40 text-foreground/80 text-xs tracking-wide uppercase backdrop-blur-sm"
-						>
-							{slides[activeIndex].tag}
-						</Badge>
-						<span class="text-foreground/70 text-xs">{slides[activeIndex].subtitle}</span>
-					</div>
-					<div class="space-y-3">
-						<h1 class="text-2xl leading-tight font-semibold sm:text-3xl lg:text-4xl">
-							{slides[activeIndex].title}
-						</h1>
-						<p class="text-foreground/80 max-w-xl text-sm leading-relaxed">
-							{slides[activeIndex].description}
-						</p>
-					</div>
-					<div class="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-						{#each slides[activeIndex].ctas as cta}
-							<Button
-								variant={cta.variant ?? 'default'}
-								class={`${
-									cta.variant === 'outline'
-										? 'border-border/60 text-foreground hover:bg-surface/40 bg-transparent'
-										: 'bg-card text-card-foreground hover:bg-card/90'
-								} w-full sm:w-auto`}
-							>
-								{cta.label}
-							</Button>
-						{/each}
-					</div>
-				</div>
-
+			{#each slides as slide, index}
 				<div
-					class="bg-surface/40 text-foreground/80 border-border/30 grid grid-cols-3 gap-3 rounded-2xl border p-4 backdrop-blur"
+					class="w-full flex-shrink-0"
+					style="background: {slide.background}"
 				>
-					{#each slides[activeIndex].stats as stat}
-						<div class="text-center">
-							<p class="text-muted-foreground text-[10px] tracking-wide uppercase">
-								{stat.label}
-							</p>
-							<p class="mt-1 text-base font-semibold">{stat.value}</p>
-						</div>
-					{/each}
-				</div>
-			</div>
+					<div class="relative p-6 min-h-[180px] flex flex-col justify-between">
+						<!-- Glass effect -->
+						<div class="absolute inset-0 bg-white/10 backdrop-blur-sm rounded-2xl" />
 
-			<aside class="border-border/40 relative hidden h-full flex-col gap-4 border-l p-6 lg:flex">
-				<div class="text-foreground/80 flex items-center justify-between">
-					<p class="text-xs tracking-[0.35em] uppercase">Now trending</p>
-					<div class="flex gap-2">
-						<button
-							class="border-border/50 text-muted-foreground hover:border-border/60 hover:text-foreground focus-visible:ring-primary/40 h-10 w-10 rounded-full border transition focus-visible:ring-2 focus-visible:outline-none"
-							type="button"
-							onclick={() => step(-1)}
-							aria-label="Previous slide"
-						>
-							<ChevronLeft class="h-4 w-4" />
-						</button>
-						<button
-							class="border-border/50 text-muted-foreground hover:border-border/60 hover:text-foreground focus-visible:ring-primary/40 h-10 w-10 rounded-full border transition focus-visible:ring-2 focus-visible:outline-none"
-							type="button"
-							onclick={() => step(1)}
-							aria-label="Next slide"
-						>
-							<ChevronRight class="h-4 w-4" />
-						</button>
+						<div class="relative space-y-4">
+							<!-- Badge -->
+							<div class="inline-flex">
+								<span class="border-white/30 bg-white/20 text-white text-[10px] tracking-wider uppercase rounded-lg border px-3 py-1 font-semibold backdrop-blur-sm">
+									{slide.badge}
+								</span>
+							</div>
+
+							<!-- Title and subtitle -->
+							<div class="space-y-2">
+								<h3 class="text-2xl font-bold text-white leading-tight">
+									{slide.title}
+								</h3>
+								<p class="text-white/90 text-sm leading-relaxed">
+									{slide.subtitle}
+								</p>
+							</div>
+
+							<!-- CTA section -->
+							<div class="flex items-center justify-between gap-4">
+								<div class="flex items-center gap-2">
+									<svelte:component this={slide.icon} class="h-5 w-5 text-white/90" />
+									<span class="text-white font-semibold text-sm">
+										{slide.highlight}
+									</span>
+								</div>
+								<button
+									class="bg-white text-gray-900 hover:bg-white/90 font-semibold rounded-lg px-4 py-2 text-sm shadow-lg transition-colors"
+								>
+									{slide.cta}
+								</button>
+							</div>
+						</div>
 					</div>
 				</div>
-				<div class="marketplace-scrollbar flex-1 space-y-3 overflow-y-auto pr-1">
-					{#each slides as slide, index}
-						<button
-							type="button"
-							class={`w-full rounded-2xl border px-4 py-3 text-left transition ${
-								index === activeIndex
-									? 'border-border/50 bg-surface/40 text-foreground shadow-marketplace-sm'
-									: 'bg-surface/30 text-muted-foreground hover:border-border/40 hover:text-foreground border-transparent'
-							}`}
-							onclick={() => goTo(index)}
-						>
-							<p class="text-[11px] tracking-[0.3em] uppercase">{slide.tag}</p>
-							<p class="mt-2 text-sm font-semibold">{slide.title}</p>
-							<p class="text-muted-foreground text-xs">{slide.subtitle}</p>
-						</button>
-					{/each}
-				</div>
-				<div class="flex items-center justify-center gap-2">
-					{#each slides as _, index}
-						<span
-							class={`h-1.5 rounded-full transition-all ${
-								index === activeIndex ? 'bg-foreground w-8' : 'bg-foreground/40 w-3'
-							}`}
-						/>
-					{/each}
-				</div>
-			</aside>
-
-			<div
-				class="absolute inset-x-0 bottom-0 flex items-center justify-between gap-2 p-5 lg:hidden"
-			>
-				<button
-					class="border-border/50 text-muted-foreground hover:border-border/60 hover:text-foreground focus-visible:ring-primary/40 h-10 w-10 rounded-full border transition focus-visible:ring-2 focus-visible:outline-none"
-					type="button"
-					onclick={() => step(-1)}
-					aria-label="Previous slide"
-				>
-					<ChevronLeft class="h-4 w-4" />
-				</button>
-				<div class="flex flex-1 justify-center gap-2">
-					{#each slides as _, index}
-						<span
-							class={`h-1.5 rounded-full transition-all ${
-								index === activeIndex ? 'bg-foreground w-8' : 'bg-foreground/40 w-3'
-							}`}
-						/>
-					{/each}
-				</div>
-				<button
-					class="border-border/50 text-muted-foreground hover:border-border/60 hover:text-foreground focus-visible:ring-primary/40 h-10 w-10 rounded-full border transition focus-visible:ring-2 focus-visible:outline-none"
-					type="button"
-					onclick={() => step(1)}
-					aria-label="Next slide"
-				>
-					<ChevronRight class="h-4 w-4" />
-				</button>
-			</div>
+			{/each}
 		</div>
-	</section>
-{/if}
+
+		<!-- Navigation buttons -->
+		<button
+			type="button"
+			onclick={prevSlide}
+			onmouseenter={stopAutoplay}
+			onmouseleave={startAutoplay}
+			class="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-gray-900 shadow-lg hover:bg-white transition-all duration-200"
+			aria-label="Previous slide"
+		>
+			<ChevronLeft class="h-5 w-5" />
+		</button>
+
+		<button
+			type="button"
+			onclick={nextSlide}
+			onmouseenter={stopAutoplay}
+			onmouseleave={startAutoplay}
+			class="absolute right-4 top-1/2 -translate-y-1/2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-gray-900 shadow-lg hover:bg-white transition-all duration-200"
+			aria-label="Next slide"
+		>
+			<ChevronRight class="h-5 w-5" />
+		</button>
+
+		<!-- Dots indicator -->
+		<div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
+			{#each slides as _, index}
+				<button
+					type="button"
+					onclick={() => goToSlide(index)}
+					class="h-2 rounded-full transition-all duration-300 {index === currentIndex ? 'bg-white w-8' : 'bg-white/40 hover:bg-white/60 w-2'}"
+					aria-label={`Go to slide ${index + 1}`}
+				></button>
+			{/each}
+		</div>
+	</div>
+</div>

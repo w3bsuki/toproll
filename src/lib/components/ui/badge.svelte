@@ -2,7 +2,7 @@
 	import { cn } from '$lib/utils';
 
 	type BadgeVariant = 'default' | 'outline' | 'success' | 'warning' | 'info' | 'destructive';
-	let { variant = 'default' as BadgeVariant, class: className = '' } = $props();
+	let { variant = 'default' as BadgeVariant, class: className = '', children } = $props();
 
 	const variants: Record<BadgeVariant, string> = {
 		default: 'bg-primary/15 text-primary border border-primary/35',
@@ -21,5 +21,5 @@
 		className
 	)}
 >
-	<slot />
+	{@render children?.()}
 </span>

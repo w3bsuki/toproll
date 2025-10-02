@@ -157,8 +157,9 @@
 	</div>
 
 	<!-- Desktop Header -->
-	<div class="hidden h-[var(--shell-header-height)] items-center gap-6 px-8 md:flex lg:px-10">
-		<div class="flex items-center gap-3">
+	<div class="hidden h-[var(--shell-header-height)] items-center justify-between md:flex">
+		<!-- Logo - Left Edge -->
+		<div class="flex items-center gap-3 shrink-0 pl-4">
 			<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 			<a href={homeHref} class="flex items-center gap-2">
 				<span
@@ -173,8 +174,8 @@
 			</a>
 		</div>
 
-		<!-- Ticker Chips -->
-		<div class="max-w-2xl flex-1">
+		<!-- Ticker Chips - Center -->
+		<div class="flex-1 max-w-2xl flex justify-center">
 			<div
 				class="scrollbar-hide flex items-center gap-2 overflow-x-auto"
 				role="region"
@@ -199,8 +200,8 @@
 			</div>
 		</div>
 
-		<!-- Search & Actions -->
-		<div class="flex items-center gap-3">
+		<!-- Search & Actions - Right Edge -->
+		<div class="flex items-center gap-3 shrink-0 pr-4">
 			<form class="relative" onsubmit={handleSearch}>
 				<Search class="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
 				<label class="sr-only" for="desktop-search">Search</label>
@@ -213,75 +214,73 @@
 				/>
 			</form>
 
-			<div class="flex items-center gap-2">
-				<button
-					type="button"
-					class="group duration-accent ease-market-ease border-border/50 bg-surface-muted/70 text-muted-foreground hover:border-primary/40 hover:bg-surface-muted hover:text-foreground hover:shadow-marketplace-sm focus-visible:ring-primary/50 flex h-10 w-10 items-center justify-center rounded-xl border transition-all focus-visible:ring-2 focus-visible:outline-none"
-					aria-label="Language"
-				>
-					<Globe class="h-4 w-4" />
-				</button>
-				<button
-					type="button"
-					class="group duration-accent ease-market-ease border-border/50 bg-surface-muted/70 text-muted-foreground hover:border-primary/40 hover:bg-surface-muted hover:text-foreground hover:shadow-marketplace-sm focus-visible:ring-primary/50 flex h-10 w-10 items-center justify-center rounded-xl border transition-all focus-visible:ring-2 focus-visible:outline-none"
-					aria-label="Notifications"
-				>
-					<Bell class="h-4 w-4" />
-				</button>
+			<button
+				type="button"
+				class="group duration-accent ease-market-ease border-border/50 bg-surface-muted/70 text-muted-foreground hover:border-primary/40 hover:bg-surface-muted hover:text-foreground hover:shadow-marketplace-sm focus-visible:ring-primary/50 flex h-10 w-10 items-center justify-center rounded-xl border transition-all focus-visible:ring-2 focus-visible:outline-none"
+				aria-label="Language"
+			>
+				<Globe class="h-4 w-4" />
+			</button>
+			<button
+				type="button"
+				class="group duration-accent ease-market-ease border-border/50 bg-surface-muted/70 text-muted-foreground hover:border-primary/40 hover:bg-surface-muted hover:text-foreground hover:shadow-marketplace-sm focus-visible:ring-primary/50 flex h-10 w-10 items-center justify-center rounded-xl border transition-all focus-visible:ring-2 focus-visible:outline-none"
+				aria-label="Notifications"
+			>
+				<Bell class="h-4 w-4" />
+			</button>
 
-				{#if isAuthenticated && user}
-					<DropdownMenu>
-						<DropdownMenuTrigger
-							class="group duration-accent ease-market-ease border-border/50 bg-surface-muted/70 hover:border-primary/40 hover:bg-surface-muted hover:shadow-marketplace-sm focus-visible:ring-primary/50 flex items-center gap-3 rounded-xl border px-3 py-2 transition-all focus-visible:ring-2 focus-visible:outline-none"
-						>
-							{#if user.avatar}
-								<img
-									src={user.avatar}
-									alt={user.username || 'User'}
-									class="h-8 w-8 rounded-lg object-cover"
-								/>
-							{:else}
-								<div
-									class="border-border/50 bg-surface-muted/80 text-muted-foreground flex h-8 w-8 items-center justify-center rounded-lg border font-semibold"
-								>
-									{(user.username || 'U').slice(0, 1).toUpperCase()}
-								</div>
-							{/if}
-							<div class="hidden text-left xl:block">
-								<p class="text-foreground text-sm leading-tight font-semibold">
-									{user.username || 'User'}
-								</p>
-								<p class="text-muted-foreground text-xs">
-									Lvl {Math.floor((user.totalWagered || 0) / 1000) + 1}
-								</p>
-							</div>
-							<ChevronDown
-								class="duration-accent text-muted-foreground h-4 w-4 transition group-aria-expanded:rotate-180"
+			{#if isAuthenticated && user}
+				<DropdownMenu>
+					<DropdownMenuTrigger
+						class="group duration-accent ease-market-ease border-border/50 bg-surface-muted/70 hover:border-primary/40 hover:bg-surface-muted hover:shadow-marketplace-sm focus-visible:ring-primary/50 flex items-center gap-3 rounded-xl border px-3 py-2 transition-all focus-visible:ring-2 focus-visible:outline-none"
+					>
+						{#if user.avatar}
+							<img
+								src={user.avatar}
+								alt={user.username || 'User'}
+								class="h-8 w-8 rounded-lg object-cover"
 							/>
-						</DropdownMenuTrigger>
-						<DropdownMenuContent class="w-56" align="end">
-							<div class="px-3 pt-2 pb-3 text-sm">
-								<p class="text-muted-foreground text-xs tracking-[0.3em] uppercase">Signed in</p>
-								<p class="font-semibold">{user.username}</p>
-							</div>
-							<DropdownMenuSeparator />
-							<DropdownMenuItem onSelect={() => {}}>Profile</DropdownMenuItem>
-							<DropdownMenuItem onSelect={() => {}}>Inventory</DropdownMenuItem>
-							<DropdownMenuItem onSelect={() => {}}>Account settings</DropdownMenuItem>
-							<DropdownMenuSeparator />
-							<DropdownMenuItem class="text-destructive" onSelect={() => {}}
-								>Sign out</DropdownMenuItem
+						{:else}
+							<div
+								class="border-border/50 bg-surface-muted/80 text-muted-foreground flex h-8 w-8 items-center justify-center rounded-lg border font-semibold"
 							>
-						</DropdownMenuContent>
-					</DropdownMenu>
-				{:else}
-					<form method="POST" action="/api/auth/steam/login">
-						<AuthButton
-							class="duration-accent bg-primary text-primary-foreground shadow-marketplace-sm hover:bg-primary/90 hover:shadow-marketplace-md transition-all"
+								{(user.username || 'U').slice(0, 1).toUpperCase()}
+							</div>
+						{/if}
+						<div class="hidden text-left xl:block">
+							<p class="text-foreground text-sm leading-tight font-semibold">
+								{user.username || 'User'}
+							</p>
+							<p class="text-muted-foreground text-xs">
+								Lvl {Math.floor((user.totalWagered || 0) / 1000) + 1}
+							</p>
+						</div>
+						<ChevronDown
+							class="duration-accent text-muted-foreground h-4 w-4 transition group-aria-expanded:rotate-180"
 						/>
-					</form>
-				{/if}
-			</div>
+					</DropdownMenuTrigger>
+					<DropdownMenuContent class="w-56" align="end">
+						<div class="px-3 pt-2 pb-3 text-sm">
+							<p class="text-muted-foreground text-xs tracking-[0.3em] uppercase">Signed in</p>
+							<p class="font-semibold">{user.username}</p>
+						</div>
+						<DropdownMenuSeparator />
+						<DropdownMenuItem onSelect={() => {}}>Profile</DropdownMenuItem>
+						<DropdownMenuItem onSelect={() => {}}>Inventory</DropdownMenuItem>
+						<DropdownMenuItem onSelect={() => {}}>Account settings</DropdownMenuItem>
+						<DropdownMenuSeparator />
+						<DropdownMenuItem class="text-destructive" onSelect={() => {}}
+							>Sign out</DropdownMenuItem
+						>
+					</DropdownMenuContent>
+				</DropdownMenu>
+			{:else}
+				<form method="POST" action="/api/auth/steam/login">
+					<AuthButton
+						class="duration-accent bg-primary text-primary-foreground shadow-marketplace-sm hover:bg-primary/90 hover:shadow-marketplace-md transition-all shrink-0"
+					/>
+				</form>
+			{/if}
 		</div>
 	</div>
 </div>

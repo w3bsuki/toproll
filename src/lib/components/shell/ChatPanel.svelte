@@ -5,9 +5,10 @@
 		pushCommunityMessage,
 		type CommunityMessage
 	} from '$lib/stores/homepage';
-	import { Send } from '@lucide/svelte';
-	import { Button } from '$lib/components/ui';
+	import { Send, User } from '@lucide/svelte';
+	import { Button, Badge } from '$lib/components/ui';
 	import { Textarea } from '$lib/components/ui/textarea';
+	import * as Avatar from "$lib/components/ui/avatar/index.js";
 
 	let messages = $state<CommunityMessage[]>(get(communityMessages));
 	let input = $state('');
@@ -45,19 +46,20 @@
 			<article class="border-border/50 bg-card rounded-xl border px-3 py-2.5 text-sm">
 				<div class="text-muted-foreground mb-1 flex items-center justify-between text-xs">
 					<div class="flex items-center gap-2">
+						<Avatar.Root class="h-6 w-6">
+							<Avatar.Image src={message.avatar} alt={message.username} />
+							<Avatar.Fallback class="text-xs">
+								<User class="h-3 w-3" />
+							</Avatar.Fallback>
+						</Avatar.Root>
 						<span class="text-foreground font-semibold">{message.username}</span>
 						{#if message.badge}
-							<span
-								class={`rounded-full px-2 py-0.5 text-[10px] tracking-[0.3em] uppercase ${
-									message.badge === 'vip'
-										? 'bg-primary/20 text-primary'
-										: message.badge === 'staff'
-											? 'bg-accent/20 text-accent-foreground'
-											: 'bg-secondary/20 text-secondary-foreground'
-								}`}
+							<Badge
+								variant={message.badge === 'vip' ? 'default' : message.badge === 'staff' ? 'secondary' : 'outline'}
+								class="text-[10px] px-1.5 py-0 h-4"
 							>
 								{message.badge}
-							</span>
+							</Badge>
 						{/if}
 					</div>
 					<span>{message.timestamp}</span>
