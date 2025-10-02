@@ -31,7 +31,7 @@
 	<div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4">
 		{#each items as item}
 			<article
-				class="border-border/60 bg-surface/70 group hover:shadow-marketplace-lg flex flex-col justify-between rounded-2xl border p-4 transition-all duration-300 hover:-translate-y-1"
+				class="border-border/60 bg-surface/70 group hover:shadow-marketplace-lg hover:border-border hover:bg-surface/85 flex flex-col justify-between rounded-2xl border p-4 transition-all duration-300"
 			>
 				<div class="space-y-4">
 					<div

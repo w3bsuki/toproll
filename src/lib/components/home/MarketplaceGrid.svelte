@@ -23,7 +23,7 @@
 	<div class="marketplace-scrollbar grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
 		{#each items as item}
 			<article
-				class="border-border/60 bg-surface/80 hover:border-primary/60 group shadow-marketplace-lg relative flex h-full flex-col overflow-hidden rounded-[28px] border transition duration-300 hover:-translate-y-1"
+				class="border-border/60 bg-surface/80 hover:border-border hover:bg-surface/90 group shadow-marketplace-lg relative flex h-full flex-col overflow-hidden rounded-[28px] border transition duration-300"
 			>
 				<div class="relative w-full overflow-hidden">
 					<div class="aspect-[16/10] w-full" style={`background:${item.image}`}></div>

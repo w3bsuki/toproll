@@ -21,7 +21,7 @@
 		class="group focus-visible:ring-ring/60 block rounded-[22px] focus:outline-none focus-visible:ring-2"
 	>
 		<div
-			class="duration-accent ease-market-ease relative flex h-full flex-col justify-end overflow-hidden rounded-[22px] bg-cover bg-center transition-all hover:-translate-y-1"
+			class="duration-accent ease-market-ease relative flex h-full flex-col justify-end overflow-hidden rounded-[22px] bg-cover bg-center transition-all"
 			style={`background:${image}`}
 		>
 			<!-- Gradient Frame -->
@@ -62,7 +62,7 @@
 
 			<!-- CTA Chip -->
 			<div
-				class="duration-accent ease-market-ease absolute top-4 right-4 z-10 translate-y-2 opacity-0 transition-all group-hover:translate-y-0 group-hover:opacity-100"
+				class="duration-accent ease-market-ease absolute top-4 right-4 z-10 opacity-0 transition-all group-hover:opacity-100"
 			>
 				<div
 					class="bg-accent text-accent-foreground shadow-marketplace-sm rounded-full px-4 py-2 text-xs font-bold tracking-wider uppercase backdrop-blur-sm"

@@ -41,29 +41,28 @@
 
 {#if slides.length}
 	<section
-		class="border-border/70 bg-surface/70 shadow-marketplace-lg relative overflow-hidden rounded-[32px] border"
+		class="border-border/50 bg-surface shadow-marketplace-sm relative overflow-hidden rounded-3xl border"
 	>
 		<div
-			class="relative grid min-h-[420px] gap-10 overflow-hidden lg:grid-cols-[1.2fr,0.8fr]"
+			class="relative grid min-h-[360px] gap-8 overflow-hidden lg:grid-cols-[1.2fr,0.8fr]"
 			style={`background:${slides[activeIndex]?.background ?? 'var(--surface)'}`}
 		>
-			<div class="relative flex flex-col justify-between p-8 sm:p-12">
-				<div class="text-foreground space-y-6">
-					<div class="flex flex-wrap items-center gap-3">
+			<div class="relative flex flex-col justify-between p-6 sm:p-8">
+				<div class="text-foreground space-y-5">
+					<div class="flex flex-wrap items-center gap-2">
 						<Badge
 							variant="outline"
-							class="border-border/50 bg-surface/40 text-foreground/80 text-xs tracking-[0.35em] uppercase backdrop-blur-sm"
+							class="border-border/50 bg-surface/40 text-foreground/80 text-xs tracking-wide uppercase backdrop-blur-sm"
 						>
 							{slides[activeIndex].tag}
 						</Badge>
-						<span class="text-foreground/70 text-xs sm:text-sm">{slides[activeIndex].subtitle}</span
-						>
+						<span class="text-foreground/70 text-xs">{slides[activeIndex].subtitle}</span>
 					</div>
-					<div class="space-y-4">
-						<h1 class="text-3xl leading-tight font-semibold sm:text-4xl lg:text-5xl">
+					<div class="space-y-3">
+						<h1 class="text-2xl leading-tight font-semibold sm:text-3xl lg:text-4xl">
 							{slides[activeIndex].title}
 						</h1>
-						<p class="text-foreground/80 max-w-2xl text-sm leading-relaxed sm:text-base">
+						<p class="text-foreground/80 max-w-xl text-sm leading-relaxed">
 							{slides[activeIndex].description}
 						</p>
 					</div>
@@ -84,18 +83,16 @@
 				</div>
 
 				<div
-					class="border-border/40 bg-surface/60 text-foreground/80 grid gap-4 rounded-3xl border p-6 backdrop-blur"
+					class="bg-surface/40 text-foreground/80 border-border/30 grid grid-cols-3 gap-3 rounded-2xl border p-4 backdrop-blur"
 				>
-					<div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
-						{#each slides[activeIndex].stats as stat}
-							<div class="border-border/30 bg-surface/40 rounded-2xl border px-4 py-3 text-center">
-								<p class="text-muted-foreground text-[11px] tracking-[0.3em] uppercase">
-									{stat.label}
-								</p>
-								<p class="mt-1 text-lg font-semibold">{stat.value}</p>
-							</div>
-						{/each}
-					</div>
+					{#each slides[activeIndex].stats as stat}
+						<div class="text-center">
+							<p class="text-muted-foreground text-[10px] tracking-wide uppercase">
+								{stat.label}
+							</p>
+							<p class="mt-1 text-base font-semibold">{stat.value}</p>
+						</div>
+					{/each}
 				</div>
 			</div>
 

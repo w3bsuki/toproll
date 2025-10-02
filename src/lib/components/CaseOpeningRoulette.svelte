@@ -202,7 +202,7 @@
 		<button
 			on:click={startAnimation}
 			disabled={isSpinning}
-			class="bg-primary text-primary-foreground shadow-marketplace-md hover:bg-primary/90 disabled:bg-surface-muted transform rounded-lg px-8 py-3 font-bold transition-all hover:scale-105 disabled:scale-100 disabled:cursor-not-allowed disabled:opacity-50"
+			class="bg-primary text-primary-foreground shadow-marketplace-md hover:bg-primary/90 hover:shadow-marketplace-lg disabled:bg-surface-muted focus-visible:ring-ring focus-visible:ring-offset-background rounded-lg px-8 py-3 font-bold transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
 		>
 			{isSpinning ? 'Opening Case...' : 'Open Case'}
 		</button>

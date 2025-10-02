@@ -48,7 +48,7 @@
 	<div class="marketplace-scrollbar -mx-1 flex snap-x gap-4 overflow-x-auto px-1 pb-1">
 		{#each items as item}
 			<article
-				class="border-border/40 text-foreground shadow-marketplace-md hover:shadow-marketplace-lg shrink-0 basis-[88%] snap-start rounded-[28px] border bg-cover bg-center bg-no-repeat p-6 transition duration-300 hover:-translate-y-1 sm:basis-[58%] lg:basis-[38%] xl:basis-[28%]"
+				class="border-border/40 text-foreground shadow-marketplace-md hover:shadow-marketplace-lg hover:border-border/60 shrink-0 basis-[88%] snap-start rounded-[28px] border bg-cover bg-center bg-no-repeat p-6 transition duration-300 sm:basis-[58%] lg:basis-[38%] xl:basis-[28%]"
 				style={`background:${item.background}`}
 			>
 				<div class="flex flex-col gap-4">

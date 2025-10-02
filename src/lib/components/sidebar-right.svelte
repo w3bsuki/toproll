@@ -1,5 +1,5 @@
 <script lang="ts">
-	import ChatPanel from "./shell/ChatPanel.svelte";
+	import ChatPanel from './shell/ChatPanel.svelte';
 	import { MessageCircle } from '@lucide/svelte';
 </script>
 
@@ -16,7 +16,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- Content -->
 	<div class="flex-1 overflow-hidden px-4 py-4">
 		<ChatPanel />

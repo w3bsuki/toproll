@@ -5,11 +5,13 @@
 	import { Button } from '$lib/components/ui';
 	import { cn } from '$lib/utils';
 	import AuthButton from './AuthButton.svelte';
+	import RainPotCard from './shell/RainPotCard.svelte';
 
-	let { isAuthenticated = false, user = null }: { isAuthenticated?: boolean; user?: any } = $props();
+	let { isAuthenticated = false, user = null }: { isAuthenticated?: boolean; user?: any } =
+		$props();
 
 	const currentPath = $derived($page.url.pathname);
-	
+
 	const navItems = [
 		{ label: 'Home', icon: Home, href: '/' },
 		{ label: 'Cases', icon: Package, href: '/cases' },
@@ -26,7 +28,9 @@
 <div class="flex h-full flex-col gap-6 p-6">
 	<!-- Logo -->
 	<a href={buildHref('/')} class="gap-sm flex items-center text-left">
-		<div class="border-primary/40 bg-primary/15 text-primary flex h-11 w-11 items-center justify-center rounded-lg border text-sm font-semibold">
+		<div
+			class="border-primary/40 bg-primary/15 text-primary flex h-11 w-11 items-center justify-center rounded-lg border text-sm font-semibold"
+		>
 			TR
 		</div>
 		<div class="flex flex-col">
@@ -53,20 +57,29 @@
 		{/each}
 	</nav>
 
-	<!-- Auth Section (Bottom) -->
-	<div class="mt-auto">
+	<!-- Rain Pot Section -->
+	<div class="mt-auto space-y-3">
+		<RainPotCard />
+
+		<!-- Auth Section -->
 		{#if isAuthenticated && user}
 			<div class="border-border/50 bg-card/60 rounded-xl border p-4">
 				<div class="flex items-center gap-3">
-					<div class="bg-primary/15 text-primary flex h-10 w-10 items-center justify-center rounded-full">
+					<div
+						class="bg-primary/15 text-primary flex h-10 w-10 items-center justify-center rounded-full"
+					>
 						<span class="text-sm font-semibold">{user.username?.[0]?.toUpperCase() || 'U'}</span>
 					</div>
-					<div class="flex-1 min-w-0">
-						<p class="text-foreground text-sm font-semibold truncate">{user.username || 'User'}</p>
+					<div class="min-w-0 flex-1">
+						<p class="text-foreground truncate text-sm font-semibold">{user.username || 'User'}</p>
 						<p class="text-muted-foreground text-xs">
 							${((user.balance || 0) / 100).toFixed(2)}
 						</p>
 					</div>
+				</div>
+				<div class="mt-3 flex gap-2">
+					<Button size="sm" variant="outline" class="flex-1 text-xs">Deposit</Button>
+					<Button size="sm" variant="outline" class="flex-1 text-xs">Withdraw</Button>
 				</div>
 			</div>
 		{:else}

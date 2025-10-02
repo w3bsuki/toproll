@@ -31,16 +31,18 @@
 </svelte:head>
 
 <!-- Modern App Shell: Header → Content Container → [Sidebar | Main | Chat] -->
-<div class="flex h-screen flex-col overflow-hidden bg-background text-foreground">
+<div class="bg-background text-foreground flex h-screen flex-col overflow-hidden">
 	<!-- Global Header - Full Width, Fixed Height -->
-	<header class="z-50 flex-shrink-0 border-b border-border bg-card backdrop-blur-xl">
+	<header class="border-border bg-card z-50 flex-shrink-0 border-b backdrop-blur-xl">
 		<ShellHeader {promoTicker} isAuthenticated={data.isAuthenticated} user={data.user} />
 	</header>
 
 	<!-- Main Content Container - Fills remaining height -->
-	<div class="flex flex-1 overflow-hidden bg-background">
+	<div class="bg-background flex flex-1 overflow-hidden">
 		<!-- Left Sidebar (Desktop Only) -->
-		<aside class="hidden w-[280px] flex-shrink-0 border-r border-border bg-card lg:flex lg:flex-col">
+		<aside
+			class="border-border bg-card hidden w-[280px] flex-shrink-0 border-r lg:flex lg:flex-col"
+		>
 			<div class="flex h-full flex-col overflow-y-auto">
 				<SidebarLeft isAuthenticated={data.isAuthenticated} user={data.user} />
 			</div>
@@ -54,7 +56,9 @@
 		</main>
 
 		<!-- Right Chat Sidebar (Desktop Only) -->
-		<aside class="hidden w-[360px] flex-shrink-0 border-l border-border bg-card lg:flex lg:flex-col">
+		<aside
+			class="border-border bg-card hidden w-[360px] flex-shrink-0 border-l lg:flex lg:flex-col"
+		>
 			<div class="flex h-full flex-col overflow-hidden">
 				<SidebarRight />
 			</div>
@@ -65,13 +69,13 @@
 	<div class="lg:hidden">
 		<BottomNav
 			isAuthenticated={data.isAuthenticated}
-			class="fixed inset-x-0 bottom-0 z-50 border-t border-border/60 bg-card/98 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl"
+			class="border-border/60 bg-card/98 fixed inset-x-0 bottom-0 z-50 border-t pb-[env(safe-area-inset-bottom)] backdrop-blur-xl"
 		/>
 
 		<!-- Mobile Chat Button -->
 		<button
 			type="button"
-			class="fixed right-4 bottom-[88px] z-40 flex items-center gap-2 rounded-full bg-primary px-4 py-3 text-sm font-semibold text-primary-foreground shadow-marketplace-md transition-all duration-accent hover:scale-105 hover:shadow-marketplace-lg active:scale-95 md:right-6 md:bottom-[92px]"
+			class="bg-primary text-primary-foreground shadow-marketplace-md hover:bg-primary/90 hover:shadow-marketplace-lg focus-visible:ring-ring focus-visible:ring-offset-background fixed right-4 bottom-[88px] z-40 flex items-center gap-2 rounded-full px-4 py-3 text-sm font-semibold transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none md:right-6 md:bottom-[92px]"
 			onclick={handleChatToggle}
 			aria-pressed={chatOpen}
 			aria-label="Toggle chat"

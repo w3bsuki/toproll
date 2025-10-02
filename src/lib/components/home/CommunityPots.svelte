@@ -27,7 +27,7 @@
 	<div class="grid gap-4 lg:grid-cols-3">
 		{#each pots as pot}
 			<article
-				class={`border-border/60 bg-surface/80 hover:shadow-marketplace-lg relative overflow-hidden rounded-3xl border p-6 transition-all duration-300 hover:-translate-y-1`}
+				class={`border-border/60 bg-surface/80 hover:shadow-marketplace-lg hover:border-border hover:bg-surface/90 relative overflow-hidden rounded-3xl border p-6 transition-all duration-300`}
 			>
 				<div
 					class={`absolute inset-0 bg-gradient-to-br ${variantAccent[pot.variant]}`}

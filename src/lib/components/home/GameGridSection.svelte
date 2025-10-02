@@ -24,12 +24,12 @@
 
 <section class="space-y-6">
 	<div class="flex items-center justify-between">
-		<h3 class="text-2xl font-black tracking-wider text-foreground uppercase drop-shadow-sm">
+		<h3 class="text-foreground text-2xl font-black tracking-wider uppercase drop-shadow-sm">
 			{title}
 		</h3>
 		<a
 			href="/cases"
-			class="group duration-accent ease-market-ease rounded-full border border-accent/30 bg-surface-accent px-6 py-3 text-sm font-bold tracking-wider text-surface-accent-foreground uppercase transition-all hover:border-accent/60 hover:bg-accent hover:text-accent-foreground hover:shadow-marketplace-md"
+			class="group duration-accent ease-market-ease border-accent/30 bg-surface-accent text-surface-accent-foreground hover:border-accent/60 hover:bg-accent hover:text-accent-foreground hover:shadow-marketplace-md rounded-full border px-6 py-3 text-sm font-bold tracking-wider uppercase transition-all"
 		>
 			{actionLabel}
 		</a>
