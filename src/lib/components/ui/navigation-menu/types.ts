@@ -1,5 +1,8 @@
+import type { Snippet } from 'svelte';
+
 export type NavigationMenuProps = {
-	class?: string;
+        class?: string;
+        children?: Snippet;
 };
 
 export type NavigationMenuContentProps = {

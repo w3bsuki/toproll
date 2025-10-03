@@ -4,7 +4,8 @@
 	import { Card, CardContent } from '$lib/components/ui/card';
 	import { Sparkles, Trophy, Play, RefreshCw, Gift } from '@lucide/svelte';
 	import { onMount } from 'svelte';
-	import { BattleAnimations, createAnimation, createStaggerAnimation } from '$lib/utils/animations';
+        import { BattleAnimations, animations } from '$lib/utils/animations';
+        import { CheckCircle, Clock } from '@lucide/svelte';
 	import type { Battle, BattlePull, CaseItem } from '$lib/types';
 
 	// Props using Svelte 5 syntax
@@ -31,12 +32,12 @@
 	let itemElements: HTMLElement[] = [];
 
 	// Animation lifecycle
-	onMount(() => {
-		// Set up entrance animations for static elements
-		if (reelContainer) {
-			BattleAnimations.slideInUp(reelContainer, { delay: 0.2 });
-		}
-	});
+        onMount(() => {
+                // Set up entrance animations for static elements
+                if (reelContainer) {
+                        animations.slideInUp(reelContainer, { delay: 0.2 });
+                }
+        });
 
 	// Get rarity color
 	function getRarityColor(rarity: CaseItem['rarity']) {

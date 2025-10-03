@@ -1,8 +1,15 @@
 <script lang="ts" generics="T extends Record<string, unknown>, U extends FormPathLeaves<T>">
-	import * as FormPrimitive from "formsnap";
-	import type { FormPathLeaves } from "sveltekit-superforms";
-	import type { HTMLAttributes } from "svelte/elements";
-	import { cn, type WithElementRef, type WithoutChildren } from "$lib/utils.js";
+        import * as FormPrimitive from "formsnap";
+        import type { FormPathLeaves } from "sveltekit-superforms";
+        import type { HTMLAttributes } from "svelte/elements";
+        import { cn, type WithElementRef, type WithoutChildren } from "$lib/utils.js";
+
+        type FormElementFieldSlotContext<Value> = {
+                constraints: unknown;
+                errors: unknown;
+                tainted: boolean;
+                value: Value;
+        };
 
 	let {
 		ref = $bindable(null),
@@ -11,8 +18,10 @@
 		name,
 		children: childrenProp,
 		...restProps
-	}: WithoutChildren<WithElementRef<HTMLAttributes<HTMLDivElement>>> &
-		FormPrimitive.ElementFieldProps<T, U> = $props();
+        }: WithoutChildren<
+                WithElementRef<HTMLAttributes<HTMLDivElement>>,
+                [FormElementFieldSlotContext<T[U]>]
+        > & FormPrimitive.ElementFieldProps<T, U> = $props();
 </script>
 
 <FormPrimitive.ElementField {form} {name}>

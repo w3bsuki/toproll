@@ -3,12 +3,8 @@
 // Enhanced UI Components
 export { default as LoadingStates } from './components/LoadingStates.svelte';
 export { default as MicroInteractions } from './components/MicroInteractions.svelte';
-export {
-	default as ToastNotifications,
-	toasts,
-	addToast,
-	removeToast
-} from './components/ToastNotifications.svelte';
+export { default as ToastNotifications } from './components/ToastNotifications.svelte';
+export { toasts, addToast, removeToast } from './components/ToastNotifications.svelte';
 export type { Toast } from './components/ToastNotifications.svelte';
 
 // Enhanced AuthButton

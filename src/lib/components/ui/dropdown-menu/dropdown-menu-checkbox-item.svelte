@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { DropdownMenu as DropdownMenuPrimitive } from "bits-ui";
-	import CheckIcon from "@lucide/svelte/icons/check";
-	import MinusIcon from "@lucide/svelte/icons/minus";
-	import { cn, type WithoutChildrenOrChild } from "$lib/utils.js";
-	import type { Snippet } from "svelte";
+        import { DropdownMenu as DropdownMenuPrimitive } from "bits-ui";
+        import CheckIcon from "@lucide/svelte/icons/check";
+        import MinusIcon from "@lucide/svelte/icons/minus";
+        import { cn, type WithoutChildrenOrChild } from "$lib/utils.js";
+
+        type DropdownMenuCheckboxContext = { checked: boolean; indeterminate: boolean };
 
 	let {
 		ref = $bindable(null),
@@ -12,9 +13,10 @@
 		class: className,
 		children: childrenProp,
 		...restProps
-	}: WithoutChildrenOrChild<DropdownMenuPrimitive.CheckboxItemProps> & {
-		children?: Snippet;
-	} = $props();
+        }: WithoutChildrenOrChild<
+                DropdownMenuPrimitive.CheckboxItemProps,
+                [DropdownMenuCheckboxContext]
+        > = $props();
 </script>
 
 <DropdownMenuPrimitive.CheckboxItem
@@ -36,6 +38,6 @@
 				<CheckIcon class={cn("size-4", !checked && "text-transparent")} />
 			{/if}
 		</span>
-		{@render childrenProp?.()}
-	{/snippet}
+                {@render childrenProp?.({ checked, indeterminate })}
+        {/snippet}
 </DropdownMenuPrimitive.CheckboxItem>

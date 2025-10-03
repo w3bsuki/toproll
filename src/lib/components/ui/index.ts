@@ -19,6 +19,7 @@ export * as Avatar from './avatar/index.js';
 
 // Badge
 export { default as Badge } from './badge.svelte';
+export type { BadgeVariant } from './badge.svelte';
 
 // Breadcrumb
 export * as Breadcrumb from './breadcrumb/index.js';

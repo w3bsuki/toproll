@@ -23,5 +23,9 @@ Thumbs.db
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-# Paraglide
-src/lib/paraglide
+# Paraglide (auto-generated, keep type shims in repo)
+src/lib/paraglide/*
+!src/lib/paraglide/.gitignore
+!src/lib/paraglide/messages.d.ts
+!src/lib/paraglide/runtime.ts
+!src/lib/paraglide/server.ts

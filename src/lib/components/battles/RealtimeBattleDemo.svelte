@@ -44,9 +44,9 @@
 
         // Set up reactive bindings
         $effect(() => {
-          isConnected = room.isConnected;
-          isLoading = room.isLoading;
-          error = room.error;
+          isConnected = room.isConnected();
+          isLoading = room.isLoading();
+          error = room.error();
           currentBattle = room.battle;
           currentRound = room.client.state.currentRound;
         });

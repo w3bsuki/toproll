@@ -22,8 +22,8 @@
 <section class="w-full overflow-hidden bg-surface/30 backdrop-blur-sm border-y border-border/40">
 	<div class="relative">
 		<!-- Gradient overlays for fade effect -->
-		<div class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none" />
-		<div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none" />
+                <div class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none"></div>
+                <div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none"></div>
 
 		<div class="flex animate-scroll py-3 gap-6">
 			{#each [...drops, ...drops] as drop}

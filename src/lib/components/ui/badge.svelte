@@ -1,25 +1,38 @@
 <script lang="ts">
-	import { cn } from '$lib/utils';
+        import { cn } from '$lib/utils';
 
-	type BadgeVariant = 'default' | 'outline' | 'success' | 'warning' | 'info' | 'destructive';
-	let { variant = 'default' as BadgeVariant, class: className = '', children } = $props();
+        export type BadgeVariant =
+                | 'default'
+                | 'outline'
+                | 'success'
+                | 'warning'
+                | 'info'
+                | 'destructive'
+                | 'secondary';
 
-	const variants: Record<BadgeVariant, string> = {
-		default: 'bg-primary/15 text-primary border border-primary/35',
-		outline: 'border border-border/70 text-muted-foreground',
-		success: 'bg-success/15 text-success border border-success/40',
-		warning: 'bg-warning/15 text-warning-foreground border border-warning/40',
-		info: 'bg-info/15 text-info border border-info/40',
-		destructive: 'bg-destructive/15 text-destructive border border-destructive/40'
-	};
+        let { variant = 'default' as BadgeVariant, class: className = '', children } = $props<{
+                variant?: BadgeVariant;
+                class?: string;
+                children?: () => unknown;
+        }>();
+
+        const variants: Record<BadgeVariant, string> = {
+                default: 'bg-primary/15 text-primary border border-primary/35',
+                outline: 'border border-border/70 text-muted-foreground',
+                success: 'bg-success/15 text-success border border-success/40',
+                warning: 'bg-warning/15 text-warning-foreground border border-warning/40',
+                info: 'bg-info/15 text-info border border-info/40',
+                destructive: 'bg-destructive/15 text-destructive border border-destructive/40',
+                secondary: 'bg-secondary/20 text-secondary-foreground border border-secondary/40'
+        };
 </script>
 
 <span
-	class={cn(
-		'inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium tracking-wide uppercase',
-		variants[variant],
-		className
-	)}
+        class={cn(
+                'inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-medium tracking-wide uppercase',
+                variants[variant as BadgeVariant],
+                className
+        )}
 >
-	{@render children?.()}
+        {@render children?.()}
 </span>

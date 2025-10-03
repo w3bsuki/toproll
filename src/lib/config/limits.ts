@@ -279,15 +279,3 @@ export class LimitValidator {
 // Legacy export for backward compatibility
 export const LIMITS = MONETARY_LIMITS;
 
-// Export all configuration objects
-export {
-  MONETARY_LIMITS,
-  BATTLE_LIMITS,
-  TIER_LIMITS,
-  RATE_LIMITS,
-  COLLUSION_THRESHOLDS,
-  ECONOMIC_CONTROLS,
-  MODE_LIMITS,
-  TIME_RESTRICTIONS,
-};
-

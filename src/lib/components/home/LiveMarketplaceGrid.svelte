@@ -53,8 +53,8 @@
 							</span>
 						</div>
 						<div class="relative z-[1] mt-16 text-left">
-							<p class="text-muted-foreground text-xs tracking-[0.3em] uppercase">
-								{item.playersOnline} players
+                                                        <p class="text-muted-foreground text-xs tracking-[0.3em] uppercase">
+                                                                {item.watching} watching
 							</p>
 							<p class="text-foreground text-lg font-semibold">{item.name}</p>
 						</div>
@@ -75,8 +75,8 @@
 						</span>
 						<div>
 							<p class="text-[11px] tracking-[0.3em] uppercase">Watching</p>
-							<p class="text-foreground text-sm font-medium">
-								{item.playersOnline.toLocaleString()} live
+                                                        <p class="text-foreground text-sm font-medium">
+                                                                {item.watching.toLocaleString()} live
 							</p>
 						</div>
 					</div>

@@ -1,8 +1,9 @@
 <script lang="ts">
-	import { ContextMenu as ContextMenuPrimitive } from "bits-ui";
-	import CheckIcon from "@lucide/svelte/icons/check";
-	import { cn, type WithoutChildrenOrChild } from "$lib/utils.js";
-	import type { Snippet } from "svelte";
+        import { ContextMenu as ContextMenuPrimitive } from "bits-ui";
+        import CheckIcon from "@lucide/svelte/icons/check";
+        import { cn, type WithoutChildrenOrChild } from "$lib/utils.js";
+
+        type ContextMenuCheckboxContext = { checked: boolean; indeterminate: boolean };
 
 	let {
 		ref = $bindable(null),
@@ -11,9 +12,10 @@
 		class: className,
 		children: childrenProp,
 		...restProps
-	}: WithoutChildrenOrChild<ContextMenuPrimitive.CheckboxItemProps> & {
-		children?: Snippet;
-	} = $props();
+        }: WithoutChildrenOrChild<
+                ContextMenuPrimitive.CheckboxItemProps,
+                [ContextMenuCheckboxContext]
+        > = $props();
 </script>
 
 <ContextMenuPrimitive.CheckboxItem
@@ -27,12 +29,14 @@
 	)}
 	{...restProps}
 >
-	{#snippet children({ checked })}
-		<span class="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
-			{#if checked}
-				<CheckIcon class="size-4" />
-			{/if}
-		</span>
-		{@render childrenProp?.()}
-	{/snippet}
+        {#snippet children({ checked, indeterminate })}
+                <span class="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
+                        {#if indeterminate}
+                                <CheckIcon class="size-4 opacity-50" />
+                        {:else if checked}
+                                <CheckIcon class="size-4" />
+                        {/if}
+                </span>
+                {@render childrenProp?.({ checked, indeterminate })}
+        {/snippet}
 </ContextMenuPrimitive.CheckboxItem>

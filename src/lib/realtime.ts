@@ -93,7 +93,7 @@ export class BattleRealtimeClient {
       this.setupChannelHandlers();
 
       // Subscribe to the channel
-      const subscription = await this.channel.subscribe((status) => {
+      await this.channel.subscribe((status) => {
         console.log(`Battle channel ${channelName} status:`, status);
 
         if (status === 'SUBSCRIBED') {
@@ -103,7 +103,7 @@ export class BattleRealtimeClient {
         }
       });
 
-      return subscription === 'SUBSCRIBED';
+      return true;
     } catch (error) {
       this.handleError(error);
       return false;
@@ -306,8 +306,9 @@ export class BattleRealtimeClient {
       if (this.channel && this.state.isConnected) {
         // Send ping to keep connection alive
         this.channel.send({
-          type: 'heartbeat',
-          timestamp: Date.now()
+          type: 'broadcast',
+          event: 'heartbeat',
+          payload: { timestamp: Date.now() }
         });
       }
     }, 30000); // 30 seconds
@@ -518,6 +519,4 @@ export function formatBattleEvent(event: BattleEvent): string {
   }
 }
 
-// Export types for external use
-export type { BattleConnectionState, BattleRealtimeClient };
 

@@ -1,6 +1,11 @@
 <script lang="ts">
 	import * as FormPrimitive from "formsnap";
-	import { cn, type WithoutChild } from "$lib/utils.js";
+        import { cn, type WithoutChild } from "$lib/utils.js";
+
+        type FieldErrorsSlotContext = {
+                errors: string[];
+                errorProps: Record<string, unknown>;
+        };
 
 	let {
 		ref = $bindable(null),
@@ -8,9 +13,9 @@
 		errorClasses,
 		children: childrenProp,
 		...restProps
-	}: WithoutChild<FormPrimitive.FieldErrorsProps> & {
-		errorClasses?: string | undefined | null;
-	} = $props();
+        }: WithoutChild<FormPrimitive.FieldErrorsProps, [FieldErrorsSlotContext]> & {
+                errorClasses?: string | undefined | null;
+        } = $props();
 </script>
 
 <FormPrimitive.FieldErrors

@@ -139,8 +139,8 @@ export class BattleAnimations {
 	}
 
 	// Counting animation for numbers
-	static countUp(element: HTMLElement, endValue: number, config: AnimationConfig = {}): gsap.core.Tween {
-		const { duration = 1, delay = 0, ease = 'power2.out' } = config;
+        static countUp(element: HTMLElement, endValue: number, config: AnimationConfig = {}): gsap.core.Tween {
+                const { duration = 1, delay = 0, ease = 'power2.out' } = config;
 
 		const startValue = 0;
 		const obj = { value: startValue };
@@ -170,14 +170,30 @@ export class BattleAnimations {
 	static spin(element: HTMLElement, config: AnimationConfig = {}): gsap.core.Tween {
 		const { duration = 1, repeat = -1 } = config;
 
-		return gsap.to(element, {
-			rotation: 360,
-			duration,
-			repeat,
-			ease: 'none',
-			transformOrigin: 'center center'
-		});
-	}
+                return gsap.to(element, {
+                        rotation: 360,
+                        duration,
+                        repeat,
+                        ease: 'none',
+                        transformOrigin: 'center center'
+                });
+        }
+
+        static slideInUp(element: HTMLElement, config: AnimationConfig = {}): gsap.core.Tween {
+                const { duration = DEFAULTS.duration, delay = 0, ease = DEFAULTS.ease } = config;
+
+                return gsap.fromTo(
+                        element,
+                        { y: 40, opacity: 0 },
+                        {
+                                y: 0,
+                                opacity: 1,
+                                duration,
+                                delay,
+                                ease
+                        }
+                );
+        }
 
 	// Glow/Pulse animation for rare items
 	static glow(element: HTMLElement, config: AnimationConfig = {}): gsap.core.Tween {

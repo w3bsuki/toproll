@@ -1,14 +1,24 @@
 <script lang="ts">
-	import { Slider as SliderPrimitive } from "bits-ui";
-	import { cn, type WithoutChildrenOrChild } from "$lib/utils.js";
+        import { Slider as SliderPrimitive } from "bits-ui";
+        import { cn } from "$lib/utils.js";
+        import type { Snippet } from "svelte";
 
-	let {
-		ref = $bindable(null),
-		value = $bindable(),
-		orientation = "horizontal",
-		class: className,
-		...restProps
-	}: WithoutChildrenOrChild<SliderPrimitive.RootProps> = $props();
+        type SliderSlotContext = { thumbs: number[] };
+
+        type SliderProps = Omit<SliderPrimitive.RootProps, "children"> & {
+                children?: Snippet<[SliderSlotContext]>;
+        };
+
+        let {
+                ref = $bindable(null),
+                value = $bindable(),
+                orientation = "horizontal",
+                class: className,
+                children: _children,
+                ...restProps
+        }: SliderProps = $props();
+
+        const forwardedProps = restProps as SliderPrimitive.RootProps;
 </script>
 
 <!--
@@ -20,11 +30,11 @@ get along, so we shut typescript up by casting `value` to `never`.
 	bind:value={value as never}
 	data-slot="slider"
 	{orientation}
-	class={cn(
-		"relative flex w-full touch-none select-none items-center data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col data-[disabled]:opacity-50",
-		className
-	)}
-	{...restProps}
+        class={cn(
+                "relative flex w-full touch-none select-none items-center data-[orientation=vertical]:h-full data-[orientation=vertical]:min-h-44 data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col data-[disabled]:opacity-50",
+                className
+        )}
+        {...forwardedProps}
 >
 	{#snippet children({ thumbs })}
 		<span

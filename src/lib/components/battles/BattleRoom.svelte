@@ -17,11 +17,11 @@
 		Flame,
 		Currency,
 		Sparkles,
-		CheckCircle,
-		AlertCircle,
-		LiveIndicator,
-		RefreshCw
-	} from '@lucide/svelte';
+                CheckCircle,
+                AlertCircle,
+                RefreshCw,
+                Shield
+        } from '@lucide/svelte';
 	import type { Battle, BattleParticipant, BattleRound, BattlePull, CaseItem } from '$lib/types';
 	
 	// Props using Svelte 5 syntax
@@ -298,12 +298,13 @@
 							<Badge variant="outline" class={getStatusColor(battle.status)}>
 								{battle.status.replace('_', ' ')}
 							</Badge>
-							{#if battleRoom?.isLive}
-								<div class="flex items-center gap-2">
-									<div class="h-2 w-2 bg-emerald-500 rounded-full animate-pulse"></div>
-									<span class="text-sm font-medium text-emerald-400">LIVE</span>
-								</div>
-							{/if}
+                                                        {#if battle?.status === 'in_progress'}
+                                                                <div class="flex items-center gap-2">
+                                                                        <span class="sr-only">Battle status:</span>
+                                                                        <div class="h-2 w-2 rounded-full bg-destructive animate-pulse" aria-hidden="true"></div>
+                                                                        <span class="text-sm font-medium text-destructive">Live</span>
+                                                                </div>
+                                                        {/if}
 						</div>
 					</div>
 				</CardHeader>
