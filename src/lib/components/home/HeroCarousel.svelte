@@ -71,14 +71,15 @@
 			class="flex transition-transform duration-500 ease-in-out h-full"
 			style="transform: translateX(-{currentIndex * 100}%)"
 		>
-			{#each slides as slide, index}
-				<div
-					class="w-full flex-shrink-0"
-					style="background: {slide.background}"
-				>
-					<div class="relative p-6 min-h-[180px] flex flex-col justify-between">
-						<!-- Glass effect -->
-						<div class="absolute inset-0 bg-white/10 backdrop-blur-sm rounded-2xl" />
+                        {#each slides as slide, index}
+                                {@const SlideIcon = slide.icon}
+                                <div
+                                        class="w-full flex-shrink-0"
+                                        style="background: {slide.background}"
+                                >
+                                        <div class="relative p-6 min-h-[180px] flex flex-col justify-between">
+                                                <!-- Glass effect -->
+                                                <div class="absolute inset-0 bg-white/10 backdrop-blur-sm rounded-2xl"></div>
 
 						<div class="relative space-y-4">
 							<!-- Badge -->
@@ -100,10 +101,10 @@
 
 							<!-- CTA section -->
 							<div class="flex items-center justify-between gap-4">
-								<div class="flex items-center gap-2">
-									<svelte:component this={slide.icon} class="h-5 w-5 text-white/90" />
-									<span class="text-white font-semibold text-sm">
-										{slide.highlight}
+                                                                <div class="flex items-center gap-2">
+                                                                        <SlideIcon class="h-5 w-5 text-white/90" />
+                                                                        <span class="text-white font-semibold text-sm">
+                                                                                {slide.highlight}
 									</span>
 								</div>
 								<button

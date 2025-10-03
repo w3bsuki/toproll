@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { AlertTriangle, RefreshCw, Home, Clipboard } from '@lucide/svelte';
-	import {
+        import { onMount } from 'svelte';
+        import type { Snippet } from 'svelte';
+        import { AlertTriangle, RefreshCw, Home, Clipboard } from '@lucide/svelte';
+        import {
 		Button,
 		Card,
 		CardContent,
@@ -50,8 +51,8 @@
 		};
 	});
 
-	const currentError = error || errorDetails;
-	const showError = hasError || !!error;
+        const currentError = $derived(error ?? errorDetails);
+        const showError = $derived(hasError || !!error);
 
 	function handleRetry() {
 		hasError = false;

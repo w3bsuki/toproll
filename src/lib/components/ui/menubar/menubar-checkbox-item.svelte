@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { Menubar as MenubarPrimitive } from "bits-ui";
-	import CheckIcon from "@lucide/svelte/icons/check";
-	import MinusIcon from "@lucide/svelte/icons/minus";
-	import { cn, type WithoutChildrenOrChild } from "$lib/utils.js";
-	import type { Snippet } from "svelte";
+        import { Menubar as MenubarPrimitive } from "bits-ui";
+        import CheckIcon from "@lucide/svelte/icons/check";
+        import MinusIcon from "@lucide/svelte/icons/minus";
+        import { cn, type WithoutChildrenOrChild } from "$lib/utils.js";
+
+        type MenubarCheckboxContext = { checked: boolean; indeterminate: boolean };
 
 	let {
 		ref = $bindable(null),
@@ -12,9 +13,10 @@
 		indeterminate = $bindable(false),
 		children: childrenProp,
 		...restProps
-	}: WithoutChildrenOrChild<MenubarPrimitive.CheckboxItemProps> & {
-		children?: Snippet;
-	} = $props();
+        }: WithoutChildrenOrChild<
+                MenubarPrimitive.CheckboxItemProps,
+                [MenubarCheckboxContext]
+        > = $props();
 </script>
 
 <MenubarPrimitive.CheckboxItem
@@ -36,6 +38,6 @@
 				<CheckIcon class={cn("size-4", !checked && "text-transparent")} />
 			{/if}
 		</span>
-		{@render childrenProp?.()}
-	{/snippet}
+                {@render childrenProp?.({ checked, indeterminate })}
+        {/snippet}
 </MenubarPrimitive.CheckboxItem>

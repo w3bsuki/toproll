@@ -202,19 +202,20 @@
 
 {#if open}
 	<!-- Backdrop -->
-	<div
-		class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-		onclick={handleClose}
+        <div
+                class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+                on:click={handleClose}
 		role="dialog"
 		aria-modal="true"
 		aria-labelledby="dialog-title"
 		aria-describedby="dialog-description"
 	>
 		<!-- Dialog Panel -->
-		<div
-			class="bg-surface border border-border/40 rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col"
-			onclick={(e) => e.stopPropagation()}
-		>
+                <div
+                        class="bg-surface border border-border/40 rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col"
+                        role="presentation"
+                        on:click|stopPropagation
+                >
 			<!-- Header -->
 			<header class="p-6 border-b border-border/40">
 				<div class="flex items-center justify-between">
@@ -227,10 +228,10 @@
 							Configure your battle settings and select cases
 						</p>
 					</div>
-					<Button
-						variant="ghost"
-						size="icon"
-						onclick={handleClose}
+                                        <Button
+                                                variant="ghost"
+                                                size="icon"
+                                                on:click={handleClose}
 						class="h-8 w-8"
 						aria-label="Close dialog"
 					>

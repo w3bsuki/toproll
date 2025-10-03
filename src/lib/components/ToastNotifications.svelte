@@ -1,46 +1,16 @@
-<script context="module" lang="ts">
-	export interface Toast {
-		id: string;
-		type: 'success' | 'error' | 'info' | 'warning';
-		title: string;
-		message?: string;
-		duration?: number;
-		action?: { label: string; onClick: () => void };
-	}
+<script module lang="ts">
+        export { toasts, addToast, removeToast, type Toast } from '$lib/stores/toasts';
 </script>
 
 <script lang="ts">
-	import { writable } from 'svelte/store';
-	import { CheckCircle, AlertCircle, Info, X } from '@lucide/svelte';
-	import { Button, Card, CardContent } from '$lib/components/ui';
+        import { CheckCircle, AlertCircle, Info, X } from '@lucide/svelte';
+        import { Button, Card, CardContent } from '$lib/components/ui';
+        import { toasts, removeToast, type Toast } from '$lib/stores/toasts';
 
-	export const toasts = writable<Toast[]>([]);
-
-	export function addToast(toast: Omit<Toast, 'id'>) {
-		const id = Math.random().toString(36).slice(2);
-		const newToast: Toast = {
-			id,
-			duration: 5000,
-			...toast
-		};
-
-		toasts.update((list) => [...list, newToast]);
-
-		if (newToast.duration && newToast.duration > 0) {
-			setTimeout(() => removeToast(id), newToast.duration);
-		}
-
-		return id;
-	}
-
-	export function removeToast(id: string) {
-		toasts.update((list) => list.filter((t) => t.id !== id));
-	}
-
-	const iconMap = {
-		success: CheckCircle,
-		error: AlertCircle,
-		info: Info,
+        const iconMap = {
+                success: CheckCircle,
+                error: AlertCircle,
+                info: Info,
 		warning: AlertCircle
 	} satisfies Record<Toast['type'], typeof CheckCircle>;
 
@@ -51,21 +21,29 @@
 		warning: 'border-warning/40 bg-warning/10 text-warning-foreground'
 	};
 
-	let toastList: Toast[] = [];
-	toasts.subscribe((value) => (toastList = value));
+        let toastList = $state<Toast[]>([]);
+
+        $effect(() => {
+                const unsubscribe = toasts.subscribe((value) => {
+                        toastList = value;
+                });
+
+                return unsubscribe;
+        });
 </script>
 
 <div
 	class="pointer-events-none fixed inset-x-0 top-4 z-[100] flex flex-col items-end gap-3 px-4 sm:top-6 sm:px-6"
 >
-	{#each toastList as toast (toast.id)}
-		<Card
+        {#each toastList as toast (toast.id)}
+                {@const Icon = iconMap[toast.type]}
+                <Card
 			class={`shadow-marketplace-md pointer-events-auto w-full max-w-sm border backdrop-blur ${toneClass[toast.type]}`}
 		>
 			<CardContent class="flex items-start gap-3 p-4">
-				<div class="mt-1">
-					<svelte:component this={iconMap[toast.type]} class="h-5 w-5" />
-				</div>
+                                <div class="mt-1">
+                                        <Icon class="h-5 w-5" />
+                                </div>
 				<div class="min-w-0 flex-1">
 					<div class="text-foreground text-sm font-semibold">{toast.title}</div>
 					{#if toast.message}

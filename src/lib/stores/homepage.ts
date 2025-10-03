@@ -47,11 +47,12 @@ export type RainPot = {
 };
 
 export type CommunityMessage = {
-	id: string;
-	username: string;
-	message: string;
-	timestamp: string;
-	badge?: 'vip' | 'staff' | 'pro';
+        id: string;
+        username: string;
+        message: string;
+        timestamp: string;
+        badge?: 'vip' | 'staff' | 'pro';
+        avatar?: string | null;
 };
 
 export const heroPromotions = readable<HeroPromotion[]>([

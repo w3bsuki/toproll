@@ -217,30 +217,30 @@
 	}
 
 	/* Enhanced button states for gaming theme */
-	.gaming-button {
-		position: relative;
-		overflow: hidden;
-		transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-	}
+        :global(.gaming-button) {
+                position: relative;
+                overflow: hidden;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
-	.gaming-button:hover {
-		box-shadow:
-			0 0 20px rgb(from var(--color-primary) r g b / 0.4),
-			0 8px 25px -5px rgb(from var(--color-primary) r g b / 0.2);
-	}
+        :global(.gaming-button:hover) {
+                box-shadow:
+                        0 0 20px rgb(from var(--color-primary) r g b / 0.4),
+                        0 8px 25px -5px rgb(from var(--color-primary) r g b / 0.2);
+        }
 
-	.gaming-button:active {
-		transform: scale(0.98);
-	}
+        :global(.gaming-button:active) {
+                transform: scale(0.98);
+        }
 
-	/* Custom focus states for accessibility */
-	.gaming-button:focus-visible {
-		outline: 2px solid var(--color-primary);
-		outline-offset: 2px;
-		box-shadow:
-			0 0 0 4px rgb(from var(--color-primary) r g b / 0.1),
-			0 0 20px rgb(from var(--color-primary) r g b / 0.4);
-	}
+        /* Custom focus states for accessibility */
+        :global(.gaming-button:focus-visible) {
+                outline: 2px solid var(--color-primary);
+                outline-offset: 2px;
+                box-shadow:
+                        0 0 0 4px rgb(from var(--color-primary) r g b / 0.1),
+                        0 0 20px rgb(from var(--color-primary) r g b / 0.4);
+        }
 
 	/* Loading state animations */
 	@keyframes gaming-pulse {
@@ -255,9 +255,9 @@
 		}
 	}
 
-	.gaming-pulse {
-		animation: gaming-pulse 2s ease-in-out infinite;
-	}
+        :global(.gaming-pulse) {
+                animation: gaming-pulse 2s ease-in-out infinite;
+        }
 
 	/* Success/Error feedback animations */
 	@keyframes success-flash {
@@ -278,37 +278,37 @@
 		}
 	}
 
-	.success-flash {
-		animation: success-flash 0.3s ease-out;
-	}
+        :global(.success-flash) {
+                animation: success-flash 0.3s ease-out;
+        }
 
-	.error-flash {
-		animation: error-flash 0.3s ease-out;
-	}
+        :global(.error-flash) {
+                animation: error-flash 0.3s ease-out;
+        }
 
 	/* Responsive hover effects */
 	@media (hover: none) and (pointer: coarse) {
-		.gaming-button:hover {
-			box-shadow: none;
-		}
+                :global(.gaming-button:hover) {
+                        box-shadow: none;
+                }
 
-		.gaming-button:active {
-			transform: scale(0.95);
-			box-shadow: 0 0 20px rgb(from var(--color-primary) r g b / 0.4);
-		}
+                :global(.gaming-button:active) {
+                        transform: scale(0.95);
+                        box-shadow: 0 0 20px rgb(from var(--color-primary) r g b / 0.4);
+                }
 	}
 
 	/* Reduce motion for accessibility */
 	@media (prefers-reduced-motion: reduce) {
-		.animate-ripple,
-		.float-up,
-		.shake-animation,
-		.gaming-pulse {
+                .animate-ripple,
+                .float-up,
+                .shake-animation,
+                :global(.gaming-pulse) {
 			animation: none !important;
 		}
 
-		.gaming-button {
-			transition: none !important;
-		}
+                :global(.gaming-button) {
+                        transition: none !important;
+                }
 	}
 </style>

@@ -5,7 +5,7 @@
 	import { Progress } from '$lib/components/ui/progress';
 	import { Trophy, Crown, Medal, Users, Currency, TrendingUp, CheckCircle } from '@lucide/svelte';
 	import { onMount } from 'svelte';
-	import { BattleAnimations, createAnimation } from '$lib/utils/animations';
+        import { BattleAnimations, createAnimation } from '$lib/utils/animations';
 	import type { Battle, BattleParticipant } from '$lib/types';
 
 	// Props using Svelte 5 syntax
@@ -22,28 +22,28 @@
 	} = $props();
 
 	// DOM refs for animations
-	let totalsCard: HTMLElement;
-	let potElement: HTMLElement;
-	let winnerElement: HTMLElement;
+        let totalsCard: HTMLElement | null = null;
+        let potElement: HTMLElement | null = null;
+        let winnerElement: HTMLElement | null = null;
 
 	// Animation lifecycle
 	onMount(() => {
 		// Entrance animation for the totals card
-		if (totalsCard) {
-			BattleAnimations.slideInUp(totalsCard, { delay: 0.3 });
-		}
+                if (totalsCard) {
+                        BattleAnimations.slideInUp(totalsCard, { delay: 0.3 });
+                }
 
 		// Animate total pot value
-		if (potElement) {
-			BattleAnimations.countUp(potElement, totalPot, { delay: 0.5 });
-		}
+                if (potElement) {
+                        BattleAnimations.countUp(potElement, totalPot, { delay: 0.5 });
+                }
 	});
 
 	// Animate winner celebration
 	$effect(() => {
-		if (isBattleComplete && winner && winnerElement) {
-			BattleAnimations.celebrateWinner(winnerElement, { delay: 0.2 });
-		}
+                if (isBattleComplete && winner && winnerElement) {
+                        BattleAnimations.celebrateWinner(winnerElement, { delay: 0.2 });
+                }
 	});
 
 	// Format currency
@@ -110,7 +110,8 @@
 	}
 </script>
 
-<Card bind:this={totalsCard}>
+<div class="contents" bind:this={totalsCard}>
+<Card>
 	<CardHeader>
 		<CardTitle class="flex items-center gap-2">
 			<Trophy class="h-5 w-5 text-primary" />
@@ -132,7 +133,7 @@
 					<Currency class="h-5 w-5 text-primary" />
 					<span class="font-semibold text-foreground">Total Pot</span>
 				</div>
-				<span bind:this={potElement} class="text-2xl font-bold text-primary">{formatCurrency(totalPot)}</span>
+                                <span bind:this={potElement} class="text-2xl font-bold text-primary">{formatCurrency(totalPot)}</span>
 			</div>
 		</div>
 
@@ -177,10 +178,10 @@
 								<div class="flex items-center gap-2">
 									<p class="font-semibold text-foreground">{participant.user?.username}</p>
 									{#if isBattleComplete && winner?.user_id === participant.user_id}
-										<Badge variant="default" class="gap-1 animate-bounce">
-											<Crown class="h-3 w-3" />
-											Winner
-										</Badge>
+                                                                        <Badge variant="default" class="gap-1 animate-bounce">
+                                                                                <Crown class="h-3 w-3" />
+                                                                                Winner
+                                                                        </Badge>
 									{/if}
 								</div>
 								<p class="text-sm text-muted-foreground">Player {participant.position}</p>
@@ -272,4 +273,5 @@
 		</div>
 	</CardContent>
 </Card>
+</div>
 

@@ -60,8 +60,8 @@
 	const rarities = ['All', 'Consumer', 'Industrial', 'Mil-Spec', 'Restricted', 'Classified', 'Covert', 'Contraband'];
 	const types = ['All', 'Knife', 'Glove', 'Rifle', 'Pistol', 'SMG', 'Sniper', 'Shotgun', 'Machinegun', 'Sticker', 'Case'];
 
-	const filteredItems = $derived(() => {
-		let filtered = items;
+        const filteredItems = $derived.by<MarketItem[]>(() => {
+                let filtered = [...items];
 
 		if (searchTerm) {
 			filtered = filtered.filter(item =>
@@ -100,8 +100,32 @@
 			return sortOrder === 'asc' ? comparison : -comparison;
 		});
 
-		return filtered;
-	});
+                return filtered;
+        });
+
+        function handleSearchInput(event: Event) {
+                const target = event.target as HTMLInputElement | null;
+                if (!target) return;
+                onSearch?.(target.value);
+        }
+
+        function handleRarityChange(event: Event) {
+                const target = event.target as HTMLSelectElement | null;
+                if (!target) return;
+                onFilterRarity?.(target.value);
+        }
+
+        function handleTypeChange(event: Event) {
+                const target = event.target as HTMLSelectElement | null;
+                if (!target) return;
+                onFilterType?.(target.value);
+        }
+
+        function handleSortChange(event: Event) {
+                const target = event.target as HTMLSelectElement | null;
+                if (!target) return;
+                onSort?.(target.value, sortOrder);
+        }
 
 	const formatCurrency = (amount: number) => {
 		return new Intl.NumberFormat('en-US', {
@@ -150,7 +174,7 @@
 						placeholder="Search items..."
 						bind:value={searchTerm}
 						class="pl-9 pr-3 py-2 bg-surface/50 border border-border/40 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
-						oninput={(e) => onSearch?.(e.target.value)}
+                                                oninput={handleSearchInput}
 					/>
 				</div>
 
@@ -180,7 +204,7 @@
 			<select
 				class="bg-surface/50 border border-border/40 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
 				value={selectedRarity}
-				onchange={(e) => onFilterRarity?.(e.target.value)}
+                                onchange={handleRarityChange}
 			>
 				{#each rarities as rarity}
 					<option value={rarity}>{rarity}</option>
@@ -190,7 +214,7 @@
 			<select
 				class="bg-surface/50 border border-border/40 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
 				value={selectedType}
-				onchange={(e) => onFilterType?.(e.target.value)}
+                                onchange={handleTypeChange}
 			>
 				{#each types as type}
 					<option value={type}>{type}</option>
@@ -200,7 +224,7 @@
 			<select
 				class="bg-surface/50 border border-border/40 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
 				value={sortBy}
-				onchange={(e) => onSort?.(e.target.value, sortOrder)}
+                                onchange={handleSortChange}
 			>
 				<option value="popularity">Popularity</option>
 				<option value="price">Price</option>

@@ -2,8 +2,9 @@ export interface UserProfile {
 	user_id: string;
 	steam_id: string;
 	username: string;
-	avatar_url?: string;
-	steam_profile_url?: string;
+        avatar_url?: string;
+        steam_profile_url?: string;
+        country?: string | null;
 	total_wagered?: number;
 	total_profit?: number;
 	win_rate?: number;

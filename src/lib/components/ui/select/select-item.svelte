@@ -1,16 +1,18 @@
 <script lang="ts">
 	import CheckIcon from "@lucide/svelte/icons/check";
-	import { Select as SelectPrimitive } from "bits-ui";
-	import { cn, type WithoutChild } from "$lib/utils.js";
+        import { Select as SelectPrimitive } from "bits-ui";
+        import { cn, type WithoutChild } from "$lib/utils.js";
 
-	let {
-		ref = $bindable(null),
-		class: className,
-		value,
-		label,
-		children: childrenProp,
-		...restProps
-	}: WithoutChild<SelectPrimitive.ItemProps> = $props();
+        type SelectItemSlotContext = { selected: boolean; highlighted: boolean };
+
+        let {
+                ref = $bindable(null),
+                class: className,
+                value,
+                label,
+                children: childrenProp,
+                ...restProps
+        }: WithoutChild<SelectPrimitive.ItemProps, [SelectItemSlotContext]> = $props();
 </script>
 
 <SelectPrimitive.Item

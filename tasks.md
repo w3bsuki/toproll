@@ -18,6 +18,8 @@ This file now tracks project-wide execution. See also: docs/roadmap.md
   - Logging schema, correlation IDs; basic metrics; RLS review; abuse gates
 - [ ] P4 — Core Features
   - Community Pots (MVP), Marketplace, Case Battles wiring to spec
+    - [x] Draft module PRD for Marketplace (docs/product/specs/marketplace.md)
+    - [x] Draft module PRD for Community Pots (docs/product/specs/community-pots.md)
 - [ ] P5 — UX & A11y
   - Component taxonomy, tokens, keyboard/reduced motion, contrast
 - [ ] P6 — Release & QA

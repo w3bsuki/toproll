@@ -1,14 +1,16 @@
 <script lang="ts">
-	import { Menubar as MenubarPrimitive } from "bits-ui";
-	import CircleIcon from "@lucide/svelte/icons/circle";
-	import { cn, type WithoutChild } from "$lib/utils.js";
+        import { Menubar as MenubarPrimitive } from "bits-ui";
+        import CircleIcon from "@lucide/svelte/icons/circle";
+        import { cn, type WithoutChild } from "$lib/utils.js";
+
+        type MenubarRadioContext = { checked: boolean };
 
 	let {
 		ref = $bindable(null),
 		class: className,
 		children: childrenProp,
 		...restProps
-	}: WithoutChild<MenubarPrimitive.RadioItemProps> = $props();
+        }: WithoutChild<MenubarPrimitive.RadioItemProps, [MenubarRadioContext]> = $props();
 </script>
 
 <MenubarPrimitive.RadioItem
