@@ -111,7 +111,7 @@
 	<h1 class="text-2xl font-bold">Simple GSAP Test</h1>
 
 	<button
-		on:click={startTest}
+		onclick={startTest}
 		class="bg-primary text-primary-foreground hover:bg-primary/90 rounded px-6 py-3 transition-colors disabled:opacity-50"
 		disabled={isAnimating}
 	>

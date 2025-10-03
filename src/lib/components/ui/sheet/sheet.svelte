@@ -2,12 +2,14 @@
 	import { cn } from '$lib/utils';
 	import { writable } from 'svelte/store';
 	import { initSheetContext } from './context';
+	import type { Snippet } from 'svelte';
 
 	let {
 		open = false,
 		class: className = '',
-		onOpenChange
-	}: { open?: boolean; class?: string; onOpenChange?: (open: boolean) => void } = $props();
+		onOpenChange,
+		children
+	}: { open?: boolean; class?: string; onOpenChange?: (open: boolean) => void; children?: Snippet } = $props();
 
 	const internal = writable(open);
 
@@ -28,5 +30,5 @@
 </script>
 
 <div class={cn(className)}>
-	<slot />
+	{@render children?.()}
 </div>

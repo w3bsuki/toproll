@@ -50,7 +50,7 @@
 
 		<!-- Main Content Area - Scrollable -->
 		<main class="flex-1 overflow-y-auto" aria-label="Primary content">
-			<div class="mx-auto h-full w-full max-w-[1400px] px-4 py-6 sm:px-6 lg:px-8">
+			<div class="mx-auto h-full w-full max-w-[1600px] px-3 py-4 sm:px-4 sm:py-5 lg:px-6 lg:py-6">
 				{@render children?.()}
 			</div>
 		</main>

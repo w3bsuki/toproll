@@ -105,16 +105,16 @@
 					</div>
 				</details>
 				<div class="flex flex-col gap-2 sm:flex-row sm:justify-center">
-					<Button class="flex-1 gap-2" on:click={handleRetry}>
+					<Button class="flex-1 gap-2" onclick={handleRetry}>
 						<RefreshCw class="h-4 w-4" />
 						Try again
 					</Button>
-					<Button class="flex-1 gap-2" variant="secondary" on:click={handleGoHome}>
+					<Button class="flex-1 gap-2" variant="secondary" onclick={handleGoHome}>
 						<Home class="h-4 w-4" />
 						Go home
 					</Button>
 				</div>
-				<Button variant="outline" size="sm" class="w-full gap-2" on:click={copyErrorDetails}>
+				<Button variant="outline" size="sm" class="w-full gap-2" onclick={copyErrorDetails}>
 					<Clipboard class="h-4 w-4" />
 					Copy error details
 				</Button>

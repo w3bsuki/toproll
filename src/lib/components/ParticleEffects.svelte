@@ -2,12 +2,14 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 
-	export let trigger = false;
-	export let color = '#ffd700';
-	export let intensity: 'low' | 'medium' | 'high' = 'medium';
+	let { trigger = false, color = '#ffd700', intensity = 'medium' }: {
+		trigger: boolean,
+		color: string,
+		intensity: 'low' | 'medium' | 'high'
+	} = $props();
 
 	let containerRef: HTMLDivElement;
-	let gsap: any = null;
+	let gsap = $state<any>(null);
 
 	function createParticle(x: number, y: number, particleColor: string = color) {
 		if (!containerRef) return;
@@ -103,10 +105,12 @@
 		}
 	});
 
-	$: if (trigger && gsap) {
-		createBurst();
-		setTimeout(createConfetti, 400);
-	}
+	$effect(() => {
+		if (trigger && gsap) {
+			createBurst();
+			setTimeout(createConfetti, 400);
+		}
+	});
 </script>
 
 <div bind:this={containerRef} class="pointer-events-none absolute inset-0 overflow-hidden"></div>

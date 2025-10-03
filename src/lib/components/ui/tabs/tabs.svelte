@@ -4,13 +4,15 @@
 	import { initTabsContext } from './context';
 
 	let {
-		value = '',
+		value = $bindable(''),
 		class: className = '',
-		onValueChange
+		onValueChange,
+		children
 	}: {
 		value?: string;
 		class?: string;
 		onValueChange?: (value: string) => void;
+		children?: Snippet;
 	} = $props();
 
 	const internal = writable(value);
@@ -20,6 +22,7 @@
 	});
 
 	function setValue(next: string) {
+		value = next;
 		internal.set(next);
 		onValueChange?.(next);
 	}
@@ -28,5 +31,5 @@
 </script>
 
 <div class={cn('grid gap-4', className)}>
-	<slot />
+	{@render children?.()}
 </div>

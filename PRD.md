@@ -1,4 +1,66 @@
-# Product Requirements Document: Steam Authentication & User Profiles
+# Product Requirements Document — Project-wide (Oct 2025)
+
+This PRD defines the end-to-end product scope for launch and organizes module PRDs (e.g., Steam Auth, Marketplace, Community Pots, Games). It supersedes earlier single-feature PRDs by adding an overall vision while preserving module details below.
+
+## A. Project Vision & Objectives
+
+Build a CS2 skin-gaming platform with:
+- Community Pots (MVP), Marketplace, and one flagship Game (Case Battles) at launch
+- Fast, watchable UX with Live Drops + Chat
+- Fairness and safety by design (provably-fair, KYC gating, RLS)
+- Spec-driven delivery (docs-first, PR-based, TDD)
+
+### Success Metrics (project)
+- D1 retention ≥ 35%, D7 ≥ 15%
+- Avg session length ≥ 12 min; ≥ 3 interactions/session
+- Support-resolved SLO p95 < 24h; critical incidents < 1/mo
+- GGR stability within ±2% of target over 30 days
+
+## B. Scope (Launch)
+- Auth & Profiles: Steam sign-in, profile, session mgmt
+- Inventory & Marketplace: inventory read, sell/buy credits, item valuation snapshotting
+- Community Pots (MVP): pooled entries, winner payout, anti-collusion basics
+- Games: Case Battles (1v1/2v2, standard mode, verifier)
+- Social: Live Drops ticker, public chat, spectate
+- Risk/Compliance: KYC tiers, region gating, limits, RLS enforcement
+- Observability: structured logs, basic metrics, runbook
+
+### Non-Goals (Launch)
+- Full trading bot network, withdrawals at scale (pilot only)
+- Advanced game catalogue (Crash/Upgrader later)
+- Complex tournaments/creator programs (post-launch)
+
+## C. User Stories (top-level)
+- As a visitor, I can sign in with Steam and see my avatar/ID.
+- As a user, I can view my inventory and list items for credits at a fair value.
+- As a user, I can join/observe Community Pots and Case Battles with transparent rules and verifiable outcomes.
+- As a spectator, I can watch live battles/drops and join the next round easily.
+- As ops, I can pause games, review logs, and verify PF proofs quickly.
+
+## D. Core Features (summary)
+1) Steam Auth & Profiles (see Module PRD below)
+2) Inventory & Marketplace (valuations, listing, purchases)
+3) Community Pots (MVP) — pooled game
+4) Case Battles (MVP) — see docs/CASE_BATTLES_GAME_PLAN_2025.md
+5) Social/UX — Live Drops, Chat, Lobby & Battle Room UX
+6) Risk/Compliance — KYC tiers, limits, region blocks, RLS policies
+7) Observability & Runbooks — logging, metrics, circuit breakers
+
+## E. Non-Functional Requirements (project)
+- Security: RLS everywhere; seed/secret ops in vault; least privilege
+- Performance: p95 WS event→UI < 150ms (spectators), p95 page < 3s
+- Reliability: graceful degradation; incident toggles; idempotent settlements
+- Privacy: minimal PII; KYC segregation; retention policies documented
+- Accessibility: keyboard nav, reduced motion, color contrast AA
+
+## F. Release Plan
+- Phase P0→P6 (project-wide) — see docs/roadmap.md
+- PR-only flow; feature flags for risky modules
+- Staged rollout; canary with internal accounts; rollback runbook
+
+---
+
+# Annex A — Module PRD: Steam Authentication & User Profiles
 
 ## 1. Introduction & Objective
 

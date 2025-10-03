@@ -3,7 +3,7 @@
 	import { useTabsContext } from './context';
 	import { derived } from 'svelte/store';
 
-	let { value, class: className = '' } = $props<{ value: string; class?: string }>();
+	let { value, class: className = '', children } = $props<{ value: string; class?: string; children?: Snippet }>();
 
 	const { value: store } = useTabsContext();
 	const selected = derived(store, ($value) => $value === value);
@@ -17,5 +17,5 @@
 		className
 	)}
 >
-	<slot />
+	{@render children?.()}
 </div>

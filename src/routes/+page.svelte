@@ -1,15 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import HeroCarousel from '$lib/components/home/HeroCarousel.svelte';
+	import HeroBanner from '$lib/components/home/HeroBanner.svelte';
 	import MarketplaceGrid from '$lib/components/home/MarketplaceGrid.svelte';
-	import HorizontalScroller, {
-		type HorizontalItem
-	} from '$lib/components/home/HorizontalScroller.svelte';
-	import ScrollableTabs, {
-		type ScrollableTab
-	} from '$lib/components/ui/navigation/ScrollableTabs.svelte';
+	import CommunityPotsGrid, { type CommunityPot } from '$lib/components/CommunityPotsGrid.svelte';
 	import { Alert, Button } from '$lib/components/ui';
-	import { AlertCircle } from '@lucide/svelte';
+	import { AlertCircle, Users, Clock, Trophy, Gift } from '@lucide/svelte';
 
 	const pageStore = page;
 	const currentPage = $derived(pageStore);
@@ -45,188 +40,81 @@
 
 	const currentError = $derived(() => (error ? (errorMessages[error] ?? null) : null));
 
-	const categoryTabs: ScrollableTab[] = [
-		{ id: 'featured', label: 'Featured', badge: 'Live' },
-		{ id: 'cases', label: 'Cases' },
-		{ id: 'battles', label: 'Battles' },
-		{ id: 'upgrader', label: 'Upgrader' },
-		{ id: 'pots', label: 'Pots' }
-	];
-
-	let activeTab = $state(categoryTabs[0].id);
-
-	const featuredRows: { title: string; caption?: string; items: HorizontalItem[] }[] = [
+	// Mock data for Community Pots
+	const mockCommunityPots: CommunityPot[] = [
 		{
-			title: 'Community Pots',
-			caption: 'Active rain pots and community bonuses',
-			items: [
-				{
-					id: 'rain-pot-active',
-					title: 'Rain Pot Active',
-					subtitle: '312 contributors · Active now',
-					meta: 'Live',
-					highlight: '$12,400 pool',
-					cta: 'Join Rain Pot',
-					background:
-						'radial-gradient(circle at 20% 20%, rgba(16, 185, 129, 0.55), transparent 55%), radial-gradient(circle at 80% 30%, rgba(45, 212, 191, 0.35), transparent 50%), rgba(12, 74, 110, 0.88)'
-				},
-				{
-					id: 'vip-rain-cycle',
-					title: 'VIP Rain Cycle',
-					subtitle: 'Daily guaranteed · 3 invites',
-					meta: 'VIP',
-					highlight: 'Pool $12.4k',
-					cta: 'View invites',
-					background:
-						'radial-gradient(circle at 30% 70%, rgba(59, 130, 246, 0.45), transparent 60%), radial-gradient(circle at 70% 30%, rgba(147, 197, 253, 0.3), transparent 55%), rgba(15, 23, 42, 0.92)'
-				},
-				{
-					id: 'flash-rain-boost',
-					title: 'Flash Rain Boost',
-					subtitle: 'Limited time · 6 slots left',
-					meta: 'Flash',
-					highlight: '2x multiplier',
-					cta: 'Secure slot',
-					background:
-						'radial-gradient(circle at 25% 30%, rgba(34, 197, 94, 0.55), transparent 60%), radial-gradient(circle at 75% 70%, rgba(16, 185, 129, 0.35), transparent 55%), rgba(15, 118, 110, 0.85)'
-				}
-			]
+			id: 'rain-pot-1',
+			name: 'Community Rain',
+			type: 'rain',
+			description: 'Daily community rain event',
+			totalAmount: 15420,
+			contributorCount: 287,
+			maxContributors: 500,
+			timeRemaining: 86400, // 24 hours
+			status: 'active',
+			prizePool: 15420,
+			isVIP: false
+		},
+		{
+			id: 'vip-rain-1',
+			name: 'VIP Elite Rain',
+			type: 'vip',
+			description: 'Exclusive VIP rain event',
+			totalAmount: 8750,
+			contributorCount: 45,
+			maxContributors: 100,
+			timeRemaining: 43200, // 12 hours
+			status: 'active',
+			prizePool: 8750,
+			isVIP: true,
+			entryRequirement: 'VIP Level 3+'
+		},
+		{
+			id: 'flash-pot-1',
+			name: 'Flash Drop',
+			type: 'flash',
+			description: 'Limited time flash event',
+			totalAmount: 3200,
+			contributorCount: 89,
+			maxContributors: 150,
+			timeRemaining: 3600, // 1 hour
+			status: 'ending-soon',
+			prizePool: 3200,
+			isVIP: false
+		},
+		{
+			id: 'tournament-1',
+			name: 'Weekend Tournament',
+			type: 'tournament',
+			description: 'Compete for the grand prize',
+			totalAmount: 25000,
+			contributorCount: 156,
+			maxContributors: 200,
+			timeRemaining: 172800, // 48 hours
+			status: 'active',
+			prizePool: 25000,
+			isVIP: false
 		}
 	];
 
-	const casesRows = [
-		{
-			title: 'Curated community cases',
-			items: [
-				{
-					id: 'spectrum',
-					title: 'Spectrum II Refresh',
-					subtitle: 'Live demand spikes · Transparent odds',
-					meta: 'Community',
-					cta: 'Browse cases',
-					background:
-						'radial-gradient(circle at 30% 30%, rgba(34, 197, 94, 0.5), transparent 60%), radial-gradient(circle at 70% 70%, rgba(74, 222, 128, 0.4), transparent 55%), rgba(17, 24, 39, 0.92)'
-				},
-				{
-					id: 'recoil',
-					title: 'Recoil Reloaded',
-					subtitle: 'Stable odds with boosted streak multipliers',
-					meta: 'Stable',
-					cta: 'Inspect lineup',
-					background:
-						'radial-gradient(circle at 30% 35%, rgba(99, 102, 241, 0.5), transparent 60%), radial-gradient(circle at 75% 65%, rgba(165, 180, 252, 0.4), transparent 55%), rgba(30, 41, 59, 0.92)'
-				}
-			]
-		}
-	];
-
-	const battlesRows = [
-		{
-			title: 'Live battle rotations',
-			items: [
-				{
-					id: 'double-up',
-					title: 'Double-Up Frenzy',
-					subtitle: '4 case rotation · Transparent rake 5%',
-					meta: '2v2',
-					cta: 'Join queue',
-					background:
-						'radial-gradient(circle at 25% 30%, rgba(59, 130, 246, 0.45), transparent 55%), radial-gradient(circle at 70% 70%, rgba(29, 78, 216, 0.35), transparent 50%), rgba(15, 23, 42, 0.92)'
-				},
-				{
-					id: 'clash-night',
-					title: 'Clash Night Finals',
-					subtitle: 'Average pot $2.1k · 3 seats remaining',
-					meta: 'Finals',
-					cta: 'Spectate',
-					background:
-						'radial-gradient(circle at 20% 70%, rgba(253, 186, 116, 0.6), transparent 55%), radial-gradient(circle at 80% 30%, rgba(248, 113, 113, 0.4), transparent 50%), rgba(24, 24, 27, 0.9)'
-				}
-			]
-		}
-	];
-
-	const upgraderRows = [
-		{
-			title: 'Smart upgrade paths',
-			items: [
-				{
-					id: 'safe-upgrade',
-					title: 'Safe climb 1.5x',
-					subtitle: 'Low variance ladder · Auto cashout',
-					meta: 'Secure',
-					cta: 'Start ladder',
-					background:
-						'radial-gradient(circle at 25% 20%, rgba(45, 212, 191, 0.5), transparent 60%), radial-gradient(circle at 75% 70%, rgba(56, 189, 248, 0.45), transparent 55%), rgba(12, 74, 110, 0.85)'
-				},
-				{
-					id: 'all-in',
-					title: 'All-in 5x push',
-					subtitle: 'Manual commit with safety net rollbacks',
-					meta: 'High risk',
-					cta: 'Configure odds',
-					background:
-						'radial-gradient(circle at 35% 35%, rgba(236, 72, 153, 0.6), transparent 60%), radial-gradient(circle at 80% 70%, rgba(79, 70, 229, 0.45), transparent 55%), rgba(24, 24, 27, 0.95)'
-				}
-			]
-		}
-	];
-
-	const potsRows = [
-		{
-			title: 'Community rain cycles',
-			items: [
-				{
-					id: 'flash-rain',
-					title: 'Flash rain boost',
-					subtitle: 'Ends in 1m · 6 slots left',
-					meta: 'Flash',
-					cta: 'Secure slot',
-					background:
-						'radial-gradient(circle at 20% 50%, rgba(34, 197, 94, 0.55), transparent 60%), radial-gradient(circle at 80% 40%, rgba(16, 185, 129, 0.35), transparent 55%), rgba(15, 118, 110, 0.85)'
-				},
-				{
-					id: 'vip-cycle',
-					title: 'VIP cycle',
-					subtitle: 'Guaranteed daily payout · 3 invites pending',
-					meta: 'VIP',
-					cta: 'View invites',
-					background:
-						'radial-gradient(circle at 70% 30%, rgba(59, 130, 246, 0.45), transparent 60%), radial-gradient(circle at 30% 70%, rgba(147, 197, 253, 0.3), transparent 55%), rgba(15, 23, 42, 0.92)'
-				}
-			]
-		}
-	];
-
-	const tabRows: Record<string, { title: string; caption?: string; items: HorizontalItem[] }[]> = {
-		featured: featuredRows,
-		cases: casesRows,
-		battles: battlesRows,
-		upgrader: upgraderRows,
-		pots: potsRows
-	};
-</script>
+	</script>
 
 <svelte:head>
-	<title>TopRoll - CS2 Marketplace</title>
+	<title>TopRoll - CS2 Community Pots & Marketplace</title>
 </svelte:head>
 
-<div class="space-y-12">
+<div class="space-y-6">
+	<!-- Hero Banner - Community Pots Focus -->
+	<HeroBanner />
 
-	<HeroCarousel />
+	<!-- Community Pots Grid -->
+	<CommunityPotsGrid
+		pots={mockCommunityPots}
+		onJoinPot={(potId) => console.log('Join pot:', potId)}
+		onViewPot={(potId) => console.log('View pot:', potId)}
+		onRefresh={() => console.log('Refresh pots')}
+	/>
 
-	<section class="space-y-6">
-		<ScrollableTabs
-			tabs={categoryTabs}
-			activeId={activeTab}
-			on:change={(event) => (activeTab = event.detail)}
-		/>
-		<div class="space-y-8">
-			{#each tabRows[activeTab] as row (row.title)}
-				<HorizontalScroller title={row.title} caption={row.caption} items={row.items} />
-			{/each}
-		</div>
-	</section>
-
+	<!-- Live Marketplace -->
 	<MarketplaceGrid />
 </div>

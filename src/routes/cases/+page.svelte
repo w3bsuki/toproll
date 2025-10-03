@@ -173,7 +173,7 @@
 			<div
 				class="border-border/60 bg-surface/70 shadow-marketplace-lg relative rounded-2xl border p-6"
 			>
-				<ParticleEffects trigger={showParticles} intensity="high" />
+				<ParticleEffects trigger={showParticles} color="#ffd700" intensity="high" />
 				{#if rouletteItems.length > 0}
 					<CaseOpeningRoulette items={rouletteItems} onComplete={handleCaseComplete} />
 				{:else if isLoading}

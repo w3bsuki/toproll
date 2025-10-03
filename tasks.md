@@ -1,3 +1,28 @@
+# Project-wide Tasks & Roadmap
+
+This file now tracks project-wide execution. See also: docs/roadmap.md
+
+- [ ] P0 — Project Charter & Baseline Docs ([spec](docs/product/phases/P0.md))
+  - [x] Normalize PRD.md, requirements.md within `docs/product/`
+  - [x] Create product status dashboard and phase hub
+  - [x] Add ADR formalizing spec-driven workflow
+  - [ ] Add `.github` scaffolding (PR template, issue templates, CODEOWNERS)
+  - [ ] Add CI skeleton workflow (`.github/workflows/ci.yml`)
+  - [ ] Confirm `docs/engineering/{testing, observability, security, infra}.md` align with workflow (update if gaps)
+  - [ ] Update `docs/tasks.md` and labels guide post-implementation PR
+- [ ] P1 — Architecture & Conventions
+  - Confirm module boundaries, DTO style, error model, folder layout, tokens
+- [ ] P2 — DevEx & CI/CD
+  - Typecheck/lint/test in CI; pre-push hooks; preview deploy (if used)
+- [ ] P3 — Observability & Security
+  - Logging schema, correlation IDs; basic metrics; RLS review; abuse gates
+- [ ] P4 — Core Features
+  - Community Pots (MVP), Marketplace, Case Battles wiring to spec
+- [ ] P5 — UX & A11y
+  - Component taxonomy, tokens, keyboard/reduced motion, contrast
+- [ ] P6 — Release & QA
+  - Release checklist, rollback, perf smoke, runbooks
+
 # Implementation Plan
 
 - [ ] 1. Set up project foundation and environment configuration

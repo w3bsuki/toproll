@@ -12,19 +12,18 @@
 		value: number;
 	}
 
-	export let items: CaseItem[] = [];
-	export let onComplete: ((item: CaseItem) => void) | undefined = undefined;
+	let { items = [], onComplete }: { items: CaseItem[], onComplete?: ((item: CaseItem) => void) } = $props();
 
 	let containerRef: HTMLDivElement;
 	let rouletteRef: HTMLDivElement;
 	let indicatorRef: HTMLDivElement;
-	let isSpinning = false;
-	let winningItem: CaseItem | null = null;
-	let showResult = false;
-	let gsapInstance: typeof gsap | null = null;
+	let isSpinning = $state(false);
+	let winningItem = $state<CaseItem | null>(null);
+	let showResult = $state(false);
+	let gsapInstance = $state<typeof gsap | null>(null);
 
 	// Generate extended item list for smooth infinite scroll effect
-	$: extendedItems = [...items, ...items, ...items, ...items, ...items];
+	let extendedItems = $derived(() => [...items, ...items, ...items, ...items, ...items]);
 
 	const rarityBorders = {
 		common: 'border-border/60',
@@ -150,9 +149,9 @@
 		<div
 			bind:this={rouletteRef}
 			class="flex h-full items-center gap-3 px-4"
-			style="width: {extendedItems.length * 160}px"
+			style="width: {extendedItems().length * 160}px"
 		>
-			{#each extendedItems as item, index (item.id + '-' + index)}
+			{#each extendedItems() as item, index (item.id + '-' + index)}
 				<div
 					class="bg-surface/70 h-40 w-36 flex-shrink-0 border-2 {rarityBorders[
 						item.rarity
@@ -200,7 +199,7 @@
 	<!-- Controls -->
 	<div class="flex justify-center">
 		<button
-			on:click={startAnimation}
+			onclick={startAnimation}
 			disabled={isSpinning}
 			class="bg-primary text-primary-foreground shadow-marketplace-md hover:bg-primary/90 hover:shadow-marketplace-lg disabled:bg-surface-muted focus-visible:ring-ring focus-visible:ring-offset-background rounded-lg px-8 py-3 font-bold transition-all focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50"
 		>
@@ -236,7 +235,7 @@
 				</div>
 
 				<button
-					on:click={() => (showResult = false)}
+					onclick={() => (showResult = false)}
 					class="bg-surface-muted text-foreground hover:bg-surface-muted/80 rounded-lg px-6 py-2 transition-colors"
 				>
 					Close

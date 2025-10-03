@@ -1,0 +1,4 @@
+# Default reviewers for spec-driven workflow
+* @w3bsuki
+/docs/product/* @w3bsuki
+/docs/engineering/* @w3bsuki

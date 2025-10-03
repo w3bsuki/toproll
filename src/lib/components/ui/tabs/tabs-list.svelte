@@ -3,7 +3,7 @@
 	import { useTabsContext } from './context';
 	import { derived } from 'svelte/store';
 
-	let { class: className = '' } = $props();
+	let { class: className = '', children } = $props();
 
 	const { value } = useTabsContext();
 	const active = derived(value, ($value) => $value);
@@ -18,5 +18,5 @@
 	)}
 	data-active={$active}
 >
-	<slot />
+	{@render children?.()}
 </div>

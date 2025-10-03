@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { cn } from '$lib/utils';
-	let { class: className = '' } = $props();
+	let { class: className = '', children } = $props();
 </script>
 
 <div
@@ -9,5 +9,5 @@
 		className
 	)}
 >
-	<slot />
+	{@render children?.()}
 </div>

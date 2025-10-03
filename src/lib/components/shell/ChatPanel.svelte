@@ -55,7 +55,7 @@
 						<span class="text-foreground font-semibold">{message.username}</span>
 						{#if message.badge}
 							<Badge
-								variant={message.badge === 'vip' ? 'default' : message.badge === 'staff' ? 'secondary' : 'outline'}
+								variant={message.badge === 'vip' ? 'default' : message.badge === 'staff' ? 'outline' : 'info'}
 								class="text-[10px] px-1.5 py-0 h-4"
 							>
 								{message.badge}

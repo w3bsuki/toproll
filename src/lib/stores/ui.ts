@@ -1,6 +1,6 @@
 import { writable } from 'svelte/store';
 
-interface UIState {
+export interface UIState {
 	chatOpen: boolean;
 	sidebarOpen: boolean;
 }

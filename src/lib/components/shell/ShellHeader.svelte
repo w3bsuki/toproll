@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { base } from '$app/paths';
 	import AuthButton from '$lib/components/AuthButton.svelte';
+	import LiveDropsTicker from '$lib/components/home/LiveDropsTicker.svelte';
 	import {
 		DropdownMenu,
 		DropdownMenuContent,
@@ -120,7 +121,7 @@
 		<div class="flex items-center gap-3">
 			<button
 				type="button"
-				class="group duration-accent ease-market-ease border-border/50 bg-surface-muted/70 text-muted-foreground hover:border-primary/40 hover:bg-surface-muted hover:text-foreground hover:shadow-marketplace-sm focus-visible:ring-primary/50 flex h-10 w-10 items-center justify-center rounded-xl border transition-all focus-visible:ring-2 focus-visible:outline-none"
+				class="group border-border/50 bg-surface-muted/70 text-muted-foreground focus-visible:ring-primary/50 flex h-10 w-10 items-center justify-center rounded-xl border focus-visible:ring-2 focus-visible:outline-none"
 				onclick={toggleSidebar}
 				aria-expanded={sidebarOpen}
 				aria-label="Open navigation"
@@ -141,14 +142,14 @@
 		<div class="flex items-center gap-2">
 			<button
 				type="button"
-				class="group duration-accent ease-market-ease border-border/50 bg-surface-muted/70 text-muted-foreground hover:border-primary/40 hover:bg-surface-muted hover:text-foreground hover:shadow-marketplace-sm focus-visible:ring-primary/50 flex h-10 w-10 items-center justify-center rounded-xl border transition-all focus-visible:ring-2 focus-visible:outline-none"
+				class="group border-border/50 bg-surface-muted/70 text-muted-foreground focus-visible:ring-primary/50 flex h-10 w-10 items-center justify-center rounded-xl border focus-visible:ring-2 focus-visible:outline-none"
 				aria-label="Search"
 			>
 				<Search class="h-4 w-4" />
 			</button>
 			<button
 				type="button"
-				class="group duration-accent ease-market-ease border-border/50 bg-surface-muted/70 text-muted-foreground hover:border-primary/40 hover:bg-surface-muted hover:text-foreground hover:shadow-marketplace-sm focus-visible:ring-primary/50 flex h-10 w-10 items-center justify-center rounded-xl border transition-all focus-visible:ring-2 focus-visible:outline-none"
+				class="group border-border/50 bg-surface-muted/70 text-muted-foreground focus-visible:ring-primary/50 flex h-10 w-10 items-center justify-center rounded-xl border focus-visible:ring-2 focus-visible:outline-none"
 				aria-label="Notifications"
 			>
 				<Bell class="h-4 w-4" />
@@ -182,18 +183,21 @@
 				aria-label="Live promotions"
 				aria-live="polite"
 			>
-				{#each promoTicker as item (item.id)}
+				{#each promoTicker() as item (item?.id)}
 					<div
-						class="group duration-accent ease-market-ease border-border/40 bg-surface-muted/50 hover:border-primary/30 hover:bg-surface-muted hover:shadow-marketplace-sm flex shrink-0 items-center gap-2 rounded-xl border px-3 py-2 backdrop-blur-sm transition-all"
+						class="group  border-border/40 bg-surface-muted/50    flex shrink-0 items-center gap-2 rounded-xl border px-3 py-2 backdrop-blur-sm "
 					>
 						<div
 							class="border-primary/30 bg-primary/10 flex h-6 w-6 items-center justify-center rounded-lg border"
 						>
-							<svelte:component this={getTickerIcon(item.id)} class="text-primary h-3 w-3" />
+							{#if getTickerIcon(item?.id)}
+							{@const IconComp = getTickerIcon(item?.id)}
+							<IconComp class="text-primary h-3 w-3" />
+						{/if}
 						</div>
 						<div class="flex flex-col">
-							<span class="text-foreground text-xs leading-tight font-semibold">{item.label}</span>
-							<span class="text-muted-foreground text-[10px] leading-tight">{item.meta}</span>
+							<span class="text-foreground text-xs leading-tight font-semibold">{item?.label}</span>
+							<span class="text-muted-foreground text-[10px] leading-tight">{item?.meta}</span>
 						</div>
 					</div>
 				{/each}
@@ -216,23 +220,33 @@
 
 			<button
 				type="button"
-				class="group duration-accent ease-market-ease border-border/50 bg-surface-muted/70 text-muted-foreground hover:border-primary/40 hover:bg-surface-muted hover:text-foreground hover:shadow-marketplace-sm focus-visible:ring-primary/50 flex h-10 w-10 items-center justify-center rounded-xl border transition-all focus-visible:ring-2 focus-visible:outline-none"
+				class="group border-border/50 bg-surface-muted/70 text-muted-foreground focus-visible:ring-primary/50 flex h-10 w-10 items-center justify-center rounded-xl border focus-visible:ring-2 focus-visible:outline-none"
 				aria-label="Language"
 			>
 				<Globe class="h-4 w-4" />
 			</button>
 			<button
 				type="button"
-				class="group duration-accent ease-market-ease border-border/50 bg-surface-muted/70 text-muted-foreground hover:border-primary/40 hover:bg-surface-muted hover:text-foreground hover:shadow-marketplace-sm focus-visible:ring-primary/50 flex h-10 w-10 items-center justify-center rounded-xl border transition-all focus-visible:ring-2 focus-visible:outline-none"
+				class="group border-border/50 bg-surface-muted/70 text-muted-foreground focus-visible:ring-primary/50 flex h-10 w-10 items-center justify-center rounded-xl border focus-visible:ring-2 focus-visible:outline-none"
 				aria-label="Notifications"
 			>
 				<Bell class="h-4 w-4" />
 			</button>
 
+			<!-- Daily Bonus Button -->
+			<button
+				type="button"
+				class="group border-warning/30 bg-warning/10 text-warning-foreground hover:bg-warning/20 focus-visible:ring-warning/50 flex h-10 items-center justify-center rounded-xl border px-3 py-2 text-xs font-medium gap-1.5 transition-colors focus-visible:ring-2 focus-visible:outline-none"
+				aria-label="Claim daily bonus"
+			>
+				<Gift class="h-4 w-4" />
+				<span class="hidden sm:inline">Daily Bonus</span>
+			</button>
+
 			{#if isAuthenticated && user}
 				<DropdownMenu>
 					<DropdownMenuTrigger
-						class="group duration-accent ease-market-ease border-border/50 bg-surface-muted/70 hover:border-primary/40 hover:bg-surface-muted hover:shadow-marketplace-sm focus-visible:ring-primary/50 flex items-center gap-3 rounded-xl border px-3 py-2 transition-all focus-visible:ring-2 focus-visible:outline-none"
+						class="group border-border/50 bg-surface-muted/70    focus-visible:ring-primary/50 flex items-center gap-3 rounded-xl border px-3 py-2  focus-visible:ring-2 focus-visible:outline-none"
 					>
 						{#if user.avatar}
 							<img
@@ -277,10 +291,15 @@
 			{:else}
 				<form method="POST" action="/api/auth/steam/login">
 					<AuthButton
-						class="duration-accent bg-primary text-primary-foreground shadow-marketplace-sm hover:bg-primary/90 hover:shadow-marketplace-md transition-all shrink-0"
+						class="duration-accent bg-primary text-primary-foreground shadow-marketplace-sm    shrink-0"
 					/>
 				</form>
 			{/if}
 		</div>
+	</div>
+
+	<!-- Live Drops Ticker (below main header) -->
+	<div class="border-y border-border/40 bg-surface/30 backdrop-blur-sm">
+		<LiveDropsTicker />
 	</div>
 </div>

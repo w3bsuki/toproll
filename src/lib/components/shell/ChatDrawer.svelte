@@ -68,7 +68,7 @@
 	<Sheet.Content
 		side="bottom"
 		class="border-border/40 bg-surface/95 shadow-marketplace-lg max-h-[75vh] w-full translate-y-0 rounded-t-[32px] border px-0 pt-4 pb-[env(safe-area-inset-bottom)] backdrop-blur-xl md:max-w-xl"
-		labelledby="chat-drawer-title"
+		aria-labelledby="chat-drawer-title"
 	>
 		<div class="mx-auto flex h-full w-full max-w-lg flex-col gap-4 px-4">
 			<div class="bg-border/60 mx-auto h-1.5 w-12 rounded-full" aria-hidden="true"></div>
@@ -127,7 +127,7 @@
 						<div class="text-muted-foreground mb-1 flex items-center justify-between text-xs">
 							<div class="flex items-center gap-2">
 								<Avatar class="h-7 w-7">
-									<AvatarImage src={message.avatar} alt={message.username} />
+									<AvatarImage src={undefined} alt={message.username} />
 									<AvatarFallback class="text-xs">
 										<User class="h-3.5 w-3.5" />
 									</AvatarFallback>
@@ -135,7 +135,7 @@
 								<span class="text-foreground font-semibold">{message.username}</span>
 								{#if message.badge}
 									<Badge
-										variant={message.badge === 'vip' ? 'default' : message.badge === 'staff' ? 'secondary' : 'outline'}
+										variant={message.badge === 'vip' ? 'default' : message.badge === 'staff' ? 'outline' : 'info'}
 										class="text-[10px] px-1.5 py-0 h-4"
 									>
 										{message.badge}

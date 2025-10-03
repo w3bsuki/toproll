@@ -66,7 +66,11 @@ const config = {
 				'marketplace-md':
 					'0 1px 0 0 color-mix(in oklch, var(--border-strong) 55%, transparent), 0 14px 32px -20px color-mix(in oklch, var(--border-strong) 70%, transparent)',
 				'marketplace-lg':
-					'0 2px 0 0 color-mix(in oklch, var(--border-strong) 55%, transparent), 0 24px 48px -32px color-mix(in oklch, var(--border-strong) 65%, transparent)'
+					'0 2px 0 0 color-mix(in oklch, var(--border-strong) 55%, transparent), 0 24px 48px -32px color-mix(in oklch, var(--border-strong) 65%, transparent)',
+				'neo-sm': '2px 2px 0px rgba(0, 0, 0, 0.4)',
+				'neo': '4px 4px 0px rgba(0, 0, 0, 0.4)',
+				'neo-lg': '6px 6px 0px rgba(0, 0, 0, 0.4)',
+				'neo-active': '4px 4px 0px rgba(0, 0, 0, 0.4), 0 0 20px rgba(199, 255, 120, 0.3)'
 			},
 			spacing: {
 				'18': '4.5rem',

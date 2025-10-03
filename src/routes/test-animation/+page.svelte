@@ -84,7 +84,7 @@
 		<h2 class="text-xl">Simple Animation Test</h2>
 		<div bind:this={testDiv} class="bg-primary h-20 w-20 rounded"></div>
 		<button
-			on:click={testAnimation}
+			onclick={testAnimation}
 			class="bg-primary text-primary-foreground hover:bg-primary/90 rounded px-4 py-2"
 		>
 			Test GSAP Animation

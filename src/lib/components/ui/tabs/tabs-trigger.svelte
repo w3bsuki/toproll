@@ -6,8 +6,9 @@
 	let {
 		value,
 		class: className = '',
-		disabled = false
-	} = $props<{ value: string; class?: string; disabled?: boolean }>();
+		disabled = false,
+		children
+	} = $props<{ value: string; class?: string; disabled?: boolean; children?: Snippet }>();
 
 	const { value: store, setValue } = useTabsContext();
 	const selected = derived(store, ($value) => $value === value);
@@ -36,5 +37,5 @@
 	)}
 	onclick={handleClick}
 >
-	<slot />
+	{@render children?.()}
 </button>

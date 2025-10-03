@@ -5,10 +5,10 @@
 
 <div class="flex h-full flex-col">
 	<!-- Header -->
-	<div class="border-border/50 flex h-16 items-center border-b px-4">
+	<div class="border-border flex h-16 items-center border-b px-4">
 		<div class="flex items-center gap-3">
 			<div class="bg-primary/15 text-primary flex h-10 w-10 items-center justify-center rounded-lg">
-				<MessageCircle class="h-5 w-5" />
+				<MessageCircle class="h-5 w-5" strokeWidth={2} />
 			</div>
 			<div class="flex flex-col">
 				<h2 class="text-sm font-semibold">Chat & Rain Pot</h2>

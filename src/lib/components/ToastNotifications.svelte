@@ -72,7 +72,7 @@
 						<div class="text-muted-foreground mt-1 text-xs">{toast.message}</div>
 					{/if}
 					{#if toast.action}
-						<Button variant="outline" size="sm" class="mt-3 gap-2" on:click={toast.action.onClick}>
+						<Button variant="outline" size="sm" class="mt-3 gap-2" onclick={toast.action.onClick}>
 							{toast.action.label}
 						</Button>
 					{/if}
@@ -81,7 +81,7 @@
 					variant="ghost"
 					size="icon"
 					class="h-8 w-8"
-					on:click={() => removeToast(toast.id)}
+					onclick={() => removeToast(toast.id)}
 					aria-label="Close notification"
 				>
 					<X class="h-4 w-4" />

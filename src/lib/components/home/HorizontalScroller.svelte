@@ -29,26 +29,26 @@
 	}: HorizontalScrollerProps = $props();
 </script>
 
-<section class={cn('space-y-4', className)}>
+<section class={cn('space-y-6', className)}>
 	<div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-		<div class="space-y-1">
-			<h3 class="text-xl font-semibold tracking-tight">{title}</h3>
+		<div class="space-y-2">
+			<h3 class="text-2xl font-bold tracking-tight">{title}</h3>
 			{#if caption}
-				<p class="text-muted-foreground text-sm">{caption}</p>
+				<p class="text-muted-foreground text-base">{caption}</p>
 			{/if}
 		</div>
 		<Button
 			variant="ghost"
-			class="text-muted-foreground hover:text-foreground w-full justify-center gap-2 rounded-2xl px-4 py-3 text-sm md:w-auto"
+			class="text-muted-foreground w-full justify-center gap-2 rounded-2xl px-5 py-3 text-sm md:w-auto font-semibold"
 		>
 			{actionLabel}
 		</Button>
 	</div>
 
-	<div class="marketplace-scrollbar -mx-1 flex snap-x gap-4 overflow-x-auto px-1 pb-1">
+	<div class="marketplace-scrollbar -mx-1 flex snap-x gap-5 overflow-x-auto px-1 pb-2">
 		{#each items as item}
 			<article
-				class="border-border/40 text-foreground shadow-marketplace-md hover:shadow-marketplace-lg hover:border-border/60 shrink-0 basis-[88%] snap-start rounded-[28px] border bg-cover bg-center bg-no-repeat p-6 transition duration-300 sm:basis-[58%] lg:basis-[38%] xl:basis-[28%]"
+				class="border-border/40 text-foreground shadow-marketplace-md   shrink-0 basis-[88%] snap-start rounded-[28px] border bg-cover bg-center bg-no-repeat p-6  sm:basis-[58%] lg:basis-[38%] xl:basis-[28%]"
 				style={`background:${item.background}`}
 			>
 				<div class="flex flex-col gap-4">
@@ -69,7 +69,7 @@
 					</div>
 					{#if item.cta}
 						<Button
-							class="bg-card text-card-foreground hover:bg-card/90 w-full rounded-2xl text-sm font-semibold"
+							class="bg-card text-card-foreground  w-full rounded-2xl text-sm font-semibold"
 						>
 							{item.cta}
 						</Button>

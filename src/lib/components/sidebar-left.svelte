@@ -28,21 +28,21 @@
 <div class="flex h-full flex-col">
 	<!-- Main Navigation Section -->
 	<div class="flex-1 p-4">
-		<nav aria-label="Main" class="flex flex-col gap-1">
+		<nav aria-label="Main" class="flex flex-col gap-2">
 			{#each navItems as item}
-				<Button
-					as="a"
+				<a
 					href={buildHref(item.href)}
-					variant={isActiveRoute(item.href) ? 'default' : 'ghost'}
-					size="lg"
 					class={cn(
-						'justify-start gap-4 w-full text-base font-semibold',
-						'h-14 px-4'
+						'flex items-center justify-start gap-3 w-full text-base font-semibold h-12 px-4 rounded-lg transition-colors',
+						'border border-solid',
+						isActiveRoute(item.href)
+							? 'bg-primary text-primary-foreground border-primary'
+							: 'border-border/50 text-foreground hover:bg-accent hover:border-border'
 					)}
 				>
-					<item.icon class="h-6 w-6 flex-shrink-0" />
+					<item.icon class="h-5 w-5 flex-shrink-0" strokeWidth={2} />
 					<span class="text-left">{item.label}</span>
-				</Button>
+				</a>
 			{/each}
 		</nav>
 	</div>
@@ -56,16 +56,16 @@
 
 		<!-- Auth Section -->
 		{#if isAuthenticated && user}
-			<div class="border-border/50 bg-card/60 rounded-xl border p-4">
+			<div class="bg-card border border-border/50 rounded-xl p-4">
 				<div class="flex items-center gap-3">
 					<div
-						class="bg-primary/15 text-primary flex h-10 w-10 items-center justify-center rounded-full"
+						class="bg-primary/15 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
 					>
 						<span class="text-sm font-semibold">{user.username?.[0]?.toUpperCase() || 'U'}</span>
 					</div>
 					<div class="min-w-0 flex-1">
 						<p class="text-foreground truncate text-sm font-semibold">{user.username || 'User'}</p>
-						<p class="text-muted-foreground text-xs">
+						<p class="text-primary text-sm font-semibold">
 							${((user.balance || 0) / 100).toFixed(2)}
 						</p>
 					</div>

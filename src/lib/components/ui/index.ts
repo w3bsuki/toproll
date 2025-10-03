@@ -57,7 +57,11 @@ export * as ContextMenu from './context-menu/index.js';
 export * as Dialog from './dialog/index.js';
 
 // Dropdown Menu
-export * as DropdownMenu from './dropdown-menu/index.js';
+export { default as DropdownMenu } from './dropdown-menu/dropdown-menu.svelte';
+export { default as DropdownMenuContent } from './dropdown-menu/dropdown-menu-content.svelte';
+export { default as DropdownMenuItem } from './dropdown-menu/dropdown-menu-item.svelte';
+export { default as DropdownMenuSeparator } from './dropdown-menu/dropdown-menu-separator.svelte';
+export { default as DropdownMenuTrigger } from './dropdown-menu/dropdown-menu-trigger.svelte';
 
 // Form
 export * from './form/index.js';
@@ -66,10 +70,10 @@ export * from './form/index.js';
 export * as HoverCard from './hover-card/index.js';
 
 // Input
-export * as Input from './input/index.js';
+export { default as Input } from './input/input.svelte';
 
 // Label
-export * as Label from './label/index.js';
+export { default as Label } from './label/label.svelte';
 
 // Menubar
 export * as Menubar from './menubar/index.js';
@@ -96,7 +100,7 @@ export * as ScrollArea from './scroll-area/index.js';
 export * as Select from './select/index.js';
 
 // Separator
-export * as Separator from './separator/index.js';
+export { default as Separator } from './separator/separator.svelte';
 
 // Sheet
 export * as Sheet from './sheet/index.js';

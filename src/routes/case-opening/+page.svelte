@@ -77,7 +77,7 @@
 </svelte:head>
 
 <div class="bg-background relative min-h-screen p-6">
-	<ParticleEffects trigger={showParticles} intensity="high" />
+	<ParticleEffects trigger={showParticles} color="#ffd700" intensity="high" />
 
 	<div class="container mx-auto space-y-8">
 		<!-- Header -->
