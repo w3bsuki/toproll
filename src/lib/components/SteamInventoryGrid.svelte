@@ -86,7 +86,9 @@
 	};
 
 	const getItemImage = (item: CS2Item) => {
-		return item.icon_url ? `https://community.akamai.steamstatic.com/economy/image/${item.icon_url}` : '';
+		return item.icon_url
+			? `https://community.akamai.steamstatic.com/economy/image/${item.icon_url}`
+			: '';
 	};
 </script>
 
@@ -95,16 +97,18 @@
 		{#if loading}
 			<div class="flex items-center justify-center py-12">
 				<div class="flex flex-col items-center gap-3">
-					<div class="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full"></div>
+					<div
+						class="border-primary h-8 w-8 animate-spin rounded-full border-2 border-t-transparent"
+					></div>
 					<p class="text-muted-foreground">Loading inventory...</p>
 				</div>
 			</div>
 		{:else if error}
 			<div class="flex flex-col items-center gap-4 py-12 text-center">
-				<AlertCircle class="h-12 w-12 text-destructive" />
+				<AlertCircle class="text-destructive h-12 w-12" />
 				<div>
-					<h3 class="font-semibold text-lg mb-2">Unable to Load Inventory</h3>
-					<p class="text-muted-foreground text-sm max-w-md">{error}</p>
+					<h3 class="mb-2 text-lg font-semibold">Unable to Load Inventory</h3>
+					<p class="text-muted-foreground max-w-md text-sm">{error}</p>
 				</div>
 				<Button variant="outline" class="gap-2">
 					<ExternalLink class="h-4 w-4" />
@@ -113,9 +117,9 @@
 			</div>
 		{:else if items.length === 0}
 			<div class="flex flex-col items-center gap-4 py-12 text-center">
-				<Lock class="h-12 w-12 text-muted-foreground" />
+				<Lock class="text-muted-foreground h-12 w-12" />
 				<div>
-					<h3 class="font-semibold text-lg mb-2">No Items Found</h3>
+					<h3 class="mb-2 text-lg font-semibold">No Items Found</h3>
 					<p class="text-muted-foreground text-sm">
 						Your CS2 inventory appears to be empty or private.
 					</p>
@@ -124,20 +128,29 @@
 		{:else}
 			<div class="space-y-4">
 				{#if selectable && selectedItems.length > 0}
-					<div class="flex items-center justify-between bg-surface/50 rounded-2xl p-4 border border-border/40">
-						<span class="text-sm text-muted-foreground">
+					<div
+						class="bg-surface/50 border-border/40 flex items-center justify-between rounded-2xl border p-4"
+					>
+						<span class="text-muted-foreground text-sm">
 							{selectedItems.length} item{selectedItems.length !== 1 ? 's' : ''} selected
 						</span>
-						<Button variant="outline" size="sm" onclick={() => selectedItems.forEach(id => {
-							const item = items.find(i => i.assetid === id);
-							if (item) onItemDeselect?.(item);
-						})}>
+						<Button
+							variant="outline"
+							size="sm"
+							onclick={() =>
+								selectedItems.forEach((id) => {
+									const item = items.find((i) => i.assetid === id);
+									if (item) onItemDeselect?.(item);
+								})}
+						>
 							Clear Selection
 						</Button>
 					</div>
 				{/if}
 
-				<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+				<div
+					class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
+				>
 					{#each displayItems as item (item.assetid)}
 						<div
 							class="group relative cursor-pointer"
@@ -147,27 +160,35 @@
 							onkeydown={(e) => e.key === 'Enter' && handleItemClick(item)}
 						>
 							<div
-								class="aspect-square rounded-2xl border-2 overflow-hidden bg-surface/80 border-border/40 {getRarityColor(item.rarity)} {
-									selectable && isItemSelected(item) ? 'ring-2 ring-primary ring-offset-2 ring-offset-background' : ''
-								}"
+								class="bg-surface/80 border-border/40 aspect-square overflow-hidden rounded-2xl border-2 {getRarityColor(
+									item.rarity
+								)} {selectable && isItemSelected(item)
+									? 'ring-primary ring-offset-background ring-2 ring-offset-2'
+									: ''}"
 							>
 								{#if getItemImage(item)}
 									<img
 										src={getItemImage(item)}
 										alt={item.name}
-										class="w-full h-full object-cover"
+										class="h-full w-full object-cover"
 									/>
 								{:else}
-									<div class="w-full h-full flex items-center justify-center text-muted-foreground">
+									<div class="text-muted-foreground flex h-full w-full items-center justify-center">
 										<Eye class="h-8 w-8" />
 									</div>
 								{/if}
 
 								<!-- Selection indicator -->
 								{#if selectable && isItemSelected(item)}
-									<div class="absolute top-2 right-2 bg-primary text-primary-foreground rounded-full p-1">
+									<div
+										class="bg-primary text-primary-foreground absolute top-2 right-2 rounded-full p-1"
+									>
 										<svg class="h-4 w-4" fill="currentColor" viewBox="0 0 20 20">
-											<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+											<path
+												fill-rule="evenodd"
+												d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
+												clip-rule="evenodd"
+											/>
 										</svg>
 									</div>
 								{/if}
@@ -175,11 +196,13 @@
 								<!-- Status badges -->
 								<div class="absolute top-2 left-2 flex flex-col gap-1">
 									{#if !item.tradable}
-										<Badge class="bg-destructive/80 text-destructive-foreground text-xs px-1.5 py-0.5">
+										<Badge
+											class="bg-destructive/80 text-destructive-foreground px-1.5 py-0.5 text-xs"
+										>
 											Not Tradable
 										</Badge>
 									{:else if !item.marketable}
-										<Badge class="bg-yellow-500/80 text-yellow-900 text-xs px-1.5 py-0.5">
+										<Badge class="bg-yellow-500/80 px-1.5 py-0.5 text-xs text-yellow-900">
 											Not Marketable
 										</Badge>
 									{/if}
@@ -187,9 +210,9 @@
 
 								<!-- Value display -->
 								{#if showValue && item.market_value}
-									<div class="absolute bottom-0 left-0 right-0 bg-black/80 backdrop-blur-sm p-2">
+									<div class="absolute right-0 bottom-0 left-0 bg-black/80 p-2 backdrop-blur-sm">
 										<div class="text-center">
-											<p class="text-white text-xs font-bold">
+											<p class="text-xs font-bold text-white">
 												{formatCurrency(item.market_value)}
 											</p>
 										</div>
@@ -200,7 +223,7 @@
 							<!-- Item name on hover/select -->
 							{#if selectable && isItemSelected(item)}
 								<div class="mt-2 text-center">
-									<p class="text-xs text-muted-foreground truncate" title={item.name}>
+									<p class="text-muted-foreground truncate text-xs" title={item.name}>
 										{item.name}
 									</p>
 								</div>

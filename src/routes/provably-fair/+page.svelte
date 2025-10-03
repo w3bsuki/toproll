@@ -2,7 +2,13 @@
 	import { Button } from '$lib/components/ui/button';
 	import { Input } from '$lib/components/ui/input';
 	import { Badge } from '$lib/components/ui/badge';
-	import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
+	import {
+		Card,
+		CardContent,
+		CardDescription,
+		CardHeader,
+		CardTitle
+	} from '$lib/components/ui/card';
 	import { Tabs, TabsContent, TabsList, TabsTrigger } from '$lib/components/ui/tabs';
 	import { Separator } from '$lib/components/ui/separator';
 	import HeroBanner from '$lib/components/home/HeroBanner.svelte';
@@ -42,7 +48,7 @@
 			name: 'Dreams & Nightmares',
 			description: 'A mystical case with rare items',
 			image_url: '/cases/dreams-nightmares.jpg',
-			price: 5.00,
+			price: 5.0,
 			item_count: 17,
 			created_at: new Date().toISOString(),
 			updated_at: new Date().toISOString()
@@ -52,7 +58,7 @@
 			name: 'Fracture',
 			description: 'A case with fractured dreams and nightmares',
 			image_url: '/cases/fracture.jpg',
-			price: 6.00,
+			price: 6.0,
 			item_count: 17,
 			created_at: new Date().toISOString(),
 			updated_at: new Date().toISOString()
@@ -139,7 +145,7 @@
 		verificationResult = null;
 
 		// Simulate verification delay
-		await new Promise(resolve => setTimeout(resolve, 2000));
+		await new Promise((resolve) => setTimeout(resolve, 2000));
 
 		try {
 			// Simulate verification logic
@@ -152,7 +158,7 @@
 				image_url: '/items/ak47-redline.jpg',
 				rarity: 'Epic',
 				probability: 3.5,
-				market_value: 25.50,
+				market_value: 25.5,
 				created_at: new Date().toISOString()
 			};
 
@@ -206,22 +212,22 @@
 <HeroBanner />
 
 <!-- Main Content -->
-<section class="container mx-auto px-4 py-6 max-w-6xl">
+<section class="container mx-auto max-w-6xl px-4 py-6">
 	<!-- Header -->
-	<header class="text-center mb-8">
-		<div class="flex items-center justify-center gap-3 mb-4">
-			<Shield class="h-8 w-8 text-primary" />
-			<h1 class="text-3xl font-bold text-foreground">Provably Fair Verifier</h1>
+	<header class="mb-8 text-center">
+		<div class="mb-4 flex items-center justify-center gap-3">
+			<Shield class="text-primary h-8 w-8" />
+			<h1 class="text-foreground text-3xl font-bold">Provably Fair Verifier</h1>
 		</div>
-		<p class="text-muted-foreground text-lg max-w-2xl mx-auto">
-			Verify the fairness of every case opening and battle. Our system uses cryptographic
-			hashes to ensure transparent and tamper-proof results.
+		<p class="text-muted-foreground mx-auto max-w-2xl text-lg">
+			Verify the fairness of every case opening and battle. Our system uses cryptographic hashes to
+			ensure transparent and tamper-proof results.
 		</p>
 	</header>
 
 	<!-- Verification Tabs -->
 	<Tabs bind:value={activeTab} class="mb-8">
-		<TabsList class="grid w-full grid-cols-3 max-w-md mx-auto">
+		<TabsList class="mx-auto grid w-full max-w-md grid-cols-3">
 			<TabsTrigger value="verify" class="gap-2">
 				<CheckCircle class="h-4 w-4" />
 				Verify
@@ -252,7 +258,7 @@
 					</CardHeader>
 					<CardContent class="space-y-4">
 						<div class="space-y-2">
-							<label for="server-seed" class="text-sm font-medium text-foreground">
+							<label for="server-seed" class="text-foreground text-sm font-medium">
 								Server Seed (Revealed)
 							</label>
 							<div class="relative">
@@ -265,7 +271,7 @@
 								<Button
 									variant="ghost"
 									size="icon"
-									class="absolute right-2 top-1/2 -translate-y-1/2 h-6 w-6"
+									class="absolute top-1/2 right-2 h-6 w-6 -translate-y-1/2"
 									onclick={() => copyToClipboard(serverSeed)}
 								>
 									<Copy class="h-3 w-3" />
@@ -274,7 +280,7 @@
 						</div>
 
 						<div class="space-y-2">
-							<label for="client-seed" class="text-sm font-medium text-foreground">
+							<label for="client-seed" class="text-foreground text-sm font-medium">
 								Client Seed
 							</label>
 							<div class="relative">
@@ -287,7 +293,7 @@
 								<Button
 									variant="ghost"
 									size="icon"
-									class="absolute right-2 top-1/2 -translate-y-1/2 h-6 w-6"
+									class="absolute top-1/2 right-2 h-6 w-6 -translate-y-1/2"
 									onclick={() => copyToClipboard(clientSeed)}
 								>
 									<Copy class="h-3 w-3" />
@@ -297,48 +303,26 @@
 
 						<div class="grid grid-cols-2 gap-4">
 							<div class="space-y-2">
-								<label for="nonce" class="text-sm font-medium text-foreground">
-									Nonce
-								</label>
-								<Input
-									id="nonce"
-									type="number"
-									bind:value={nonce}
-									placeholder="0"
-									min="0"
-								/>
+								<label for="nonce" class="text-foreground text-sm font-medium"> Nonce </label>
+								<Input id="nonce" type="number" bind:value={nonce} placeholder="0" min="0" />
 							</div>
 							<div class="space-y-2">
-								<label for="case-id" class="text-sm font-medium text-foreground">
-									Case ID
-								</label>
-								<Input
-									id="case-id"
-									bind:value={caseId}
-									placeholder="case-id"
-								/>
+								<label for="case-id" class="text-foreground text-sm font-medium"> Case ID </label>
+								<Input id="case-id" bind:value={caseId} placeholder="case-id" />
 							</div>
 						</div>
 
 						<div class="flex gap-2 pt-2">
-							<Button
-								onclick={performVerification}
-								disabled={isVerifying}
-								class="flex-1"
-							>
+							<Button onclick={performVerification} disabled={isVerifying} class="flex-1">
 								{#if isVerifying}
-									<RefreshCw class="h-4 w-4 mr-2 animate-spin" />
+									<RefreshCw class="mr-2 h-4 w-4 animate-spin" />
 									Verifying...
 								{:else}
-									<CheckCircle class="h-4 w-4 mr-2" />
+									<CheckCircle class="mr-2 h-4 w-4" />
 									Verify Result
 								{/if}
 							</Button>
-							<Button
-								variant="outline"
-								onclick={fillTestData}
-								class="gap-2"
-							>
+							<Button variant="outline" onclick={fillTestData} class="gap-2">
 								<RefreshCw class="h-4 w-4" />
 								Test Data
 							</Button>
@@ -353,14 +337,12 @@
 							<CheckCircle class="h-5 w-5" />
 							Verification Result
 						</CardTitle>
-						<CardDescription>
-							The result of your verification
-						</CardDescription>
+						<CardDescription>The result of your verification</CardDescription>
 					</CardHeader>
 					<CardContent>
 						{#if verificationResult === null}
-							<div class="text-center py-8">
-								<Info class="h-12 w-12 mx-auto text-muted-foreground mb-4" />
+							<div class="py-8 text-center">
+								<Info class="text-muted-foreground mx-auto mb-4 h-12 w-12" />
 								<p class="text-muted-foreground">
 									Enter verification details and click "Verify Result" to see the outcome
 								</p>
@@ -374,7 +356,9 @@
 								</div>
 
 								<!-- Item Result -->
-								<div class="flex items-center gap-4 p-4 bg-surface rounded-lg border border-border/40">
+								<div
+									class="bg-surface border-border/40 flex items-center gap-4 rounded-lg border p-4"
+								>
 									{#if verificationResult.item.image_url}
 										<img
 											src={verificationResult.item.image_url}
@@ -383,14 +367,17 @@
 										/>
 									{/if}
 									<div class="flex-1">
-										<h3 class="font-semibold text-foreground">
+										<h3 class="text-foreground font-semibold">
 											{verificationResult.item.name}
 										</h3>
-										<div class="flex items-center gap-2 mt-1">
-											<Badge variant="outline" class={getRarityColor(verificationResult.item.rarity)}>
+										<div class="mt-1 flex items-center gap-2">
+											<Badge
+												variant="outline"
+												class={getRarityColor(verificationResult.item.rarity)}
+											>
 												{verificationResult.item.rarity}
 											</Badge>
-											<span class="text-sm text-muted-foreground">
+											<span class="text-muted-foreground text-sm">
 												Roll: #{verificationResult.roll}
 											</span>
 										</div>
@@ -404,25 +391,29 @@
 
 								<!-- Verification Details -->
 								<details class="text-sm">
-									<summary class="cursor-pointer font-medium text-foreground mb-2">
+									<summary class="text-foreground mb-2 cursor-pointer font-medium">
 										Verification Details
 									</summary>
-									<div class="mt-2 space-y-2 text-muted-foreground font-mono text-xs bg-surface/50 p-3 rounded">
+									<div
+										class="text-muted-foreground bg-surface/50 mt-2 space-y-2 rounded p-3 font-mono text-xs"
+									>
 										<div>Server Seed: {verificationResult.details?.server_seed}</div>
 										<div>Client Seed: {verificationResult.details?.client_seed}</div>
 										<div>Nonce: {verificationResult.details?.nonce}</div>
 										<div>Hash: {verificationResult.details?.computed_hash}</div>
-										<div>Verified: {formatDate(verificationResult.details?.verification_timestamp || '')}</div>
+										<div>
+											Verified: {formatDate(
+												verificationResult.details?.verification_timestamp || ''
+											)}
+										</div>
 									</div>
 								</details>
 							</div>
 						{:else}
 							<!-- Error State -->
-							<div class="text-center py-8">
-								<AlertCircle class="h-12 w-12 mx-auto text-destructive mb-4" />
-								<p class="text-destructive font-medium mb-2">
-									Verification Failed
-								</p>
+							<div class="py-8 text-center">
+								<AlertCircle class="text-destructive mx-auto mb-4 h-12 w-12" />
+								<p class="text-destructive mb-2 font-medium">Verification Failed</p>
 								<p class="text-muted-foreground text-sm">
 									{verificationResult.error || 'An unknown error occurred'}
 								</p>
@@ -443,29 +434,35 @@
 				<CardContent>
 					<div class="grid gap-6 md:grid-cols-3">
 						<div class="text-center">
-							<div class="bg-primary/10 rounded-full h-12 w-12 flex items-center justify-center mx-auto mb-3">
-								<Key class="h-6 w-6 text-primary" />
+							<div
+								class="bg-primary/10 mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full"
+							>
+								<Key class="text-primary h-6 w-6" />
 							</div>
-							<h3 class="font-semibold text-foreground mb-2">1. Server Seed Hash</h3>
-							<p class="text-sm text-muted-foreground">
+							<h3 class="text-foreground mb-2 font-semibold">1. Server Seed Hash</h3>
+							<p class="text-muted-foreground text-sm">
 								Before each game, we generate a random server seed and show you its hash
 							</p>
 						</div>
 						<div class="text-center">
-							<div class="bg-primary/10 rounded-full h-12 w-12 flex items-center justify-center mx-auto mb-3">
-								<Hash class="h-6 w-6 text-primary" />
+							<div
+								class="bg-primary/10 mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full"
+							>
+								<Hash class="text-primary h-6 w-6" />
 							</div>
-							<h3 class="font-semibold text-foreground mb-2">2. Combined with Client Seed</h3>
-							<p class="text-sm text-muted-foreground">
+							<h3 class="text-foreground mb-2 font-semibold">2. Combined with Client Seed</h3>
+							<p class="text-muted-foreground text-sm">
 								Your client seed is combined with the server seed to determine the outcome
 							</p>
 						</div>
 						<div class="text-center">
-							<div class="bg-primary/10 rounded-full h-12 w-12 flex items-center justify-center mx-auto mb-3">
-								<CheckCircle class="h-6 w-6 text-primary" />
+							<div
+								class="bg-primary/10 mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full"
+							>
+								<CheckCircle class="text-primary h-6 w-6" />
 							</div>
-							<h3 class="font-semibold text-foreground mb-2">3. Verifiable Results</h3>
-							<p class="text-sm text-muted-foreground">
+							<h3 class="text-foreground mb-2 font-semibold">3. Verifiable Results</h3>
+							<p class="text-muted-foreground text-sm">
 								After the game, we reveal the server seed so you can verify the result was fair
 							</p>
 						</div>
@@ -484,30 +481,32 @@
 							<Key class="h-5 w-5" />
 							Active Server Seeds
 						</CardTitle>
-						<CardDescription>
-							Current and recent server seeds used in games
-						</CardDescription>
+						<CardDescription>Current and recent server seeds used in games</CardDescription>
 					</CardHeader>
 					<CardContent>
 						<div class="space-y-4">
 							{#each activeSeeds as seed (seed.seed_hash)}
-								<div class="flex items-center justify-between p-4 bg-surface rounded-lg border border-border/40">
+								<div
+									class="bg-surface border-border/40 flex items-center justify-between rounded-lg border p-4"
+								>
 									<div class="flex items-center gap-4">
 										<div class="text-right">
-											<p class="text-sm text-muted-foreground">Seed Hash</p>
-											<p class="font-mono text-xs text-foreground bg-surface-muted px-2 py-1 rounded">
+											<p class="text-muted-foreground text-sm">Seed Hash</p>
+											<p
+												class="text-foreground bg-surface-muted rounded px-2 py-1 font-mono text-xs"
+											>
 												{seed.seed_hash}
 											</p>
 										</div>
 										<Separator orientation="vertical" class="h-8" />
 										<div>
-											<p class="text-sm text-muted-foreground">Created</p>
-											<p class="text-sm text-foreground">{formatDate(seed.created_at)}</p>
+											<p class="text-muted-foreground text-sm">Created</p>
+											<p class="text-foreground text-sm">{formatDate(seed.created_at)}</p>
 										</div>
 										{#if seed.revealed_at}
 											<div>
-												<p class="text-sm text-muted-foreground">Revealed</p>
-												<p class="text-sm text-foreground">{formatDate(seed.revealed_at)}</p>
+												<p class="text-muted-foreground text-sm">Revealed</p>
+												<p class="text-foreground text-sm">{formatDate(seed.revealed_at)}</p>
 											</div>
 										{/if}
 									</div>
@@ -541,13 +540,13 @@
 					<CardContent>
 						<div class="prose prose-invert max-w-none">
 							<p class="text-muted-foreground">
-								Our server seeds are generated using cryptographically secure random number generators (CSPRNG)
-								to ensure unpredictability and fairness. Each seed is used for multiple games before being
-								revealed and replaced with a new one.
+								Our server seeds are generated using cryptographically secure random number
+								generators (CSPRNG) to ensure unpredictability and fairness. Each seed is used for
+								multiple games before being revealed and replaced with a new one.
 							</p>
-							<div class="bg-surface/50 p-4 rounded-lg border border-border/40 mt-4">
-								<h4 class="font-semibold text-foreground mb-2">Technical Details:</h4>
-								<ul class="text-sm text-muted-foreground space-y-1">
+							<div class="bg-surface/50 border-border/40 mt-4 rounded-lg border p-4">
+								<h4 class="text-foreground mb-2 font-semibold">Technical Details:</h4>
+								<ul class="text-muted-foreground space-y-1 text-sm">
 									<li>• Seed generation uses Node.js crypto.randomBytes()</li>
 									<li>• Seeds are 32 bytes (256 bits) of entropy</li>
 									<li>• Hashes use SHA-256 algorithm</li>
@@ -569,46 +568,42 @@
 						<Database class="h-5 w-5" />
 						Verification History
 					</CardTitle>
-					<CardDescription>
-						Recent verifications and their results
-					</CardDescription>
+					<CardDescription>Recent verifications and their results</CardDescription>
 				</CardHeader>
 				<CardContent>
 					<div class="space-y-4">
 						{#each verificationHistory as roll (roll.hash)}
-							<div class="flex items-center justify-between p-4 bg-surface rounded-lg border border-border/40">
+							<div
+								class="bg-surface border-border/40 flex items-center justify-between rounded-lg border p-4"
+							>
 								<div class="flex items-center gap-4">
 									<div class="text-center">
-										<p class="text-2xl font-bold text-primary">#{roll.roll}</p>
-										<p class="text-xs text-muted-foreground">Roll</p>
+										<p class="text-primary text-2xl font-bold">#{roll.roll}</p>
+										<p class="text-muted-foreground text-xs">Roll</p>
 									</div>
 									<Separator orientation="vertical" class="h-8" />
 									<div>
-										<p class="text-sm text-muted-foreground">Server Seed Hash</p>
-										<p class="font-mono text-xs text-foreground bg-surface-muted px-2 py-1 rounded">
+										<p class="text-muted-foreground text-sm">Server Seed Hash</p>
+										<p class="text-foreground bg-surface-muted rounded px-2 py-1 font-mono text-xs">
 											{roll.server_seed.slice(0, 8)}...
 										</p>
 									</div>
 									<div>
-										<p class="text-sm text-muted-foreground">Client Seed</p>
-										<p class="font-mono text-xs text-foreground bg-surface-muted px-2 py-1 rounded">
+										<p class="text-muted-foreground text-sm">Client Seed</p>
+										<p class="text-foreground bg-surface-muted rounded px-2 py-1 font-mono text-xs">
 											{roll.client_seed.slice(0, 8)}...
 										</p>
 									</div>
 									<div>
-										<p class="text-sm text-muted-foreground">Nonce</p>
-										<p class="text-sm font-mono text-foreground">{roll.nonce}</p>
+										<p class="text-muted-foreground text-sm">Nonce</p>
+										<p class="text-foreground font-mono text-sm">{roll.nonce}</p>
 									</div>
 								</div>
 								<div class="flex items-center gap-2">
-									<Badge variant="outline" class="text-emerald-400 border-emerald-400/30">
+									<Badge variant="outline" class="border-emerald-400/30 text-emerald-400">
 										Verified
 									</Badge>
-									<Button
-										variant="ghost"
-										size="sm"
-										class="gap-1"
-									>
+									<Button variant="ghost" size="sm" class="gap-1">
 										<ExternalLink class="h-3 w-3" />
 										View Details
 									</Button>
@@ -621,4 +616,3 @@
 		</TabsContent>
 	</Tabs>
 </section>
-

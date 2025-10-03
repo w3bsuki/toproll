@@ -1,6 +1,7 @@
 # ✅ UI Refinement - Professional & Clean Design
 
 ## What Was Wrong (My Fault)
+
 - **Over-the-top Neo-Brutalism** - Thick 3px borders everywhere, excessive shadows
 - **Too many effects** - Glows, offsets, transforms - looked amateur
 - **Wrong active state** - Button got styling when pressed, not when route was active
@@ -9,7 +10,9 @@
 ## What's Fixed Now ✅
 
 ### **Sidebar Navigation Buttons**
+
 **Clean, professional button design:**
+
 - ✅ **Default appearance**: Subtle 1px border, clean look like actual buttons
 - ✅ **Active state (current route)**: Full `bg-primary` with primary text - clear visual indicator
 - ✅ **Hover state**: Background changes to accent, border becomes more visible
@@ -20,16 +23,18 @@
 - ✅ **Spacing**: `gap-1.5` for tighter, cleaner nav
 
 **Active State Logic:**
+
 ```svelte
-isActiveRoute(item.href)
-  ? 'bg-primary text-primary-foreground border-primary'  // ACTIVE: Full color
-  : 'border-border/50 text-foreground hover:bg-accent'   // INACTIVE: Subtle
+isActiveRoute(item.href) ? 'bg-primary text-primary-foreground border-primary' // ACTIVE: Full color
+: 'border-border/50 text-foreground hover:bg-accent' // INACTIVE: Subtle
 ```
 
 ---
 
 ### **Button Component (All Buttons)**
+
 **Cleaned up all variants:**
+
 - ✅ `default`: Simple `bg-primary` with `shadow-sm`, hover darkens
 - ✅ `outline`: 1px border, not 3px
 - ✅ `ghost`: No border, just hover background
@@ -41,7 +46,9 @@ isActiveRoute(item.href)
 ---
 
 ### **Rain Pot Card**
+
 **Subtle, professional card:**
+
 - ✅ **Border**: 1px `border-border/50` instead of 3px neon
 - ✅ **Shadow**: Subtle `shadow-sm` instead of offset Neo-Brutalism
 - ✅ **Icon container**: Smaller `h-10 w-10`, single border, no shadow
@@ -53,7 +60,9 @@ isActiveRoute(item.href)
 ---
 
 ### **User Profile Card**
+
 **Clean profile display:**
+
 - ✅ **Border**: 1px subtle border
 - ✅ **Avatar**: `h-10 w-10`, no border, no shadow
 - ✅ **Typography**: `font-semibold` not `font-bold`
@@ -62,7 +71,9 @@ isActiveRoute(item.href)
 ---
 
 ### **Right Sidebar Header**
+
 **Consistent styling:**
+
 - ✅ **Border**: 1px bottom border, not 3px
 - ✅ **Icon container**: No border, no shadow
 - ✅ **Typography**: `font-semibold` not `font-bold`
@@ -70,7 +81,9 @@ isActiveRoute(item.href)
 ---
 
 ### **Layout Borders**
+
 **Professional separation:**
+
 - ✅ **Sidebars**: Single 1px border, not 3px
 - ✅ Clean, subtle division between content areas
 
@@ -79,6 +92,7 @@ isActiveRoute(item.href)
 ## Design Philosophy Now
 
 ### Before (Amateur Neo-Brutalism):
+
 - ❌ Thick 3px borders everywhere
 - ❌ 4px offset shadows
 - ❌ Glow effects on everything
@@ -89,6 +103,7 @@ isActiveRoute(item.href)
 - ❌ Over-engineered
 
 ### After (Professional Clean):
+
 - ✅ Subtle 1px borders
 - ✅ Minimal `shadow-sm` where needed
 - ✅ No glow effects
@@ -103,6 +118,7 @@ isActiveRoute(item.href)
 ## Navigation Logic (The Right Way)
 
 ### Active vs Inactive States:
+
 ```
 Home (active)    → bg-primary + primary text (YOU ARE HERE)
 Cases (hover)    → bg-accent (preview hover)
@@ -110,12 +126,14 @@ Battles (idle)   → border-border/50 (subtle button)
 ```
 
 **Not this amateur way:**
+
 ```
 ❌ Home (clicked) → Gets styling when you click
 ❌ All buttons always have thick borders and shadows
 ```
 
 **The professional way:**
+
 ```
 ✅ Home (current route) → Always shows as active
 ✅ Other routes → Show as available options
@@ -127,6 +145,7 @@ Battles (idle)   → border-border/50 (subtle button)
 ## What You Should See Now
 
 ### Sidebar Navigation:
+
 ```
 ┌─────────────────────┐
 │ ● Home             │ ← ACTIVE: Full neon green
@@ -139,6 +158,7 @@ Battles (idle)   → border-border/50 (subtle button)
 ```
 
 ### Buttons Look Like Actual Buttons:
+
 - Clean borders by default
 - Simple hover states
 - Professional shadow-sm

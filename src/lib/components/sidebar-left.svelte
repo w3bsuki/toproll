@@ -33,7 +33,7 @@
 				<a
 					href={buildHref(item.href)}
 					class={cn(
-						'flex items-center justify-start gap-3 w-full text-base font-semibold h-12 px-4 rounded-lg transition-colors',
+						'flex h-12 w-full items-center justify-start gap-3 rounded-lg px-4 text-base font-semibold transition-colors',
 						'border border-solid',
 						isActiveRoute(item.href)
 							? 'bg-primary text-primary-foreground border-primary'
@@ -48,15 +48,15 @@
 	</div>
 
 	<!-- Separator -->
-	<div class="mx-4 h-px bg-border/50"></div>
+	<div class="bg-border/50 mx-4 h-px"></div>
 
 	<!-- Rain Pot Section -->
-	<div class="p-4 space-y-4">
+	<div class="space-y-4 p-4">
 		<RainPotCard />
 
 		<!-- Auth Section -->
 		{#if isAuthenticated && user}
-			<div class="bg-card border border-border/50 rounded-xl p-4">
+			<div class="bg-card border-border/50 rounded-xl border p-4">
 				<div class="flex items-center gap-3">
 					<div
 						class="bg-primary/15 text-primary flex h-10 w-10 items-center justify-center rounded-lg"
@@ -75,7 +75,7 @@
 					<Button size="sm" variant="outline" class="flex-1 text-xs">Withdraw</Button>
 				</div>
 			</div>
-			{:else}
+		{:else}
 			<form method="POST" action="/api/auth/steam/login" class="w-full">
 				<AuthButton class="w-full" />
 			</form>

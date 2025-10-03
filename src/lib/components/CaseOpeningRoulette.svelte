@@ -12,7 +12,8 @@
 		value: number;
 	}
 
-	let { items = [], onComplete }: { items: CaseItem[], onComplete?: ((item: CaseItem) => void) } = $props();
+	let { items = [], onComplete }: { items: CaseItem[]; onComplete?: (item: CaseItem) => void } =
+		$props();
 
 	let containerRef: HTMLDivElement;
 	let rouletteRef: HTMLDivElement;
@@ -51,10 +52,10 @@
 			indicatorRef: !!indicatorRef,
 			gsap: !!gsapInstance
 		});
-                if (!browser || isSpinning || !rouletteRef || !indicatorRef || !gsapInstance) return;
+		if (!browser || isSpinning || !rouletteRef || !indicatorRef || !gsapInstance) return;
 
-                const gsapLocal = gsapInstance;
-                if (!gsapLocal) return;
+		const gsapLocal = gsapInstance;
+		if (!gsapLocal) return;
 
 		console.log('Starting GSAP animation...');
 		isSpinning = true;
@@ -62,7 +63,7 @@
 		winningItem = null;
 
 		// Reset roulette position
-                gsapLocal.set(rouletteRef, { x: 0 });
+		gsapLocal.set(rouletteRef, { x: 0 });
 
 		// Select random winning item
 		const randomIndex = Math.floor(Math.random() * items.length);
@@ -77,7 +78,7 @@
 		const finalPosition = -(items.length * itemWidth + randomIndex * itemWidth - centerOffset);
 
 		// Indicator pulse during spin
-                gsapLocal.to(indicatorRef, {
+		gsapLocal.to(indicatorRef, {
 			scaleY: 1.3,
 			scaleX: 0.8,
 			duration: 0.08,
@@ -87,14 +88,14 @@
 		});
 
 		// Perfect easing timeline
-                const tl = gsapLocal.timeline({
-                        onComplete: () => {
-                                winningItem = selectedItem;
-                                isSpinning = false;
+		const tl = gsapLocal.timeline({
+			onComplete: () => {
+				winningItem = selectedItem;
+				isSpinning = false;
 
-                                // Stop indicator animation smoothly
-                                gsapLocal.killTweensOf(indicatorRef);
-                                gsapLocal.to(indicatorRef, { scaleY: 1, scaleX: 1, duration: 0.2 });
+				// Stop indicator animation smoothly
+				gsapLocal.killTweensOf(indicatorRef);
+				gsapLocal.to(indicatorRef, { scaleY: 1, scaleX: 1, duration: 0.2 });
 
 				// Reveal result with timing
 				setTimeout(() => {
@@ -105,14 +106,14 @@
 		});
 
 		// Phase 1: Fast acceleration
-                tl.to(rouletteRef, {
+		tl.to(rouletteRef, {
 			x: finalPosition + 800,
 			duration: 1.8,
 			ease: 'power2.out'
 		});
 
 		// Phase 2: Perfect deceleration to exact position
-                tl.to(rouletteRef, {
+		tl.to(rouletteRef, {
 			x: finalPosition,
 			duration: 1.5,
 			ease: 'power4.out'

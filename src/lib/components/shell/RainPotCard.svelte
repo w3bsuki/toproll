@@ -15,7 +15,7 @@
 </script>
 
 <section
-	class="relative overflow-hidden rounded-xl border border-border/50 bg-gradient-to-br from-primary/10 via-card to-card p-4 shadow-sm"
+	class="border-border/50 from-primary/10 via-card to-card relative overflow-hidden rounded-xl border bg-gradient-to-br p-4 shadow-sm"
 >
 	<!-- Icon & Title -->
 	<div class="mb-3 flex items-center gap-3">
@@ -25,13 +25,15 @@
 			<CloudRain class="text-primary h-5 w-5" strokeWidth={2} />
 		</div>
 		<div class="flex-1">
-			<p class="text-muted-foreground text-xs font-medium uppercase tracking-wide">Rain Pot</p>
+			<p class="text-muted-foreground text-xs font-medium tracking-wide uppercase">Rain Pot</p>
 			<p class="text-primary text-2xl font-bold tracking-tight">{currentPot.total}</p>
 		</div>
 	</div>
 
 	<!-- Stats -->
-	<div class="bg-background/50 border-border/50 mb-3 flex items-center justify-between rounded-lg border px-3 py-2 text-xs">
+	<div
+		class="bg-background/50 border-border/50 mb-3 flex items-center justify-between rounded-lg border px-3 py-2 text-xs"
+	>
 		<span class="text-muted-foreground flex items-center gap-1.5">
 			<Users class="h-3.5 w-3.5" strokeWidth={2} />
 			<span class="font-medium">{currentPot.contributors}</span>

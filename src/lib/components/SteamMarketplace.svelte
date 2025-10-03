@@ -1,6 +1,16 @@
 <script lang="ts">
 	import { Badge, Button, Card, CardContent, CardHeader, CardTitle } from '$lib/components/ui';
-	import { ExternalLink, TrendingUp, TrendingDown, Eye, ShoppingCart, Filter, Search, Grid, List } from '@lucide/svelte';
+	import {
+		ExternalLink,
+		TrendingUp,
+		TrendingDown,
+		Eye,
+		ShoppingCart,
+		Filter,
+		Search,
+		Grid,
+		List
+	} from '@lucide/svelte';
 
 	export interface MarketItem {
 		id: string;
@@ -57,25 +67,49 @@
 		class: className = ''
 	}: SteamMarketplaceProps = $props();
 
-	const rarities = ['All', 'Consumer', 'Industrial', 'Mil-Spec', 'Restricted', 'Classified', 'Covert', 'Contraband'];
-	const types = ['All', 'Knife', 'Glove', 'Rifle', 'Pistol', 'SMG', 'Sniper', 'Shotgun', 'Machinegun', 'Sticker', 'Case'];
+	const rarities = [
+		'All',
+		'Consumer',
+		'Industrial',
+		'Mil-Spec',
+		'Restricted',
+		'Classified',
+		'Covert',
+		'Contraband'
+	];
+	const types = [
+		'All',
+		'Knife',
+		'Glove',
+		'Rifle',
+		'Pistol',
+		'SMG',
+		'Sniper',
+		'Shotgun',
+		'Machinegun',
+		'Sticker',
+		'Case'
+	];
 
-        const filteredItems = $derived.by<MarketItem[]>(() => {
-                let filtered = [...items];
+	const filteredItems = $derived.by<MarketItem[]>(() => {
+		let filtered = [...items];
 
 		if (searchTerm) {
-			filtered = filtered.filter(item =>
-				item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-				item.marketHashName.toLowerCase().includes(searchTerm.toLowerCase())
+			filtered = filtered.filter(
+				(item) =>
+					item.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+					item.marketHashName.toLowerCase().includes(searchTerm.toLowerCase())
 			);
 		}
 
 		if (selectedRarity && selectedRarity !== 'All') {
-			filtered = filtered.filter(item => item.rarity === selectedRarity);
+			filtered = filtered.filter((item) => item.rarity === selectedRarity);
 		}
 
 		if (selectedType && selectedType !== 'All') {
-			filtered = filtered.filter(item => item.type.toLowerCase().includes(selectedType.toLowerCase()));
+			filtered = filtered.filter((item) =>
+				item.type.toLowerCase().includes(selectedType.toLowerCase())
+			);
 		}
 
 		// Sort items
@@ -100,32 +134,32 @@
 			return sortOrder === 'asc' ? comparison : -comparison;
 		});
 
-                return filtered;
-        });
+		return filtered;
+	});
 
-        function handleSearchInput(event: Event) {
-                const target = event.target as HTMLInputElement | null;
-                if (!target) return;
-                onSearch?.(target.value);
-        }
+	function handleSearchInput(event: Event) {
+		const target = event.target as HTMLInputElement | null;
+		if (!target) return;
+		onSearch?.(target.value);
+	}
 
-        function handleRarityChange(event: Event) {
-                const target = event.target as HTMLSelectElement | null;
-                if (!target) return;
-                onFilterRarity?.(target.value);
-        }
+	function handleRarityChange(event: Event) {
+		const target = event.target as HTMLSelectElement | null;
+		if (!target) return;
+		onFilterRarity?.(target.value);
+	}
 
-        function handleTypeChange(event: Event) {
-                const target = event.target as HTMLSelectElement | null;
-                if (!target) return;
-                onFilterType?.(target.value);
-        }
+	function handleTypeChange(event: Event) {
+		const target = event.target as HTMLSelectElement | null;
+		if (!target) return;
+		onFilterType?.(target.value);
+	}
 
-        function handleSortChange(event: Event) {
-                const target = event.target as HTMLSelectElement | null;
-                if (!target) return;
-                onSort?.(target.value, sortOrder);
-        }
+	function handleSortChange(event: Event) {
+		const target = event.target as HTMLSelectElement | null;
+		if (!target) return;
+		onSort?.(target.value, sortOrder);
+	}
 
 	const formatCurrency = (amount: number) => {
 		return new Intl.NumberFormat('en-US', {
@@ -166,15 +200,15 @@
 		<div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 			<CardTitle class="text-2xl">Steam Marketplace</CardTitle>
 
-			<div class="flex flex-col sm:flex-row gap-3">
+			<div class="flex flex-col gap-3 sm:flex-row">
 				<div class="relative">
 					<Search class="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
 					<input
 						type="text"
 						placeholder="Search items..."
 						bind:value={searchTerm}
-						class="pl-9 pr-3 py-2 bg-surface/50 border border-border/40 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
-                                                oninput={handleSearchInput}
+						class="bg-surface/50 border-border/40 focus:ring-primary/50 rounded-xl border py-2 pr-3 pl-9 text-sm focus:ring-2 focus:outline-none"
+						oninput={handleSearchInput}
 					/>
 				</div>
 
@@ -183,7 +217,7 @@
 						variant={viewMode === 'grid' ? 'default' : 'outline'}
 						size="sm"
 						class="p-2"
-						onclick={() => viewMode = 'grid'}
+						onclick={() => (viewMode = 'grid')}
 					>
 						<Grid class="h-4 w-4" />
 					</Button>
@@ -191,7 +225,7 @@
 						variant={viewMode === 'list' ? 'default' : 'outline'}
 						size="sm"
 						class="p-2"
-						onclick={() => viewMode = 'list'}
+						onclick={() => (viewMode = 'list')}
 					>
 						<List class="h-4 w-4" />
 					</Button>
@@ -202,9 +236,9 @@
 		<!-- Filters -->
 		<div class="flex flex-wrap gap-3">
 			<select
-				class="bg-surface/50 border border-border/40 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+				class="bg-surface/50 border-border/40 focus:ring-primary/50 rounded-xl border px-3 py-2 text-sm focus:ring-2 focus:outline-none"
 				value={selectedRarity}
-                                onchange={handleRarityChange}
+				onchange={handleRarityChange}
 			>
 				{#each rarities as rarity}
 					<option value={rarity}>{rarity}</option>
@@ -212,9 +246,9 @@
 			</select>
 
 			<select
-				class="bg-surface/50 border border-border/40 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+				class="bg-surface/50 border-border/40 focus:ring-primary/50 rounded-xl border px-3 py-2 text-sm focus:ring-2 focus:outline-none"
 				value={selectedType}
-                                onchange={handleTypeChange}
+				onchange={handleTypeChange}
 			>
 				{#each types as type}
 					<option value={type}>{type}</option>
@@ -222,9 +256,9 @@
 			</select>
 
 			<select
-				class="bg-surface/50 border border-border/40 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/50"
+				class="bg-surface/50 border-border/40 focus:ring-primary/50 rounded-xl border px-3 py-2 text-sm focus:ring-2 focus:outline-none"
 				value={sortBy}
-                                onchange={handleSortChange}
+				onchange={handleSortChange}
 			>
 				<option value="popularity">Popularity</option>
 				<option value="price">Price</option>
@@ -248,7 +282,9 @@
 		{#if loading}
 			<div class="flex items-center justify-center py-12">
 				<div class="flex flex-col items-center gap-3">
-					<div class="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full"></div>
+					<div
+						class="border-primary h-8 w-8 animate-spin rounded-full border-2 border-t-transparent"
+					></div>
 					<p class="text-muted-foreground">Loading marketplace data...</p>
 				</div>
 			</div>
@@ -263,172 +299,170 @@
 				<div class="text-muted-foreground text-lg font-semibold">No Items Found</div>
 				<p class="text-muted-foreground">Try adjusting your filters or search terms.</p>
 			</div>
-		{:else}
-			{#if viewMode === 'grid'}
-				<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
-					{#each filteredItems as item (item.id)}
-						<div class="bg-surface/50 rounded-2xl border-2 border-border/40 overflow-hidden">
-							<div class="relative">
-								<img
-									src={getItemImage(item.iconUrl)}
-									alt={item.name}
-									class="w-full aspect-square object-cover"
-								/>
+		{:else if viewMode === 'grid'}
+			<div
+				class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6"
+			>
+				{#each filteredItems as item (item.id)}
+					<div class="bg-surface/50 border-border/40 overflow-hidden rounded-2xl border-2">
+						<div class="relative">
+							<img
+								src={getItemImage(item.iconUrl)}
+								alt={item.name}
+								class="aspect-square w-full object-cover"
+							/>
 
-								{#if !item.tradable || !item.marketable}
-									<div class="absolute top-2 right-2">
-										<Badge class="bg-destructive/80 text-destructive-foreground text-xs">
-											{!item.tradable ? 'Not Tradable' : 'Not Marketable'}
-										</Badge>
+							{#if !item.tradable || !item.marketable}
+								<div class="absolute top-2 right-2">
+									<Badge class="bg-destructive/80 text-destructive-foreground text-xs">
+										{!item.tradable ? 'Not Tradable' : 'Not Marketable'}
+									</Badge>
+								</div>
+							{/if}
+
+							<div
+								class="absolute right-0 bottom-0 left-0 bg-gradient-to-t from-black/80 to-transparent p-2"
+							>
+								<div class="text-center">
+									<p class="truncate text-xs font-semibold text-white">
+										{item.name}
+									</p>
+								</div>
+							</div>
+						</div>
+
+						<div class="space-y-2 p-3">
+							<div class="flex items-center justify-between">
+								<span class="text-lg font-bold text-white">
+									{formatCurrency(item.marketPrice)}
+								</span>
+								{#if item.priceChange !== 0}
+									<div class="flex items-center gap-1 text-xs">
+										{#if item.priceChange > 0}
+											<TrendingUp class="h-3 w-3 text-green-400" />
+										{:else}
+											<TrendingDown class="h-3 w-3 text-red-400" />
+										{/if}
+										<span class={item.priceChange > 0 ? 'text-green-400' : 'text-red-400'}>
+											{Math.abs(item.priceChangePercent).toFixed(1)}%
+										</span>
 									</div>
 								{/if}
-
-								<div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-2">
-									<div class="text-center">
-										<p class="text-white text-xs font-semibold truncate">
-											{item.name}
-										</p>
-									</div>
-								</div>
 							</div>
 
-							<div class="p-3 space-y-2">
-								<div class="flex items-center justify-between">
-									<span class="text-lg font-bold text-white">
-										{formatCurrency(item.marketPrice)}
-									</span>
-									{#if item.priceChange !== 0}
-										<div class="flex items-center gap-1 text-xs">
-											{#if item.priceChange > 0}
-												<TrendingUp class="h-3 w-3 text-green-400" />
-											{:else}
-												<TrendingDown class="h-3 w-3 text-red-400" />
-											{/if}
-											<span class={item.priceChange > 0 ? 'text-green-400' : 'text-red-400'}>
-												{Math.abs(item.priceChangePercent).toFixed(1)}%
-											</span>
-										</div>
-									{/if}
-								</div>
+							<div class="text-muted-foreground flex items-center justify-between text-xs">
+								<Badge class={`text-xs ${getRarityColor(item.rarity)}`}>
+									{item.rarity}
+								</Badge>
+								<span>Vol: {item.volume}</span>
+							</div>
 
-								<div class="flex items-center justify-between text-xs text-muted-foreground">
-									<Badge class={`text-xs ${getRarityColor(item.rarity)}`}>
-										{item.rarity}
-									</Badge>
-									<span>Vol: {item.volume}</span>
-								</div>
-
-								<div class="flex gap-2">
-									<Button
-										variant="outline"
-										size="sm"
-										class="flex-1 gap-1 text-xs"
-										onclick={() => onViewItem?.(item)}
-									>
-										<Eye class="h-3 w-3" />
-										View
+							<div class="flex gap-2">
+								<Button
+									variant="outline"
+									size="sm"
+									class="flex-1 gap-1 text-xs"
+									onclick={() => onViewItem?.(item)}
+								>
+									<Eye class="h-3 w-3" />
+									View
+								</Button>
+								{#if item.marketable}
+									<Button size="sm" class="flex-1 gap-1 text-xs" onclick={() => onBuyItem?.(item)}>
+										<ShoppingCart class="h-3 w-3" />
+										Buy
 									</Button>
-									{#if item.marketable}
-										<Button
-											size="sm"
-											class="flex-1 gap-1 text-xs"
-											onclick={() => onBuyItem?.(item)}
-										>
-											<ShoppingCart class="h-3 w-3" />
-											Buy
-										</Button>
-									{/if}
-								</div>
+								{/if}
 							</div>
 						</div>
-					{/each}
-				</div>
-			{:else}
-				<!-- List View -->
-				<div class="space-y-3">
-					{#each filteredItems as item (item.id)}
-						<div class="bg-surface/50 rounded-2xl border border-border/40 p-4">
-							<div class="flex items-center gap-4">
-								<img
-									src={getItemImage(item.iconUrl)}
-									alt={item.name}
-									class="w-16 h-16 rounded-xl object-cover"
-								/>
+					</div>
+				{/each}
+			</div>
+		{:else}
+			<!-- List View -->
+			<div class="space-y-3">
+				{#each filteredItems as item (item.id)}
+					<div class="bg-surface/50 border-border/40 rounded-2xl border p-4">
+						<div class="flex items-center gap-4">
+							<img
+								src={getItemImage(item.iconUrl)}
+								alt={item.name}
+								class="h-16 w-16 rounded-xl object-cover"
+							/>
 
-								<div class="flex-1 min-w-0">
-									<div class="flex items-start justify-between gap-4">
-										<div>
-											<h3 class="font-semibold text-white truncate">{item.name}</h3>
-											<div class="flex items-center gap-2 mt-1">
-												<Badge class={`text-xs ${getRarityColor(item.rarity)}`}>
-													{item.rarity}
-												</Badge>
-												<span class="text-xs text-muted-foreground">{item.type}</span>
-												{#if item.wear}
-													<span class="text-xs text-muted-foreground">({item.wear})</span>
+							<div class="min-w-0 flex-1">
+								<div class="flex items-start justify-between gap-4">
+									<div>
+										<h3 class="truncate font-semibold text-white">{item.name}</h3>
+										<div class="mt-1 flex items-center gap-2">
+											<Badge class={`text-xs ${getRarityColor(item.rarity)}`}>
+												{item.rarity}
+											</Badge>
+											<span class="text-muted-foreground text-xs">{item.type}</span>
+											{#if item.wear}
+												<span class="text-muted-foreground text-xs">({item.wear})</span>
+											{/if}
+										</div>
+									</div>
+
+									<div class="text-right">
+										<div class="text-xl font-bold text-white">
+											{formatCurrency(item.marketPrice)}
+										</div>
+										{#if item.priceChange !== 0}
+											<div class="flex items-center justify-end gap-1 text-sm">
+												{#if item.priceChange > 0}
+													<TrendingUp class="h-4 w-4 text-green-400" />
+												{:else}
+													<TrendingDown class="h-4 w-4 text-red-400" />
 												{/if}
+												<span class={item.priceChange > 0 ? 'text-green-400' : 'text-red-400'}>
+													{item.priceChange > 0 ? '+' : ''}{item.priceChangePercent.toFixed(1)}%
+												</span>
 											</div>
-										</div>
-
-										<div class="text-right">
-											<div class="text-xl font-bold text-white">
-												{formatCurrency(item.marketPrice)}
-											</div>
-											{#if item.priceChange !== 0}
-												<div class="flex items-center gap-1 text-sm justify-end">
-													{#if item.priceChange > 0}
-														<TrendingUp class="h-4 w-4 text-green-400" />
-													{:else}
-														<TrendingDown class="h-4 w-4 text-red-400" />
-													{/if}
-													<span class={item.priceChange > 0 ? 'text-green-400' : 'text-red-400'}>
-														{item.priceChange > 0 ? '+' : ''}{item.priceChangePercent.toFixed(1)}%
-													</span>
-												</div>
-											{/if}
-											<div class="text-xs text-muted-foreground">
-												Volume: {item.volume}
-											</div>
+										{/if}
+										<div class="text-muted-foreground text-xs">
+											Volume: {item.volume}
 										</div>
 									</div>
+								</div>
 
-									<div class="flex items-center justify-between mt-3">
-										<div class="flex items-center gap-2">
-											{#if !item.tradable || !item.marketable}
-												<Badge class="bg-destructive/80 text-destructive-foreground text-xs">
-													{!item.tradable ? 'Not Tradable' : 'Not Marketable'}
-												</Badge>
-											{/if}
-										</div>
+								<div class="mt-3 flex items-center justify-between">
+									<div class="flex items-center gap-2">
+										{#if !item.tradable || !item.marketable}
+											<Badge class="bg-destructive/80 text-destructive-foreground text-xs">
+												{!item.tradable ? 'Not Tradable' : 'Not Marketable'}
+											</Badge>
+										{/if}
+									</div>
 
-										<div class="flex gap-2">
-											<Button
-												variant="outline"
-												size="sm"
-												class="gap-2"
-												onclick={() => window.open(`https://steamcommunity.com/market/listings/730/${item.marketHashName}`, '_blank')}
-											>
-												<ExternalLink class="h-4 w-4" />
-												Steam Market
+									<div class="flex gap-2">
+										<Button
+											variant="outline"
+											size="sm"
+											class="gap-2"
+											onclick={() =>
+												window.open(
+													`https://steamcommunity.com/market/listings/730/${item.marketHashName}`,
+													'_blank'
+												)}
+										>
+											<ExternalLink class="h-4 w-4" />
+											Steam Market
+										</Button>
+										{#if item.marketable}
+											<Button size="sm" class="gap-2" onclick={() => onBuyItem?.(item)}>
+												<ShoppingCart class="h-4 w-4" />
+												Buy
 											</Button>
-											{#if item.marketable}
-												<Button
-													size="sm"
-													class="gap-2"
-													onclick={() => onBuyItem?.(item)}
-												>
-													<ShoppingCart class="h-4 w-4" />
-													Buy
-												</Button>
-											{/if}
-										</div>
+										{/if}
 									</div>
 								</div>
 							</div>
 						</div>
-					{/each}
-				</div>
-			{/if}
+					</div>
+				{/each}
+			</div>
 		{/if}
 	</CardContent>
 </Card>

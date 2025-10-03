@@ -56,7 +56,9 @@ export const POST: RequestHandler = async ({ params, cookies }) => {
 
 		// Check if battle is already full
 		if (battle.current_participants < battle.max_participants) {
-			console.warn(`Starting battle ${id} before it's full: ${battle.current_participants}/${battle.max_participants}`);
+			console.warn(
+				`Starting battle ${id} before it's full: ${battle.current_participants}/${battle.max_participants}`
+			);
 			// Allow starting but warn - this is for manual start functionality
 		}
 
@@ -69,11 +71,13 @@ export const POST: RequestHandler = async ({ params, cookies }) => {
 			// If not tracked, load it into the orchestrator first
 			const { data: fullBattle, error: loadError } = await supabase
 				.from('battles')
-				.select(`
+				.select(
+					`
 					*,
 					battle_cases:battle_cases(*),
 					participants:battle_participants(*)
-				`)
+				`
+				)
 				.eq('id', id)
 				.single();
 
@@ -86,16 +90,13 @@ export const POST: RequestHandler = async ({ params, cookies }) => {
 
 		// Start the battle asynchronously
 		setImmediate(() => {
-			orchestrator.startBattle(id).catch(err => {
+			orchestrator.startBattle(id).catch((err) => {
 				console.error('Async battle start error:', err);
 			});
 		});
 
 		// Update battle status to indicate starting
-		await supabase
-			.from('battles')
-			.update({ status: 'locking' })
-			.eq('id', id);
+		await supabase.from('battles').update({ status: 'locking' }).eq('id', id);
 
 		return json({
 			success: true,
@@ -105,7 +106,6 @@ export const POST: RequestHandler = async ({ params, cookies }) => {
 				status: 'locking'
 			}
 		});
-
 	} catch (err) {
 		console.error('Start battle error:', err);
 
@@ -113,10 +113,12 @@ export const POST: RequestHandler = async ({ params, cookies }) => {
 			if (err.message.includes('Authentication required')) {
 				throw error(401, err.message);
 			}
-			if (err.message.includes('Battle ID is required') ||
+			if (
+				err.message.includes('Battle ID is required') ||
 				err.message.includes('Battle cannot be started') ||
 				err.message.includes('Battle needs at least') ||
-				err.message.includes('Only battle creator')) {
+				err.message.includes('Only battle creator')
+			) {
 				throw error(400, err.message);
 			}
 			if (err.message.includes('Battle not found')) {
@@ -127,4 +129,3 @@ export const POST: RequestHandler = async ({ params, cookies }) => {
 		throw error(500, 'Failed to start battle');
 	}
 };
-

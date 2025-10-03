@@ -2,13 +2,12 @@
 	import { page } from '$app/stores';
 	import HeroBanner from '$lib/components/home/HeroBanner.svelte';
 	import MarketplaceGrid from '$lib/components/home/MarketplaceGrid.svelte';
-	import CommunityPotsGrid, { type CommunityPot } from '$lib/components/CommunityPotsGrid.svelte';
+	import CommunityPotsGrid from '$lib/components/CommunityPotsGrid.svelte';
+	import type { CommunityPot } from '$lib/components/CommunityPotCard.svelte';
 	import { Alert, Button } from '$lib/components/ui';
 	import { AlertCircle, Users, Clock, Trophy, Gift } from '@lucide/svelte';
 
-	const pageStore = page;
-	const currentPage = $derived(pageStore);
-	const error = $derived(() => currentPage.url.searchParams.get('error'));
+	const error = $derived($page.url.searchParams.get('error'));
 
 	const errorMessages: Record<string, { title: string; description: string; action?: string }> = {
 		auth_required: {
@@ -96,8 +95,7 @@
 			isVIP: false
 		}
 	];
-
-	</script>
+</script>
 
 <svelte:head>
 	<title>TopRoll - CS2 Community Pots & Marketplace</title>

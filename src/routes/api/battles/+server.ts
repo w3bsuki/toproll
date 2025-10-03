@@ -57,11 +57,13 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		// Get full battle details with relations
 		const { data: fullBattle, error: fetchError } = await supabase
 			.from('battles')
-			.select(`
+			.select(
+				`
 				*,
 				case:cases(*),
 				battle_cases:battle_cases(*, cases(*))
-			`)
+			`
+			)
 			.eq('id', battle.id)
 			.single();
 
@@ -72,7 +74,6 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		}
 
 		return json({ battle: fullBattle, success: true });
-
 	} catch (err) {
 		console.error('Create battle error:', err);
 
@@ -81,9 +82,11 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			if (err.message.includes('Authentication required')) {
 				throw error(401, err.message);
 			}
-			if (err.message.includes('Invalid case IDs') ||
+			if (
+				err.message.includes('Invalid case IDs') ||
 				err.message.includes('mode must be') ||
-				err.message.includes('max_participants must be')) {
+				err.message.includes('max_participants must be')
+			) {
 				throw error(400, err.message);
 			}
 		}
@@ -100,7 +103,10 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 		const offset = parseInt(url.searchParams.get('offset') || '0');
 
 		// Validate status parameter
-		if (status && !['waiting', 'locking', 'in_progress', 'settling', 'completed', 'cancelled'].includes(status)) {
+		if (
+			status &&
+			!['waiting', 'locking', 'in_progress', 'settling', 'completed', 'cancelled'].includes(status)
+		) {
 			throw error(400, 'Invalid status parameter');
 		}
 
@@ -118,12 +124,14 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 		// Build query
 		let query = supabase
 			.from('battles')
-			.select(`
+			.select(
+				`
 				*,
 				case:cases(*),
 				battle_cases:battle_cases(*, cases(*)),
 				participants:battle_participants(*, user:user_profiles(id, username, avatar_url))
-			`)
+			`
+			)
 			.order('created_at', { ascending: false })
 			.range(offset, offset + limit - 1);
 
@@ -153,19 +161,22 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 				total: count || 0,
 				hasMore: (count || 0) > offset + limit
 			},
-			currentUser: currentUser ? {
-				id: currentUser.id,
-				steamId: currentUser.steamId
-			} : null
+			currentUser: currentUser
+				? {
+						id: currentUser.id,
+						steamId: currentUser.steamId
+					}
+				: null
 		});
-
 	} catch (err) {
 		console.error('Battles list error:', err);
 
 		if (err instanceof Error) {
-			if (err.message.includes('Invalid status') ||
+			if (
+				err.message.includes('Invalid status') ||
 				err.message.includes('Limit must be') ||
-				err.message.includes('Offset must be')) {
+				err.message.includes('Offset must be')
+			) {
 				throw error(400, err.message);
 			}
 		}
@@ -173,4 +184,3 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 		throw error(500, 'Failed to fetch battles');
 	}
 };
-

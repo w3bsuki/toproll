@@ -1,8 +1,8 @@
 <script lang="ts">
-        import { cn } from '$lib/utils';
-        import { writable } from 'svelte/store';
-        import { initTabsContext } from './context';
-        import type { Snippet } from 'svelte';
+	import { cn } from '$lib/utils';
+	import { writable } from 'svelte/store';
+	import { initTabsContext } from './context';
+	import type { Snippet } from 'svelte';
 
 	let {
 		value = $bindable(''),

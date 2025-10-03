@@ -1,5 +1,7 @@
 <script lang="ts">
 	import { Users, Clock, Trophy } from '@lucide/svelte';
+	import { Button, Card, Badge } from '$lib/components/ui';
+	import { cn } from '$lib/utils';
 	import type { CS2Item } from '$lib/types';
 
 	interface BattlePlayer {

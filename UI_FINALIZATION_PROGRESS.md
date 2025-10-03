@@ -3,6 +3,7 @@
 ## ✅ Completed Tasks
 
 ### 1. Hover/Focus Behavior Fixes
+
 - **Removed all hover scale/translate effects** from:
   - Mobile chat button (`+layout.svelte`)
   - Icon buttons in ShellHeader (Menu, Search, Bell, Globe)
@@ -26,24 +27,28 @@
 ### 2. Layout Improvements
 
 #### Left Sidebar (`sidebar-left.svelte`)
+
 - ✅ Added Rain Pot card component at bottom
 - ✅ Enhanced authenticated user card with Deposit/Withdraw buttons
 - ✅ Maintained "Sign in with Steam" CTA for guests
 - ✅ All spacing and colors use tokens
 
 #### Rain Pot Card (`shell/RainPotCard.svelte`)
+
 - ✅ Created new component with token-based gradient
 - ✅ Shows pot total, contributors, and time remaining
 - ✅ Clean design with proper hierarchy
 - ✅ Uses `linear-gradient` with `oklch(var(--primary) / 0.12)` etc.
 
 #### Chat Panel (`shell/ChatPanel.svelte`)
+
 - ✅ Removed Rain Pot section (now in sidebar)
 - ✅ Cleaned up unused imports
 - ✅ Added proper focus-visible ring to textarea container
 - ✅ Improved input styling with semantic tokens
 
 #### Hero Carousel (`home/HeroCarousel.svelte`)
+
 - ✅ Reduced min-height from 420px to 360px
 - ✅ Reduced padding (p-8 to p-6 on mobile, p-12 to p-8 on desktop)
 - ✅ Tightened spacing in content (space-y-6 to space-y-5)
@@ -52,6 +57,7 @@
 - ✅ Removed thick inner borders
 
 ### 3. Token Usage
+
 - ✅ All components use Tailwind v4 semantic tokens
 - ✅ No hard-coded hex/rgb/hsl colors in components (except ParticleEffects and MicroInteractions which are special effects)
 - ✅ Colors: `bg-surface`, `bg-card`, `text-foreground`, `text-muted-foreground`, `bg-primary`, etc.
@@ -59,6 +65,7 @@
 - ✅ Borders: `border-border`, `border-border/50`, `border-border/60`
 
 ### 4. Component Updates
+
 - ✅ All marketplace/catalog cards unified with subtle hover states
 - ✅ Buttons use consistent hover patterns
 - ✅ Focus rings applied consistently
@@ -67,7 +74,9 @@
 ## 🔄 In Progress / Next Steps
 
 ### 1. shadcn-svelte Component Installation
+
 Most components already exist:
+
 - ✅ Button, Card, Badge, Alert
 - ✅ Tabs, Sheet, Dropdown Menu
 - ✅ Input (confirmed working)
@@ -75,6 +84,7 @@ Most components already exist:
 - ❓ Need to add: Scroll Area (if needed)
 
 ### 2. Remaining Component Audits
+
 - [ ] Inventory Grid (`InventoryGrid.svelte`)
 - [ ] Case Catalog (`CaseCatalog.svelte`)
 - [ ] Case Battle (`CaseBattle.svelte`)
@@ -83,17 +93,21 @@ Most components already exist:
 - [ ] Chat Drawer (`shell/ChatDrawer.svelte`)
 
 ### 3. Header Optimization
+
 - [ ] Verify search bar is centered within max-w container
 - [ ] Ensure no logo duplication between header and sidebar
 - [ ] Consider using logomark only in header
 
 ### 4. Typography Standardization
+
 Need to audit and ensure consistency:
+
 - Titles: `text-lg font-semibold`
 - Subtitles: `text-sm text-muted-foreground`
 - Meta text: `text-xs uppercase tracking-wide`
 
 ### 5. Card Component Migration
+
 - [ ] Convert remaining ad-hoc cards to use shadcn Card component
 - [ ] Ensure all cards use: `px-6 py-5` padding, `border-border/50` borders
 - [ ] Standardize shadow usage
@@ -132,6 +146,7 @@ Need to audit and ensure consistency:
 The app is currently running at `http://localhost:3001` with all changes applied.
 
 **Key improvements visible:**
+
 1. Smoother, more subtle hover states across all cards
 2. Rain Pot now prominent in left sidebar
 3. Compact hero with better visual hierarchy

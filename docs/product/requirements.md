@@ -18,8 +18,8 @@ Use this file to track any deltas introduced by a phase. Keep the baseline immut
 
 Document requirement refinements introduced by each phase here.
 
-| Phase | Delta |
-| ----- | ----- |
-| P0 | _Define doc ownership, labels, and CI gating._ |
-| P1 | _TBD – detail module boundaries & DTO conventions._ |
-| ... | ... |
+| Phase | Delta                                               |
+| ----- | --------------------------------------------------- |
+| P0    | _Define doc ownership, labels, and CI gating._      |
+| P1    | _TBD – detail module boundaries & DTO conventions._ |
+| ...   | ...                                                 |

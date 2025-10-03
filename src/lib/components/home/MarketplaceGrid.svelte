@@ -23,7 +23,7 @@
 	<div class="marketplace-scrollbar grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
 		{#each items as item}
 			<article
-				class="border-border/60 bg-surface/80 shadow-2xl relative flex h-full flex-col overflow-hidden rounded-3xl border-2"
+				class="border-border/60 bg-surface/80 relative flex h-full flex-col overflow-hidden rounded-3xl border-2 shadow-2xl"
 			>
 				<div class="relative w-full overflow-hidden">
 					<div class="aspect-[16/10] w-full" style={`background:${item.image}`}></div>
@@ -33,7 +33,7 @@
 					<div class="absolute top-6 left-6 flex items-center gap-2">
 						<Badge
 							variant="outline"
-							class="border-white/30 bg-white/20 text-white text-xs tracking-wider uppercase backdrop-blur-md font-semibold"
+							class="border-white/30 bg-white/20 text-xs font-semibold tracking-wider text-white uppercase backdrop-blur-md"
 						>
 							{item.rarity}
 						</Badge>
@@ -48,9 +48,7 @@
 					</div>
 					<div class="flex items-center justify-between">
 						<div>
-							<p class="text-muted-foreground text-[11px] tracking-wider uppercase">
-								Current ask
-							</p>
+							<p class="text-muted-foreground text-[11px] tracking-wider uppercase">Current ask</p>
 							<p class="text-3xl font-bold">{item.price}</p>
 						</div>
 						<div

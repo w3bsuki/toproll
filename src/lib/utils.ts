@@ -13,15 +13,15 @@ export type WithElementRef<T, E = HTMLElement> = T & {
 };
 
 export type WithoutChildren<T, TArgs extends any[] = []> = Omit<T, 'children'> & {
-        children?: Snippet<TArgs>;
+	children?: Snippet<TArgs>;
 };
 
 export type WithoutChild<T, TArgs extends any[] = []> = Omit<T, 'children'> & {
-        children?: Snippet<TArgs>;
+	children?: Snippet<TArgs>;
 };
 
 export type WithoutChildrenOrChild<T, TArgs extends any[] = []> = Omit<T, 'children'> & {
-        children?: Snippet<TArgs>;
+	children?: Snippet<TArgs>;
 };
 
 // General utility functions can be added here as needed

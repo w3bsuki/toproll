@@ -1,14 +1,18 @@
 <script lang="ts">
-        import { cn } from '$lib/utils';
-        import { useTabsContext } from './context';
-        import { derived } from 'svelte/store';
-        import type { Snippet } from 'svelte';
+	import { cn } from '$lib/utils';
+	import { useTabsContext } from './context';
+	import { derived } from 'svelte/store';
+	import type { Snippet } from 'svelte';
 
-        let { value, class: className = '', children } = $props<{
-                value: string;
-                class?: string;
-                children?: Snippet;
-        }>();
+	let {
+		value,
+		class: className = '',
+		children
+	} = $props<{
+		value: string;
+		class?: string;
+		children?: Snippet;
+	}>();
 
 	const { value: store } = useTabsContext();
 	const selected = derived(store, ($value) => $value === value);

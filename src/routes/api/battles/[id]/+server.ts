@@ -19,7 +19,8 @@ export const GET: RequestHandler = async ({ params, cookies }) => {
 		// Get battle with full details
 		const { data: battle, error: fetchError } = await supabase
 			.from('battles')
-			.select(`
+			.select(
+				`
 				*,
 				case:cases(*),
 				battle_cases:battle_cases(*, cases(*)),
@@ -32,7 +33,8 @@ export const GET: RequestHandler = async ({ params, cookies }) => {
 					*,
 					participant:battle_participants(*, user:user_profiles(id, username, avatar_url))
 				)
-			`)
+			`
+			)
 			.eq('id', id)
 			.single();
 
@@ -54,7 +56,7 @@ export const GET: RequestHandler = async ({ params, cookies }) => {
 		// Check if current user is a participant
 		let userParticipant = null;
 		if (currentUser && battle.participants) {
-			userParticipant = battle.participants.find(p => p.user_id === currentUser.id);
+			userParticipant = battle.participants.find((p) => p.user_id === currentUser.id);
 		}
 
 		// Get additional battle data if in progress or completed
@@ -62,13 +64,15 @@ export const GET: RequestHandler = async ({ params, cookies }) => {
 		if (['in_progress', 'settling', 'completed'].includes(battle.status)) {
 			const { data: pulls } = await supabase
 				.from('battle_pulls')
-				.select(`
+				.select(
+					`
 					*,
 					participant:battle_participants(*, user:user_profiles(id, username, avatar_url)),
 					item:case_items(*),
 					round:battle_rounds(*)
-				`)
-				.in('round_id', battle.rounds?.map(r => r.id) || []);
+				`
+				)
+				.in('round_id', battle.rounds?.map((r) => r.id) || []);
 
 			pullsData = pulls || [];
 		}
@@ -86,14 +90,15 @@ export const GET: RequestHandler = async ({ params, cookies }) => {
 				pulls: pullsData,
 				orchestratorState
 			},
-			currentUser: currentUser ? {
-				id: currentUser.id,
-				steamId: currentUser.steamId,
-				isParticipant: !!userParticipant,
-				participant: userParticipant
-			} : null
+			currentUser: currentUser
+				? {
+						id: currentUser.id,
+						steamId: currentUser.steamId,
+						isParticipant: !!userParticipant,
+						participant: userParticipant
+					}
+				: null
 		});
-
 	} catch (err) {
 		console.error('Battle details error:', err);
 
@@ -136,7 +141,6 @@ export const POST: RequestHandler = async ({ params, request, cookies }) => {
 			default:
 				throw error(400, 'Invalid action');
 		}
-
 	} catch (err) {
 		console.error('Battle action error:', err);
 
@@ -144,12 +148,10 @@ export const POST: RequestHandler = async ({ params, request, cookies }) => {
 			if (err.message.includes('Authentication required')) {
 				throw error(401, err.message);
 			}
-			if (err.message.includes('Battle ID is required') ||
-				err.message.includes('Invalid action')) {
+			if (err.message.includes('Battle ID is required') || err.message.includes('Invalid action')) {
 				throw error(400, err.message);
 			}
-			if (err.message.includes('Battle not found') ||
-				err.message.includes('Cannot leave')) {
+			if (err.message.includes('Battle not found') || err.message.includes('Cannot leave')) {
 				throw error(404, err.message);
 			}
 		}
@@ -188,10 +190,7 @@ async function handleLeaveBattle(battleId: string, userId: string) {
 	}
 
 	// Remove participant
-	await supabase
-		.from('battle_participants')
-		.delete()
-		.eq('id', participant.id);
+	await supabase.from('battle_participants').delete().eq('id', participant.id);
 
 	// Update battle participant count
 	await supabase
@@ -228,11 +227,7 @@ async function handleCancelBattle(battleId: string, userId: string) {
 	}
 
 	// Cancel battle
-	await supabase
-		.from('battles')
-		.update({ status: 'cancelled' })
-		.eq('id', battleId);
+	await supabase.from('battles').update({ status: 'cancelled' }).eq('id', battleId);
 
 	return json({ success: true, message: 'Battle cancelled successfully' });
 }
-

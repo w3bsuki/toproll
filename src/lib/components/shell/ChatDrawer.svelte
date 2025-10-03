@@ -135,8 +135,12 @@
 								<span class="text-foreground font-semibold">{message.username}</span>
 								{#if message.badge}
 									<Badge
-										variant={message.badge === 'vip' ? 'default' : message.badge === 'staff' ? 'outline' : 'info'}
-										class="text-[10px] px-1.5 py-0 h-4"
+										variant={message.badge === 'vip'
+											? 'default'
+											: message.badge === 'staff'
+												? 'outline'
+												: 'info'}
+										class="h-4 px-1.5 py-0 text-[10px]"
 									>
 										{message.badge}
 									</Badge>

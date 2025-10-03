@@ -74,6 +74,9 @@
 		}
 	};
 
+	// Reactive icon component using $derived
+	const IconComponent = $derived(getPotIcon(pot.type));
+
 	const getPotGradient = (type: string) => {
 		switch (type) {
 			case 'rain':
@@ -129,25 +132,27 @@
 		<!-- VIP badge if applicable -->
 		{#if pot.isVIP}
 			<div class="absolute top-4 right-4">
-				<Badge class="bg-yellow-500/20 text-yellow-300 text-xs font-semibold border border-yellow-500/30">
-					<Star class="h-3 w-3 mr-1" />
+				<Badge
+					class="border border-yellow-500/30 bg-yellow-500/20 text-xs font-semibold text-yellow-300"
+				>
+					<Star class="mr-1 h-3 w-3" />
 					VIP
 				</Badge>
 			</div>
 		{/if}
 
 		<!-- Content -->
-		<div class="relative z-10 p-6 h-full flex flex-col justify-between">
+		<div class="relative z-10 flex h-full flex-col justify-between p-6">
 			<div class="space-y-4">
 				<!-- Icon and title -->
 				<div class="flex items-center gap-3">
-					<div class="bg-white/20 backdrop-blur-md rounded-2xl p-3 border border-white/30">
-						<svelte:component this={getPotIcon(pot.type)} class="h-6 w-6 text-white" />
+					<div class="rounded-2xl border border-white/30 bg-white/20 p-3 backdrop-blur-md">
+						<IconComponent class="h-6 w-6 text-white" />
 					</div>
 					<div>
 						<h3 class="text-xl font-bold text-white">{pot.name}</h3>
 						{#if pot.description}
-							<p class="text-white/80 text-sm">{pot.description}</p>
+							<p class="text-sm text-white/80">{pot.description}</p>
 						{/if}
 					</div>
 				</div>
@@ -155,13 +160,13 @@
 				<!-- Stats -->
 				<div class="grid grid-cols-2 gap-4">
 					<div>
-						<p class="text-white/60 text-xs uppercase tracking-wider">Prize Pool</p>
+						<p class="text-xs tracking-wider text-white/60 uppercase">Prize Pool</p>
 						<p class="text-2xl font-bold text-white">
 							{formatCurrency(pot.prizePool || pot.totalAmount)}
 						</p>
 					</div>
 					<div>
-						<p class="text-white/60 text-xs uppercase tracking-wider">Contributors</p>
+						<p class="text-xs tracking-wider text-white/60 uppercase">Contributors</p>
 						<p class="text-2xl font-bold text-white">
 							{pot.contributorCount}
 							{#if pot.maxContributors}
@@ -178,9 +183,9 @@
 							<span>Progress</span>
 							<span>{Math.round(fillPercentage)}%</span>
 						</div>
-						<div class="bg-white/20 rounded-full h-2 overflow-hidden">
+						<div class="h-2 overflow-hidden rounded-full bg-white/20">
 							<div
-								class="bg-white h-full transition-all duration-300"
+								class="h-full bg-white transition-all duration-300"
 								style="width: {fillPercentage}%"
 							></div>
 						</div>
@@ -190,7 +195,7 @@
 				<!-- Time remaining -->
 				<div class="flex items-center gap-2">
 					<Clock class="h-4 w-4 text-white/60" />
-					<span class="text-white/80 text-sm">
+					<span class="text-sm text-white/80">
 						{pot.status === 'ended' ? 'Ended' : `Ends in ${formatTime(pot.timeRemaining)}`}
 					</span>
 				</div>
@@ -206,16 +211,13 @@
 			<!-- Actions -->
 			{#if showActions && pot.status === 'active'}
 				<div class="flex gap-3 pt-4">
-					<Button
-						class="flex-1 bg-white text-gray-900 font-bold"
-						onclick={() => onJoin?.(pot.id)}
-					>
+					<Button class="flex-1 bg-white font-bold text-gray-900" onclick={() => onJoin?.(pot.id)}>
 						Join Pot
 					</Button>
 					{#if !compact}
 						<Button
 							variant="outline"
-							class="bg-white/20 border-white/30 text-white"
+							class="border-white/30 bg-white/20 text-white"
 							onclick={() => onView?.(pot.id)}
 						>
 							View Details
@@ -225,7 +227,7 @@
 			{:else if showActions && pot.status === 'ended'}
 				<Button
 					variant="outline"
-					class="w-full bg-white/20 border-white/30 text-white"
+					class="w-full border-white/30 bg-white/20 text-white"
 					onclick={() => onView?.(pot.id)}
 				>
 					View Results

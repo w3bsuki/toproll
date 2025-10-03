@@ -3,7 +3,9 @@
 ## ✅ What Was Changed
 
 ### 1. **Design System Tokens** (`app.css`)
+
 Added Dark Neo-Brutalism design tokens:
+
 - `--neo-border-width: 3px` - Thick, bold borders
 - `--neo-shadow-offset: 4px` - Offset shadow for depth
 - `--neo-border-color` - High contrast borders
@@ -11,6 +13,7 @@ Added Dark Neo-Brutalism design tokens:
 - `--neo-active-glow` - Neon green glow for active states
 
 ### 2. **New Shadow Utilities** (`app.css`)
+
 ```css
 .shadow-neo          /* 4px 4px 0px - Standard */
 .shadow-neo-sm       /* 2px 2px 0px - Small */
@@ -20,9 +23,11 @@ Added Dark Neo-Brutalism design tokens:
 ```
 
 ### 3. **Button Component** (`button.svelte`)
+
 **Transformed all button variants:**
 
 #### Default Buttons
+
 - ✅ 3px thick borders with transparency
 - ✅ `shadow-neo` offset shadows
 - ✅ Bold font weight
@@ -31,6 +36,7 @@ Added Dark Neo-Brutalism design tokens:
 - ✅ Rounded-lg corners (not too round)
 
 #### New Navigation Variants
+
 ```typescript
 'nav': Basic nav button with hover effects
 'nav-active': Active state with neon green border + glow
@@ -40,7 +46,9 @@ Added Dark Neo-Brutalism design tokens:
 **After:** Bold bordered buttons with pop, active glow, tactile feedback
 
 ### 4. **Left Sidebar** (`sidebar-left.svelte`)
+
 #### Navigation Buttons
+
 - Changed from `variant="ghost"` to `variant="nav"`
 - Active state uses `variant="nav-active"` with neon green
 - Icons: `strokeWidth={2.5}` for bolder appearance
@@ -48,6 +56,7 @@ Added Dark Neo-Brutalism design tokens:
 - Bold font weights throughout
 
 #### User Profile Card
+
 - 3px thick borders (`border-[3px]`)
 - `shadow-neo` for depth
 - Avatar: 2px border with neon accent
@@ -58,7 +67,9 @@ Added Dark Neo-Brutalism design tokens:
 **After:** Bold bordered card with neo shadows and neon accents
 
 ### 5. **Rain Pot Card** (`RainPotCard.svelte`)
+
 Major redesign with casino energy:
+
 - ✅ 3px primary border with transparency
 - ✅ `shadow-neo` depth effect
 - ✅ Gradient background: `from-primary/10 via-card to-card`
@@ -72,13 +83,16 @@ Major redesign with casino energy:
 **After:** Bold, energetic card that POPS
 
 ### 6. **Right Sidebar** (`sidebar-right.svelte`)
+
 Header updates:
+
 - 3px bottom border
 - Icon container: 2px border + shadow-neo-sm
 - Bold font weights
 - Consistent with left sidebar styling
 
 ### 7. **Layout Borders** (`+layout.svelte`)
+
 - Left sidebar: `border-r-[3px]`
 - Right sidebar: `border-l-[3px]`
 - Creates bold visual separation
@@ -88,6 +102,7 @@ Header updates:
 ## 🎨 Design Philosophy: Dark Neo-Brutalism for Casino
 
 ### Why This Style Works for Gaming/Casino:
+
 1. **High Contrast** - Easy to see, grabs attention (critical for CTAs)
 2. **Bold Borders** - Makes buttons feel "clickable" and interactive
 3. **Offset Shadows** - Creates depth and visual interest
@@ -97,7 +112,9 @@ Header updates:
 7. **Modern Edge** - Not corporate, not too serious
 
 ### Inspiration
+
 Sites like **Stake.com**, **Rollbit**, **CSGORoll** use similar bold, high-contrast designs with:
+
 - Thick borders
 - Neon colors
 - Bold typography
@@ -109,12 +126,14 @@ Sites like **Stake.com**, **Rollbit**, **CSGORoll** use similar bold, high-contr
 ## 🚀 Interactive Behavior
 
 ### Buttons Now Have:
+
 1. **Hover State**: Lifts up 2px (`translate-y-[-2px]`) + shadow grows
 2. **Active State**: Pushes down 2px (`translate-y-[2px]`) + shadow shrinks
 3. **Active Glow**: Neon green glow on primary buttons when active
 4. **Bold Text**: All buttons use `font-bold` for emphasis
 
 ### Navigation Buttons:
+
 - **Default**: Transparent with border on hover
 - **Active**: Neon green border + background glow + bold shadow
 
@@ -123,6 +142,7 @@ Sites like **Stake.com**, **Rollbit**, **CSGORoll** use similar bold, high-contr
 ## 📊 Before vs After
 
 ### Before (Soft/Corporate)
+
 - Thin 1px borders
 - Subtle shadows (shadow-xs)
 - Ghost buttons for nav
@@ -131,6 +151,7 @@ Sites like **Stake.com**, **Rollbit**, **CSGORoll** use similar bold, high-contr
 - Minimal visual hierarchy
 
 ### After (Neo-Brutalism/Casino)
+
 - Thick 3px borders
 - Bold offset shadows (4px 4px 0px)
 - Bordered nav buttons with glow
@@ -145,22 +166,26 @@ Sites like **Stake.com**, **Rollbit**, **CSGORoll** use similar bold, high-contr
 ## 🎯 Key Visual Changes
 
 ### Colors
+
 - **Primary**: Bright neon green (already perfect!)
 - **Borders**: 3px thick, high contrast
 - **Shadows**: Black with 40% opacity
 - **Glow**: Neon green at 30% opacity
 
 ### Typography
+
 - Regular → **Bold** (font-bold)
 - Semibold → **Black** (font-black) for emphasis
 - Increased stroke width on icons (2.5px)
 
 ### Spacing
+
 - Tighter gaps for compact gaming UI
 - Consistent padding across cards
 - Bold separators (3px vs 1px)
 
 ### Interactivity
+
 - Hover effects that LIFT
 - Click effects that PRESS
 - Glow effects on active states
@@ -171,6 +196,7 @@ Sites like **Stake.com**, **Rollbit**, **CSGORoll** use similar bold, high-contr
 ## 🔧 Using the New System
 
 ### Button Variants
+
 ```svelte
 <!-- Primary CTA -->
 <Button variant="default">Join Now</Button>
@@ -186,6 +212,7 @@ Sites like **Stake.com**, **Rollbit**, **CSGORoll** use similar bold, high-contr
 ```
 
 ### Shadows
+
 ```svelte
 <!-- Standard neo shadow -->
 <div class="shadow-neo">Card</div>
@@ -201,9 +228,10 @@ Sites like **Stake.com**, **Rollbit**, **CSGORoll** use similar bold, high-contr
 ```
 
 ### Borders
+
 ```svelte
 <!-- 3px thick border -->
-<div class="border-[3px] border-primary/30">Card</div>
+<div class="border-primary/30 border-[3px]">Card</div>
 
 <!-- Using utility -->
 <div class="border-neo">Card</div>
@@ -234,7 +262,7 @@ Sites like **Stake.com**, **Rollbit**, **CSGORoll** use similar bold, high-contr
 ✅ Bold typography for scannability  
 ✅ Layered depth with shadows  
 ✅ Modern, edgy aesthetic  
-✅ Not corporate, not boring  
+✅ Not corporate, not boring
 
 ---
 

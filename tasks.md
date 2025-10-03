@@ -17,7 +17,14 @@ This file now tracks project-wide execution. See also: docs/roadmap.md
 - [ ] P3 — Observability & Security
   - Logging schema, correlation IDs; basic metrics; RLS review; abuse gates
 - [ ] P4 — Core Features
-  - Community Pots (MVP), Marketplace, Case Battles wiring to spec
+  - [x] Svelte 5 Migration & Run Compliance (completed 2025-10-03)
+    - Fixed $derived misuse in CommunityPotsGrid and routes/+page.svelte
+    - Standardized onclick syntax across codebase
+    - Enhanced UI component imports with proper barrel exports
+    - Centralized toast system with battle-specific convenience functions
+    - Replaced mock battle API with real endpoints
+    - Dev server now runs successfully on Svelte 5
+  - [ ] Community Pots (MVP), Marketplace, Case Battles wiring to spec
     - [x] Draft module PRD for Marketplace (docs/product/specs/marketplace.md)
     - [x] Draft module PRD for Community Pots (docs/product/specs/community-pots.md)
 - [ ] P5 — UX & A11y

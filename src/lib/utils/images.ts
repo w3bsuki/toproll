@@ -279,7 +279,7 @@ export async function validateImageUrl(url: string): Promise<boolean> {
  * Get skin data from database
  */
 export function getSkinData(skinName: string) {
-	const skinData = CS2_SKIN_DATABASE[skinName];
+	const skinData = CS2_SKIN_DATABASE[skinName as keyof typeof CS2_SKIN_DATABASE];
 	if (!skinData) return null;
 
 	return {

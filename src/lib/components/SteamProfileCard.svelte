@@ -62,28 +62,30 @@
 					<img
 						src={profile.avatarUrl}
 						alt={profile.username}
-						class="h-16 w-16 rounded-2xl object-cover border-2 border-primary/30"
+						class="border-primary/30 h-16 w-16 rounded-2xl border-2 object-cover"
 					/>
 				{:else}
-					<div class="bg-primary/20 text-primary flex h-16 w-16 items-center justify-center rounded-2xl text-2xl font-bold border-2 border-primary/30">
+					<div
+						class="bg-primary/20 text-primary border-primary/30 flex h-16 w-16 items-center justify-center rounded-2xl border-2 text-2xl font-bold"
+					>
 						{profile.username.slice(0, 1).toUpperCase()}
 					</div>
 				{/if}
-				<div class="absolute -bottom-1 -right-1">
-					<Badge class="bg-primary text-primary-foreground text-xs font-bold px-2">
+				<div class="absolute -right-1 -bottom-1">
+					<Badge class="bg-primary text-primary-foreground px-2 text-xs font-bold">
 						LVL {Math.floor((profile.totalWagered || 0) / 1000) + 1}
 					</Badge>
 				</div>
 			</div>
 
 			<div class="flex-1">
-				<CardTitle class="text-xl text-white mb-1">{profile.username}</CardTitle>
-				<div class="flex items-center gap-2 text-muted-foreground text-sm">
+				<CardTitle class="mb-1 text-xl text-white">{profile.username}</CardTitle>
+				<div class="text-muted-foreground flex items-center gap-2 text-sm">
 					<span class="font-mono text-xs">{profile.steamId}</span>
 					<Button
 						variant="ghost"
 						size="sm"
-						class="h-auto p-1 text-muted-foreground"
+						class="text-muted-foreground h-auto p-1"
 						onclick={copySteamId}
 					>
 						<Copy class="h-3 w-3" />
@@ -111,8 +113,8 @@
 		<CardContent class="space-y-6">
 			<!-- Quick Stats -->
 			<div class="grid grid-cols-2 gap-4">
-				<div class="bg-surface/50 rounded-2xl p-4 border border-border/40">
-					<div class="flex items-center gap-2 text-muted-foreground text-sm mb-1">
+				<div class="bg-surface/50 border-border/40 rounded-2xl border p-4">
+					<div class="text-muted-foreground mb-1 flex items-center gap-2 text-sm">
 						<Wallet class="h-4 w-4" />
 						Total Wagered
 					</div>
@@ -121,8 +123,8 @@
 					</p>
 				</div>
 
-				<div class="bg-surface/50 rounded-2xl p-4 border border-border/40">
-					<div class="flex items-center gap-2 text-muted-foreground text-sm mb-1">
+				<div class="bg-surface/50 border-border/40 rounded-2xl border p-4">
+					<div class="text-muted-foreground mb-1 flex items-center gap-2 text-sm">
 						<TrendingUp class="h-4 w-4" />
 						Total Profit
 					</div>
@@ -136,19 +138,19 @@
 			<div class="grid grid-cols-3 gap-3">
 				<div class="text-center">
 					<div class="text-xl font-bold text-white">{profile.winRate || 0}%</div>
-					<div class="text-xs text-muted-foreground">Win Rate</div>
+					<div class="text-muted-foreground text-xs">Win Rate</div>
 				</div>
 				<div class="text-center">
 					<div class="text-xl font-bold text-yellow-400">
 						{formatCurrency(profile.biggestWin || 0)}
 					</div>
-					<div class="text-xs text-muted-foreground">Biggest Win</div>
+					<div class="text-muted-foreground text-xs">Biggest Win</div>
 				</div>
 				<div class="text-center">
 					<div class="text-xl font-bold text-purple-400">
 						{profile.caseBattleWins || 0}
 					</div>
-					<div class="text-xs text-muted-foreground">Battle Wins</div>
+					<div class="text-muted-foreground text-xs">Battle Wins</div>
 				</div>
 			</div>
 
@@ -158,9 +160,7 @@
 					<Trophy class="h-4 w-4" />
 					View Inventory
 				</Button>
-				<Button variant="outline" class="flex-1">
-					Edit Profile
-				</Button>
+				<Button variant="outline" class="flex-1">Edit Profile</Button>
 			</div>
 		</CardContent>
 	{/if}

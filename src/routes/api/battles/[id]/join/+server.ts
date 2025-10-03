@@ -93,7 +93,8 @@ export const POST: RequestHandler = async ({ params, request, cookies }) => {
 		// Get updated battle details
 		const { data: updatedBattle, error: updatedError } = await supabase
 			.from('battles')
-			.select(`
+			.select(
+				`
 				*,
 				case:cases(*),
 				battle_cases:battle_cases(*, cases(*)),
@@ -101,7 +102,8 @@ export const POST: RequestHandler = async ({ params, request, cookies }) => {
 					*,
 					user:user_profiles(id, username, avatar_url, steam_profile_url)
 				)
-			`)
+			`
+			)
 			.eq('id', id)
 			.single();
 
@@ -115,7 +117,6 @@ export const POST: RequestHandler = async ({ params, request, cookies }) => {
 			participant,
 			battle: updatedBattle || battle
 		});
-
 	} catch (err) {
 		console.error('Join battle error:', err);
 
@@ -123,11 +124,13 @@ export const POST: RequestHandler = async ({ params, request, cookies }) => {
 			if (err.message.includes('Authentication required')) {
 				throw error(401, err.message);
 			}
-			if (err.message.includes('Battle ID is required') ||
+			if (
+				err.message.includes('Battle ID is required') ||
 				err.message.includes('Client seed must be') ||
 				err.message.includes('Battle is not accepting') ||
 				err.message.includes('Battle is full') ||
-				err.message.includes('already a participant')) {
+				err.message.includes('already a participant')
+			) {
 				throw error(400, err.message);
 			}
 			if (err.message.includes('Battle not found')) {
@@ -138,4 +141,3 @@ export const POST: RequestHandler = async ({ params, request, cookies }) => {
 		throw error(500, 'Failed to join battle');
 	}
 };
-

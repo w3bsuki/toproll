@@ -11,6 +11,7 @@ export interface AnimationConfig {
 	delay?: number;
 	ease?: string;
 	stagger?: number;
+	repeat?: number;
 }
 
 export interface RevealAnimationConfig extends AnimationConfig {
@@ -92,7 +93,8 @@ export class BattleAnimations {
 			...rest
 		} = config;
 
-		return gsap.fromTo(elements,
+		return gsap.fromTo(
+			elements,
 			{ scale: 0, opacity: 0, rotation: -15 },
 			{
 				scale: 1,
@@ -108,13 +110,14 @@ export class BattleAnimations {
 	}
 
 	// Celebrate winner animation
-	static celebrateWinner(element: HTMLElement, config: AnimationConfig = {}): gsap.core.Tween {
+	static celebrateWinner(element: HTMLElement, config: AnimationConfig = {}): gsap.core.Timeline {
 		const { duration = 1, delay = 0 } = config;
 
 		const timeline = gsap.timeline({ delay });
 
 		// Bounce in effect
-		timeline.fromTo(element,
+		timeline.fromTo(
+			element,
 			{ scale: 0, rotation: -180 },
 			{ scale: 1.2, rotation: 0, duration: duration * 0.6, ease: 'back.out(1.7)' }
 		);
@@ -139,8 +142,12 @@ export class BattleAnimations {
 	}
 
 	// Counting animation for numbers
-        static countUp(element: HTMLElement, endValue: number, config: AnimationConfig = {}): gsap.core.Tween {
-                const { duration = 1, delay = 0, ease = 'power2.out' } = config;
+	static countUp(
+		element: HTMLElement,
+		endValue: number,
+		config: AnimationConfig = {}
+	): gsap.core.Tween {
+		const { duration = 1, delay = 0, ease = 'power2.out' } = config;
 
 		const startValue = 0;
 		const obj = { value: startValue };
@@ -170,30 +177,30 @@ export class BattleAnimations {
 	static spin(element: HTMLElement, config: AnimationConfig = {}): gsap.core.Tween {
 		const { duration = 1, repeat = -1 } = config;
 
-                return gsap.to(element, {
-                        rotation: 360,
-                        duration,
-                        repeat,
-                        ease: 'none',
-                        transformOrigin: 'center center'
-                });
-        }
+		return gsap.to(element, {
+			rotation: 360,
+			duration,
+			repeat,
+			ease: 'none',
+			transformOrigin: 'center center'
+		});
+	}
 
-        static slideInUp(element: HTMLElement, config: AnimationConfig = {}): gsap.core.Tween {
-                const { duration = DEFAULTS.duration, delay = 0, ease = DEFAULTS.ease } = config;
+	static slideInUp(element: HTMLElement, config: AnimationConfig = {}): gsap.core.Tween {
+		const { duration = DEFAULTS.duration, delay = 0, ease = DEFAULTS.ease } = config;
 
-                return gsap.fromTo(
-                        element,
-                        { y: 40, opacity: 0 },
-                        {
-                                y: 0,
-                                opacity: 1,
-                                duration,
-                                delay,
-                                ease
-                        }
-                );
-        }
+		return gsap.fromTo(
+			element,
+			{ y: 40, opacity: 0 },
+			{
+				y: 0,
+				opacity: 1,
+				duration,
+				delay,
+				ease
+			}
+		);
+	}
 
 	// Glow/Pulse animation for rare items
 	static glow(element: HTMLElement, config: AnimationConfig = {}): gsap.core.Tween {
@@ -212,18 +219,27 @@ export class BattleAnimations {
 	static shake(element: HTMLElement, config: AnimationConfig = {}): gsap.core.Tween {
 		const { duration = 0.5 } = config;
 
-		return gsap.fromTo(element,
-			{ x: 0 },
-			{
-				x: [-10, 10, -8, 8, -5, 5, -2, 2, 0],
-				duration,
-				ease: 'power2.out'
-			}
-		);
+		const timeline = gsap.timeline();
+
+		timeline.to(element, { x: -10, duration: duration * 0.1 });
+		timeline.to(element, { x: 10, duration: duration * 0.1 });
+		timeline.to(element, { x: -8, duration: duration * 0.1 });
+		timeline.to(element, { x: 8, duration: duration * 0.1 });
+		timeline.to(element, { x: -5, duration: duration * 0.1 });
+		timeline.to(element, { x: 5, duration: duration * 0.1 });
+		timeline.to(element, { x: -2, duration: duration * 0.1 });
+		timeline.to(element, { x: 2, duration: duration * 0.1 });
+		timeline.to(element, { x: 0, duration: duration * 0.2 });
+
+		return timeline as any; // Cast to Tween for compatibility
 	}
 
 	// Battle progress animation
-	static animateProgress(element: HTMLElement, progress: number, config: AnimationConfig = {}): gsap.core.Tween {
+	static animateProgress(
+		element: HTMLElement,
+		progress: number,
+		config: AnimationConfig = {}
+	): gsap.core.Tween {
 		const { duration = 1, delay = 0 } = config;
 
 		return gsap.to(element, {
@@ -267,7 +283,8 @@ export class BattleAnimations {
 
 			// Animate sparkle
 			const timeline = gsap.timeline();
-			timeline.fromTo(sparkle,
+			timeline.fromTo(
+				sparkle,
 				{ scale: 0, opacity: 0 },
 				{ scale: 1, opacity: 1, duration: 0.3, ease: 'back.out' }
 			);
@@ -285,7 +302,7 @@ export class BattleAnimations {
 	}
 
 	// Battle transition animations
-	static transitionBattle(fromState: HTMLElement, toState: HTMLElement): gsap.core.Tween {
+	static transitionBattle(fromState: HTMLElement, toState: HTMLElement): gsap.core.Timeline {
 		const flip = Flip.getState(fromState);
 
 		// Update DOM here if needed
@@ -296,21 +313,25 @@ export class BattleAnimations {
 			ease: 'power2.inOut',
 			stagger: 0.05,
 			absolute: true
-		});
+		}) as gsap.core.Timeline;
 	}
 
 	// Chat message animation
-	static slideInMessage(element: HTMLElement, direction: 'left' | 'right' = 'left'): gsap.core.Tween {
+	static slideInMessage(
+		element: HTMLElement,
+		direction: 'left' | 'right' = 'left'
+	): gsap.core.Tween {
 		const startX = direction === 'left' ? -50 : 50;
 
-		return gsap.fromTo(element,
+		return gsap.fromTo(
+			element,
 			{ x: startX, opacity: 0 },
 			{ x: 0, opacity: 1, duration: 0.4, ease: 'power2.out' }
 		);
 	}
 
 	// Button press animation
-	static buttonPress(element: HTMLElement): gsap.core.Tween {
+	static buttonPress(element: HTMLElement): gsap.core.Timeline {
 		const timeline = gsap.timeline();
 
 		timeline.to(element, {
@@ -361,7 +382,11 @@ export const animations = {
 		gsap.fromTo(element, { y: -50, opacity: 0 }, { y: 0, opacity: 1, ...DEFAULTS, ...config }),
 
 	scaleIn: (element: HTMLElement, config?: AnimationConfig) =>
-		gsap.fromTo(element, { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, ...DEFAULTS, ...config }),
+		gsap.fromTo(
+			element,
+			{ scale: 0.8, opacity: 0 },
+			{ scale: 1, opacity: 1, ...DEFAULTS, ...config }
+		),
 
 	// Exit animations
 	fadeOut: (element: HTMLElement, config?: AnimationConfig) =>

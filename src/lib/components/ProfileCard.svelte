@@ -1,15 +1,15 @@
 <script lang="ts">
 	import type { HTMLAttributes } from 'svelte/elements';
 	import type { UserProfile } from '$lib/types';
-        import {
-                Card,
-                CardContent,
-                CardHeader,
-                CardTitle,
-                CardDescription,
-                Badge
-        } from '$lib/components/ui';
-        import type { BadgeVariant } from '$lib/components/ui';
+	import {
+		Card,
+		CardContent,
+		CardHeader,
+		CardTitle,
+		CardDescription,
+		Badge
+	} from '$lib/components/ui';
+	import type { BadgeVariant } from '$lib/components/ui';
 	import { cn } from '$lib/utils';
 
 	interface ProfileCardProps extends HTMLAttributes<HTMLDivElement> {
@@ -32,11 +32,11 @@
 			.join('')
 	);
 
-        const statusVariant = $derived((): BadgeVariant => {
-                if (status === 'online') return 'success';
-                if (status === 'away') return 'warning';
-                return 'outline';
-        });
+	const statusVariant = $derived((): BadgeVariant => {
+		if (status === 'online') return 'success';
+		if (status === 'away') return 'warning';
+		return 'outline';
+	});
 </script>
 
 <Card class={cn('border-border/60 bg-surface/70 border', className)} {...restProps}>
@@ -65,9 +65,9 @@
 				<span
 					class="border-background bg-surface-muted/80 absolute -right-1 -bottom-1 flex h-5 w-5 items-center justify-center rounded-full border"
 				>
-                                        <Badge variant={statusVariant()} class="px-2 text-[10px] tracking-wide uppercase">
-                                                {status}
-                                        </Badge>
+					<Badge variant={statusVariant()} class="px-2 text-[10px] tracking-wide uppercase">
+						{status}
+					</Badge>
 				</span>
 			</div>
 			<div class="text-muted-foreground space-y-1 text-sm">

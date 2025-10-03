@@ -1,0 +1,156 @@
+========================================
+COPY THIS PROMPT FOR CLAUDE CODE
+========================================
+
+Context
+You're the implementation developer on TopRoll. Follow spec-first workflow per agents.md and claude.md.
+
+Read first
+- agents.md — orchestration playbook
+- claude.md — your SOP (validations, reporting)
+- docs/product/README.md — product governance
+- docs/product/status.md — current phase
+- tasks.md — execution backlog
+- docs/engineering/adr/ADR-20251003-spec-workflow.md — spec workflow ADR
+- Specs: docs/product/specs/* + docs/product/PRD.md + docs/product/requirements.md
+
+Stack
+- SvelteKit 2 + Svelte 5 runes ($state, $derived, $effect, $inspect)
+- Tailwind v4 with @theme tokens (no @apply)
+- Supabase backend; API routes under src/routes/api
+- pnpm; CI via .github/workflows/ci.yml
+- Central toasts: src/lib/stores/toasts.ts
+
+Goal
+Fix remaining 12 type errors and 11 warnings from pnpm check. Achieve zero-error baseline and clean a11y/runes compliance. Strip rejected Neo-brutalism styling.
+
+Scope of Work
+
+1. A11y Fixes (BattleCreateDialog.svelte)
+- Line 206: Replace backdrop <div onclick> with proper semantic pattern or add keyboard handler + role
+- Line 360: Replace clickable case selection <div onclick> with <button type="button"> while preserving layout/styling
+- Ensure all interactive elements are keyboard-operable
+
+2. Runes Deprecations (Dynamic Components)
+- BattlePullReel.svelte (line 200): Remove <svelte:component this={getModeIcon(...)} />
+  → Use: const ModeIcon = getModeIcon(battle?.mode || 'standard'); then <ModeIcon class="..." />
+- BattleTotals.svelte (line 178): Remove <svelte:component this={getWinnerIcon(...)} />
+  → Use: const WinnerIcon = getWinnerIcon(index + 1); then <WinnerIcon class="..." />
+- BattleRoom.svelte (line 305): Remove <svelte:component this={getModeIcon(battle.mode)} />
+  → Use: const ModeIcon = getModeIcon(battle.mode); then <ModeIcon class="..." />
+
+3. Reactive State Fix (BattleTotals.svelte)
+- Line 33: Change `let winnerElement: HTMLElement | null = null;` to `let winnerElement = $state<HTMLElement | null>(null);`
+
+4. Neo-Brutalism Cleanup (User Rejected This Styling)
+- src/app.css:
+  - Remove or comment out @theme tokens: --color-neo-*, --shadow-neo-*
+  - Remove utilities: .shadow-neo-sm, .shadow-neo, .shadow-neo-lg, .shadow-neo-active, .border-neo
+- tailwind.config.ts:
+  - Remove shadow-neo, shadow-neo-sm, shadow-neo-lg, shadow-neo-active from boxShadow extend
+- Components (if any neo usage exists):
+  - Replace border-[3px] → border or border-2
+  - Replace shadow-neo* → shadow-sm or shadow-md
+  - Check: src/lib/components/shell/RainPotCard.svelte, sidebar-left.svelte, sidebar-right.svelte, ui/button/button.svelte
+- Archive NEO_BRUTALISM_TRANSFORMATION.md:
+  - Add "⚠️ ARCHIVED — Not in use. Rejected in favor of clean minimal casino UI." at the top
+
+5. API Type Errors (If Any Remain After Above)
+- If pnpm check still reports API typing issues in src/routes/api/battles/*, tighten response shapes for battle.case, battle_cases, creator, participants
+- Use type-only imports; annotate callback generics explicitly
+- Prefer lightweight inline types or zod schemas if needed (keep minimal and colocated)
+
+Constraints
+- Keep diffs minimal; don't change public behavior or APIs
+- Use Svelte 5 runes idioms ($state/$derived/$effect)
+- No ts-ignore unless documented with TODO + reason
+- Don't introduce heavy new deps
+- Preserve existing Tailwind design tokens (non-neo ones)
+- No changes to specs or governance docs
+
+Acceptance Criteria
+- pnpm check: 0 errors, 0 warnings (or document why any warnings are acceptable)
+- pnpm lint: pass
+- pnpm test -- --run: pass
+- No <svelte:component> deprecation warnings
+- No a11y "clickable div" warnings
+- No non-reactive state warnings
+- Neo-brutalism utilities removed or commented out
+- NEO_BRUTALISM_TRANSFORMATION.md marked ARCHIVED
+- tasks.md updated with completed items
+- docs/product/status.md updated if phase/status changed
+
+Validations to Run (Windows PowerShell)
+pnpm install
+pnpm check
+pnpm lint
+pnpm test -- --run
+(Optionally: pnpm dev to smoke test)
+
+Report Back in This Format
+
+1. Summary
+- What you changed and why (1-2 short paragraphs)
+
+2. Validation Results
+- pnpm check: PASS/FAIL (X errors, Y warnings)
+- pnpm lint: PASS/FAIL
+- pnpm test -- --run: PASS/FAIL (X passed, Y failed)
+- Dev smoke: OK/Issues (brief note)
+
+3. Requirements Coverage
+Map each acceptance criterion to Done/Deferred (+ reason if deferred):
+- A11y fixes: Done/Deferred
+- Runes deprecations: Done/Deferred
+- Reactive state: Done/Deferred
+- Neo-brutalism cleanup: Done/Deferred
+- API types: Done/Deferred
+- tasks.md update: Done/Deferred
+- status.md update: Done/Deferred
+
+4. Notable Diffs
+List key files touched and nature of change (1 line each):
+- BattleCreateDialog.svelte: replaced clickable divs with buttons
+- BattlePullReel.svelte: removed <svelte:component>, used direct component variable
+- (etc.)
+
+5. Next Steps
+Any follow-ups you recommend (3-5 bullets max)
+
+Edge Cases to Consider
+- SSR vs browser-only behaviors in SvelteKit
+- Null/undefined in API data; ensure safe rendering
+- Type narrowing where optional fields exist
+- Backdrop click vs. content click handling (event.stopPropagation if needed)
+
+Notes from Orchestrator
+- Focus on a11y and runes warnings first; they block dev experience
+- Neo-brutalism cleanup is critical (user explicitly rejected it)
+- Keep styling changes minimal; revert to standard borders/shadows
+- If API type errors are complex, document them and defer to next iteration
+- Ensure all changes are tested and documented
+
+Files to Review (Not Exhaustive)
+- src/lib/components/battles/BattleCreateDialog.svelte
+- src/lib/components/battles/BattlePullReel.svelte
+- src/lib/components/battles/BattleTotals.svelte
+- src/lib/components/battles/BattleRoom.svelte
+- src/app.css
+- tailwind.config.ts
+- NEO_BRUTALISM_TRANSFORMATION.md
+- tasks.md
+- docs/product/status.md
+
+End of Prompt.
+
+========================================
+NEXT STEPS FOR YOU (ORCHESTRATOR):
+1. Copy the prompt above
+2. Open Claude Code in your terminal
+3. Paste and let Claude work
+4. When Claude reports back, run validations yourself:
+   pnpm check
+   pnpm lint
+   pnpm test -- --run
+5. Review changes, update docs, commit
+========================================

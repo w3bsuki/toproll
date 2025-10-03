@@ -1,66 +1,68 @@
 <script lang="ts">
-        import { Calendar as CalendarPrimitive } from "bits-ui";
-        import * as Calendar from "./index.js";
-        import { cn } from "$lib/utils.js";
-        import type { ButtonVariant } from "../button/button.svelte";
-        import { isEqualMonth, type DateValue } from "@internationalized/date";
-        import type { Snippet } from "svelte";
+	import { Calendar as CalendarPrimitive } from 'bits-ui';
+	import * as Calendar from './index.js';
+	import { cn } from '$lib/utils.js';
+	import type { ButtonVariant } from '../button/button.svelte';
+	import { isEqualMonth, type DateValue } from '@internationalized/date';
+	import type { Snippet } from 'svelte';
 
-        type CalendarRootSlotContext = {
-                months: Array<{ weeks: DateValue[][]; value: DateValue }>;
-                weekdays: string[];
-        };
+	type CalendarRootSlotContext = {
+		months: Array<{ weeks: DateValue[][]; value: DateValue }>;
+		weekdays: string[];
+	};
 
-        type CalendarDaySlotContext = { day: DateValue; outsideMonth: boolean };
+	type CalendarDaySlotContext = { day: DateValue; outsideMonth: boolean };
 
-        type CalendarRootProps = {
-                ref?: HTMLElement | null;
-                value?: CalendarPrimitive.RootProps["value"];
-                placeholder?: CalendarPrimitive.RootProps["placeholder"];
-                class?: string;
-                weekdayFormat?: "narrow" | "short" | "long";
-                buttonVariant?: ButtonVariant;
-                captionLayout?: "dropdown" | "dropdown-months" | "dropdown-years" | "label";
-                locale?: string;
-                months?: CalendarPrimitive.MonthSelectProps["months"];
-                years?: CalendarPrimitive.YearSelectProps["years"];
-                monthFormat?: CalendarPrimitive.MonthSelectProps["monthFormat"];
-                yearFormat?: CalendarPrimitive.YearSelectProps["yearFormat"];
-                day?: Snippet<[CalendarDaySlotContext]>;
-                disableDaysOutsideMonth?: boolean;
-                children?: Snippet<[CalendarRootSlotContext]>;
-                [key: string]: unknown;
-        };
+	type CalendarRootProps = {
+		type?: 'single' | 'multiple' | 'range';
+		ref?: HTMLElement | null;
+		value?: CalendarPrimitive.RootProps['value'];
+		placeholder?: CalendarPrimitive.RootProps['placeholder'];
+		class?: string;
+		weekdayFormat?: 'narrow' | 'short' | 'long';
+		buttonVariant?: ButtonVariant;
+		captionLayout?: 'dropdown' | 'dropdown-months' | 'dropdown-years' | 'label';
+		locale?: string;
+		months?: CalendarPrimitive.MonthSelectProps['months'];
+		years?: CalendarPrimitive.YearSelectProps['years'];
+		monthFormat?: CalendarPrimitive.MonthSelectProps['monthFormat'];
+		yearFormat?: CalendarPrimitive.YearSelectProps['yearFormat'];
+		day?: Snippet<[CalendarDaySlotContext]>;
+		disableDaysOutsideMonth?: boolean;
+		children?: Snippet<[CalendarRootSlotContext]>;
+		[key: string]: unknown;
+	};
 
-        let {
-                ref = $bindable<HTMLElement | null>(null),
-                value = $bindable<CalendarPrimitive.RootProps["value"] | undefined>(),
-                placeholder = $bindable<CalendarPrimitive.RootProps["placeholder"] | undefined>(),
-                class: className = '',
-                weekdayFormat = "short",
-                buttonVariant = "ghost",
-                captionLayout = "label",
-                locale = "en-US",
-                months: monthsProp,
-                years,
-                monthFormat: monthFormatProp,
-                yearFormat = "numeric",
-                day,
-                disableDaysOutsideMonth = false,
-                children,
-                ...restProps
-        }: CalendarRootProps = $props();
+	let {
+		type = 'single',
+		ref = $bindable<HTMLElement | null>(null),
+		value = $bindable<CalendarPrimitive.RootProps['value'] | undefined>(),
+		placeholder = $bindable<CalendarPrimitive.RootProps['placeholder'] | undefined>(),
+		class: className = '',
+		weekdayFormat = 'short',
+		buttonVariant = 'ghost',
+		captionLayout = 'label',
+		locale = 'en-US',
+		months: monthsProp,
+		years,
+		monthFormat: monthFormatProp,
+		yearFormat = 'numeric',
+		day,
+		disableDaysOutsideMonth = false,
+		children,
+		...restProps
+	}: CalendarRootProps = $props();
 
-        const forwardedProps = {
-                type: 'single',
-                ...restProps
-        } as Record<string, unknown>;
+	const forwardedProps = {
+		type,
+		...restProps
+	} as Record<string, unknown>;
 
-        const monthFormatValue = $derived.by(() => {
-                if (monthFormatProp) return monthFormatProp;
-                if (captionLayout.startsWith("dropdown")) return "short";
-                return "long";
-        });
+	const monthFormatValue = $derived.by(() => {
+		if (monthFormatProp) return monthFormatProp;
+		if (captionLayout.startsWith('dropdown')) return 'short';
+		return 'long';
+	});
 </script>
 
 <!--
@@ -68,72 +70,72 @@ Discriminated Unions + Destructing (required for bindable) do not
 get along, so we shut typescript up by casting `value` to `never`.
 -->
 <CalendarPrimitive.Root
-        bind:value={value as never}
-        bind:ref
-        bind:placeholder
-        {weekdayFormat}
-        {disableDaysOutsideMonth}
-        class={cn(
-                "bg-background group/calendar p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent",
-                className
-        )}
-        {locale}
-        monthFormat={monthFormatValue}
-        {yearFormat}
-        {...forwardedProps}
+	bind:value={value as never}
+	bind:ref
+	bind:placeholder
+	{weekdayFormat}
+	{disableDaysOutsideMonth}
+	class={cn(
+		'bg-background group/calendar p-3 [--cell-size:--spacing(8)] [[data-slot=card-content]_&]:bg-transparent [[data-slot=popover-content]_&]:bg-transparent',
+		className
+	)}
+	{locale}
+	monthFormat={monthFormatValue}
+	{yearFormat}
+	{...forwardedProps}
 >
-        {#snippet children({ months, weekdays })}
-                <Calendar.Months>
-                        <Calendar.Nav>
-                                <Calendar.PrevButton variant={buttonVariant} />
-                                <Calendar.NextButton variant={buttonVariant} />
-                        </Calendar.Nav>
-                        {#each months as month, monthIndex (month)}
-                                <Calendar.Month>
-                                        <Calendar.Header>
-                                                <Calendar.Caption
-                                                        {captionLayout}
-                                                        months={monthsProp}
-                                                        monthFormat={monthFormatValue}
-                                                        {years}
-                                                        {yearFormat}
-                                                        month={month.value}
-                                                        bind:placeholder
-                                                        {locale}
-                                                        {monthIndex}
-                                                />
-                                        </Calendar.Header>
-                                        <Calendar.Grid>
-                                                <Calendar.GridHead>
-                                                        <Calendar.GridRow class="select-none">
-                                                                {#each weekdays as weekday (weekday)}
-                                                                        <Calendar.HeadCell>
-                                                                                {weekday.slice(0, 2)}
-                                                                        </Calendar.HeadCell>
-                                                                {/each}
-                                                        </Calendar.GridRow>
-                                                </Calendar.GridHead>
-                                                <Calendar.GridBody>
-                                                        {#each month.weeks as weekDates (weekDates)}
-                                                                <Calendar.GridRow class="mt-2 w-full">
-                                                                        {#each weekDates as date (date)}
-                                                                                <Calendar.Cell {date} month={month.value}>
-                                                                                        {#if day}
-                                                                                                {@render day({
-                                                                                                        day: date,
-                                                                                                        outsideMonth: !isEqualMonth(date, month.value),
-                                                                                                })}
-                                                                                        {:else}
-                                                                                                <Calendar.Day />
-                                                                                        {/if}
-                                                                                </Calendar.Cell>
-                                                                        {/each}
-                                                                </Calendar.GridRow>
-                                                        {/each}
-                                                </Calendar.GridBody>
-                                        </Calendar.Grid>
-                                </Calendar.Month>
-                        {/each}
-                </Calendar.Months>
-        {/snippet}
+	{#snippet children({ months, weekdays })}
+		<Calendar.Months>
+			<Calendar.Nav>
+				<Calendar.PrevButton variant={buttonVariant} />
+				<Calendar.NextButton variant={buttonVariant} />
+			</Calendar.Nav>
+			{#each months as month, monthIndex (month)}
+				<Calendar.Month>
+					<Calendar.Header>
+						<Calendar.Caption
+							{captionLayout}
+							months={monthsProp}
+							monthFormat={monthFormatValue}
+							{years}
+							{yearFormat}
+							month={month.value}
+							bind:placeholder
+							{locale}
+							{monthIndex}
+						/>
+					</Calendar.Header>
+					<Calendar.Grid>
+						<Calendar.GridHead>
+							<Calendar.GridRow class="select-none">
+								{#each weekdays as weekday (weekday)}
+									<Calendar.HeadCell>
+										{weekday.slice(0, 2)}
+									</Calendar.HeadCell>
+								{/each}
+							</Calendar.GridRow>
+						</Calendar.GridHead>
+						<Calendar.GridBody>
+							{#each month.weeks as weekDates (weekDates)}
+								<Calendar.GridRow class="mt-2 w-full">
+									{#each weekDates as date (date)}
+										<Calendar.Cell {date} month={month.value}>
+											{#if day}
+												{@render day({
+													day: date,
+													outsideMonth: !isEqualMonth(date, month.value)
+												})}
+											{:else}
+												<Calendar.Day />
+											{/if}
+										</Calendar.Cell>
+									{/each}
+								</Calendar.GridRow>
+							{/each}
+						</Calendar.GridBody>
+					</Calendar.Grid>
+				</Calendar.Month>
+			{/each}
+		</Calendar.Months>
+	{/snippet}
 </CalendarPrimitive.Root>

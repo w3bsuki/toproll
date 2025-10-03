@@ -5,13 +5,13 @@
 	--color-neo-border: oklch(0.95 0.005 240 / 0.25);
 	--color-neo-shadow: oklch(0 0 0 / 0.4);
 	--color-neo-glow: oklch(0.85 0.28 130 / 0.3);
-	
+
 	/* Gaming Neon Accents */
 	--color-neon-green: oklch(0.85 0.28 130);
-	--color-neon-blue: oklch(0.70 0.20 250);
-	--color-neon-gold: oklch(0.80 0.15 85);
+	--color-neon-blue: oklch(0.7 0.2 250);
+	--color-neon-gold: oklch(0.8 0.15 85);
 	--color-neon-red: oklch(0.65 0.25 25);
-	
+
 	/* Neo-Brutalism Shadows */
 	--shadow-neo-sm: 2px 2px 0px var(--color-neo-shadow);
 	--shadow-neo: 4px 4px 0px var(--color-neo-shadow);
@@ -22,52 +22,52 @@
 @layer base {
 	:root {
 		color-scheme: dark;
-		
+
 		/* Dark slate theme - OKLCH for perceptual uniformity */
-		--background: oklch(0.18 0.01 240);          /* Dark slate blue-grey */
-		--foreground: oklch(0.95 0.005 240);         /* Clean white */
-		--card: oklch(0.24 0.012 240);               /* Elevated dark slate */
+		--background: oklch(0.18 0.01 240); /* Dark slate blue-grey */
+		--foreground: oklch(0.95 0.005 240); /* Clean white */
+		--card: oklch(0.24 0.012 240); /* Elevated dark slate */
 		--card-foreground: oklch(0.95 0.005 240);
 		--popover: oklch(0.24 0.012 240);
 		--popover-foreground: oklch(0.95 0.005 240);
-		
+
 		/* Primary - Bright lime green (CS2 style from your image) */
-		--primary: oklch(0.85 0.28 130);             /* Bright lime/chartreuse */
-		--primary-foreground: oklch(0.18 0.01 240);  /* Dark text on bright button */
-		
-		--secondary: oklch(0.30 0.012 240);
+		--primary: oklch(0.85 0.28 130); /* Bright lime/chartreuse */
+		--primary-foreground: oklch(0.18 0.01 240); /* Dark text on bright button */
+
+		--secondary: oklch(0.3 0.012 240);
 		--secondary-foreground: oklch(0.95 0.005 240);
 		--muted: oklch(0.28 0.012 240);
-		--muted-foreground: oklch(0.60 0.008 240);
+		--muted-foreground: oklch(0.6 0.008 240);
 		--accent: oklch(0.35 0.015 240);
 		--accent-foreground: oklch(0.95 0.005 240);
-		--destructive: oklch(0.60 0.25 20);
+		--destructive: oklch(0.6 0.25 20);
 		--destructive-foreground: oklch(0.95 0.005 240);
-		
+
 		/* Borders - visible grey */
 		--border: oklch(0.95 0.005 240 / 0.12);
 		--input: oklch(0.95 0.005 240 / 0.15);
 		--ring: oklch(0.85 0.28 130);
-		
+
 		/* Radii */
 		--radius: 0.65rem;
 		--radius-sm: 0.5rem;
 		--radius-md: 0.75rem;
 		--radius-lg: 1.25rem;
-		
+
 		/* Legacy surface tokens */
 		--surface: oklch(0.24 0.012 240);
 		--surface-foreground: oklch(0.95 0.005 240);
 		--surface-muted: oklch(0.28 0.012 240);
-		--surface-muted-foreground: oklch(0.60 0.008 240);
+		--surface-muted-foreground: oklch(0.6 0.008 240);
 		--surface-accent: oklch(0.35 0.015 240);
 		--surface-accent-foreground: oklch(0.95 0.005 240);
 		--border-strong: oklch(0.95 0.005 240 / 0.18);
 
 		/* Banner-specific tokens */
-		--banner-primary: oklch(0.55 0.20 250);        /* Vibrant blue */
-		--banner-secondary: oklch(0.65 0.18 260);      /* Lighter blue */
-		--banner-accent: oklch(0.70 0.15 280);         /* Purple-blue accent */
+		--banner-primary: oklch(0.55 0.2 250); /* Vibrant blue */
+		--banner-secondary: oklch(0.65 0.18 260); /* Lighter blue */
+		--banner-accent: oklch(0.7 0.15 280); /* Purple-blue accent */
 	}
 
 	* {
@@ -163,34 +163,34 @@
 
 	/* Enhanced shadows for depth */
 	.shadow-2xl {
-		box-shadow: 
+		box-shadow:
 			0 25px 50px -12px rgb(0 0 0 / 0.4),
 			0 0 0 1px rgb(255 255 255 / 0.05);
 	}
 
 	.shadow-3xl {
-		box-shadow: 
+		box-shadow:
 			0 35px 60px -15px rgb(0 0 0 / 0.5),
 			0 0 0 1px rgb(255 255 255 / 0.08);
 	}
-	
+
 	/* Neo-Brutalism shadows for gaming UI - using @theme tokens */
 	.shadow-neo-sm {
 		box-shadow: var(--shadow-neo-sm);
 	}
-	
+
 	.shadow-neo {
 		box-shadow: var(--shadow-neo);
 	}
-	
+
 	.shadow-neo-lg {
 		box-shadow: var(--shadow-neo-lg);
 	}
-	
+
 	.shadow-neo-active {
 		box-shadow: var(--shadow-neo-active);
 	}
-	
+
 	.border-neo {
 		border-width: 3px;
 		border-color: var(--color-neo-border);
@@ -205,27 +205,31 @@
 	.responsive-spacing {
 		gap: 2rem;
 	}
-	
+
 	@media (min-width: 768px) {
-		.responsive-spacing { gap: 3rem; }
+		.responsive-spacing {
+			gap: 3rem;
+		}
 	}
-	
+
 	@media (min-width: 1024px) {
-		.responsive-spacing { gap: 4rem; }
+		.responsive-spacing {
+			gap: 4rem;
+		}
 	}
 
 	.responsive-padding {
 		padding-left: 1rem;
 		padding-right: 1rem;
 	}
-	
+
 	@media (min-width: 768px) {
 		.responsive-padding {
 			padding-left: 1.5rem;
 			padding-right: 1.5rem;
 		}
 	}
-	
+
 	@media (min-width: 1024px) {
 		.responsive-padding {
 			padding-left: 2rem;
@@ -257,40 +261,68 @@
 
 	/* Gradient utilities for game modes */
 	.gradient-cases {
-		background: radial-gradient(circle at 30% 30%, rgba(34, 197, 94, 0.6), transparent 70%), radial-gradient(circle at 70% 70%, rgba(16, 185, 129, 0.4), transparent 60%), rgba(15, 118, 110, 0.95);
+		background:
+			radial-gradient(circle at 30% 30%, rgba(34, 197, 94, 0.6), transparent 70%),
+			radial-gradient(circle at 70% 70%, rgba(16, 185, 129, 0.4), transparent 60%),
+			rgba(15, 118, 110, 0.95);
 	}
 
 	.gradient-battles {
-		background: radial-gradient(circle at 25% 30%, rgba(239, 68, 68, 0.6), transparent 70%), radial-gradient(circle at 75% 70%, rgba(249, 115, 22, 0.5), transparent 60%), rgba(124, 45, 18, 0.95);
+		background:
+			radial-gradient(circle at 25% 30%, rgba(239, 68, 68, 0.6), transparent 70%),
+			radial-gradient(circle at 75% 70%, rgba(249, 115, 22, 0.5), transparent 60%),
+			rgba(124, 45, 18, 0.95);
 	}
 
 	.gradient-upgrader {
-		background: radial-gradient(circle at 35% 35%, rgba(59, 130, 246, 0.6), transparent 70%), radial-gradient(circle at 70% 65%, rgba(99, 102, 241, 0.5), transparent 60%), rgba(30, 27, 75, 0.95);
+		background:
+			radial-gradient(circle at 35% 35%, rgba(59, 130, 246, 0.6), transparent 70%),
+			radial-gradient(circle at 70% 65%, rgba(99, 102, 241, 0.5), transparent 60%),
+			rgba(30, 27, 75, 0.95);
 	}
 
 	.gradient-double {
-		background: radial-gradient(circle at 30% 70%, rgba(168, 85, 247, 0.6), transparent 70%), radial-gradient(circle at 70% 30%, rgba(236, 72, 153, 0.5), transparent 60%), rgba(88, 28, 135, 0.95);
+		background:
+			radial-gradient(circle at 30% 70%, rgba(168, 85, 247, 0.6), transparent 70%),
+			radial-gradient(circle at 70% 30%, rgba(236, 72, 153, 0.5), transparent 60%),
+			rgba(88, 28, 135, 0.95);
 	}
 
 	.gradient-crash {
-		background: radial-gradient(circle at 25% 20%, rgba(45, 212, 191, 0.6), transparent 70%), radial-gradient(circle at 75% 80%, rgba(56, 189, 248, 0.5), transparent 60%), rgba(8, 47, 73, 0.95);
+		background:
+			radial-gradient(circle at 25% 20%, rgba(45, 212, 191, 0.6), transparent 70%),
+			radial-gradient(circle at 75% 80%, rgba(56, 189, 248, 0.5), transparent 60%),
+			rgba(8, 47, 73, 0.95);
 	}
 
 	.gradient-pots {
-		background: radial-gradient(circle at 20% 50%, rgba(251, 191, 36, 0.6), transparent 70%), radial-gradient(circle at 80% 40%, rgba(245, 158, 11, 0.5), transparent 60%), rgba(120, 53, 15, 0.95);
+		background:
+			radial-gradient(circle at 20% 50%, rgba(251, 191, 36, 0.6), transparent 70%),
+			radial-gradient(circle at 80% 40%, rgba(245, 158, 11, 0.5), transparent 60%),
+			rgba(120, 53, 15, 0.95);
 	}
 
 	/* Banner gradient utilities - matching card system style */
 	.gradient-banner-blue {
-		background: radial-gradient(circle at 25% 25%, var(--banner-primary) 0%, transparent 60%),
-		            radial-gradient(circle at 75% 75%, var(--banner-secondary) 0%, transparent 50%),
-		            var(--surface);
+		background:
+			radial-gradient(circle at 25% 25%, var(--banner-primary) 0%, transparent 60%),
+			radial-gradient(circle at 75% 75%, var(--banner-secondary) 0%, transparent 50%),
+			var(--surface);
 	}
 
 	.gradient-banner-blue-subtle {
-		background: radial-gradient(circle at 20% 30%, color-mix(in oklch, var(--banner-primary) 30%, var(--surface)) 0%, transparent 65%),
-		            radial-gradient(circle at 80% 70%, color-mix(in oklch, var(--banner-secondary) 20%, var(--surface)) 0%, transparent 55%),
-		            var(--surface);
+		background:
+			radial-gradient(
+				circle at 20% 30%,
+				color-mix(in oklch, var(--banner-primary) 30%, var(--surface)) 0%,
+				transparent 65%
+			),
+			radial-gradient(
+				circle at 80% 70%,
+				color-mix(in oklch, var(--banner-secondary) 20%, var(--surface)) 0%,
+				transparent 55%
+			),
+			var(--surface);
 	}
 
 	/* Animation utilities */

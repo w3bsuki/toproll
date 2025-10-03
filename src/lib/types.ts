@@ -2,9 +2,9 @@ export interface UserProfile {
 	user_id: string;
 	steam_id: string;
 	username: string;
-        avatar_url?: string;
-        steam_profile_url?: string;
-        country?: string | null;
+	avatar_url?: string;
+	steam_profile_url?: string;
+	country?: string | null;
 	total_wagered?: number;
 	total_profit?: number;
 	win_rate?: number;
@@ -132,107 +132,115 @@ export interface BattleCase {
 }
 
 export interface BattleRound {
-  id: string;
-  battle_id: string;
-  round_index: number;
-  case_id: string;
-  server_seed_hash: string;
-  revealed_server_seed?: string;
-  created_at: string;
+	id: string;
+	battle_id: string;
+	round_index: number;
+	case_id: string;
+	server_seed_hash: string;
+	revealed_server_seed?: string;
+	created_at: string;
 }
 
 export interface BattlePull {
-  id: string;
-  round_id: string;
-  participant_id: string;
-  item_id: string;
-  client_seed: string;
-  nonce: number;
-  hash: string;
-  mapped_roll: number;
-  created_at: string;
-  item?: CaseItem;
-  participant?: BattleParticipant;
+	id: string;
+	round_id: string;
+	participant_id: string;
+	item_id: string;
+	client_seed: string;
+	nonce: number;
+	hash: string;
+	mapped_roll: number;
+	created_at: string;
+	item?: CaseItem;
+	participant?: BattleParticipant;
 }
 
 // Provably Fair types
 export interface ServerSeed {
-  seed: string;
-  seed_hash: string;
-  created_at: string;
-  revealed_at?: string;
-  is_active: boolean;
+	seed: string;
+	seed_hash: string;
+	created_at: string;
+	revealed_at?: string;
+	is_active: boolean;
 }
 
 export interface ProvablyFairRoll {
-  server_seed: string;
-  client_seed: string;
-  nonce: number;
-  hash: string;
-  roll: number;
-  item_id: string;
+	server_seed: string;
+	client_seed: string;
+	nonce: number;
+	hash: string;
+	roll: number;
+	item_id: string;
 }
 
 // Battle creation types
 export interface CreateBattleRequest {
-  case_ids: string[];
-  mode: 'standard' | 'crazy';
-  max_participants: 2 | 4; // 1v1 or 2v2 for MVP
+	case_ids: string[];
+	mode: 'standard' | 'crazy';
+	max_participants: 2 | 4; // 1v1 or 2v2 for MVP
 }
 
 export interface JoinBattleRequest {
-  battle_id: string;
-  client_seed?: string; // optional, will generate if not provided
+	battle_id: string;
+	client_seed?: string; // optional, will generate if not provided
 }
 
 // WebSocket event types
 export interface BattleEvent {
-  type: 'participant_joined' | 'participant_left' | 'battle_locked' | 'round_start' | 'round_pull' | 'round_result' | 'battle_settled';
-  battle_id: string;
-  data: any;
-  timestamp: string;
+	type:
+		| 'participant_joined'
+		| 'participant_left'
+		| 'battle_locked'
+		| 'round_start'
+		| 'round_pull'
+		| 'round_result'
+		| 'battle_settled'
+		| 'battle_cancelled';
+	battle_id: string;
+	data: any;
+	timestamp: string;
 }
 
 export interface RoundStartEvent {
-  type: 'round_start';
-  round_index: number;
-  case_id: string;
+	type: 'round_start';
+	round_index: number;
+	case_id: string;
 }
 
 export interface RoundPullEvent {
-  type: 'round_pull';
-  participant_id: string;
-  item: CaseItem;
-  hash: string;
-  nonce: number;
-  client_seed: string;
+	type: 'round_pull';
+	participant_id: string;
+	item: CaseItem;
+	hash: string;
+	nonce: number;
+	client_seed: string;
 }
 
 export interface RoundResultEvent {
-  type: 'round_result';
-  round_index: number;
-  pulls: RoundPullEvent[];
-  subtotals: { [participant_id: string]: number };
+	type: 'round_result';
+	round_index: number;
+	pulls: RoundPullEvent[];
+	subtotals: { [participant_id: string]: number };
 }
 
 export interface BattleSettledEvent {
-  type: 'battle_settled';
-  winner_id?: string;
-  winners?: string[]; // for team battles
-  totals: { [participant_id: string]: number };
-  tie_break?: {
-    participant_id: string;
-    won: boolean;
-  };
+	type: 'battle_settled';
+	winner_id?: string;
+	winners?: string[]; // for team battles
+	totals: { [participant_id: string]: number };
+	tie_break?: {
+		participant_id: string;
+		won: boolean;
+	};
 }
 
 // Game configuration
 export interface BattleConfig {
-  max_battle_pot: number;
-  max_daily_loss: number;
-  max_daily_wager: number;
-  case_markup_percentage: number;
-  mode_rake_percentage: number;
+	max_battle_pot: number;
+	max_daily_loss: number;
+	max_daily_wager: number;
+	case_markup_percentage: number;
+	mode_rake_percentage: number;
 }
 
 export type CaseRarity = 'Common' | 'Uncommon' | 'Rare' | 'Epic' | 'Legendary' | 'Contraband';

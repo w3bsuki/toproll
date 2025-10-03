@@ -14,7 +14,10 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 		const sortOrder = url.searchParams.get('sortOrder') || 'desc'; // asc | desc
 
 		// Validate status parameter
-		if (status && !['waiting', 'locking', 'in_progress', 'settling', 'completed', 'cancelled'].includes(status)) {
+		if (
+			status &&
+			!['waiting', 'locking', 'in_progress', 'settling', 'completed', 'cancelled'].includes(status)
+		) {
 			throw error(400, 'Invalid status parameter');
 		}
 
@@ -47,7 +50,8 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 		// Build query for lobby feed - optimized for the lobby view
 		let query = supabase
 			.from('battles')
-			.select(`
+			.select(
+				`
 				id,
 				status,
 				mode,
@@ -67,7 +71,8 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 					user:user_profiles(id, username, avatar_url)
 				),
 				creator:user_profiles!battles_created_by_fkey(id, username, avatar_url)
-			`)
+			`
+			)
 			.order(sortBy, { ascending: sortOrder === 'asc' })
 			.range(offset, offset + limit - 1);
 
@@ -95,7 +100,7 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 		const currentUser = await getCurrentUser(cookies);
 
 		// Enrich battles with additional data for the lobby
-		const enrichedBattles = (battles || []).map(battle => {
+		const enrichedBattles = (battles || []).map((battle) => {
 			// Calculate slots remaining
 			const slotsRemaining = battle.max_participants - battle.current_participants;
 
@@ -104,7 +109,7 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 			let isParticipant = false;
 
 			if (currentUser && battle.status === 'waiting') {
-				isParticipant = battle.participants?.some(p => p.user_id === currentUser.id) || false;
+				isParticipant = battle.participants?.some((p) => p.user_id === currentUser.id) || false;
 				canJoin = !isParticipant && slotsRemaining > 0;
 			}
 
@@ -131,11 +136,13 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 				participants: battle.participants?.slice(0, 4) || [], // Show max 4 participants in lobby
 				// Remove heavy data for lobby feed
 				battle_cases: undefined,
-				creator: battle.creator ? {
-					id: battle.creator.id,
-					username: battle.creator.username,
-					avatar_url: battle.creator.avatar_url
-				} : null
+				creator: battle.creator
+					? {
+							id: battle.creator.id,
+							username: battle.creator.username,
+							avatar_url: battle.creator.avatar_url
+						}
+					: null
 			};
 		});
 
@@ -146,10 +153,10 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 			.in('status', ['waiting', 'locking', 'in_progress']);
 
 		const lobbyStats = {
-			totalWaiting: stats?.filter(b => b.status === 'waiting').length || 0,
-			totalActive: stats?.filter(b => ['locking', 'in_progress'].includes(b.status)).length || 0,
-			standardGames: stats?.filter(b => b.mode === 'standard').length || 0,
-			crazyGames: stats?.filter(b => b.mode === 'crazy').length || 0
+			totalWaiting: stats?.filter((b) => b.status === 'waiting').length || 0,
+			totalActive: stats?.filter((b) => ['locking', 'in_progress'].includes(b.status)).length || 0,
+			standardGames: stats?.filter((b) => b.mode === 'standard').length || 0,
+			crazyGames: stats?.filter((b) => b.mode === 'crazy').length || 0
 		};
 
 		return json({
@@ -167,22 +174,25 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 				sortBy,
 				sortOrder
 			},
-			currentUser: currentUser ? {
-				id: currentUser.id,
-				steamId: currentUser.steamId
-			} : null
+			currentUser: currentUser
+				? {
+						id: currentUser.id,
+						steamId: currentUser.steamId
+					}
+				: null
 		});
-
 	} catch (err) {
 		console.error('Lobby feed error:', err);
 
 		if (err instanceof Error) {
-			if (err.message.includes('Invalid status') ||
+			if (
+				err.message.includes('Invalid status') ||
 				err.message.includes('Invalid mode') ||
 				err.message.includes('Invalid sortBy') ||
 				err.message.includes('Invalid sortOrder') ||
 				err.message.includes('Limit must be') ||
-				err.message.includes('Offset must be')) {
+				err.message.includes('Offset must be')
+			) {
 				throw error(400, err.message);
 			}
 		}

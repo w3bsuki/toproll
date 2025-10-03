@@ -27,16 +27,12 @@
 	}: ButtonProps = $props();
 
 	const variantClasses: Record<ButtonVariant, string> = {
-		default:
-			'bg-primary text-primary-foreground shadow-marketplace-sm border border-primary/60 ',
+		default: 'bg-primary text-primary-foreground shadow-marketplace-sm border border-primary/60 ',
 		secondary:
 			'bg-secondary text-secondary-foreground border border-secondary/55 shadow-marketplace-sm ',
-		outline:
-			'border border-border/70 bg-transparent text-foreground ',
-		ghost:
-			'bg-transparent text-muted-foreground  border border-transparent',
-		destructive:
-			'bg-destructive text-destructive-foreground border border-destructive/60 '
+		outline: 'border border-border/70 bg-transparent text-foreground ',
+		ghost: 'bg-transparent text-muted-foreground  border border-transparent',
+		destructive: 'bg-destructive text-destructive-foreground border border-destructive/60 '
 	};
 
 	const sizeClasses: Record<ButtonSize, string> = {

@@ -1,9 +1,9 @@
 <script lang="ts">
-        import { ContextMenu as ContextMenuPrimitive } from "bits-ui";
-        import CheckIcon from "@lucide/svelte/icons/check";
-        import { cn, type WithoutChildrenOrChild } from "$lib/utils.js";
+	import { ContextMenu as ContextMenuPrimitive } from 'bits-ui';
+	import CheckIcon from '@lucide/svelte/icons/check';
+	import { cn, type WithoutChildrenOrChild } from '$lib/utils.js';
 
-        type ContextMenuCheckboxContext = { checked: boolean; indeterminate: boolean };
+	type ContextMenuCheckboxContext = { checked: boolean; indeterminate: boolean };
 
 	let {
 		ref = $bindable(null),
@@ -12,10 +12,10 @@
 		class: className,
 		children: childrenProp,
 		...restProps
-        }: WithoutChildrenOrChild<
-                ContextMenuPrimitive.CheckboxItemProps,
-                [ContextMenuCheckboxContext]
-        > = $props();
+	}: WithoutChildrenOrChild<
+		ContextMenuPrimitive.CheckboxItemProps,
+		[ContextMenuCheckboxContext]
+	> = $props();
 </script>
 
 <ContextMenuPrimitive.CheckboxItem
@@ -24,19 +24,19 @@
 	bind:indeterminate
 	data-slot="context-menu-checkbox-item"
 	class={cn(
-		"data-highlighted:bg-accent data-highlighted:text-accent-foreground outline-hidden relative flex cursor-default select-none items-center gap-2 rounded-sm py-1.5 pl-8 pr-2 text-sm data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+		"data-highlighted:bg-accent data-highlighted:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-sm py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
 		className
 	)}
 	{...restProps}
 >
-        {#snippet children({ checked, indeterminate })}
-                <span class="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
-                        {#if indeterminate}
-                                <CheckIcon class="size-4 opacity-50" />
-                        {:else if checked}
-                                <CheckIcon class="size-4" />
-                        {/if}
-                </span>
-                {@render childrenProp?.({ checked, indeterminate })}
-        {/snippet}
+	{#snippet children({ checked, indeterminate })}
+		<span class="pointer-events-none absolute left-2 flex size-3.5 items-center justify-center">
+			{#if indeterminate}
+				<CheckIcon class="size-4 opacity-50" />
+			{:else if checked}
+				<CheckIcon class="size-4" />
+			{/if}
+		</span>
+		{@render childrenProp?.({ checked, indeterminate })}
+	{/snippet}
 </ContextMenuPrimitive.CheckboxItem>

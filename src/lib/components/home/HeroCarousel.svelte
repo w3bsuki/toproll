@@ -68,47 +68,46 @@
 	<div class="relative overflow-hidden rounded-2xl">
 		<!-- Main container -->
 		<div
-			class="flex transition-transform duration-500 ease-in-out h-full"
+			class="flex h-full transition-transform duration-500 ease-in-out"
 			style="transform: translateX(-{currentIndex * 100}%)"
 		>
-                        {#each slides as slide, index}
-                                {@const SlideIcon = slide.icon}
-                                <div
-                                        class="w-full flex-shrink-0"
-                                        style="background: {slide.background}"
-                                >
-                                        <div class="relative p-6 min-h-[180px] flex flex-col justify-between">
-                                                <!-- Glass effect -->
-                                                <div class="absolute inset-0 bg-white/10 backdrop-blur-sm rounded-2xl"></div>
+			{#each slides as slide, index}
+				{@const SlideIcon = slide.icon}
+				<div class="w-full flex-shrink-0" style="background: {slide.background}">
+					<div class="relative flex min-h-[180px] flex-col justify-between p-6">
+						<!-- Glass effect -->
+						<div class="absolute inset-0 rounded-2xl bg-white/10 backdrop-blur-sm"></div>
 
 						<div class="relative space-y-4">
 							<!-- Badge -->
 							<div class="inline-flex">
-								<span class="border-white/30 bg-white/20 text-white text-[10px] tracking-wider uppercase rounded-lg border px-3 py-1 font-semibold backdrop-blur-sm">
+								<span
+									class="rounded-lg border border-white/30 bg-white/20 px-3 py-1 text-[10px] font-semibold tracking-wider text-white uppercase backdrop-blur-sm"
+								>
 									{slide.badge}
 								</span>
 							</div>
 
 							<!-- Title and subtitle -->
 							<div class="space-y-2">
-								<h3 class="text-2xl font-bold text-white leading-tight">
+								<h3 class="text-2xl leading-tight font-bold text-white">
 									{slide.title}
 								</h3>
-								<p class="text-white/90 text-sm leading-relaxed">
+								<p class="text-sm leading-relaxed text-white/90">
 									{slide.subtitle}
 								</p>
 							</div>
 
 							<!-- CTA section -->
 							<div class="flex items-center justify-between gap-4">
-                                                                <div class="flex items-center gap-2">
-                                                                        <SlideIcon class="h-5 w-5 text-white/90" />
-                                                                        <span class="text-white font-semibold text-sm">
-                                                                                {slide.highlight}
+								<div class="flex items-center gap-2">
+									<SlideIcon class="h-5 w-5 text-white/90" />
+									<span class="text-sm font-semibold text-white">
+										{slide.highlight}
 									</span>
 								</div>
 								<button
-									class="bg-white text-gray-900 hover:bg-white/90 font-semibold rounded-lg px-4 py-2 text-sm shadow-lg transition-colors"
+									class="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-gray-900 shadow-lg transition-colors hover:bg-white/90"
 								>
 									{slide.cta}
 								</button>
@@ -125,7 +124,7 @@
 			onclick={prevSlide}
 			onmouseenter={stopAutoplay}
 			onmouseleave={startAutoplay}
-			class="absolute left-4 top-1/2 -translate-y-1/2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-gray-900 shadow-lg hover:bg-white transition-all duration-200"
+			class="absolute top-1/2 left-4 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-gray-900 shadow-lg transition-all duration-200 hover:bg-white"
 			aria-label="Previous slide"
 		>
 			<ChevronLeft class="h-5 w-5" />
@@ -136,19 +135,21 @@
 			onclick={nextSlide}
 			onmouseenter={stopAutoplay}
 			onmouseleave={startAutoplay}
-			class="absolute right-4 top-1/2 -translate-y-1/2 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/90 text-gray-900 shadow-lg hover:bg-white transition-all duration-200"
+			class="absolute top-1/2 right-4 z-10 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full bg-white/90 text-gray-900 shadow-lg transition-all duration-200 hover:bg-white"
 			aria-label="Next slide"
 		>
 			<ChevronRight class="h-5 w-5" />
 		</button>
 
 		<!-- Dots indicator -->
-		<div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 z-10">
+		<div class="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 items-center gap-2">
 			{#each slides as _, index}
 				<button
 					type="button"
 					onclick={() => goToSlide(index)}
-					class="h-2 rounded-full transition-all duration-300 {index === currentIndex ? 'bg-white w-8' : 'bg-white/40 hover:bg-white/60 w-2'}"
+					class="h-2 rounded-full transition-all duration-300 {index === currentIndex
+						? 'w-8 bg-white'
+						: 'w-2 bg-white/40 hover:bg-white/60'}"
 					aria-label={`Go to slide ${index + 1}`}
 				></button>
 			{/each}

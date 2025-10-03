@@ -1,8 +1,8 @@
 <script lang="ts">
-        import { onMount } from 'svelte';
-        import type { Snippet } from 'svelte';
-        import { AlertTriangle, RefreshCw, Home, Clipboard } from '@lucide/svelte';
-        import {
+	import { onMount } from 'svelte';
+	import type { Snippet } from 'svelte';
+	import { AlertTriangle, RefreshCw, Home, Clipboard } from '@lucide/svelte';
+	import {
 		Button,
 		Card,
 		CardContent,
@@ -11,6 +11,7 @@
 		CardDescription
 	} from '$lib/components/ui';
 	import { cn } from '$lib/utils';
+	import { toast } from '$lib/stores/toasts';
 
 	interface ErrorBoundaryProps {
 		error?: Error | null;
@@ -35,11 +36,23 @@
 		const handleError = (event: ErrorEvent) => {
 			hasError = true;
 			errorDetails = new Error(event.message);
+
+			// Show toast notification for errors
+			toast.error(
+				'Application Error',
+				'An unexpected error occurred. See error details for more information.'
+			);
 		};
 
 		const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
 			hasError = true;
 			errorDetails = event.reason instanceof Error ? event.reason : new Error(String(event.reason));
+
+			// Show toast notification for promise rejections
+			toast.error(
+				'Application Error',
+				'A promise was rejected. See error details for more information.'
+			);
 		};
 
 		window.addEventListener('error', handleError);
@@ -51,8 +64,8 @@
 		};
 	});
 
-        const currentError = $derived(error ?? errorDetails);
-        const showError = $derived(hasError || !!error);
+	const currentError = $derived(error ?? errorDetails);
+	const showError = $derived(hasError || !!error);
 
 	function handleRetry() {
 		hasError = false;

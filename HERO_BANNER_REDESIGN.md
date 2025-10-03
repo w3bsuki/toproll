@@ -24,6 +24,7 @@ A **killer, compact banner** that showcases your community pots prominently whil
 ## ✨ Key Features
 
 ### Main Carousel (Left Side)
+
 - **Height**: Reduced from 340px → 180-200px (56% smaller!)
 - **Compact Header**: Badge + subtitle in one line
 - **Inline Stats**: Top 2 stats displayed in header (no separate section)
@@ -32,6 +33,7 @@ A **killer, compact banner** that showcases your community pots prominently whil
 - **Hover Navigation**: Arrows appear only on hover
 
 ### Community Pots Sidebar (Right Side - Desktop Only)
+
 1. **Rain Pot (Featured)**
    - Large, eye-catching card with gradient background
    - Live countdown timer
@@ -55,12 +57,14 @@ A **killer, compact banner** that showcases your community pots prominently whil
 ## 🎨 Design Improvements
 
 ### Compact Optimizations
+
 - **67% height reduction** on main carousel
 - **Removed bloat**: No separate stats section, no secondary CTAs
 - **Information density**: More data in less space
 - **Better hierarchy**: Important info (pots) gets dedicated space
 
 ### Visual Polish
+
 - **Gradient variants** for different pot types (primary, secondary, accent)
 - **Icon integration**: Timer, Users, Coins, TrendingUp
 - **Hover effects**: Scale, shadow, color transitions
@@ -68,6 +72,7 @@ A **killer, compact banner** that showcases your community pots prominently whil
 - **Smart spacing**: Consistent 3-unit gaps
 
 ### Responsive Behavior
+
 - **Mobile**: Only shows main carousel (full width)
 - **Desktop (lg+)**: Shows carousel + pots sidebar
 - **Adaptive text**: Smaller fonts on compact layout
@@ -84,11 +89,12 @@ A **killer, compact banner** that showcases your community pots prominently whil
 
 ```typescript
 - Primary: Green/Primary color gradient
-- Secondary: Blue gradient  
+- Secondary: Blue gradient
 - Accent: Purple gradient
 ```
 
 Each variant has:
+
 - Custom gradient background
 - Matching border color
 - Hover state enhancement
@@ -96,11 +102,13 @@ Each variant has:
 ## 📊 Data Display
 
 ### Rain Pot Shows:
+
 - Total amount ($12,400)
 - Contributors (312)
 - Time remaining (08:19)
 
 ### Community Pots Show:
+
 - Title
 - Jackpot amount
 - Expiry time
@@ -110,6 +118,7 @@ Each variant has:
 ## 🎯 Business Logic
 
 **The banner now:**
+
 - ✅ Shows community pots prominently (right sidebar)
 - ✅ Is significantly smaller (180-200px vs 340px)
 - ✅ Has better layout (grid with dedicated pot space)
@@ -119,16 +128,17 @@ Each variant has:
 
 ## 📱 Responsive Strategy
 
-| Screen Size | Layout |
-|------------|--------|
+| Screen Size   | Layout                   |
+| ------------- | ------------------------ |
 | Mobile/Tablet | Full-width carousel only |
-| Desktop (lg+) | Carousel + Pots sidebar |
+| Desktop (lg+) | Carousel + Pots sidebar  |
 
 This ensures mobile users get the full carousel experience without clutter, while desktop users see the valuable community pot information.
 
 ## 🔥 Result
 
 A **compact, information-dense, action-oriented banner** that:
+
 1. Takes up 56% less vertical space
 2. Showcases community pots prominently
 3. Maintains all carousel functionality

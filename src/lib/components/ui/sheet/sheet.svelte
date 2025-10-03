@@ -9,7 +9,12 @@
 		class: className = '',
 		onOpenChange,
 		children
-	}: { open?: boolean; class?: string; onOpenChange?: (open: boolean) => void; children?: Snippet } = $props();
+	}: {
+		open?: boolean;
+		class?: string;
+		onOpenChange?: (open: boolean) => void;
+		children?: Snippet;
+	} = $props();
 
 	const internal = writable(open);
 

@@ -1,6 +1,6 @@
 ﻿<script lang="ts">
-        import GameCard from './GameCard.svelte';
-        import type { Snippet } from 'svelte';
+	import GameCard from './GameCard.svelte';
+	import type { Snippet } from 'svelte';
 
 	export type GameItem = {
 		id: string;
@@ -11,18 +11,18 @@
 		href?: string;
 	};
 
-        type Props = {
-                title: string;
-                items?: GameItem[];
-                actionLabel?: string;
-                children?: Snippet;
-        };
+	type Props = {
+		title: string;
+		items?: GameItem[];
+		actionLabel?: string;
+		children?: Snippet;
+	};
 
-        const props: Props = $props();
-        const title = $derived(props.title);
-        const items = $derived(props.items ?? []);
-        const actionLabel = $derived(props.actionLabel ?? 'view all');
-        const children = $derived(props.children);
+	const props: Props = $props();
+	const title = $derived(props.title);
+	const items = $derived(props.items ?? []);
+	const actionLabel = $derived(props.actionLabel ?? 'view all');
+	const children = $derived(props.children);
 </script>
 
 <section class="space-y-6">
@@ -48,5 +48,5 @@
 			/>
 		{/each}
 	</div>
-        {@render children?.()}
+	{@render children?.()}
 </section>

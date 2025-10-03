@@ -17,12 +17,12 @@ Every document is source-controlled and updated via PRs. Implementation PRs must
 
 ## Conventions
 
-| Item | Convention |
-| ---- | ---------- |
-| Branch naming | `feature/p{phase}-{slug}` |
-| Labels | `phase/p{n}`, `type/spec`, `type/feature`, `area/frontend`, `size/s-m-l`, `prio/p{0-3}` |
-| ADR IDs | `ADR-YYYYMMDD-<slug>` |
-| Spec PR contents | `docs/product/PRD.md`, `docs/product/requirements.md`, `docs/engineering/*.md`, `docs/roadmap.md`, `docs/tasks.md`, relevant ADRs |
-| Implementation PR contents | Code + tests only; may update runbooks/readme/checklists |
+| Item                       | Convention                                                                                                                        |
+| -------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| Branch naming              | `feature/p{phase}-{slug}`                                                                                                         |
+| Labels                     | `phase/p{n}`, `type/spec`, `type/feature`, `area/frontend`, `size/s-m-l`, `prio/p{0-3}`                                           |
+| ADR IDs                    | `ADR-YYYYMMDD-<slug>`                                                                                                             |
+| Spec PR contents           | `docs/product/PRD.md`, `docs/product/requirements.md`, `docs/engineering/*.md`, `docs/roadmap.md`, `docs/tasks.md`, relevant ADRs |
+| Implementation PR contents | Code + tests only; may update runbooks/readme/checklists                                                                          |
 
 See `phases/` for the specific spec templates.

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { Calendar } from "$lib/components/ui/calendar/index.js";
-	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
+	import { Calendar } from '$lib/components/ui/calendar/index.js';
+	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
 </script>
 
 <Sidebar.Group class="px-0">

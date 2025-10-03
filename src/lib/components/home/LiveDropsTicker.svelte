@@ -19,19 +19,25 @@
 	};
 </script>
 
-<section class="w-full overflow-hidden bg-surface/30 backdrop-blur-sm border-y border-border/40">
+<section class="bg-surface/30 border-border/40 w-full overflow-hidden border-y backdrop-blur-sm">
 	<div class="relative">
 		<!-- Gradient overlays for fade effect -->
-                <div class="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background to-transparent z-10 pointer-events-none"></div>
-                <div class="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background to-transparent z-10 pointer-events-none"></div>
+		<div
+			class="from-background pointer-events-none absolute top-0 bottom-0 left-0 z-10 w-24 bg-gradient-to-r to-transparent"
+		></div>
+		<div
+			class="from-background pointer-events-none absolute top-0 right-0 bottom-0 z-10 w-24 bg-gradient-to-l to-transparent"
+		></div>
 
-		<div class="flex animate-scroll py-3 gap-6">
+		<div class="animate-scroll flex gap-6 py-3">
 			{#each [...drops, ...drops] as drop}
-				<div class="flex items-center gap-3 px-4 py-2 bg-surface/60 rounded-xl border border-border/40 whitespace-nowrap shrink-0">
+				<div
+					class="bg-surface/60 border-border/40 flex shrink-0 items-center gap-3 rounded-xl border px-4 py-2 whitespace-nowrap"
+				>
 					<Badge variant="outline" class="text-xs {typeColors[drop.type]} border">
 						{drop.type}
 					</Badge>
-					<span class="text-sm text-muted-foreground">
+					<span class="text-muted-foreground text-sm">
 						<span class="text-foreground font-medium">{drop.user}</span>
 						won
 						<span class="text-foreground font-medium">{drop.item}</span>

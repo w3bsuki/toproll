@@ -1,232 +1,228 @@
 {
-  "seedRotation": {
-    "rotationPeriodHours": 24,
-    "revealBufferMinutes": 30,
-    "maxActiveSeeds": 2,
-    "preGenerateCount": 1,
-    "rotationSchedule": {
-      "enabled": true,
-      "preferredHour": 3,
-      "timezone": "UTC",
-      "forceRotationAfter": {
-        "maxNonces": 100000,
-        "maxAgeHours": 48
-      }
-    }
-  },
-  "hmacConfiguration": {
-    "algorithm": "SHA256",
-    "keyLengthBytes": 32,
-    "serverSeedLengthBytes": 32,
-    "clientSeedLengthBytes": 32,
-    "encoding": "hex"
-  },
-  "nonceManagement": {
-    "startValue": 0,
-    "increment": 1,
-    "maxNoncePerSeed": 100000,
-    "globalNonceReset": {
-      "enabled": true,
-      "resetInterval": "daily",
-      "preserveLastValues": 100
-    }
-  },
-  "probabilityMapping": {
-    "precision": 8,
-    "rollToItemMethod": "cumulative",
-    "useFloatingPoint": true,
-    "edgeCaseHandling": {
-      "zeroRoll": "firstItem",
-      "maxRoll": "lastItem",
-      "invalidProbability": "skip"
-    }
-  },
-  "verificationAndTransparency": {
-    "publicVerificationEnabled": true,
-    "revealHistoryRetentionDays": 90,
-    "publishProofBundle": {
-      "enabled": true,
-      "bundleSize": 20,
-      "includeTimestamps": true,
-      "includeMetadata": true
-    },
-    "verifierPage": {
-      "enabled": true,
-      "allowBulkVerification": true,
-      "maxBulkSize": 100,
-      "showStepByStep": true
-    }
-  },
-  "securityAndIntegrity": {
-    "seedGeneration": {
-      "method": "cryptographicallySecure",
-      "entropySources": ["osCrypto", "hardwareRNG"],
-      "fallbackEntropy": "timestampAndRandom"
-    },
-    "seedStorage": {
-      "encryptionAtRest": true,
-      "accessLogging": true,
-      "keyRotationDays": 90,
-      "backupRetentionDays": 365
-    },
-    "auditTrail": {
-      "enabled": true,
-      "logAllOperations": true,
-      "retentionDays": 2555,
-      "immutableStorage": true
-    }
-  },
-  "operationalSettings": {
-    "circuitBreaker": {
-      "enabled": true,
-      "errorThreshold": 5,
-      "resetTimeoutMinutes": 5,
-      "monitoringWindowMinutes": 10
-    },
-    "performance": {
-      "cacheEnabled": true,
-      "cacheTTLMinutes": 60,
-      "batchProcessingEnabled": true,
-      "maxBatchSize": 1000
-    },
-    "monitoring": {
-      "alertOnSeedExpiry": true,
-      "alertOnHighNonceUsage": true,
-      "alertThresholdNoncePercent": 80,
-      "healthCheckIntervalMinutes": 5
-    }
-  },
-  "gameSpecificSettings": {
-    "caseBattles": {
-      "clientSeedSource": "userSession",
-      "nonceIsolation": {
-        "perBattle": true,
-        "perRound": false,
-        "perUser": false
-      },
-      "tieBreaking": {
-        "useNextNonce": true,
-        "deterministicFallback": true,
-        "logTieBreaks": true
-      },
-      "roundSpecificSeeds": {
-        "enabled": false,
-        "seedDerivation": "hashBattleIdRoundIndex"
-      }
-    },
-    "caseOpenings": {
-      "clientSeedSource": "userGenerated",
-      "nonceIsolation": {
-        "perUser": true,
-        "perCase": false
-      },
-      "verificationRequired": false
-    }
-  },
-  "complianceAndRegulation": {
-    "jurisdictionSettings": {
-      "default": {
-        "requireVerification": true,
-        "minimumAge": 18,
-        "auditFrequency": "monthly"
-      },
-      "restricted": {
-        "requireVerification": true,
-        "minimumAge": 21,
-        "auditFrequency": "weekly",
-        "additionalLogging": true
-      }
-    },
-    "fairnessCertification": {
-      "enabled": true,
-      "certificationBody": "independent",
-      "auditInterval": "quarterly",
-      "publishReports": true
-    },
-    "dataRetention": {
-      "gameData": {
-        "retentionYears": 7,
-        "anonymizeAfter": 2555
-      },
-      "userActivity": {
-        "retentionYears": 5,
-        "anonymizeAfter": 1825
-      },
-      "auditLogs": {
-        "retentionYears": 10,
-        "anonymizeAfter": null
-      }
-    }
-  },
-  "emergencyProcedures": {
-    "seedCompromise": {
-      "detectionMethods": ["monitoring", "manualReport", "audit"],
-      "immediateActions": ["rotateAllSeeds", "pauseNewGames", "notifyCompliance"],
-      "investigationRequired": true,
-      "communicationPlan": "notifyAffectedUsers"
-    },
-    "systemFailure": {
-      "fallbackMode": "pauseAllOperations",
-      "dataRecovery": "fromLastKnownGoodState",
-      "gracefulDegradation": {
-        "enabled": true,
-        "maxDegradationTimeMinutes": 30
-      }
-    },
-    "regulatoryAction": {
-      "freezeOperations": true,
-      "preserveAllData": true,
-      "legalReviewRequired": true,
-      "complianceReporting": true
-    }
-  },
-  "testingAndValidation": {
-    "testVectors": {
-      "enabled": true,
-      "vectorCount": 1000,
-      "validationInterval": "daily",
-      "automatedReporting": true
-    },
-    "statisticalValidation": {
-      "enabled": true,
-      "chiSquareTest": true,
-      "kolmogorovSmirnovTest": true,
-      "sampleSize": 10000,
-      "confidenceLevel": 0.99
-    },
-    "regressionTesting": {
-      "enabled": true,
-      "fixedSeeds": [
-        "test-seed-001",
-        "test-seed-002",
-        "test-seed-003"
-      ],
-      "expectedOutputs": "storedInDatabase",
-      "validationFrequency": "perDeployment"
-    }
-  },
-  "documentation": {
-    "apiDocumentation": {
-      "enabled": true,
-      "includeExamples": true,
-      "includeErrorHandling": true,
-      "autoGenerate": true
-    },
-    "userGuides": {
-      "provablyFairExplained": true,
-      "verificationTutorial": true,
-      "faq": true,
-      "multiLanguage": ["en", "es", "fr", "de", "ru"]
-    },
-    "technicalDocumentation": {
-      "architectureDiagram": true,
-      "dataFlowDiagram": true,
-      "securityModel": true,
-      "complianceMapping": true
-    }
-  },
-  "version": "1.0.0",
-  "lastUpdated": "2025-10-03T00:00:00.000Z",
-  "environment": "production",
-  "configurationHash": "sha256-placeholder"
+	"seedRotation": {
+		"rotationPeriodHours": 24,
+		"revealBufferMinutes": 30,
+		"maxActiveSeeds": 2,
+		"preGenerateCount": 1,
+		"rotationSchedule": {
+			"enabled": true,
+			"preferredHour": 3,
+			"timezone": "UTC",
+			"forceRotationAfter": {
+				"maxNonces": 100000,
+				"maxAgeHours": 48
+			}
+		}
+	},
+	"hmacConfiguration": {
+		"algorithm": "SHA256",
+		"keyLengthBytes": 32,
+		"serverSeedLengthBytes": 32,
+		"clientSeedLengthBytes": 32,
+		"encoding": "hex"
+	},
+	"nonceManagement": {
+		"startValue": 0,
+		"increment": 1,
+		"maxNoncePerSeed": 100000,
+		"globalNonceReset": {
+			"enabled": true,
+			"resetInterval": "daily",
+			"preserveLastValues": 100
+		}
+	},
+	"probabilityMapping": {
+		"precision": 8,
+		"rollToItemMethod": "cumulative",
+		"useFloatingPoint": true,
+		"edgeCaseHandling": {
+			"zeroRoll": "firstItem",
+			"maxRoll": "lastItem",
+			"invalidProbability": "skip"
+		}
+	},
+	"verificationAndTransparency": {
+		"publicVerificationEnabled": true,
+		"revealHistoryRetentionDays": 90,
+		"publishProofBundle": {
+			"enabled": true,
+			"bundleSize": 20,
+			"includeTimestamps": true,
+			"includeMetadata": true
+		},
+		"verifierPage": {
+			"enabled": true,
+			"allowBulkVerification": true,
+			"maxBulkSize": 100,
+			"showStepByStep": true
+		}
+	},
+	"securityAndIntegrity": {
+		"seedGeneration": {
+			"method": "cryptographicallySecure",
+			"entropySources": ["osCrypto", "hardwareRNG"],
+			"fallbackEntropy": "timestampAndRandom"
+		},
+		"seedStorage": {
+			"encryptionAtRest": true,
+			"accessLogging": true,
+			"keyRotationDays": 90,
+			"backupRetentionDays": 365
+		},
+		"auditTrail": {
+			"enabled": true,
+			"logAllOperations": true,
+			"retentionDays": 2555,
+			"immutableStorage": true
+		}
+	},
+	"operationalSettings": {
+		"circuitBreaker": {
+			"enabled": true,
+			"errorThreshold": 5,
+			"resetTimeoutMinutes": 5,
+			"monitoringWindowMinutes": 10
+		},
+		"performance": {
+			"cacheEnabled": true,
+			"cacheTTLMinutes": 60,
+			"batchProcessingEnabled": true,
+			"maxBatchSize": 1000
+		},
+		"monitoring": {
+			"alertOnSeedExpiry": true,
+			"alertOnHighNonceUsage": true,
+			"alertThresholdNoncePercent": 80,
+			"healthCheckIntervalMinutes": 5
+		}
+	},
+	"gameSpecificSettings": {
+		"caseBattles": {
+			"clientSeedSource": "userSession",
+			"nonceIsolation": {
+				"perBattle": true,
+				"perRound": false,
+				"perUser": false
+			},
+			"tieBreaking": {
+				"useNextNonce": true,
+				"deterministicFallback": true,
+				"logTieBreaks": true
+			},
+			"roundSpecificSeeds": {
+				"enabled": false,
+				"seedDerivation": "hashBattleIdRoundIndex"
+			}
+		},
+		"caseOpenings": {
+			"clientSeedSource": "userGenerated",
+			"nonceIsolation": {
+				"perUser": true,
+				"perCase": false
+			},
+			"verificationRequired": false
+		}
+	},
+	"complianceAndRegulation": {
+		"jurisdictionSettings": {
+			"default": {
+				"requireVerification": true,
+				"minimumAge": 18,
+				"auditFrequency": "monthly"
+			},
+			"restricted": {
+				"requireVerification": true,
+				"minimumAge": 21,
+				"auditFrequency": "weekly",
+				"additionalLogging": true
+			}
+		},
+		"fairnessCertification": {
+			"enabled": true,
+			"certificationBody": "independent",
+			"auditInterval": "quarterly",
+			"publishReports": true
+		},
+		"dataRetention": {
+			"gameData": {
+				"retentionYears": 7,
+				"anonymizeAfter": 2555
+			},
+			"userActivity": {
+				"retentionYears": 5,
+				"anonymizeAfter": 1825
+			},
+			"auditLogs": {
+				"retentionYears": 10,
+				"anonymizeAfter": null
+			}
+		}
+	},
+	"emergencyProcedures": {
+		"seedCompromise": {
+			"detectionMethods": ["monitoring", "manualReport", "audit"],
+			"immediateActions": ["rotateAllSeeds", "pauseNewGames", "notifyCompliance"],
+			"investigationRequired": true,
+			"communicationPlan": "notifyAffectedUsers"
+		},
+		"systemFailure": {
+			"fallbackMode": "pauseAllOperations",
+			"dataRecovery": "fromLastKnownGoodState",
+			"gracefulDegradation": {
+				"enabled": true,
+				"maxDegradationTimeMinutes": 30
+			}
+		},
+		"regulatoryAction": {
+			"freezeOperations": true,
+			"preserveAllData": true,
+			"legalReviewRequired": true,
+			"complianceReporting": true
+		}
+	},
+	"testingAndValidation": {
+		"testVectors": {
+			"enabled": true,
+			"vectorCount": 1000,
+			"validationInterval": "daily",
+			"automatedReporting": true
+		},
+		"statisticalValidation": {
+			"enabled": true,
+			"chiSquareTest": true,
+			"kolmogorovSmirnovTest": true,
+			"sampleSize": 10000,
+			"confidenceLevel": 0.99
+		},
+		"regressionTesting": {
+			"enabled": true,
+			"fixedSeeds": ["test-seed-001", "test-seed-002", "test-seed-003"],
+			"expectedOutputs": "storedInDatabase",
+			"validationFrequency": "perDeployment"
+		}
+	},
+	"documentation": {
+		"apiDocumentation": {
+			"enabled": true,
+			"includeExamples": true,
+			"includeErrorHandling": true,
+			"autoGenerate": true
+		},
+		"userGuides": {
+			"provablyFairExplained": true,
+			"verificationTutorial": true,
+			"faq": true,
+			"multiLanguage": ["en", "es", "fr", "de", "ru"]
+		},
+		"technicalDocumentation": {
+			"architectureDiagram": true,
+			"dataFlowDiagram": true,
+			"securityModel": true,
+			"complianceMapping": true
+		}
+	},
+	"version": "1.0.0",
+	"lastUpdated": "2025-10-03T00:00:00.000Z",
+	"environment": "production",
+	"configurationHash": "sha256-placeholder"
 }

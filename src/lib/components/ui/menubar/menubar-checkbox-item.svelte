@@ -1,10 +1,10 @@
 <script lang="ts">
-        import { Menubar as MenubarPrimitive } from "bits-ui";
-        import CheckIcon from "@lucide/svelte/icons/check";
-        import MinusIcon from "@lucide/svelte/icons/minus";
-        import { cn, type WithoutChildrenOrChild } from "$lib/utils.js";
+	import { Menubar as MenubarPrimitive } from 'bits-ui';
+	import CheckIcon from '@lucide/svelte/icons/check';
+	import MinusIcon from '@lucide/svelte/icons/minus';
+	import { cn, type WithoutChildrenOrChild } from '$lib/utils.js';
 
-        type MenubarCheckboxContext = { checked: boolean; indeterminate: boolean };
+	type MenubarCheckboxContext = { checked: boolean; indeterminate: boolean };
 
 	let {
 		ref = $bindable(null),
@@ -13,10 +13,10 @@
 		indeterminate = $bindable(false),
 		children: childrenProp,
 		...restProps
-        }: WithoutChildrenOrChild<
-                MenubarPrimitive.CheckboxItemProps,
-                [MenubarCheckboxContext]
-        > = $props();
+	}: WithoutChildrenOrChild<
+		MenubarPrimitive.CheckboxItemProps,
+		[MenubarCheckboxContext]
+	> = $props();
 </script>
 
 <MenubarPrimitive.CheckboxItem
@@ -25,7 +25,7 @@
 	bind:indeterminate
 	data-slot="menubar-checkbox-item"
 	class={cn(
-		"focus:bg-accent focus:text-accent-foreground rounded-xs outline-hidden relative flex cursor-default select-none items-center gap-2 py-1.5 pl-8 pr-2 text-sm data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg:not([class*='size-'])]:size-4 [&_svg]:pointer-events-none [&_svg]:shrink-0",
+		"focus:bg-accent focus:text-accent-foreground relative flex cursor-default items-center gap-2 rounded-xs py-1.5 pr-2 pl-8 text-sm outline-hidden select-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
 		className
 	)}
 	{...restProps}
@@ -35,9 +35,9 @@
 			{#if indeterminate}
 				<MinusIcon class="size-4" />
 			{:else}
-				<CheckIcon class={cn("size-4", !checked && "text-transparent")} />
+				<CheckIcon class={cn('size-4', !checked && 'text-transparent')} />
 			{/if}
 		</span>
-                {@render childrenProp?.({ checked, indeterminate })}
-        {/snippet}
+		{@render childrenProp?.({ checked, indeterminate })}
+	{/snippet}
 </MenubarPrimitive.CheckboxItem>

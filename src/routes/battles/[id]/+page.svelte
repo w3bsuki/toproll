@@ -37,7 +37,7 @@
 					mode: 'standard',
 					max_participants: 2,
 					current_participants: 2,
-					total_pot: 15.50,
+					total_pot: 15.5,
 					entry_fee: 7.75,
 					rounds_count: 3,
 					current_round: 2,
@@ -95,16 +95,18 @@
 
 <!-- Loading State -->
 {#if isLoading}
-	<div class="min-h-screen bg-background flex items-center justify-center">
+	<div class="bg-background flex min-h-screen items-center justify-center">
 		<div class="text-center">
-			<div class="animate-spin h-8 w-8 border-2 border-primary border-t-transparent rounded-full mx-auto mb-4"></div>
+			<div
+				class="border-primary mx-auto mb-4 h-8 w-8 animate-spin rounded-full border-2 border-t-transparent"
+			></div>
 			<p class="text-muted-foreground">Loading battle...</p>
 		</div>
 	</div>
 {:else if error}
-	<div class="min-h-screen bg-background flex items-center justify-center">
-		<div class="text-center max-w-md">
-			<h2 class="text-2xl font-bold text-foreground mb-2">Battle Not Found</h2>
+	<div class="bg-background flex min-h-screen items-center justify-center">
+		<div class="max-w-md text-center">
+			<h2 class="text-foreground mb-2 text-2xl font-bold">Battle Not Found</h2>
 			<p class="text-muted-foreground mb-4">{error}</p>
 			<Button onclick={goBack} class="gap-2">
 				<ArrowLeft class="h-4 w-4" />
@@ -113,18 +115,13 @@
 		</div>
 	</div>
 {:else if battle}
-	<div class="min-h-screen bg-background">
+	<div class="bg-background min-h-screen">
 		<!-- Battle Header -->
-		<header class="border-b border-border/40 bg-surface/50 backdrop-blur-sm sticky top-0 z-40">
+		<header class="border-border/40 bg-surface/50 sticky top-0 z-40 border-b backdrop-blur-sm">
 			<div class="container mx-auto px-4 py-4">
 				<div class="flex items-center justify-between">
 					<div class="flex items-center gap-4">
-						<Button
-							variant="ghost"
-							size="sm"
-							onclick={goBack}
-							class="gap-2"
-						>
+						<Button variant="ghost" size="sm" onclick={goBack} class="gap-2">
 							<ArrowLeft class="h-4 w-4" />
 							Back
 						</Button>
@@ -133,14 +130,14 @@
 								<img
 									src={battle.case.image_url}
 									alt={battle.case.name}
-									class="h-10 w-10 rounded-lg object-cover border border-border/40"
+									class="border-border/40 h-10 w-10 rounded-lg border object-cover"
 								/>
 							{/if}
 							<div>
-								<h1 class="text-xl font-bold text-foreground">
+								<h1 class="text-foreground text-xl font-bold">
 									Battle #{battle.id}
 								</h1>
-								<p class="text-sm text-muted-foreground">
+								<p class="text-muted-foreground text-sm">
 									{battle.case?.name} • {battle.mode} mode
 								</p>
 							</div>
@@ -148,22 +145,22 @@
 					</div>
 					<div class="flex items-center gap-6">
 						<div class="flex items-center gap-2">
-							<Users class="h-4 w-4 text-muted-foreground" />
-							<span class="text-sm text-muted-foreground">Players:</span>
-							<span class="font-semibold text-foreground">
+							<Users class="text-muted-foreground h-4 w-4" />
+							<span class="text-muted-foreground text-sm">Players:</span>
+							<span class="text-foreground font-semibold">
 								{battle.current_participants}/{battle.max_participants}
 							</span>
 						</div>
 						<div class="flex items-center gap-2">
-							<Trophy class="h-4 w-4 text-muted-foreground" />
-							<span class="text-sm text-muted-foreground">Pot:</span>
+							<Trophy class="text-muted-foreground h-4 w-4" />
+							<span class="text-muted-foreground text-sm">Pot:</span>
 							<span class="font-bold text-emerald-400">
 								${battle.total_pot.toFixed(2)}
 							</span>
 						</div>
 						{#if battle?.status === 'in_progress'}
 							<div class="flex items-center gap-2">
-								<div class="h-2 w-2 bg-emerald-500 rounded-full animate-pulse"></div>
+								<div class="h-2 w-2 animate-pulse rounded-full bg-emerald-500"></div>
 								<span class="text-sm font-medium text-emerald-400">LIVE</span>
 							</div>
 						{/if}
@@ -178,4 +175,3 @@
 		</main>
 	</div>
 {/if}
-

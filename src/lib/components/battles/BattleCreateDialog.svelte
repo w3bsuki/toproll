@@ -1,7 +1,13 @@
 <script lang="ts">
 	import { Button } from '$lib/components/ui/button';
 	import { Badge } from '$lib/components/ui/badge';
-	import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
+	import {
+		Card,
+		CardContent,
+		CardDescription,
+		CardHeader,
+		CardTitle
+	} from '$lib/components/ui/card';
 	import { Input } from '$lib/components/ui/input';
 	import { Label } from '$lib/components/ui/label';
 	import { Separator } from '$lib/components/ui/separator';
@@ -48,7 +54,7 @@
 			name: 'Dreams & Nightmares',
 			description: 'Mystical case with rare items',
 			image_url: '/cases/dreams-nightmares.jpg',
-			price: 5.00,
+			price: 5.0,
 			item_count: 17,
 			created_at: new Date().toISOString(),
 			updated_at: new Date().toISOString()
@@ -58,7 +64,7 @@
 			name: 'Fracture',
 			description: 'Fractured dreams and nightmares',
 			image_url: '/cases/fracture.jpg',
-			price: 6.00,
+			price: 6.0,
 			item_count: 17,
 			created_at: new Date().toISOString(),
 			updated_at: new Date().toISOString()
@@ -78,7 +84,7 @@
 			name: 'Prisma 2',
 			description: 'Colorful weapon skins',
 			image_url: '/cases/prisma2.jpg',
-			price: 12.50,
+			price: 12.5,
 			item_count: 17,
 			created_at: new Date().toISOString(),
 			updated_at: new Date().toISOString()
@@ -86,20 +92,24 @@
 	]);
 
 	// Computed values
-	const totalCost = $derived(
-		selectedCases.reduce((sum, case_) => sum + case_.price, 0)
-	);
+	const totalCost = $derived(selectedCases.reduce((sum, case_) => sum + case_.price, 0));
 	const totalPot = $derived(totalCost * maxParticipants);
 	const roundsCount = $derived(Math.max(3, selectedCases.length));
 	const canAfford = $derived(userBalance >= totalCost);
 	const isValid = $derived(selectedCases.length > 0 && canAfford);
 
 	// Handle dialog close
-	function handleClose() {
+	function handleClose(event?: MouseEvent) {
 		if (!isCreating) {
 			onOpenChange?.(false);
 			resetForm();
 		}
+	}
+
+	// Handle dialog backdrop click with stopPropagation
+	function handleBackdropClick(event: MouseEvent) {
+		event.stopPropagation();
+		handleClose(event);
 	}
 
 	// Reset form
@@ -113,18 +123,18 @@
 
 	// Add case to selection
 	function addCase(case_: Case) {
-		if (selectedCases.some(c => c.id === case_.id)) return;
+		if (selectedCases.some((c) => c.id === case_.id)) return;
 		selectedCases = [...selectedCases, case_];
 	}
 
 	// Remove case from selection
 	function removeCase(caseId: string) {
-		selectedCases = selectedCases.filter(c => c.id !== caseId);
+		selectedCases = selectedCases.filter((c) => c.id !== caseId);
 	}
 
 	// Move case in selection
 	function moveCase(caseId: string, direction: 'up' | 'down') {
-		const index = selectedCases.findIndex(c => c.id === caseId);
+		const index = selectedCases.findIndex((c) => c.id === caseId);
 		if (index === -1) return;
 
 		const newCases = [...selectedCases];
@@ -145,34 +155,25 @@
 
 		try {
 			const request: CreateBattleRequest = {
-				case_ids: selectedCases.map(c => c.id),
+				case_ids: selectedCases.map((c) => c.id),
 				mode: selectedMode,
 				max_participants: maxParticipants
 			};
 
-			// TODO: Replace with actual API call
-			// const response = await fetch('/api/battles', {
-			//   method: 'POST',
-			//   headers: { 'Content-Type': 'application/json' },
-			//   body: JSON.stringify(request)
-			// });
-			// const battle = await response.json();
+			const response = await fetch('/api/battles', {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify(request)
+			});
 
-			// Mock API call
-			await new Promise(resolve => setTimeout(resolve, 2000));
-			const mockBattle = {
-				id: 'battle-' + Date.now(),
-				...request,
-				status: 'waiting',
-				current_participants: 1,
-				total_pot: totalPot,
-				entry_fee: totalCost,
-				rounds_count: roundsCount,
-				current_round: 0,
-				created_at: new Date().toISOString()
-			};
+			if (!response.ok) {
+				const errorData = await response.json().catch(() => ({ message: 'Unknown error' }));
+				throw new Error(errorData.message || `Failed to create battle: ${response.statusText}`);
+			}
 
-			onBattleCreated?.(mockBattle);
+			const battle = await response.json();
+
+			onBattleCreated?.(battle);
 			onOpenChange?.(false);
 			resetForm();
 		} catch (error) {
@@ -202,36 +203,39 @@
 
 {#if open}
 	<!-- Backdrop -->
-        <div
-                class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
-                on:click={handleClose}
+	<div
+		class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+		onclick={handleClose}
 		role="dialog"
 		aria-modal="true"
 		aria-labelledby="dialog-title"
 		aria-describedby="dialog-description"
 	>
 		<!-- Dialog Panel -->
-                <div
-                        class="bg-surface border border-border/40 rounded-xl shadow-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden flex flex-col"
-                        role="presentation"
-                        on:click|stopPropagation
-                >
+		<div
+			class="bg-surface border-border/40 flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-xl border shadow-2xl"
+			role="presentation"
+			onclick={handleBackdropClick}
+		>
 			<!-- Header -->
-			<header class="p-6 border-b border-border/40">
+			<header class="border-border/40 border-b p-6">
 				<div class="flex items-center justify-between">
 					<div>
-						<h2 id="dialog-title" class="text-2xl font-bold text-foreground flex items-center gap-2">
-							<Trophy class="h-6 w-6 text-primary" />
+						<h2
+							id="dialog-title"
+							class="text-foreground flex items-center gap-2 text-2xl font-bold"
+						>
+							<Trophy class="text-primary h-6 w-6" />
 							Create Battle
 						</h2>
 						<p id="dialog-description" class="text-muted-foreground mt-1">
 							Configure your battle settings and select cases
 						</p>
 					</div>
-                                        <Button
-                                                variant="ghost"
-                                                size="icon"
-                                                on:click={handleClose}
+					<Button
+						variant="ghost"
+						size="icon"
+						onclick={handleClose}
 						class="h-8 w-8"
 						aria-label="Close dialog"
 					>
@@ -253,36 +257,34 @@
 					</div>
 
 					<!-- Configuration Tab -->
-					<TabsContent value="configuration" class="px-6 py-4 space-y-6">
+					<TabsContent value="configuration" class="space-y-6 px-6 py-4">
 						<div class="grid gap-6 md:grid-cols-2">
 							<!-- Battle Mode -->
 							<Card>
 								<CardHeader>
 									<CardTitle class="text-lg">Battle Mode</CardTitle>
-									<CardDescription>
-										Choose how winners are determined
-									</CardDescription>
+									<CardDescription>Choose how winners are determined</CardDescription>
 								</CardHeader>
 								<CardContent class="space-y-4">
 									<div class="grid gap-3">
-										{#each [
-											{ mode: 'standard' as const, icon: Trophy, title: 'Standard', description: 'Highest total value wins' },
-											{ mode: 'crazy' as const, icon: Sparkles, title: 'Crazy', description: 'Lowest total value wins' }
-										] as { mode, icon: Icon, title, description }}
+										{#each [{ mode: 'standard' as const, icon: Trophy, title: 'Standard', description: 'Highest total value wins' }, { mode: 'crazy' as const, icon: Sparkles, title: 'Crazy', description: 'Lowest total value wins' }] as { mode, icon: Icon, title, description }}
 											<button
 												type="button"
-												class="p-4 rounded-lg border-2 transition-all text-left {selectedMode === mode ? 'border-primary bg-primary/10' : 'border-border/40 hover:border-border/80'}"
-												onclick={() => selectedMode = mode}
+												class="rounded-lg border-2 p-4 text-left transition-all {selectedMode ===
+												mode
+													? 'border-primary bg-primary/10'
+													: 'border-border/40 hover:border-border/80'}"
+												onclick={() => (selectedMode = mode)}
 											>
 												<div class="flex items-start gap-3">
-													<Icon class="h-5 w-5 text-primary mt-0.5" />
+													<Icon class="text-primary mt-0.5 h-5 w-5" />
 													<div>
-														<h3 class="font-semibold text-foreground">{title}</h3>
-														<p class="text-sm text-muted-foreground mt-1">{description}</p>
+														<h3 class="text-foreground font-semibold">{title}</h3>
+														<p class="text-muted-foreground mt-1 text-sm">{description}</p>
 													</div>
 												</div>
 												{#if selectedMode === mode}
-													<CheckCircle class="h-4 w-4 text-primary ml-auto" />
+													<CheckCircle class="text-primary ml-auto h-4 w-4" />
 												{/if}
 											</button>
 										{/each}
@@ -294,30 +296,28 @@
 							<Card>
 								<CardHeader>
 									<CardTitle class="text-lg">Battle Size</CardTitle>
-									<CardDescription>
-										Maximum number of participants
-									</CardDescription>
+									<CardDescription>Maximum number of participants</CardDescription>
 								</CardHeader>
 								<CardContent class="space-y-4">
 									<div class="grid gap-3">
-										{#each [
-											{ count: 2, label: '1v1 Battle', description: 'Head to head competition' },
-											{ count: 4, label: '2v2 Battle', description: 'Team battle mode' }
-										] as { count, label, description }}
+										{#each [{ count: 2, label: '1v1 Battle', description: 'Head to head competition' }, { count: 4, label: '2v2 Battle', description: 'Team battle mode' }] as { count, label, description }}
 											<button
 												type="button"
-												class="p-4 rounded-lg border-2 transition-all text-left {maxParticipants === count ? 'border-primary bg-primary/10' : 'border-border/40 hover:border-border/80'}"
-												onclick={() => maxParticipants = count as 2 | 4}
+												class="rounded-lg border-2 p-4 text-left transition-all {maxParticipants ===
+												count
+													? 'border-primary bg-primary/10'
+													: 'border-border/40 hover:border-border/80'}"
+												onclick={() => (maxParticipants = count as 2 | 4)}
 											>
 												<div class="flex items-start gap-3">
-													<Users class="h-5 w-5 text-primary mt-0.5" />
+													<Users class="text-primary mt-0.5 h-5 w-5" />
 													<div>
-														<h3 class="font-semibold text-foreground">{label}</h3>
-														<p class="text-sm text-muted-foreground mt-1">{description}</p>
+														<h3 class="text-foreground font-semibold">{label}</h3>
+														<p class="text-muted-foreground mt-1 text-sm">{description}</p>
 													</div>
 												</div>
 												{#if maxParticipants === count}
-													<CheckCircle class="h-4 w-4 text-primary ml-auto" />
+													<CheckCircle class="text-primary ml-auto h-4 w-4" />
 												{/if}
 											</button>
 										{/each}
@@ -330,9 +330,9 @@
 						<Card class="bg-primary/5 border-primary/20">
 							<CardContent class="p-4">
 								<div class="flex items-start gap-3">
-									<Info class="h-5 w-5 text-primary mt-0.5" />
+									<Info class="text-primary mt-0.5 h-5 w-5" />
 									<div class="text-sm">
-										<h4 class="font-semibold text-foreground mb-1">Battle Rules</h4>
+										<h4 class="text-foreground mb-1 font-semibold">Battle Rules</h4>
 										<ul class="text-muted-foreground space-y-1">
 											<li>• Each player opens the same cases in the same order</li>
 											<li>• Total value is calculated after all rounds</li>
@@ -346,21 +346,23 @@
 					</TabsContent>
 
 					<!-- Cases Tab -->
-					<TabsContent value="cases" class="px-6 py-4 space-y-6">
+					<TabsContent value="cases" class="space-y-6 px-6 py-4">
 						<div class="grid gap-6 lg:grid-cols-2">
 							<!-- Available Cases -->
 							<Card>
 								<CardHeader>
 									<CardTitle class="text-lg">Available Cases</CardTitle>
-									<CardDescription>
-										Select cases to include in the battle
-									</CardDescription>
+									<CardDescription>Select cases to include in the battle</CardDescription>
 								</CardHeader>
 								<CardContent>
-									<div class="space-y-3 max-h-96 overflow-y-auto">
+									<div class="max-h-96 space-y-3 overflow-y-auto">
 										{#each availableCases as case_ (case_.id)}
 											<div
-												class="p-3 rounded-lg border border-border/40 hover:border-primary/50 transition-all cursor-pointer {selectedCases.some(c => c.id === case_.id) ? 'bg-primary/10 border-primary/50' : 'bg-surface'}"
+												class="border-border/40 hover:border-primary/50 cursor-pointer rounded-lg border p-3 transition-all {selectedCases.some(
+													(c) => c.id === case_.id
+												)
+													? 'bg-primary/10 border-primary/50'
+													: 'bg-surface'}"
 												onclick={() => addCase(case_)}
 											>
 												<div class="flex items-center gap-3">
@@ -372,12 +374,12 @@
 														/>
 													{/if}
 													<div class="flex-1">
-														<h3 class="font-semibold text-foreground">{case_.name}</h3>
-														<p class="text-sm text-muted-foreground">{case_.description}</p>
+														<h3 class="text-foreground font-semibold">{case_.name}</h3>
+														<p class="text-muted-foreground text-sm">{case_.description}</p>
 													</div>
 													<div class="text-right">
 														<p class="font-bold text-emerald-400">{formatCurrency(case_.price)}</p>
-														{#if selectedCases.some(c => c.id === case_.id)}
+														{#if selectedCases.some((c) => c.id === case_.id)}
 															<Badge variant="secondary" class="text-xs">Selected</Badge>
 														{:else}
 															<Button size="sm" variant="outline" class="gap-1">
@@ -398,23 +400,29 @@
 								<CardHeader>
 									<CardTitle class="text-lg">Selected Cases</CardTitle>
 									<CardDescription>
-										{selectedCases.length === 0 ? 'No cases selected' : `${selectedCases.length} case${selectedCases.length !== 1 ? 's' : ''} selected`}
+										{selectedCases.length === 0
+											? 'No cases selected'
+											: `${selectedCases.length} case${selectedCases.length !== 1 ? 's' : ''} selected`}
 									</CardDescription>
 								</CardHeader>
 								<CardContent>
 									{#if selectedCases.length === 0}
-										<div class="text-center py-8 text-muted-foreground">
-											<div class="h-12 w-12 rounded-full bg-surface-muted flex items-center justify-center mx-auto mb-3">
+										<div class="text-muted-foreground py-8 text-center">
+											<div
+												class="bg-surface-muted mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full"
+											>
 												<Trophy class="h-6 w-6" />
 											</div>
 											<p>Select cases from the available list to get started</p>
 										</div>
 									{:else}
-										<div class="space-y-3 max-h-96 overflow-y-auto">
+										<div class="max-h-96 space-y-3 overflow-y-auto">
 											{#each selectedCases as case_ (case_.id)}
-												<div class="p-3 rounded-lg bg-surface border border-border/40">
+												<div class="bg-surface border-border/40 rounded-lg border p-3">
 													<div class="flex items-center gap-3">
-														<span class="text-sm font-bold text-muted-foreground">#{selectedCases.indexOf(case_) + 1}</span>
+														<span class="text-muted-foreground text-sm font-bold"
+															>#{selectedCases.indexOf(case_) + 1}</span
+														>
 														{#if case_.image_url}
 															<img
 																src={case_.image_url}
@@ -423,12 +431,14 @@
 															/>
 														{/if}
 														<div class="flex-1">
-															<h3 class="font-semibold text-foreground">{case_.name}</h3>
-															<p class="text-sm text-muted-foreground">{case_.description}</p>
+															<h3 class="text-foreground font-semibold">{case_.name}</h3>
+															<p class="text-muted-foreground text-sm">{case_.description}</p>
 														</div>
 														<div class="text-right">
-															<p class="font-bold text-emerald-400">{formatCurrency(case_.price)}</p>
-															<div class="flex gap-1 mt-1">
+															<p class="font-bold text-emerald-400">
+																{formatCurrency(case_.price)}
+															</p>
+															<div class="mt-1 flex gap-1">
 																<Button
 																	size="sm"
 																	variant="ghost"
@@ -443,14 +453,15 @@
 																	variant="ghost"
 																	class="h-6 w-6 p-0"
 																	onclick={() => moveCase(case_.id, 'down')}
-																	disabled={selectedCases.indexOf(case_) === selectedCases.length - 1}
+																	disabled={selectedCases.indexOf(case_) ===
+																		selectedCases.length - 1}
 																>
 																	<span class="text-xs">↓</span>
 																</Button>
 																<Button
 																	size="sm"
 																	variant="ghost"
-																	class="h-6 w-6 p-0 text-destructive hover:text-destructive"
+																	class="text-destructive hover:text-destructive h-6 w-6 p-0"
 																	onclick={() => removeCase(case_.id)}
 																>
 																	<Minus class="h-3 w-3" />
@@ -468,23 +479,21 @@
 					</TabsContent>
 
 					<!-- Summary Tab -->
-					<TabsContent value="summary" class="px-6 py-4 space-y-6">
+					<TabsContent value="summary" class="space-y-6 px-6 py-4">
 						<!-- Battle Summary -->
 						<Card>
 							<CardHeader>
 								<CardTitle class="text-lg">Battle Summary</CardTitle>
-								<CardDescription>
-									Review your battle configuration before creating
-								</CardDescription>
+								<CardDescription>Review your battle configuration before creating</CardDescription>
 							</CardHeader>
 							<CardContent class="space-y-4">
 								<div class="grid gap-4 md:grid-cols-2">
 									<div>
-										<h4 class="font-semibold text-foreground mb-2">Configuration</h4>
+										<h4 class="text-foreground mb-2 font-semibold">Configuration</h4>
 										<div class="space-y-2 text-sm">
 											<div class="flex justify-between">
 												<span class="text-muted-foreground">Mode:</span>
-												<span class="capitalize text-foreground">{selectedMode}</span>
+												<span class="text-foreground capitalize">{selectedMode}</span>
 											</div>
 											<div class="flex justify-between">
 												<span class="text-muted-foreground">Max Players:</span>
@@ -497,7 +506,7 @@
 										</div>
 									</div>
 									<div>
-										<h4 class="font-semibold text-foreground mb-2">Cost Breakdown</h4>
+										<h4 class="text-foreground mb-2 font-semibold">Cost Breakdown</h4>
 										<div class="space-y-2 text-sm">
 											<div class="flex justify-between">
 												<span class="text-muted-foreground">Entry Fee:</span>
@@ -521,7 +530,7 @@
 
 								<!-- Selected Cases List -->
 								<div>
-									<h4 class="font-semibold text-foreground mb-2">Cases ({selectedCases.length})</h4>
+									<h4 class="text-foreground mb-2 font-semibold">Cases ({selectedCases.length})</h4>
 									<div class="flex flex-wrap gap-2">
 										{#each selectedCases as case_ (case_.id)}
 											<Badge variant="outline" class="gap-1">
@@ -533,31 +542,37 @@
 
 								<!-- Validation Messages -->
 								{#if !canAfford}
-									<div class="flex items-start gap-3 p-3 bg-destructive/10 border border-destructive/20 rounded-lg">
-										<AlertCircle class="h-5 w-5 text-destructive mt-0.5" />
+									<div
+										class="bg-destructive/10 border-destructive/20 flex items-start gap-3 rounded-lg border p-3"
+									>
+										<AlertCircle class="text-destructive mt-0.5 h-5 w-5" />
 										<div>
-											<p class="text-sm font-medium text-destructive">Insufficient Balance</p>
-											<p class="text-sm text-muted-foreground">
+											<p class="text-destructive text-sm font-medium">Insufficient Balance</p>
+											<p class="text-muted-foreground text-sm">
 												You need {formatCurrency(totalCost - userBalance)} more to create this battle
 											</p>
 										</div>
 									</div>
 								{:else if selectedCases.length === 0}
-									<div class="flex items-start gap-3 p-3 bg-warning/10 border border-warning/20 rounded-lg">
-										<Info class="h-5 w-5 text-warning mt-0.5" />
+									<div
+										class="bg-warning/10 border-warning/20 flex items-start gap-3 rounded-lg border p-3"
+									>
+										<Info class="text-warning mt-0.5 h-5 w-5" />
 										<div>
-											<p class="text-sm font-medium text-warning">No Cases Selected</p>
-											<p class="text-sm text-muted-foreground">
+											<p class="text-warning text-sm font-medium">No Cases Selected</p>
+											<p class="text-muted-foreground text-sm">
 												Please select at least one case to create a battle
 											</p>
 										</div>
 									</div>
 								{:else}
-									<div class="flex items-start gap-3 p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-lg">
-										<CheckCircle class="h-5 w-5 text-emerald-400 mt-0.5" />
+									<div
+										class="flex items-start gap-3 rounded-lg border border-emerald-500/20 bg-emerald-500/10 p-3"
+									>
+										<CheckCircle class="mt-0.5 h-5 w-5 text-emerald-400" />
 										<div>
 											<p class="text-sm font-medium text-emerald-400">Ready to Create</p>
-											<p class="text-sm text-muted-foreground">
+											<p class="text-muted-foreground text-sm">
 												Your battle is configured and ready to be created
 											</p>
 										</div>
@@ -566,11 +581,13 @@
 
 								<!-- Error Message -->
 								{#if createError}
-									<div class="flex items-start gap-3 p-3 bg-destructive/10 border border-destructive/20 rounded-lg">
-										<AlertCircle class="h-5 w-5 text-destructive mt-0.5" />
+									<div
+										class="bg-destructive/10 border-destructive/20 flex items-start gap-3 rounded-lg border p-3"
+									>
+										<AlertCircle class="text-destructive mt-0.5 h-5 w-5" />
 										<div>
-											<p class="text-sm font-medium text-destructive">Creation Failed</p>
-											<p class="text-sm text-muted-foreground">{createError}</p>
+											<p class="text-destructive text-sm font-medium">Creation Failed</p>
+											<p class="text-muted-foreground text-sm">{createError}</p>
 										</div>
 									</div>
 								{/if}
@@ -581,9 +598,9 @@
 			</div>
 
 			<!-- Footer -->
-			<footer class="p-6 border-t border-border/40">
+			<footer class="border-border/40 border-t p-6">
 				<div class="flex items-center justify-between">
-					<div class="text-sm text-muted-foreground">
+					<div class="text-muted-foreground text-sm">
 						{#if isValid}
 							<span class="text-emerald-400">Ready to create battle</span>
 						{:else if selectedCases.length === 0}
@@ -595,13 +612,7 @@
 						{/if}
 					</div>
 					<div class="flex gap-3">
-						<Button
-							variant="outline"
-							onclick={handleClose}
-							disabled={isCreating}
-						>
-							Cancel
-						</Button>
+						<Button variant="outline" onclick={handleClose} disabled={isCreating}>Cancel</Button>
 						<Button
 							onclick={handleCreateBattle}
 							disabled={!isValid || isCreating}
@@ -609,7 +620,9 @@
 						>
 							{#if isCreating}
 								<div class="flex items-center gap-2">
-									<div class="h-4 w-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+									<div
+										class="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white"
+									></div>
 									Creating...
 								</div>
 							{:else}
@@ -625,5 +638,3 @@
 		</div>
 	</div>
 {/if}
-
-

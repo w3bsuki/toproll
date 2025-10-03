@@ -2,10 +2,14 @@
 	import { onMount } from 'svelte';
 	import { browser } from '$app/environment';
 
-	let { trigger = false, color = '#ffd700', intensity = 'medium' }: {
-		trigger: boolean,
-		color: string,
-		intensity: 'low' | 'medium' | 'high'
+	let {
+		trigger = false,
+		color = '#ffd700',
+		intensity = 'medium'
+	}: {
+		trigger: boolean;
+		color: string;
+		intensity: 'low' | 'medium' | 'high';
 	} = $props();
 
 	let containerRef: HTMLDivElement;

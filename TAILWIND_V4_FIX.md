@@ -3,45 +3,50 @@
 ## What Was Fixed
 
 ### 1. **Tailwind CSS v4 Syntax** ✅
+
 **Before:** Used deprecated `@apply` directive  
 **After:** Using native CSS and `@theme` directive
 
 #### Added `@theme` Block (Tailwind v4)
+
 ```css
 @theme {
-  /* Neo-Brutalism Design Tokens */
-  --color-neo-border: oklch(0.95 0.005 240 / 0.25);
-  --color-neo-shadow: oklch(0 0 0 / 0.4);
-  --color-neo-glow: oklch(0.85 0.28 130 / 0.3);
-  
-  /* Gaming Neon Accents */
-  --color-neon-green: oklch(0.85 0.28 130);
-  --color-neon-blue: oklch(0.70 0.20 250);
-  --color-neon-gold: oklch(0.80 0.15 85);
-  --color-neon-red: oklch(0.65 0.25 25);
-  
-  /* Neo-Brutalism Shadows */
-  --shadow-neo-sm: 2px 2px 0px var(--color-neo-shadow);
-  --shadow-neo: 4px 4px 0px var(--color-neo-shadow);
-  --shadow-neo-lg: 6px 6px 0px var(--color-neo-shadow);
-  --shadow-neo-active: 4px 4px 0px var(--color-neo-shadow), 0 0 20px var(--color-neo-glow);
+	/* Neo-Brutalism Design Tokens */
+	--color-neo-border: oklch(0.95 0.005 240 / 0.25);
+	--color-neo-shadow: oklch(0 0 0 / 0.4);
+	--color-neo-glow: oklch(0.85 0.28 130 / 0.3);
+
+	/* Gaming Neon Accents */
+	--color-neon-green: oklch(0.85 0.28 130);
+	--color-neon-blue: oklch(0.7 0.2 250);
+	--color-neon-gold: oklch(0.8 0.15 85);
+	--color-neon-red: oklch(0.65 0.25 25);
+
+	/* Neo-Brutalism Shadows */
+	--shadow-neo-sm: 2px 2px 0px var(--color-neo-shadow);
+	--shadow-neo: 4px 4px 0px var(--color-neo-shadow);
+	--shadow-neo-lg: 6px 6px 0px var(--color-neo-shadow);
+	--shadow-neo-active: 4px 4px 0px var(--color-neo-shadow), 0 0 20px var(--color-neo-glow);
 }
 ```
 
 #### Removed Deprecated `@apply`
+
 ```css
 /* BEFORE (Tailwind v3 - WRONG) */
 .responsive-spacing {
-  @apply space-y-8 md:space-y-12 lg:space-y-16;
+	@apply space-y-8 md:space-y-12 lg:space-y-16;
 }
 
 /* AFTER (Tailwind v4 - CORRECT) */
 .responsive-spacing {
-  gap: 2rem;
+	gap: 2rem;
 }
 
 @media (min-width: 768px) {
-  .responsive-spacing { gap: 3rem; }
+	.responsive-spacing {
+		gap: 3rem;
+	}
 }
 ```
 
@@ -54,27 +59,28 @@
 **The Fix:** Used explicit inline shadow values instead of utility classes that weren't working.
 
 #### Nav Buttons Now Have:
-```svelte
-variant="nav" 
-// Shows: 3px transparent border, hover shows border + shadow
 
-variant="nav-active"
-// Shows: 3px neon green border + glow shadow + primary background
+```svelte
+variant="nav" // Shows: 3px transparent border, hover shows border + shadow variant="nav-active" //
+Shows: 3px neon green border + glow shadow + primary background
 ```
 
 **Before:**
+
 ```typescript
-nav: "border-[3px] border-transparent hover:shadow-neo-sm"
+nav: 'border-[3px] border-transparent hover:shadow-neo-sm';
 // ❌ shadow-neo-sm class not applying
 ```
 
 **After:**
+
 ```typescript
-nav: "border-[3px] border-solid border-transparent hover:border-border hover:bg-accent/30 hover:shadow-[2px_2px_0px_rgba(0,0,0,0.4)]"
+nav: 'border-[3px] border-solid border-transparent hover:border-border hover:bg-accent/30 hover:shadow-[2px_2px_0px_rgba(0,0,0,0.4)]';
 // ✅ Explicit shadow value that actually works
 ```
 
 #### All Button Variants Now Work:
+
 ```typescript
 default: "border-[3px] border-solid border-primary/40 shadow-[4px_4px_0px_rgba(0,0,0,0.4)]"
 // ✅ Thick border + offset shadow
@@ -111,11 +117,11 @@ Added missing TypeScript utilities to `src/lib/utils.ts`:
 
 ```typescript
 export type WithElementRef<T, E = HTMLElement> = T & {
-  ref?: E | null;
+	ref?: E | null;
 };
 
 export type WithoutChildren<T> = Omit<T, 'children'> & {
-  children?: Snippet;
+	children?: Snippet;
 };
 ```
 
@@ -129,10 +135,10 @@ Fixed TypeScript error for custom nav variants:
 
 ```typescript
 export type ButtonProps = WithElementRef<HTMLButtonAttributes> &
-  WithElementRef<HTMLAnchorAttributes> & {
-    variant?: ButtonVariant | 'nav' | 'nav-active';  // ✅ Added custom variants
-    size?: ButtonSize;
-  };
+	WithElementRef<HTMLAnchorAttributes> & {
+		variant?: ButtonVariant | 'nav' | 'nav-active'; // ✅ Added custom variants
+		size?: ButtonSize;
+	};
 ```
 
 ---
@@ -140,7 +146,9 @@ export type ButtonProps = WithElementRef<HTMLButtonAttributes> &
 ## Visual Results 🎨
 
 ### Home/Cases/Battles Nav Buttons
+
 **NOW SHOW:**
+
 - ✅ **3px thick borders** (transparent by default)
 - ✅ **Hover:** Border appears + subtle shadow
 - ✅ **Active:** Neon green border + background glow + bold shadow
@@ -148,7 +156,9 @@ export type ButtonProps = WithElementRef<HTMLButtonAttributes> &
 - ✅ **Tactile feedback:** lift on hover, press on click
 
 ### All Buttons (Deposit, Withdraw, CTAs)
+
 **NOW SHOW:**
+
 - ✅ **3px thick borders** with color
 - ✅ **4px offset shadows** (Neo-Brutalism style)
 - ✅ **Hover:** Glow effect + lift up
@@ -160,16 +170,19 @@ export type ButtonProps = WithElementRef<HTMLButtonAttributes> &
 ## Tailwind v4 Best Practices Applied ✅
 
 ### ✅ Use `@theme` for custom design tokens
+
 ```css
 @theme {
-  --color-neon-green: oklch(0.85 0.28 130);
+	--color-neon-green: oklch(0.85 0.28 130);
 }
 ```
 
 ### ✅ Avoid `@apply` (deprecated)
+
 Use native CSS or utility classes directly in components.
 
 ### ✅ Extend theme in config
+
 ```typescript
 theme: {
   extend: {
@@ -180,13 +193,15 @@ theme: {
 ```
 
 ### ✅ Use CSS custom properties
+
 ```css
 box-shadow: var(--shadow-neo);
 ```
 
 ### ✅ Explicit utility values when needed
+
 ```typescript
-"shadow-[4px_4px_0px_rgba(0,0,0,0.4)]"
+'shadow-[4px_4px_0px_rgba(0,0,0,0.4)]';
 ```
 
 ---
@@ -207,6 +222,7 @@ box-shadow: var(--shadow-neo);
 ## What You Should See Now 👀
 
 ### Sidebar Navigation
+
 ```
 ┌─────────────────────────────┐
 │  [🏠 Home]  ← Active: neon   │
@@ -222,6 +238,7 @@ box-shadow: var(--shadow-neo);
 ```
 
 ### Buttons
+
 ```
 ┌──────────────────┐
 │  Join Rain Pot   │  ← 3px border

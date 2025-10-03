@@ -160,7 +160,7 @@
 	<!-- Desktop Header -->
 	<div class="hidden h-[var(--shell-header-height)] items-center justify-between md:flex">
 		<!-- Logo - Left Edge -->
-		<div class="flex items-center gap-3 shrink-0 pl-4">
+		<div class="flex shrink-0 items-center gap-3 pl-4">
 			<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -->
 			<a href={homeHref} class="flex items-center gap-2">
 				<span
@@ -176,7 +176,7 @@
 		</div>
 
 		<!-- Ticker Chips - Center -->
-		<div class="flex-1 max-w-2xl flex justify-center">
+		<div class="flex max-w-2xl flex-1 justify-center">
 			<div
 				class="scrollbar-hide flex items-center gap-2 overflow-x-auto"
 				role="region"
@@ -185,15 +185,15 @@
 			>
 				{#each promoTicker() as item (item?.id)}
 					<div
-						class="group  border-border/40 bg-surface-muted/50    flex shrink-0 items-center gap-2 rounded-xl border px-3 py-2 backdrop-blur-sm "
+						class="group border-border/40 bg-surface-muted/50 flex shrink-0 items-center gap-2 rounded-xl border px-3 py-2 backdrop-blur-sm"
 					>
 						<div
 							class="border-primary/30 bg-primary/10 flex h-6 w-6 items-center justify-center rounded-lg border"
 						>
 							{#if getTickerIcon(item?.id)}
-							{@const IconComp = getTickerIcon(item?.id)}
-							<IconComp class="text-primary h-3 w-3" />
-						{/if}
+								{@const IconComp = getTickerIcon(item?.id)}
+								<IconComp class="text-primary h-3 w-3" />
+							{/if}
 						</div>
 						<div class="flex flex-col">
 							<span class="text-foreground text-xs leading-tight font-semibold">{item?.label}</span>
@@ -205,7 +205,7 @@
 		</div>
 
 		<!-- Search & Actions - Right Edge -->
-		<div class="flex items-center gap-3 shrink-0 pr-4">
+		<div class="flex shrink-0 items-center gap-3 pr-4">
 			<form class="relative" onsubmit={handleSearch}>
 				<Search class="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
 				<label class="sr-only" for="desktop-search">Search</label>
@@ -236,7 +236,7 @@
 			<!-- Daily Bonus Button -->
 			<button
 				type="button"
-				class="group border-warning/30 bg-warning/10 text-warning-foreground hover:bg-warning/20 focus-visible:ring-warning/50 flex h-10 items-center justify-center rounded-xl border px-3 py-2 text-xs font-medium gap-1.5 transition-colors focus-visible:ring-2 focus-visible:outline-none"
+				class="group border-warning/30 bg-warning/10 text-warning-foreground hover:bg-warning/20 focus-visible:ring-warning/50 flex h-10 items-center justify-center gap-1.5 rounded-xl border px-3 py-2 text-xs font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none"
 				aria-label="Claim daily bonus"
 			>
 				<Gift class="h-4 w-4" />
@@ -299,7 +299,7 @@
 	</div>
 
 	<!-- Live Drops Ticker (below main header) -->
-	<div class="border-y border-border/40 bg-surface/30 backdrop-blur-sm">
+	<div class="border-border/40 bg-surface/30 border-y backdrop-blur-sm">
 		<LiveDropsTicker />
 	</div>
 </div>

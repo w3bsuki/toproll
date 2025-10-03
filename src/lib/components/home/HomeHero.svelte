@@ -32,23 +32,23 @@
 		return () => stopRotation();
 	});
 
-        const highlightIcon = $derived(() => {
-                switch (promotions[activeIndex]?.tag) {
-                        case 'Battles':
-                                return Flame;
-                        case 'Flash drop':
-                                return Timer;
-                        default:
-                                return Sparkles;
-                }
-        });
+	const highlightIcon = $derived(() => {
+		switch (promotions[activeIndex]?.tag) {
+			case 'Battles':
+				return Flame;
+			case 'Flash drop':
+				return Timer;
+			default:
+				return Sparkles;
+		}
+	});
 </script>
 
 {#if promotions.length}
-        {@const HighlightIcon = highlightIcon}
-        <section
-                class="border-border/70 bg-surface/80 shadow-marketplace-lg relative overflow-hidden rounded-3xl border"
-        >
+	{@const HighlightIcon = highlightIcon}
+	<section
+		class="border-border/70 bg-surface/80 shadow-marketplace-lg relative overflow-hidden rounded-3xl border"
+	>
 		<div class="grid gap-8 lg:grid-cols-[7fr,5fr]">
 			<div
 				class="relative flex min-h-[420px] flex-col justify-between p-8 sm:p-10"
@@ -91,12 +91,12 @@
 				<div
 					class="border-border/40 bg-surface/60 flex flex-wrap items-center justify-between gap-4 rounded-2xl border px-6 py-5 backdrop-blur"
 				>
-                                        <div class="text-foreground/80 flex items-center gap-3">
-                                                <span
-                                                        class="border-border/50 bg-surface/40 flex h-11 w-11 items-center justify-center rounded-xl border"
-                                                >
-                                                        <HighlightIcon class="h-5 w-5" />
-                                                </span>
+					<div class="text-foreground/80 flex items-center gap-3">
+						<span
+							class="border-border/50 bg-surface/40 flex h-11 w-11 items-center justify-center rounded-xl border"
+						>
+							<HighlightIcon class="h-5 w-5" />
+						</span>
 						<div>
 							<p class="text-muted-foreground text-xs tracking-[0.35em] uppercase">Highlight</p>
 							<p class="text-lg font-semibold">{promotions[activeIndex].highlight}</p>
@@ -158,12 +158,12 @@
 
 				<div class="flex items-center justify-center gap-2">
 					{#each promotions as _, index}
-                                                <span
-                                                        class={`h-1.5 rounded-full transition-all ${
-                                                                index === activeIndex ? 'bg-primary w-8' : 'bg-border w-3'
-                                                        }`}
-                                                        aria-hidden="true"
-                                                ></span>
+						<span
+							class={`h-1.5 rounded-full transition-all ${
+								index === activeIndex ? 'bg-primary w-8' : 'bg-border w-3'
+							}`}
+							aria-hidden="true"
+						></span>
 					{/each}
 				</div>
 			</aside>

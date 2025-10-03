@@ -1,16 +1,23 @@
 <script module lang="ts">
-        export { toasts, addToast, removeToast, type Toast } from '$lib/stores/toasts';
+	export {
+		toasts,
+		addToast,
+		removeToast,
+		toast,
+		clearAllToasts,
+		type Toast
+	} from '$lib/stores/toasts';
 </script>
 
 <script lang="ts">
-        import { CheckCircle, AlertCircle, Info, X } from '@lucide/svelte';
-        import { Button, Card, CardContent } from '$lib/components/ui';
-        import { toasts, removeToast, type Toast } from '$lib/stores/toasts';
+	import { CheckCircle, AlertCircle, Info, X } from '@lucide/svelte';
+	import { Button, Card, CardContent } from '$lib/components/ui';
+	import { toasts, removeToast, clearAllToasts, type Toast } from '$lib/stores/toasts';
 
-        const iconMap = {
-                success: CheckCircle,
-                error: AlertCircle,
-                info: Info,
+	const iconMap = {
+		success: CheckCircle,
+		error: AlertCircle,
+		info: Info,
 		warning: AlertCircle
 	} satisfies Record<Toast['type'], typeof CheckCircle>;
 
@@ -21,29 +28,29 @@
 		warning: 'border-warning/40 bg-warning/10 text-warning-foreground'
 	};
 
-        let toastList = $state<Toast[]>([]);
+	let toastList = $state<Toast[]>([]);
 
-        $effect(() => {
-                const unsubscribe = toasts.subscribe((value) => {
-                        toastList = value;
-                });
+	$effect(() => {
+		const unsubscribe = toasts.subscribe((value) => {
+			toastList = value;
+		});
 
-                return unsubscribe;
-        });
+		return unsubscribe;
+	});
 </script>
 
 <div
 	class="pointer-events-none fixed inset-x-0 top-4 z-[100] flex flex-col items-end gap-3 px-4 sm:top-6 sm:px-6"
 >
-        {#each toastList as toast (toast.id)}
-                {@const Icon = iconMap[toast.type]}
-                <Card
+	{#each toastList as toast (toast.id)}
+		{@const Icon = iconMap[toast.type]}
+		<Card
 			class={`shadow-marketplace-md pointer-events-auto w-full max-w-sm border backdrop-blur ${toneClass[toast.type]}`}
 		>
 			<CardContent class="flex items-start gap-3 p-4">
-                                <div class="mt-1">
-                                        <Icon class="h-5 w-5" />
-                                </div>
+				<div class="mt-1">
+					<Icon class="h-5 w-5" />
+				</div>
 				<div class="min-w-0 flex-1">
 					<div class="text-foreground text-sm font-semibold">{toast.title}</div>
 					{#if toast.message}

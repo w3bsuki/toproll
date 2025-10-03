@@ -1,12 +1,12 @@
 <script lang="ts">
-	import * as DropdownMenu from "$lib/components/ui/dropdown-menu/index.js";
-	import * as Sidebar from "$lib/components/ui/sidebar/index.js";
-	import ChevronDownIcon from "@lucide/svelte/icons/chevron-down";
-	import PlusIcon from "@lucide/svelte/icons/plus";
-	import type { Component } from "svelte";
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
+	import * as Sidebar from '$lib/components/ui/sidebar/index.js';
+	import ChevronDownIcon from '@lucide/svelte/icons/chevron-down';
+	import PlusIcon from '@lucide/svelte/icons/plus';
+	import type { Component } from 'svelte';
 
 	let {
-		teams,
+		teams
 	}: {
 		teams: {
 			name: string;
@@ -34,16 +34,11 @@
 					</Sidebar.MenuButton>
 				{/snippet}
 			</DropdownMenu.Trigger>
-			<DropdownMenu.Content
-				class="w-64 rounded-lg"
-				align="start"
-				side="bottom"
-				sideOffset={4}
-			>
+			<DropdownMenu.Content class="w-64 rounded-lg" align="start" side="bottom" sideOffset={4}>
 				<DropdownMenu.Label class="text-muted-foreground text-xs">Teams</DropdownMenu.Label>
 				{#each teams as team, index (team.name)}
 					<DropdownMenu.Item onSelect={() => (activeTeam = team)} class="gap-2 p-2">
-						<div class="rounded-xs flex size-6 items-center justify-center border">
+						<div class="flex size-6 items-center justify-center rounded-xs border">
 							<team.logo class="size-4 shrink-0" />
 						</div>
 						{team.name}
@@ -52,9 +47,7 @@
 				{/each}
 				<DropdownMenu.Separator />
 				<DropdownMenu.Item class="gap-2 p-2">
-					<div
-						class="bg-background flex size-6 items-center justify-center rounded-md border"
-					>
+					<div class="bg-background flex size-6 items-center justify-center rounded-md border">
 						<PlusIcon class="size-4" />
 					</div>
 					<div class="text-muted-foreground font-medium">Add team</div>

@@ -1,10 +1,19 @@
 <script lang="ts">
-	import { Button } from '$lib/components/ui/button';
-	import { Badge } from '$lib/components/ui/badge';
-	import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
-	import { Separator } from '$lib/components/ui/separator';
-	import { Progress } from '$lib/components/ui/progress';
-	import { Tabs, TabsContent, TabsList, TabsTrigger } from '$lib/components/ui/tabs';
+	import {
+		Button,
+		Badge,
+		Card,
+		CardContent,
+		CardDescription,
+		CardHeader,
+		CardTitle,
+		Separator,
+		Tabs,
+		TabsContent,
+		TabsList,
+		TabsTrigger
+	} from '$lib/components/ui';
+	import Progress from '$lib/components/ui/progress/progress.svelte';
 	import BattlePullReel from './BattlePullReel.svelte';
 	import BattleTotals from './BattleTotals.svelte';
 	import ChatPanel from '$lib/components/shell/ChatPanel.svelte';
@@ -17,13 +26,13 @@
 		Flame,
 		Currency,
 		Sparkles,
-                CheckCircle,
-                AlertCircle,
-                RefreshCw,
-                Shield
-        } from '@lucide/svelte';
+		CheckCircle,
+		AlertCircle,
+		RefreshCw,
+		Shield
+	} from '@lucide/svelte';
 	import type { Battle, BattleParticipant, BattleRound, BattlePull, CaseItem } from '$lib/types';
-	
+
 	// Props using Svelte 5 syntax
 	let {
 		battleId,
@@ -81,119 +90,127 @@
 	]);
 
 	// Mock pull data
-	let pulls = $state<Map<string, BattlePull[]>>(new Map([
-		['round-1', [
-			{
-				id: 'pull-1',
-				round_id: 'round-1',
-				participant_id: 'p1',
-				item_id: 'item-1',
-				client_seed: 'client-seed-1',
-				nonce: 1,
-				hash: 'pull-hash-1',
-				mapped_roll: 42,
-				created_at: new Date().toISOString(),
-				item: {
-					id: 'item-1',
-					case_id: 'case-1',
-					name: 'AK-47 | Redline',
-					market_name: 'AK-47 | Redline (Field-Tested)',
-					image_url: '/items/ak47-redline.jpg',
-					rarity: 'Epic',
-					probability: 3.5,
-					market_value: 25.50,
-					created_at: new Date().toISOString()
-				},
-				participant: {
-					id: 'p1',
-					battle_id: battleId,
-					user_id: 'user-1',
-					position: 1,
-					joined_at: new Date().toISOString(),
-					user: {
-						id: 'user-1',
-						username: 'Shaddy',
-						avatar_url: '/avatars/shaddy.jpg'
+	let pulls = $state<Map<string, BattlePull[]>>(
+		new Map([
+			[
+				'round-1',
+				[
+					{
+						id: 'pull-1',
+						round_id: 'round-1',
+						participant_id: 'p1',
+						item_id: 'item-1',
+						client_seed: 'client-seed-1',
+						nonce: 1,
+						hash: 'pull-hash-1',
+						mapped_roll: 42,
+						created_at: new Date().toISOString(),
+						item: {
+							id: 'item-1',
+							case_id: 'case-1',
+							name: 'AK-47 | Redline',
+							market_name: 'AK-47 | Redline (Field-Tested)',
+							image_url: '/items/ak47-redline.jpg',
+							rarity: 'Epic',
+							probability: 3.5,
+							market_value: 25.5,
+							created_at: new Date().toISOString()
+						},
+						participant: {
+							id: 'p1',
+							battle_id: battleId,
+							user_id: 'user-1',
+							position: 1,
+							joined_at: new Date().toISOString(),
+							user: {
+								id: 'user-1',
+								username: 'Shaddy',
+								avatar_url: '/avatars/shaddy.jpg'
+							}
+						}
+					},
+					{
+						id: 'pull-2',
+						round_id: 'round-1',
+						participant_id: 'p2',
+						item_id: 'item-2',
+						client_seed: 'client-seed-2',
+						nonce: 2,
+						hash: 'pull-hash-2',
+						mapped_roll: 15,
+						created_at: new Date().toISOString(),
+						item: {
+							id: 'item-2',
+							case_id: 'case-1',
+							name: 'AWP | Dragon Lore',
+							market_name: 'AWP | Dragon Lore (Factory New)',
+							image_url: '/items/awp-dragon-lore.jpg',
+							rarity: 'Legendary',
+							probability: 1.4,
+							market_value: 8500.0,
+							created_at: new Date().toISOString()
+						},
+						participant: {
+							id: 'p2',
+							battle_id: battleId,
+							user_id: 'user-2',
+							position: 2,
+							joined_at: new Date().toISOString(),
+							user: {
+								id: 'user-2',
+								username: 'PartyBoy69',
+								avatar_url: '/avatars/partyboy.jpg'
+							}
+						}
 					}
-				}
-			},
-			{
-				id: 'pull-2',
-				round_id: 'round-1',
-				participant_id: 'p2',
-				item_id: 'item-2',
-				client_seed: 'client-seed-2',
-				nonce: 2,
-				hash: 'pull-hash-2',
-				mapped_roll: 15,
-				created_at: new Date().toISOString(),
-				item: {
-					id: 'item-2',
-					case_id: 'case-1',
-					name: 'AWP | Dragon Lore',
-					market_name: 'AWP | Dragon Lore (Factory New)',
-					image_url: '/items/awp-dragon-lore.jpg',
-					rarity: 'Legendary',
-					probability: 1.4,
-					market_value: 8500.00,
-					created_at: new Date().toISOString()
-				},
-				participant: {
-					id: 'p2',
-					battle_id: battleId,
-					user_id: 'user-2',
-					position: 2,
-					joined_at: new Date().toISOString(),
-					user: {
-						id: 'user-2',
-						username: 'PartyBoy69',
-						avatar_url: '/avatars/partyboy.jpg'
+				]
+			],
+			[
+				'round-2',
+				[
+					{
+						id: 'pull-3',
+						round_id: 'round-2',
+						participant_id: 'p1',
+						item_id: 'item-3',
+						client_seed: 'client-seed-3',
+						nonce: 3,
+						hash: 'pull-hash-3',
+						mapped_roll: 78,
+						created_at: new Date().toISOString(),
+						item: {
+							id: 'item-3',
+							case_id: 'case-2',
+							name: 'M4A4 | Howl',
+							market_name: 'M4A4 | Howl (Minimal Wear)',
+							image_url: '/items/m4a4-howl.jpg',
+							rarity: 'Contraband',
+							probability: 0.1,
+							market_value: 3200.0,
+							created_at: new Date().toISOString()
+						},
+						participant: {
+							id: 'p1',
+							battle_id: battleId,
+							user_id: 'user-1',
+							position: 1,
+							joined_at: new Date().toISOString(),
+							user: {
+								id: 'user-1',
+								username: 'Shaddy',
+								avatar_url: '/avatars/shaddy.jpg'
+							}
+						}
 					}
-				}
-			}
-		]],
-		['round-2', [
-			{
-				id: 'pull-3',
-				round_id: 'round-2',
-				participant_id: 'p1',
-				item_id: 'item-3',
-				client_seed: 'client-seed-3',
-				nonce: 3,
-				hash: 'pull-hash-3',
-				mapped_roll: 78,
-				created_at: new Date().toISOString(),
-				item: {
-					id: 'item-3',
-					case_id: 'case-2',
-					name: 'M4A4 | Howl',
-					market_name: 'M4A4 | Howl (Minimal Wear)',
-					image_url: '/items/m4a4-howl.jpg',
-					rarity: 'Contraband',
-					probability: 0.1,
-					market_value: 3200.00,
-					created_at: new Date().toISOString()
-				},
-				participant: {
-					id: 'p1',
-					battle_id: battleId,
-					user_id: 'user-1',
-					position: 1,
-					joined_at: new Date().toISOString(),
-					user: {
-						id: 'user-1',
-						username: 'Shaddy',
-						avatar_url: '/avatars/shaddy.jpg'
-					}
-				}
-			}
-		]]
-	]));
+				]
+			]
+		])
+	);
 
 	// Mock running totals
 	let runningTotals = $state<Record<string, number>>({
-		'p1': 3225.50,
-		'p2': 8500.00
+		p1: 3225.5,
+		p2: 8500.0
 	});
 
 	// Computed values
@@ -203,7 +220,7 @@
 	const isBattleComplete = $derived(battle?.status === 'completed');
 	const winner = $derived(
 		isBattleComplete && battle?.winner_id
-			? battle.participants?.find(p => p.user_id === battle.winner_id)
+			? battle.participants?.find((p) => p.user_id === battle.winner_id)
 			: null
 	);
 
@@ -238,7 +255,7 @@
 		if (isRevealing || isRoundComplete) return;
 
 		isRevealing = true;
-		await new Promise(resolve => setTimeout(resolve, 3000));
+		await new Promise((resolve) => setTimeout(resolve, 3000));
 		isRevealing = false;
 	}
 
@@ -250,20 +267,26 @@
 	// Get status color
 	function getStatusColor(status: Battle['status']) {
 		switch (status) {
-			case 'waiting': return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30';
-			case 'locking': return 'bg-amber-500/20 text-amber-300 border-amber-500/30';
-			case 'in_progress': return 'bg-blue-500/20 text-blue-300 border-blue-500/30';
-			case 'settling': return 'bg-purple-500/20 text-purple-300 border-purple-500/30';
-			case 'completed': return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30';
-			default: return 'bg-surface-muted text-surface-muted-foreground border-border/70';
+			case 'waiting':
+				return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30';
+			case 'locking':
+				return 'bg-amber-500/20 text-amber-300 border-amber-500/30';
+			case 'in_progress':
+				return 'bg-blue-500/20 text-blue-300 border-blue-500/30';
+			case 'settling':
+				return 'bg-purple-500/20 text-purple-300 border-purple-500/30';
+			case 'completed':
+				return 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30';
+			default:
+				return 'bg-surface-muted text-surface-muted-foreground border-border/70';
 		}
 	}
 </script>
 
 {#if battle}
-	<div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+	<div class="grid grid-cols-1 gap-6 lg:grid-cols-4">
 		<!-- Main Battle Area -->
-		<div class="lg:col-span-3 space-y-6">
+		<div class="space-y-6 lg:col-span-3">
 			<!-- Battle Header -->
 			<Card>
 				<CardHeader>
@@ -273,38 +296,43 @@
 								<img
 									src={battle.case.image_url}
 									alt={battle.case.name}
-									class="h-16 w-16 rounded-xl object-cover border border-border/40"
+									class="border-border/40 h-16 w-16 rounded-xl border object-cover"
 								/>
 							{/if}
 							<div>
 								<CardTitle class="flex items-center gap-2">
 									{battle.case?.name} Battle
-									<svelte:component this={getModeIcon(battle.mode)} class="h-5 w-5 text-primary" />
+									<svelte:component this={getModeIcon(battle.mode)} class="text-primary h-5 w-5" />
 								</CardTitle>
 								<CardDescription>
 									<span class="capitalize">{battle.mode} mode</span>
-									<Separator orientation="vertical" class="h-4 mx-2" />
+									<Separator orientation="vertical" class="mx-2 h-4" />
 									{battle.max_participants} players
-									<Separator orientation="vertical" class="h-4 mx-2" />
+									<Separator orientation="vertical" class="mx-2 h-4" />
 									{battle.rounds_count} rounds
 								</CardDescription>
 							</div>
 						</div>
 						<div class="flex items-center gap-4">
 							<div class="text-right">
-								<p class="text-sm text-muted-foreground">Total Pot</p>
-								<p class="text-2xl font-bold text-emerald-400">{formatCurrency(battle.total_pot)}</p>
+								<p class="text-muted-foreground text-sm">Total Pot</p>
+								<p class="text-2xl font-bold text-emerald-400">
+									{formatCurrency(battle.total_pot)}
+								</p>
 							</div>
 							<Badge variant="outline" class={getStatusColor(battle.status)}>
 								{battle.status.replace('_', ' ')}
 							</Badge>
-                                                        {#if battle?.status === 'in_progress'}
-                                                                <div class="flex items-center gap-2">
-                                                                        <span class="sr-only">Battle status:</span>
-                                                                        <div class="h-2 w-2 rounded-full bg-destructive animate-pulse" aria-hidden="true"></div>
-                                                                        <span class="text-sm font-medium text-destructive">Live</span>
-                                                                </div>
-                                                        {/if}
+							{#if battle?.status === 'in_progress'}
+								<div class="flex items-center gap-2">
+									<span class="sr-only">Battle status:</span>
+									<div
+										class="bg-destructive h-2 w-2 animate-pulse rounded-full"
+										aria-hidden="true"
+									></div>
+									<span class="text-destructive text-sm font-medium">Live</span>
+								</div>
+							{/if}
 						</div>
 					</div>
 				</CardHeader>
@@ -313,22 +341,26 @@
 					<div class="space-y-2">
 						<div class="flex items-center justify-between text-sm">
 							<span class="text-muted-foreground">Battle Progress</span>
-							<span class="font-medium text-foreground">Round {currentRound} of {totalRounds}</span>
+							<span class="text-foreground font-medium">Round {currentRound} of {totalRounds}</span>
 						</div>
 						<Progress value={battleProgress} class="h-2" />
 					</div>
 
 					<!-- Participants -->
 					<div class="mt-6">
-						<h3 class="font-semibold text-foreground mb-4 flex items-center gap-2">
+						<h3 class="text-foreground mb-4 flex items-center gap-2 font-semibold">
 							<Users class="h-4 w-4" />
 							Participants
 						</h3>
 						<div class="grid gap-4 md:grid-cols-2">
 							{#each battle.participants || [] as participant (participant.id)}
-								<div class="flex items-center justify-between p-4 bg-surface rounded-lg border border-border/40">
+								<div
+									class="bg-surface border-border/40 flex items-center justify-between rounded-lg border p-4"
+								>
 									<div class="flex items-center gap-3">
-										<span class="text-lg font-bold text-muted-foreground">#{participant.position}</span>
+										<span class="text-muted-foreground text-lg font-bold"
+											>#{participant.position}</span
+										>
 										{#if participant.user?.avatar_url}
 											<img
 												src={participant.user.avatar_url}
@@ -336,19 +368,21 @@
 												class="h-10 w-10 rounded-full"
 											/>
 										{:else}
-											<div class="h-10 w-10 rounded-full bg-surface-muted flex items-center justify-center">
-												<Users class="h-5 w-5 text-muted-foreground" />
+											<div
+												class="bg-surface-muted flex h-10 w-10 items-center justify-center rounded-full"
+											>
+												<Users class="text-muted-foreground h-5 w-5" />
 											</div>
 										{/if}
 										<div>
-											<p class="font-semibold text-foreground">{participant.user?.username}</p>
-											<p class="text-sm text-muted-foreground">
+											<p class="text-foreground font-semibold">{participant.user?.username}</p>
+											<p class="text-muted-foreground text-sm">
 												Joined {formatTime(participant.joined_at)}
 											</p>
 										</div>
 									</div>
 									<div class="text-right">
-										<p class="text-sm text-muted-foreground">Total</p>
+										<p class="text-muted-foreground text-sm">Total</p>
 										<p class="font-bold text-emerald-400">
 											{formatCurrency(runningTotals[participant.id] || 0)}
 										</p>
@@ -390,15 +424,11 @@
 						<CardHeader>
 							<CardTitle class="flex items-center justify-between">
 								<span class="flex items-center gap-2">
-									<Flame class="h-5 w-5 text-primary" />
+									<Flame class="text-primary h-5 w-5" />
 									Current Round
 								</span>
 								{#if !isRoundComplete && battle.status === 'in_progress'}
-									<Button
-										onclick={revealRound}
-										disabled={isRevealing}
-										class="gap-2"
-									>
+									<Button onclick={revealRound} disabled={isRevealing} class="gap-2">
 										{#if isRevealing}
 											<RefreshCw class="h-4 w-4 animate-spin" />
 											Revealing...
@@ -433,18 +463,13 @@
 					</Card>
 
 					<!-- Running Totals -->
-					<BattleTotals
-						{battle}
-						{runningTotals}
-						{winner}
-						{isBattleComplete}
-					/>
+					<BattleTotals {battle} {runningTotals} {winner} {isBattleComplete} />
 				</TabsContent>
 
 				<!-- Rounds Tab -->
 				<TabsContent value="rounds" class="space-y-4">
 					{#each rounds as round (round.id)}
-						<Card class="{currentRoundData?.id === round.id ? 'border-primary/50' : ''}">
+						<Card class={currentRoundData?.id === round.id ? 'border-primary/50' : ''}>
 							<CardHeader>
 								<CardTitle class="flex items-center justify-between">
 									<span class="flex items-center gap-2">
@@ -456,7 +481,7 @@
 											</Badge>
 										{/if}
 									</span>
-									<div class="text-sm text-muted-foreground">
+									<div class="text-muted-foreground text-sm">
 										{pulls.get(round.id)?.length || 0} pulls
 									</div>
 								</CardTitle>
@@ -468,8 +493,10 @@
 								{#if pulls.get(round.id)?.length}
 									<div class="grid gap-3 md:grid-cols-2">
 										{#each pulls.get(round.id) || [] as pull (pull.id)}
-											<div class="flex items-center gap-3 p-3 bg-surface rounded-lg border border-border/40">
-												<span class="text-sm font-bold text-muted-foreground">
+											<div
+												class="bg-surface border-border/40 flex items-center gap-3 rounded-lg border p-3"
+											>
+												<span class="text-muted-foreground text-sm font-bold">
 													#{pull.participant?.position}
 												</span>
 												{#if pull.item?.image_url}
@@ -480,12 +507,15 @@
 													/>
 												{/if}
 												<div class="flex-1">
-													<p class="font-semibold text-foreground">{pull.item?.name}</p>
-													<div class="flex items-center gap-2 mt-1">
-														<Badge variant="outline" class={getRarityColor(pull.item?.rarity || 'Common')}>
+													<p class="text-foreground font-semibold">{pull.item?.name}</p>
+													<div class="mt-1 flex items-center gap-2">
+														<Badge
+															variant="outline"
+															class={getRarityColor(pull.item?.rarity || 'Common')}
+														>
 															{pull.item?.rarity}
 														</Badge>
-														<span class="text-sm text-muted-foreground">
+														<span class="text-muted-foreground text-sm">
 															Roll: #{pull.mapped_roll}
 														</span>
 													</div>
@@ -499,8 +529,8 @@
 										{/each}
 									</div>
 								{:else}
-									<div class="text-center py-8 text-muted-foreground">
-										<Clock class="h-8 w-8 mx-auto mb-2" />
+									<div class="text-muted-foreground py-8 text-center">
+										<Clock class="mx-auto mb-2 h-8 w-8" />
 										<p>No pulls yet for this round</p>
 									</div>
 								{/if}
@@ -517,28 +547,26 @@
 								<Shield class="h-5 w-5" />
 								Provably Fair Information
 							</CardTitle>
-							<CardDescription>
-								Verify the fairness of this battle
-							</CardDescription>
+							<CardDescription>Verify the fairness of this battle</CardDescription>
 						</CardHeader>
 						<CardContent class="space-y-4">
 							{#each rounds as round (round.id)}
-								<div class="p-4 bg-surface rounded-lg border border-border/40">
-									<h4 class="font-semibold text-foreground mb-2">Round {round.round_index + 1}</h4>
+								<div class="bg-surface border-border/40 rounded-lg border p-4">
+									<h4 class="text-foreground mb-2 font-semibold">Round {round.round_index + 1}</h4>
 									<div class="space-y-2 text-sm">
 										<div class="flex justify-between">
 											<span class="text-muted-foreground">Server Seed Hash:</span>
-											<span class="font-mono text-foreground">{round.server_seed_hash}</span>
+											<span class="text-foreground font-mono">{round.server_seed_hash}</span>
 										</div>
 										{#if round.revealed_server_seed}
 											<div class="flex justify-between">
 												<span class="text-muted-foreground">Server Seed:</span>
-												<span class="font-mono text-foreground">{round.revealed_server_seed}</span>
+												<span class="text-foreground font-mono">{round.revealed_server_seed}</span>
 											</div>
 										{/if}
 									</div>
 									{#if !round.revealed_server_seed}
-										<p class="text-xs text-muted-foreground mt-2">
+										<p class="text-muted-foreground mt-2 text-xs">
 											Server seed will be revealed when the battle completes
 										</p>
 									{/if}
@@ -552,7 +580,7 @@
 
 		<!-- Chat Sidebar -->
 		<div class="lg:col-span-1">
-			<Card class="h-[600px] flex flex-col">
+			<Card class="flex h-[600px] flex-col">
 				<CardHeader class="pb-3">
 					<CardTitle class="flex items-center gap-2">
 						<Eye class="h-4 w-4" />
@@ -566,10 +594,11 @@
 		</div>
 	</div>
 {:else}
-	<div class="text-center py-12">
-		<AlertCircle class="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-		<h3 class="text-xl font-semibold text-foreground mb-2">Battle Not Found</h3>
-		<p class="text-muted-foreground">The battle you're looking for doesn't exist or has been removed.</p>
+	<div class="py-12 text-center">
+		<AlertCircle class="text-muted-foreground mx-auto mb-4 h-12 w-12" />
+		<h3 class="text-foreground mb-2 text-xl font-semibold">Battle Not Found</h3>
+		<p class="text-muted-foreground">
+			The battle you're looking for doesn't exist or has been removed.
+		</p>
 	</div>
 {/if}
-
