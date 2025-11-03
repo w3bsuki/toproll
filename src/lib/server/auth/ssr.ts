@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createServerClient } from '@supabase/ssr';
 import type { RequestEvent, Cookies } from '@sveltejs/kit';
-import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
+import { env } from '$env/dynamic/public';
 
 // Wrap cookie adapter to satisfy @supabase/ssr
 function cookieAdapter(cookies: Cookies) {
@@ -19,8 +19,12 @@ function cookieAdapter(cookies: Cookies) {
 }
 
 export function getSupabaseSSR(event: RequestEvent) {
-  return createServerClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
-    // Cast to any to support the deprecated cookie API (get/set/remove)
-    cookies: cookieAdapter(event.cookies) as any
-  });
+  return createServerClient(
+    env.PUBLIC_SUPABASE_URL!,
+    env.PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      // Cast to any to support the deprecated cookie API (get/set/remove)
+      cookies: cookieAdapter(event.cookies) as any
+    }
+  );
 }
