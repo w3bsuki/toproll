@@ -62,22 +62,34 @@ export function createAuthState(initialUser: User | null = null): AuthState {
 	async function initialize() {
 		const supabase = getSupabaseClient();
 
-		try {
-			// Add timeout to prevent hanging
-			const timeoutPromise = new Promise<null>((_, reject) =>
-				setTimeout(() => reject(new Error('Session loading timeout')), 5000)
-			);
+		// Set up auth state change listener FIRST
+		supabase.auth.onAuthStateChange(async (event, newSession) => {
+			console.log('Auth state changed:', event, !!newSession?.user);
 
-			// Get initial session with timeout
-			const sessionPromise = supabase.auth.getSession();
-			
+			// Don't set loading during initial session
+			if (event !== 'INITIAL_SESSION') {
+				isLoading = true;
+			}
+
+			session = newSession;
+			user = newSession?.user ?? null;
+
+			if (user) {
+				await loadUserProfile(user.id);
+			} else {
+				profile = null;
+			}
+
+			// Always set loading to false after processing
+			isLoading = false;
+		});
+
+		try {
+			// Get initial session
 			const {
 				data: { session: initialSession },
 				error
-			} = await Promise.race([sessionPromise, timeoutPromise]).catch((err) => {
-				console.error('Session loading failed or timed out:', err);
-				return { data: { session: null }, error: err };
-			});
+			} = await supabase.auth.getSession();
 
 			if (error) {
 				console.error('Error getting initial session:', error);
@@ -99,28 +111,6 @@ export function createAuthState(initialUser: User | null = null): AuthState {
 			// Always set loading to false after initialization
 			isLoading = false;
 		}
-
-		// Listen for auth changes
-		supabase.auth.onAuthStateChange(async (event, newSession) => {
-			console.log('Auth state changed:', event, !!newSession?.user);
-
-			// Set loading to true during state change
-			if (event !== 'INITIAL_SESSION') {
-				isLoading = true;
-			}
-
-			session = newSession;
-			user = newSession?.user ?? null;
-
-			if (user) {
-				await loadUserProfile(user.id);
-			} else {
-				profile = null;
-			}
-
-			// Always set loading to false after processing
-			isLoading = false;
-		});
 	}
 
 	/**

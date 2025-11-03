@@ -17,11 +17,20 @@ export function getSupabaseClient(): SupabaseClient {
 					realtime: { params: { eventsPerSecond: 5 } }
 				});
 			} else {
+				console.error('❌ Supabase environment variables not configured!');
+				console.error('PUBLIC_SUPABASE_URL:', env.PUBLIC_SUPABASE_URL);
+				console.error('PUBLIC_SUPABASE_ANON_KEY:', env.PUBLIC_SUPABASE_ANON_KEY ? 'SET' : 'NOT SET');
 				throw new Error('Supabase environment variables not configured');
 			}
 		} else {
+			console.log('✅ Initializing Supabase client with URL:', env.PUBLIC_SUPABASE_URL);
 			supabase = createClient(env.PUBLIC_SUPABASE_URL!, env.PUBLIC_SUPABASE_ANON_KEY!, {
-				realtime: { params: { eventsPerSecond: 5 } }
+				realtime: { params: { eventsPerSecond: 5 } },
+				auth: {
+					persistSession: true,
+					autoRefreshToken: true,
+					detectSessionInUrl: false
+				}
 			});
 		}
 	}
