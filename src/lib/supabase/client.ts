@@ -29,7 +29,10 @@ export function getSupabaseClient(): SupabaseClient {
 				auth: {
 					persistSession: true,
 					autoRefreshToken: true,
-					detectSessionInUrl: false
+					detectSessionInUrl: false,
+					storage: typeof window !== 'undefined' ? window.localStorage : undefined,
+					storageKey: 'sb-pqbomlvoborxfxdglkrt-auth-token',
+					flowType: 'pkce'
 				}
 			});
 		}

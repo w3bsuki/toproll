@@ -178,9 +178,10 @@ export const GET: RequestHandler = async (event) => {
 			`User ${authResult.user.personaname} (${authResult.user.steamid}) authenticated successfully`
 		);
 
-		// Redirect to stored return URL or default
+		// Redirect to stored return URL or default with a refresh flag
 		const redirectUrl = nonceData.returnUrl || '/profile';
-		throw redirect(302, redirectUrl);
+		const redirectWithFlag = `${redirectUrl}${redirectUrl.includes('?') ? '&' : '?'}auth=success`;
+		throw redirect(302, redirectWithFlag);
 	} catch (err) {
 		console.error('Steam auth error:', err);
 

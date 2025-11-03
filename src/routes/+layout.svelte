@@ -22,6 +22,20 @@
 	$effect(() => {
 		if (typeof window !== 'undefined') {
 			auth.initialize();
+			
+			// Check if we just came back from Steam auth
+			const urlParams = new URLSearchParams(window.location.search);
+			if (urlParams.get('auth') === 'success') {
+				console.log('🔄 Auth success detected, refreshing session...');
+				// Remove the auth flag from URL
+				urlParams.delete('auth');
+				const newUrl = window.location.pathname + (urlParams.toString() ? '?' + urlParams.toString() : '');
+				window.history.replaceState({}, '', newUrl);
+				// Force session refresh
+				setTimeout(() => {
+					window.location.reload();
+				}, 100);
+			}
 		}
 	});
 
