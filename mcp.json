@@ -10,7 +10,9 @@
 				"--project-ref=pqbomlvoborxfxdglkrt"
 			],
 			"env": {
-				"SUPABASE_ACCESS_TOKEN": "sbp_50db74f013698957a547fa20d5b0bbbbee4f56d9"
+				"SUPABASE_ACCESS_TOKEN": "sbp_a15934c44587e4c576ff6642becb55c8212b0bee",
+				"SUPABASE_SERVICE_ROLE_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBxYm9tbHZvYm9yeGZ4ZGdsa3J0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1ODM5MzI3NSwiZXhwIjoyMDczOTY5Mjc1fQ.qA0Ti46p3VHQ-1MTUB-OhBElglVShpQZK9LKNvG9l0I",
+				"SUPABASE_URL": "https://pqbomlvoborxfxdglkrt.supabase.co"
 			}
 		},
 		"playwright": {

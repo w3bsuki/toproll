@@ -2,12 +2,36 @@ import type { Handle } from '@sveltejs/kit';
 import { paraglideMiddleware } from '$lib/paraglide/server';
 import { createLogger } from '$lib/server/observability/logger';
 import { apiLimiter, authLimiter } from '$lib/server/rateLimit';
+import { getSupabaseSSR } from '$lib/server/auth/ssr';
 
 // Tiny, fast request ID generator (not cryptographically secure)
 function genReqId() {
 	// 8 bytes of randomness as hex
 	return Math.random().toString(16).slice(2, 10) + Math.random().toString(16).slice(2, 10);
 }
+
+/**
+ * Supabase auth hook - initializes Supabase SSR client and refreshes session
+ */
+const handleSupabase: Handle = async ({ event, resolve }) => {
+	// Initialize Supabase SSR client
+	event.locals.supabase = getSupabaseSSR(event);
+
+	// Helper function to get session
+	event.locals.getSession = async () => {
+		const {
+			data: { session }
+		} = await event.locals.supabase.auth.getSession();
+		return session;
+	};
+
+	return resolve(event, {
+		filterSerializedResponseHeaders(name) {
+			// Allow Set-Cookie headers from Supabase
+			return name === 'content-range' || name === 'x-supabase-api-version';
+		}
+	});
+};
 
 /**
  * Rate limiting hook - handles API route rate limiting
@@ -102,9 +126,14 @@ const handleParaglide: Handle = ({ event, resolve }) =>
 
 /**
  * Compose all hooks in order
- * Note: Order matters! Rate limiting runs before security headers
+ * Note: Order matters! Supabase must run first to set up auth, then rate limiting
  */
-export const handle: Handle = sequence(handleRateLimit, handleSecurityHeaders, handleParaglide);
+export const handle: Handle = sequence(
+	handleSupabase,
+	handleRateLimit,
+	handleSecurityHeaders,
+	handleParaglide
+);
 
 /**
  * Helper function to sequence multiple hooks

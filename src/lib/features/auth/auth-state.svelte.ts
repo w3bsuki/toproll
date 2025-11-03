@@ -63,11 +63,21 @@ export function createAuthState(initialUser: User | null = null): AuthState {
 		const supabase = getSupabaseClient();
 
 		try {
-			// Get initial session
+			// Add timeout to prevent hanging
+			const timeoutPromise = new Promise<null>((_, reject) =>
+				setTimeout(() => reject(new Error('Session loading timeout')), 5000)
+			);
+
+			// Get initial session with timeout
+			const sessionPromise = supabase.auth.getSession();
+			
 			const {
 				data: { session: initialSession },
 				error
-			} = await supabase.auth.getSession();
+			} = await Promise.race([sessionPromise, timeoutPromise]).catch((err) => {
+				console.error('Session loading failed or timed out:', err);
+				return { data: { session: null }, error: err };
+			});
 
 			if (error) {
 				console.error('Error getting initial session:', error);
