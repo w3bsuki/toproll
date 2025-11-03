@@ -16,8 +16,8 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 	const returnUrl = url.searchParams.get('returnUrl') || '/profile';
 	const nonce = generateNonce();
 
-	// Store nonce with timestamp in shared store
-	setNonce(nonce, {
+	// Store nonce in database for callback validation (serverless-compatible)
+	await setNonce(nonce, {
 		timestamp: Date.now(),
 		returnUrl
 	});
@@ -58,8 +58,8 @@ export const POST: RequestHandler = async ({ url, cookies }) => {
 	const realm = env.STEAM_OPENID_REALM || url.origin;
 	const nonce = generateNonce();
 
-	// Store nonce with timestamp in shared store (no returnUrl handling for POST)
-	setNonce(nonce, { timestamp: Date.now(), returnUrl: '/' });
+	// Store nonce in database for callback validation (serverless-compatible)
+	await setNonce(nonce, { timestamp: Date.now(), returnUrl: '/' });
 
 	// Store nonce in a cookie for verification in callback
 	cookies.set('steam_auth_nonce', nonce, {
