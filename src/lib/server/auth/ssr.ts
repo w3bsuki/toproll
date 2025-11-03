@@ -28,3 +28,16 @@ export function getSupabaseSSR(event: RequestEvent) {
     }
   );
 }
+
+/**
+ * Create SSR client from just cookies (for use in auth guards and server load functions)
+ */
+export function getSupabaseSSRFromCookies(cookies: Cookies) {
+  return createServerClient(
+    env.PUBLIC_SUPABASE_URL!,
+    env.PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: cookieAdapter(cookies) as any
+    }
+  );
+}
