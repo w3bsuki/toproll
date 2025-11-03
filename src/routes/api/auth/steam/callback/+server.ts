@@ -103,13 +103,13 @@ export const GET: RequestHandler = async (event) => {
 		// Use resolved nonce and clear cookie
 		cookies.delete('steam_auth_nonce', { path: '/' });
 
-		const nonceData = getNonce(nonce);
+		const nonceData = await getNonce(nonce);
 		if (!nonceData) {
 			throw new Error('Nonce expired or not found');
 		}
 
-		// Clean up nonce
-		deleteNonce(nonce);
+		// Clean up nonce (fire and forget)
+		deleteNonce(nonce).catch(console.error);
 
 		// Validate Steam OpenID callback
 		const steamUser = await validateSteamCallback(params);

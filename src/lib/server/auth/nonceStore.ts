@@ -1,37 +1,78 @@
 /**
- * Shared nonce store for Steam OpenID CSRF protection
+ * Database-backed nonce store for Steam OpenID CSRF protection
  * 
- * This is a simple in-memory store for development. In production,
- * you should use a persistent store like Redis or a database.
+ * Uses Supabase to persist nonces across serverless function invocations
  */
+
+import { getSupabaseServer } from '$lib/supabase/server';
 
 export interface NonceData {
 	timestamp: number;
 	returnUrl?: string;
 }
 
-const nonces = new Map<string, NonceData>();
-const NONCE_TTL = 5 * 60 * 1000; // 5 minutes
+const NONCE_TTL_MINUTES = 5;
 
-export function setNonce(nonce: string, data: NonceData): void {
-	cleanupExpiredNonces();
-	nonces.set(nonce, data);
+export async function setNonce(nonce: string, data: NonceData): Promise<void> {
+	const supabase = getSupabaseServer();
+	const expiresAt = new Date(Date.now() + NONCE_TTL_MINUTES * 60 * 1000);
+
+	const { error } = await supabase.from('auth_nonces').insert({
+		nonce,
+		return_url: data.returnUrl,
+		expires_at: expiresAt.toISOString()
+	});
+
+	if (error) {
+		console.error('Failed to store nonce:', error);
+		throw new Error('Failed to store authentication nonce');
+	}
+
+	// Cleanup expired nonces periodically (fire and forget)
+	cleanupExpiredNonces().catch(console.error);
 }
 
-export function getNonce(nonce: string): NonceData | undefined {
-	cleanupExpiredNonces();
-	return nonces.get(nonce);
+export async function getNonce(nonce: string): Promise<NonceData | undefined> {
+	const supabase = getSupabaseServer();
+
+	const { data, error } = await supabase
+		.from('auth_nonces')
+		.select('return_url, created_at')
+		.eq('nonce', nonce)
+		.gte('expires_at', new Date().toISOString())
+		.maybeSingle();
+
+	if (error) {
+		console.error('Failed to retrieve nonce:', error);
+		return undefined;
+	}
+
+	if (!data) {
+		return undefined;
+	}
+
+	return {
+		timestamp: new Date(data.created_at).getTime(),
+		returnUrl: data.return_url || undefined
+	};
 }
 
-export function deleteNonce(nonce: string): void {
-	nonces.delete(nonce);
+export async function deleteNonce(nonce: string): Promise<void> {
+	const supabase = getSupabaseServer();
+
+	const { error } = await supabase.from('auth_nonces').delete().eq('nonce', nonce);
+
+	if (error) {
+		console.error('Failed to delete nonce:', error);
+	}
 }
 
-export function cleanupExpiredNonces(): void {
-	const now = Date.now();
-	for (const [key, value] of nonces.entries()) {
-		if (now - value.timestamp > NONCE_TTL) {
-			nonces.delete(key);
-		}
+async function cleanupExpiredNonces(): Promise<void> {
+	const supabase = getSupabaseServer();
+
+	const { error } = await supabase.rpc('cleanup_expired_nonces');
+
+	if (error) {
+		console.error('Failed to cleanup expired nonces:', error);
 	}
 }
