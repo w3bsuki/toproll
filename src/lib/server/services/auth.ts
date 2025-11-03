@@ -38,22 +38,31 @@ export async function getCurrentUser(cookies: Cookies): Promise<AuthUser | null>
 				error: userError
 			} = await ssr.auth.getUser();
 
-			if (user && !userError && hasServiceSupabaseCreds) {
-				// Get user profile to get Steam data using admin client
-				const supabase = getSupabaseServer();
-				const { data: profile, error: profileError } = await supabase
-					.from('user_profiles')
-					.select('steam_id, username')
-					.eq('user_id', user.id)
-					.maybeSingle();
+			if (user && !userError) {
+				if (hasServiceSupabaseCreds) {
+					// Get user profile to get Steam data using admin client
+					const supabase = getSupabaseServer();
+					const { data: profile, error: profileError } = await supabase
+						.from('user_profiles')
+						.select('steam_id, username')
+						.eq('user_id', user.id)
+						.maybeSingle();
 
-				if (!profileError && profile) {
-					return {
-						id: user.id,
-						steamId: profile.steam_id,
-						email: user.email || `${profile.steam_id}@steam.toproll.gg`
-					};
+					if (!profileError && profile) {
+						return {
+							id: user.id,
+							steamId: profile.steam_id,
+							email: user.email || `${profile.steam_id}@steam.toproll.gg`
+						};
+					}
 				}
+
+				const steamIdFromMetadata = (user.user_metadata?.steam_id as string | undefined) ?? user.id;
+				return {
+					id: user.id,
+					steamId: steamIdFromMetadata,
+					email: user.email || `${steamIdFromMetadata}@steam.toproll.gg`
+				};
 			}
 		} catch (error) {
 			if (dev) {
