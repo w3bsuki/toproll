@@ -1,12 +1,12 @@
 import { createClient, type SupabaseClient } from '@supabase/supabase-js';
-import { PUBLIC_SUPABASE_ANON_KEY, PUBLIC_SUPABASE_URL } from '$env/static/public';
+import { env } from '$env/dynamic/public';
 import { dev } from '$app/environment';
 
 let supabase: SupabaseClient | null = null;
 
 export function getSupabaseClient(): SupabaseClient {
 	if (!supabase) {
-		if (!PUBLIC_SUPABASE_URL || !PUBLIC_SUPABASE_ANON_KEY) {
+		if (!env.PUBLIC_SUPABASE_URL || !env.PUBLIC_SUPABASE_ANON_KEY) {
 			if (dev) {
 				// In development, create a mock client to prevent build failures
 				// This allows the app to run without real Supabase credentials
@@ -20,7 +20,7 @@ export function getSupabaseClient(): SupabaseClient {
 				throw new Error('Supabase environment variables not configured');
 			}
 		} else {
-			supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY, {
+			supabase = createClient(env.PUBLIC_SUPABASE_URL!, env.PUBLIC_SUPABASE_ANON_KEY!, {
 				realtime: { params: { eventsPerSecond: 5 } }
 			});
 		}

@@ -1,5 +1,5 @@
 import { createClient } from '@supabase/supabase-js';
-import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public';
+import { env } from '$env/dynamic/public';
 import type { AuthUser } from '$lib/services/auth';
 import type { UserProfile } from '$lib/types/index';
 
@@ -39,7 +39,7 @@ export async function getCurrentUserBrowser(): Promise<AuthUser | null> {
 		}
 
 		// Create a client-side Supabase instance
-		const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY);
+		const supabase = createClient(env.PUBLIC_SUPABASE_URL!, env.PUBLIC_SUPABASE_ANON_KEY!);
 
 		const sessionHash = await createHash(sessionToken);
 
@@ -112,7 +112,7 @@ export function logout(): void {
  */
 export async function getUserProfileClient(userId: string): Promise<UserProfile | null> {
 	try {
-		const supabase = createClient(PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY);
+		const supabase = createClient(env.PUBLIC_SUPABASE_URL!, env.PUBLIC_SUPABASE_ANON_KEY!);
 
 		const { data: profile, error } = await supabase
 			.from('user_profiles')
