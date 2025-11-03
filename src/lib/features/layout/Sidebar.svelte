@@ -243,11 +243,11 @@
 						Connect to deposit instantly, track balance, and join premium drops.
 					</p>
 				</div>
-				<form method="POST" action="/api/auth/steam/login" class="w-full">
+				<div class="w-full">
 					<AuthButton
 						class="bg-primary text-primary-foreground shadow-marketplace-md w-full justify-center gap-2"
 					/>
-				</form>
+				</div>
 				<div class="flex items-center justify-between gap-3">
 					<Button
 						variant="ghost"

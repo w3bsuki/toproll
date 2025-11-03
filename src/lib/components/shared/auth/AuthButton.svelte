@@ -39,11 +39,17 @@
 			onRetry();
 		}
 	}
+
+	function handleClick() {
+		// Navigate to Steam login via GET request
+		window.location.href = '/api/auth/steam/login';
+	}
 </script>
 
 <div class="space-y-2">
 	<Button
-		type="submit"
+		type="button"
+		onclick={handleClick}
 		class={cn('gap-2 px-5 transition-all duration-200', className)}
 		disabled={isDisabled}
 		aria-describedby={error ? 'auth-error' : undefined}
@@ -52,7 +58,7 @@
 	>
 		{#if loading}
 			<Loader2 class="h-4 w-4 animate-spin" aria-hidden="true" />
-			<span>Connectingâ€¦</span>
+			<span>Connecting…</span>
 		{:else}
 			<Shield class="h-4 w-4" aria-hidden="true" />
 			<span>{label}</span>

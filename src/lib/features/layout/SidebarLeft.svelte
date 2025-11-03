@@ -87,9 +87,9 @@
 				</div>
 			</div>
 		{:else}
-			<form method="POST" action="/api/auth/steam/login" class="w-full">
+			<div class="w-full">
 				<AuthButton class="w-full" />
-			</form>
+			</div>
 		{/if}
 	</div>
 </div>
