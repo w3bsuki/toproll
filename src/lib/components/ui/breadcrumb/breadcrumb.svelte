@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { WithElementRef } from '$lib/utils.js';
+	import type { WithElementRef } from '$lib/utils';
 	import type { HTMLAttributes } from 'svelte/elements';
 
 	let {
@@ -19,3 +19,4 @@
 >
 	{@render children?.()}
 </nav>
+

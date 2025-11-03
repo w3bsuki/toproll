@@ -12,7 +12,7 @@
 
 <script lang="ts">
 	import { ToggleGroup as ToggleGroupPrimitive } from 'bits-ui';
-	import { cn } from '$lib/utils.js';
+	import { cn } from '$lib/utils';
 
 	let {
 		ref = $bindable(null),
@@ -45,3 +45,4 @@ get along, so we shut typescript up by casting `value` to `never`.
 	)}
 	{...restProps}
 />
+

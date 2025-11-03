@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Slider as SliderPrimitive } from 'bits-ui';
-	import { cn } from '$lib/utils.js';
+	import { cn } from '$lib/utils';
 	import type { Snippet } from 'svelte';
 
 	type SliderSlotContext = { thumbs: number[] };
@@ -60,3 +60,4 @@ get along, so we shut typescript up by casting `value` to `never`.
 		{/each}
 	{/snippet}
 </SliderPrimitive.Root>
+

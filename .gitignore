@@ -29,3 +29,33 @@ src/lib/paraglide/*
 !src/lib/paraglide/messages.d.ts
 !src/lib/paraglide/runtime.ts
 !src/lib/paraglide/server.ts
+
+# Also ignore alternative generated location
+src/paraglide/*
+
+# AI/Coordination temporary files - prevent doc clutter
+*_PROMPT.md
+*_PROMPT.txt
+*_TASK_*.md
+*_AUDIT*.md
+*_COMPLETION*.md
+*_SUMMARY*.md
+*COORDINATION*.md
+*ORCHESTRATOR*.md
+*HANDOFF*.md
+CLAUDE_*.md
+KILO_*.md
+CW*.md
+PHASE_*.md
+*_FIX*.md
+*_READY*.md
+*_PLAN*.md
+*_CHECKLIST*.md
+*_REFACTOR*.md
+*_TRANSFORMATION*.md
+*_ANALYSIS*.md
+ACTUAL_ISSUES.md
+agents.md
+api-provider-fixes.md
+DEV_LOG.md
+CHAT_*.md

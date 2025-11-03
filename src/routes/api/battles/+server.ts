@@ -1,9 +1,9 @@
 import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { getCurrentUser } from '$lib/services/auth';
-import { getOrchestrator } from '$lib/server/orchestrator/battles';
-import { getSupabaseServer } from '$lib/supabase/server';
-import type { CreateBattleRequest, Battle } from '$lib/types';
+import { getCurrentUser } from '$lib/server/services/auth';
+import { createBattle } from '$lib/server/services/battleService';
+import { getSupabaseServer } from '$lib/server/auth/server';
+import type { CreateBattleRequest } from '$lib/types/index';
 
 // POST /api/battles -> create battle
 export const POST: RequestHandler = async ({ request, cookies }) => {
@@ -41,39 +41,15 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			throw error(400, 'Invalid case IDs provided');
 		}
 
-		// Create battle using orchestrator
-		const orchestrator = getOrchestrator();
-		const { battle, error: battleError } = await orchestrator.createBattle(
-			body.case_ids,
-			body.mode,
-			body.max_participants,
-			user.id
-		);
+		// Create battle using our service
+		const { battle, participants } = await createBattle(user.id, body);
 
-		if (battleError || !battle) {
-			throw error(500, battleError || 'Failed to create battle');
-		}
-
-		// Get full battle details with relations
-		const { data: fullBattle, error: fetchError } = await supabase
-			.from('battles')
-			.select(
-				`
-				*,
-				case:cases(*),
-				battle_cases:battle_cases(*, cases(*))
-			`
-			)
-			.eq('id', battle.id)
-			.single();
-
-		if (fetchError) {
-			console.error('Failed to fetch full battle details:', fetchError);
-			// Return basic battle info if details fetch fails
-			return json({ battle, success: true });
-		}
-
-		return json({ battle: fullBattle, success: true });
+		return json({
+			battle,
+			participants,
+			success: true,
+			message: 'Battle created successfully'
+		});
 	} catch (err) {
 		console.error('Create battle error:', err);
 
@@ -85,7 +61,8 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			if (
 				err.message.includes('Invalid case IDs') ||
 				err.message.includes('mode must be') ||
-				err.message.includes('max_participants must be')
+				err.message.includes('max_participants must be') ||
+				err.message.includes('Insufficient balance')
 			) {
 				throw error(400, err.message);
 			}

@@ -1,0 +1,3 @@
+# Ignore generated Paraglide outputs
+src/lib/paraglide/
+src/paraglide/

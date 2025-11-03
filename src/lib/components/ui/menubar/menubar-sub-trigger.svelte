@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Menubar as MenubarPrimitive } from 'bits-ui';
 	import ChevronRightIcon from '@lucide/svelte/icons/chevron-right';
-	import { cn, type WithoutChild } from '$lib/utils.js';
+	import { cn, type WithoutChild } from '$lib/utils';
 
 	let {
 		ref = $bindable(null),
@@ -27,3 +27,4 @@
 	{@render children?.()}
 	<ChevronRightIcon class="ml-auto size-4" />
 </MenubarPrimitive.SubTrigger>
+

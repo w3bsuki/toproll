@@ -1,17 +1,18 @@
 // Realtime battle system for Case Battles
 import { browser } from '$app/environment';
-import { getSupabaseClient } from '$lib/supabase/client';
+import { getSupabaseClient } from '$lib/server/auth/client';
 import type {
 	Battle,
 	BattleEvent,
 	BattleRound,
 	BattlePull,
 	BattleParticipant,
-	RoundStartEvent,
-	RoundPullEvent,
-	RoundResultEvent,
-	BattleSettledEvent
-} from '$lib/types';
+	ParticipantJoinedData,
+	RoundStartData,
+	RoundPullData,
+	RoundResultData,
+	BattleSettledData
+} from '$lib/types/index';
 
 // Battle connection state
 export interface BattleConnectionState {
@@ -212,19 +213,23 @@ export class BattleRealtimeClient {
 		const updates: Partial<BattleConnectionState> = { lastEvent: event };
 
 		switch (event.type) {
-			case 'participant_joined':
+			case 'participant_joined': {
+				const data = event.data as ParticipantJoinedData;
 				const newParticipantIds = new Set(this._state.participantIds);
-				newParticipantIds.add(event.data.participant_id);
+				newParticipantIds.add(data.participant_id);
 				updates.participantIds = newParticipantIds;
 				break;
+			}
 
 			case 'battle_locked':
 				updates.battleStatus = 'in_progress';
 				break;
 
-			case 'round_start':
-				updates.currentRound = event.data.round_index;
+			case 'round_start': {
+				const data = event.data as RoundStartData;
+				updates.currentRound = data.round_index;
 				break;
+			}
 
 			case 'battle_settled':
 				updates.battleStatus = 'completed';
@@ -530,18 +535,24 @@ export function validateBattleEvent(event: any): event is BattleEvent {
 export function formatBattleEvent(event: BattleEvent): string {
 	switch (event.type) {
 		case 'participant_joined':
-			return `Player joined the battle`;
+			return 'Player joined the battle';
 		case 'battle_locked':
-			return `Battle is starting!`;
-		case 'round_start':
-			return `Round ${event.data.round_index + 1} started`;
-		case 'round_pull':
-			return `${event.data.item.name} pulled!`;
-		case 'round_result':
-			return `Round ${event.data.round_index + 1} complete`;
+			return 'Battle is starting!';
+		case 'round_start': {
+			const data = event.data as RoundStartData;
+			return `Round ${data.round_index + 1} started`;
+		}
+		case 'round_pull': {
+			const data = event.data as RoundPullData;
+			return `${data.item.name} pulled!`;
+		}
+		case 'round_result': {
+			const data = event.data as RoundResultData;
+			return `Round ${data.round_index + 1} complete`;
+		}
 		case 'battle_settled':
-			return `Battle completed! Winner: ${event.data.winner_id || 'Unknown'}`;
+			return 'Battle completed!';
 		default:
-			return 'Battle event occurred';
+			return 'Battle updated';
 	}
 }

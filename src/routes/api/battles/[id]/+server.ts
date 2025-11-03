@@ -3,7 +3,7 @@ import type { RequestHandler } from './$types';
 import { getCurrentUser } from '$lib/services/auth';
 import { getOrchestrator } from '$lib/server/orchestrator/battles';
 import { getSupabaseServer } from '$lib/supabase/server';
-import type { Battle } from '$lib/types';
+import type { BattleParticipant, BattleRound } from '$lib/types';
 
 // GET /api/battles/[id] -> battle details
 export const GET: RequestHandler = async ({ params, cookies }) => {
@@ -54,13 +54,16 @@ export const GET: RequestHandler = async ({ params, cookies }) => {
 		const currentUser = await getCurrentUser(cookies);
 
 		// Check if current user is a participant
-		let userParticipant = null;
+		let userParticipant: BattleParticipant | null = null;
 		if (currentUser && battle.participants) {
-			userParticipant = battle.participants.find((p) => p.user_id === currentUser.id);
+			userParticipant = battle.participants.find(
+				(p: BattleParticipant) => p.user_id === currentUser.id
+			);
 		}
 
 		// Get additional battle data if in progress or completed
-		let pullsData = [];
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		let pullsData: any[] = [];
 		if (['in_progress', 'settling', 'completed'].includes(battle.status)) {
 			const { data: pulls } = await supabase
 				.from('battle_pulls')
@@ -72,13 +75,14 @@ export const GET: RequestHandler = async ({ params, cookies }) => {
 					round:battle_rounds(*)
 				`
 				)
-				.in('round_id', battle.rounds?.map((r) => r.id) || []);
+				.in('round_id', battle.rounds?.map((r: BattleRound) => r.id) || []);
 
 			pullsData = pulls || [];
 		}
 
 		// Get orchestrator state for active battles
-		let orchestratorState = null;
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		let orchestratorState: any = null;
 		if (['waiting', 'locking', 'in_progress'].includes(battle.status)) {
 			const orchestrator = getOrchestrator();
 			orchestratorState = orchestrator.getBattle(id);

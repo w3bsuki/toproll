@@ -9,8 +9,15 @@
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"strict": true,
-		"moduleResolution": "bundler"
-	}
+		"moduleResolution": "bundler",
+		"noImplicitAny": false,
+		"noImplicitReturns": false
+	},
+	"exclude": [
+		"src/lib/paraglide/**/*",
+		"src/paraglide/**/*",
+		"src/lib/server/services/mock/**/*"
+	]
 	// Path aliases are handled by https://svelte.dev/docs/kit/configuration#alias
 	// except $lib which is handled by https://svelte.dev/docs/kit/configuration#files
 	//

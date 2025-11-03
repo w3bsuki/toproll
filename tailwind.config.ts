@@ -50,6 +50,18 @@ const config = {
 				destructive: {
 					DEFAULT: 'var(--destructive)',
 					foreground: 'var(--destructive-foreground)'
+				},
+				success: {
+					DEFAULT: 'var(--success)',
+					foreground: 'var(--success-foreground)'
+				},
+				warning: {
+					DEFAULT: 'var(--warning)',
+					foreground: 'var(--warning-foreground)'
+				},
+				info: {
+					DEFAULT: 'var(--info)',
+					foreground: 'var(--info-foreground)'
 				}
 			},
 			borderRadius: {
@@ -60,17 +72,21 @@ const config = {
 			fontFamily: {
 				sans: ['Inter Variable', ...defaultTheme.fontFamily.sans]
 			},
+			colors: {
+				...config.theme.extend.colors,
+				text: {
+					display: 'var(--foreground)',
+					primary: 'var(--foreground)',
+					muted: 'var(--muted-foreground)'
+				}
+			},
 			boxShadow: {
 				'marketplace-sm':
 					'0 1px 0 0 color-mix(in oklch, var(--border) 60%, transparent), 0 6px 16px -8px color-mix(in oklch, var(--border) 45%, transparent)',
 				'marketplace-md':
 					'0 1px 0 0 color-mix(in oklch, var(--border-strong) 55%, transparent), 0 14px 32px -20px color-mix(in oklch, var(--border-strong) 70%, transparent)',
 				'marketplace-lg':
-					'0 2px 0 0 color-mix(in oklch, var(--border-strong) 55%, transparent), 0 24px 48px -32px color-mix(in oklch, var(--border-strong) 65%, transparent)',
-				'neo-sm': '2px 2px 0px rgba(0, 0, 0, 0.4)',
-				neo: '4px 4px 0px rgba(0, 0, 0, 0.4)',
-				'neo-lg': '6px 6px 0px rgba(0, 0, 0, 0.4)',
-				'neo-active': '4px 4px 0px rgba(0, 0, 0, 0.4), 0 0 20px rgba(199, 255, 120, 0.3)'
+					'0 2px 0 0 color-mix(in oklch, var(--border-strong) 55%, transparent), 0 24px 48px -32px color-mix(in oklch, var(--border-strong) 65%, transparent)'
 			},
 			spacing: {
 				'18': '4.5rem',

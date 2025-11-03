@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as FormPrimitive from 'formsnap';
-	import { cn, type WithoutChild } from '$lib/utils.js';
+	import { cn, type WithoutChild } from '$lib/utils';
 
 	let {
 		ref = $bindable(null),
@@ -14,3 +14,4 @@
 	class={cn('data-[fs-error]:text-destructive text-sm leading-none font-medium', className)}
 	{...restProps}
 />
+

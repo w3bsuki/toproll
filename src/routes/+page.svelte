@@ -1,13 +1,14 @@
 <script lang="ts">
-	import { page } from '$app/stores';
-	import HeroBanner from '$lib/components/home/HeroBanner.svelte';
-	import MarketplaceGrid from '$lib/components/home/MarketplaceGrid.svelte';
-	import CommunityPotsGrid from '$lib/components/CommunityPotsGrid.svelte';
-	import type { CommunityPot } from '$lib/components/CommunityPotCard.svelte';
-	import { Alert, Button } from '$lib/components/ui';
+	// ✅ FIXED: Use $app/state instead of $app/stores
+	import { page } from '$app/state';
+	import { HeroBanner, MarketplaceGrid } from '$lib/features/home';
+	import { CommunityPotsGrid } from '$lib/features/pots';
+	import type { Pot } from '$lib/types/index';
+	import Alert from '$lib/components/ui/alert.svelte';
+	import { Button } from '$lib/components/ui';
 	import { AlertCircle, Users, Clock, Trophy, Gift } from '@lucide/svelte';
 
-	const error = $derived($page.url.searchParams.get('error'));
+	const error = $derived(page.url.searchParams.get('error'));
 
 	const errorMessages: Record<string, { title: string; description: string; action?: string }> = {
 		auth_required: {
@@ -40,59 +41,70 @@
 	const currentError = $derived(() => (error ? (errorMessages[error] ?? null) : null));
 
 	// Mock data for Community Pots
-	const mockCommunityPots: CommunityPot[] = [
+	const mockCommunityPots: Pot[] = [
 		{
 			id: 'rain-pot-1',
 			name: 'Community Rain',
-			type: 'rain',
 			description: 'Daily community rain event',
-			totalAmount: 15420,
-			contributorCount: 287,
-			maxContributors: 500,
-			timeRemaining: 86400, // 24 hours
-			status: 'active',
-			prizePool: 15420,
-			isVIP: false
+			entry_cost: 10,
+			max_tickets: 500,
+			max_per_user: 10,
+			total_tickets: 287,
+			total_value: 2870,
+			status: 'open',
+			fill_percent: (287 / 500) * 100,
+			created_at: new Date().toISOString(),
+			updated_at: new Date().toISOString(),
+			expires_at: new Date(Date.now() + 86400000).toISOString(),
+			commit_hash: 'mock-hash-1'
 		},
 		{
 			id: 'vip-rain-1',
 			name: 'VIP Elite Rain',
-			type: 'vip',
 			description: 'Exclusive VIP rain event',
-			totalAmount: 8750,
-			contributorCount: 45,
-			maxContributors: 100,
-			timeRemaining: 43200, // 12 hours
-			status: 'active',
-			prizePool: 8750,
-			isVIP: true,
-			entryRequirement: 'VIP Level 3+'
+			entry_cost: 25,
+			max_tickets: 100,
+			max_per_user: 5,
+			total_tickets: 45,
+			total_value: 1125,
+			status: 'open',
+			fill_percent: (45 / 100) * 100,
+			created_at: new Date().toISOString(),
+			updated_at: new Date().toISOString(),
+			expires_at: new Date(Date.now() + 43200000).toISOString(),
+			commit_hash: 'mock-hash-2'
 		},
 		{
 			id: 'flash-pot-1',
 			name: 'Flash Drop',
-			type: 'flash',
 			description: 'Limited time flash event',
-			totalAmount: 3200,
-			contributorCount: 89,
-			maxContributors: 150,
-			timeRemaining: 3600, // 1 hour
-			status: 'ending-soon',
-			prizePool: 3200,
-			isVIP: false
+			entry_cost: 5,
+			max_tickets: 150,
+			max_per_user: 3,
+			total_tickets: 89,
+			total_value: 445,
+			status: 'locked',
+			fill_percent: (89 / 150) * 100,
+			created_at: new Date().toISOString(),
+			updated_at: new Date().toISOString(),
+			expires_at: new Date(Date.now() + 3600000).toISOString(),
+			commit_hash: 'mock-hash-3'
 		},
 		{
 			id: 'tournament-1',
 			name: 'Weekend Tournament',
-			type: 'tournament',
 			description: 'Compete for the grand prize',
-			totalAmount: 25000,
-			contributorCount: 156,
-			maxContributors: 200,
-			timeRemaining: 172800, // 48 hours
-			status: 'active',
-			prizePool: 25000,
-			isVIP: false
+			entry_cost: 50,
+			max_tickets: 200,
+			max_per_user: 10,
+			total_tickets: 156,
+			total_value: 7800,
+			status: 'open',
+			fill_percent: (156 / 200) * 100,
+			created_at: new Date().toISOString(),
+			updated_at: new Date().toISOString(),
+			expires_at: new Date(Date.now() + 172800000).toISOString(),
+			commit_hash: 'mock-hash-4'
 		}
 	];
 </script>

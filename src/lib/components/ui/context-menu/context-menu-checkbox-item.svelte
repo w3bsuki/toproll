@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { ContextMenu as ContextMenuPrimitive } from 'bits-ui';
 	import CheckIcon from '@lucide/svelte/icons/check';
-	import { cn, type WithoutChildrenOrChild } from '$lib/utils.js';
+	import { cn, type WithoutChildrenOrChild } from '$lib/utils';
 
 	type ContextMenuCheckboxContext = { checked: boolean; indeterminate: boolean };
 
@@ -40,3 +40,4 @@
 		{@render childrenProp?.({ checked, indeterminate })}
 	{/snippet}
 </ContextMenuPrimitive.CheckboxItem>
+

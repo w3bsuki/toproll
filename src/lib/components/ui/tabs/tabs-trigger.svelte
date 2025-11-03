@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { cn } from '$lib/utils';
 	import { useTabsContext } from './context';
 	import { derived } from 'svelte/store';
@@ -45,3 +45,4 @@
 >
 	{@render children?.()}
 </button>
+

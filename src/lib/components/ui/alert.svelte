@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { cn } from '$lib/utils';
 
 	type AlertVariant = 'default' | 'success' | 'info' | 'warning' | 'destructive';
@@ -24,3 +24,4 @@
 >
 	{@render children?.()}
 </div>
+

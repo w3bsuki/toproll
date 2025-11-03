@@ -1,38 +1,51 @@
-# sv
+<div align="center">
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+# TopRoll
 
-## Creating a project
+[![CI](https://github.com/w3bsuki/toproll/actions/workflows/ci.yml/badge.svg)](https://github.com/w3bsuki/toproll/actions/workflows/ci.yml)
 
-If you're seeing this, you've probably already done this step. Congrats!
+SvelteKit 2 + Svelte 5 runes app with Supabase backend, featuring Community Pots, Marketplace, and Case Battles.
 
-```sh
-# create a new project in the current directory
-npx sv create
+</div>
 
-# create a new project in my-app
-npx sv create my-app
+## Quickstart
+
+Prereqs: Node 20+, pnpm 9
+
+```powershell
+pnpm install --frozen-lockfile
+copy .env.example .env
+pnpm run dev
 ```
 
-## Developing
+Optional: enable mock mode in `src/lib/config.ts` to develop without backend.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+## Scripts
 
-```sh
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
+```powershell
+pnpm run check      # svelte-check
+pnpm run lint       # prettier + eslint
+pnpm run build      # vite build
+pnpm run test -- --run  # vitest unit
+pnpm run test:e2e   # playwright e2e (requires browsers)
 ```
 
-## Building
+Run E2E browsers locally:
 
-To create a production version of your app:
-
-```sh
-npm run build
+```powershell
+npx playwright install
 ```
 
-You can preview the production build with `npm run preview`.
+## CI
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+CI runs typecheck, lint, build, and unit tests on every push/PR to main. E2E can be triggered via "Run workflow" with `run_e2e: true`.
+
+## Health Check
+
+GET `/api/health` returns `{ status: 'ok', uptimeSec, version }` and includes `x-request-id` & `x-response-time` headers.
+
+## Observability
+
+- Structured JSON logs with correlation IDs
+- Logger available at `event.locals.logger`
+- See `docs/engineering/runbooks.md` for incident playbooks

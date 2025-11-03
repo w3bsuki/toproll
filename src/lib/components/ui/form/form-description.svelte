@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as FormPrimitive from 'formsnap';
-	import { cn, type WithoutChild } from '$lib/utils.js';
+	import { cn, type WithoutChild } from '$lib/utils';
 
 	let {
 		ref = $bindable(null),
@@ -15,3 +15,4 @@
 	class={cn('text-muted-foreground text-sm', className)}
 	{...restProps}
 />
+

@@ -7,3 +7,19 @@ bun.lockb
 
 # Miscellaneous
 /static/
+
+# Generated and build artifacts
+node_modules
+build
+dist
+coverage
+test-results
+
+# Large HTML report
+build-stats.html
+
+# Local/AI config
+.claude/
+
+# Docs (contain illustrative Svelte snippets not parseable by Prettier plugins)
+docs/

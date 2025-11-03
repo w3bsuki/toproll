@@ -1,6 +1,6 @@
 <script lang="ts">
 	import * as FormPrimitive from 'formsnap';
-	import { cn, type WithoutChild } from '$lib/utils.js';
+	import { cn, type WithoutChild } from '$lib/utils';
 
 	type FieldErrorsSlotContext = {
 		errors: string[];
@@ -33,3 +33,4 @@
 		{/if}
 	{/snippet}
 </FormPrimitive.FieldErrors>
+

@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn } from '$lib/utils.js';
+	import { cn } from '$lib/utils';
 	import { Menubar as MenubarPrimitive } from 'bits-ui';
 	import type { ComponentProps } from 'svelte';
 
@@ -20,3 +20,4 @@
 	class={cn('px-2 py-1.5 text-sm font-medium data-[inset]:pl-8', className)}
 	{...restProps}
 />
+

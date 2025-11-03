@@ -1,7 +1,7 @@
 import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { getCurrentUser } from '$lib/services/auth';
-import { getSupabaseServer } from '$lib/supabase/server';
+import { getCurrentUser } from '$lib/server/services/auth';
+import { getSupabaseServer } from '$lib/server/auth/server';
 
 // GET /api/battles/feed?status=waiting|active&limit=20&offset=0 -> dedicated lobby feed
 export const GET: RequestHandler = async ({ url, cookies }) => {
@@ -120,7 +120,11 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 			const isRecentlyCreated = minutesAgo <= 10;
 
 			// Get case information
-			const battleCase = battle.case || battle.battle_cases?.[0]?.case;
+			const battleCase = !Array.isArray(battle.case)
+				? battle.case
+				: Array.isArray(battle.battle_cases) && battle.battle_cases.length > 0
+					? battle.battle_cases[0]?.case
+					: null;
 			const caseName = battleCase?.name || 'Unknown Case';
 			const caseImage = battleCase?.image_url;
 
@@ -136,13 +140,14 @@ export const GET: RequestHandler = async ({ url, cookies }) => {
 				participants: battle.participants?.slice(0, 4) || [], // Show max 4 participants in lobby
 				// Remove heavy data for lobby feed
 				battle_cases: undefined,
-				creator: battle.creator
-					? {
-							id: battle.creator.id,
-							username: battle.creator.username,
-							avatar_url: battle.creator.avatar_url
-						}
-					: null
+				creator:
+					!Array.isArray(battle.creator) && battle.creator
+						? {
+								id: (battle.creator as any).id,
+								username: (battle.creator as any).username,
+								avatar_url: (battle.creator as any).avatar_url
+							}
+						: null
 			};
 		});
 

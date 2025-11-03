@@ -1,6 +1,6 @@
 import { getSupabaseServer } from '$lib/supabase/server';
 import { getBatchFairValues, type PriceClampingResult } from './pricing';
-import type { BattlePull, BattleParticipant, Battle, BattleResult } from '$lib/types';
+import type { BattlePull, BattleParticipant, Battle, BattleResult } from '$lib/types/index';
 
 /**
  * Settlement service with idempotent operations

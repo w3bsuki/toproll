@@ -1,4 +1,4 @@
-import type { WithElementRef } from '$lib/utils.js';
+import type { WithElementRef } from '$lib/utils';
 import type {
 	EmblaCarouselSvelteType,
 	default as emblaCarouselSvelte
@@ -56,3 +56,4 @@ export function getEmblaContext(name = 'This component') {
 	}
 	return getContext<ReturnType<typeof setEmblaContext>>(EMBLA_CAROUSEL_CONTEXT);
 }
+

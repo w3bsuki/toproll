@@ -5,6 +5,7 @@ interface ImportMetaEnv {
 	// Public environment variables (accessible in client)
 	readonly PUBLIC_SUPABASE_URL: string;
 	readonly PUBLIC_SUPABASE_ANON_KEY: string;
+	readonly PUBLIC_USE_MOCK?: string;
 
 	// Private environment variables (server-only)
 	readonly SUPABASE_SERVICE_ROLE_KEY: string;
@@ -15,6 +16,10 @@ interface ImportMetaEnv {
 	readonly STEAM_OPENID_RETURN_TO: string;
 	readonly REDIS_URL?: string;
 	readonly SENTRY_DSN?: string;
+
+	readonly DEV: boolean;
+	readonly MODE: string;
+	readonly PROD: boolean;
 }
 
 interface ImportMeta {

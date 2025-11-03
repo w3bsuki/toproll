@@ -1,5 +1,5 @@
 <script lang="ts" module>
-	import { cn, type WithElementRef } from '$lib/utils.js';
+	import { cn, type WithElementRef } from '$lib/utils';
 	import type { HTMLAnchorAttributes, HTMLButtonAttributes } from 'svelte/elements';
 	import { type VariantProps, tv } from 'tailwind-variants';
 
@@ -54,8 +54,8 @@
 
 {#if href}
 	<a
-		bind:this={ref}
-		data-slot="button"
+					bind:this={ref as any}
+					data-slot="button"
 		class={cn(buttonVariants({ variant, size }), className)}
 		href={disabled ? undefined : href}
 		aria-disabled={disabled}
@@ -67,8 +67,8 @@
 	</a>
 {:else}
 	<button
-		bind:this={ref}
-		data-slot="button"
+					bind:this={ref as any}
+					data-slot="button"
 		class={cn(buttonVariants({ variant, size }), className)}
 		{type}
 		{disabled}
@@ -77,3 +77,4 @@
 		{@render children?.()}
 	</button>
 {/if}
+

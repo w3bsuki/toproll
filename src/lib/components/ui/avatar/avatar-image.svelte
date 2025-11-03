@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Avatar as AvatarPrimitive } from 'bits-ui';
-	import { cn } from '$lib/utils.js';
+	import { cn } from '$lib/utils';
 
 	let {
 		ref = $bindable(null),
@@ -15,3 +15,4 @@
 	class={cn('aspect-square size-full', className)}
 	{...restProps}
 />
+

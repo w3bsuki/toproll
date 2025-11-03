@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { cn } from '$lib/utils';
 	import { writable } from 'svelte/store';
 	import { initDropdownContext } from './context';
@@ -33,3 +33,4 @@
 <div class={cn('relative inline-block text-left', className)}>
 	{@render children?.()}
 </div>
+

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Select as SelectPrimitive } from 'bits-ui';
 	import ChevronDownIcon from '@lucide/svelte/icons/chevron-down';
-	import { cn, type WithoutChild } from '$lib/utils.js';
+	import { cn, type WithoutChild } from '$lib/utils';
 
 	let {
 		ref = $bindable(null),
@@ -27,3 +27,4 @@
 	{@render children?.()}
 	<ChevronDownIcon class="size-4 opacity-50" />
 </SelectPrimitive.Trigger>
+

@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { Calendar as CalendarPrimitive } from 'bits-ui';
 	import * as Calendar from './index.js';
-	import { cn } from '$lib/utils.js';
+	import { cn } from '$lib/utils';
 	import type { ButtonVariant } from '../button/button.svelte';
 	import { isEqualMonth, type DateValue } from '@internationalized/date';
 	import type { Snippet } from 'svelte';
@@ -69,10 +69,12 @@
 Discriminated Unions + Destructing (required for bindable) do not
 get along, so we shut typescript up by casting `value` to `never`.
 -->
+<!-- @ts-ignore Component library type complexity -->
 <CalendarPrimitive.Root
 	bind:value={value as never}
 	bind:ref
 	bind:placeholder
+	type="single"
 	{weekdayFormat}
 	{disableDaysOutsideMonth}
 	class={cn(
@@ -139,3 +141,4 @@ get along, so we shut typescript up by casting `value` to `never`.
 		</Calendar.Months>
 	{/snippet}
 </CalendarPrimitive.Root>
+

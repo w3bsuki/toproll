@@ -2,7 +2,7 @@
 	import * as FormPrimitive from 'formsnap';
 	import type { FormPathLeaves } from 'sveltekit-superforms';
 	import type { HTMLAttributes } from 'svelte/elements';
-	import { cn, type WithElementRef, type WithoutChildren } from '$lib/utils.js';
+	import { cn, type WithElementRef, type WithoutChildren } from '$lib/utils';
 
 	type FormElementFieldSlotContext<Value> = {
 		constraints: unknown;
@@ -32,3 +32,4 @@
 		</div>
 	{/snippet}
 </FormPrimitive.ElementField>
+

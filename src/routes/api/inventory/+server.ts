@@ -1,8 +1,9 @@
 import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { getCurrentUser } from '$lib/services/auth';
-import { getCS2Inventory, isInventoryPublic } from '$lib/services/steamAPI';
+import { getCurrentUser } from '$lib/server/services/auth';
+import { getUserInventory, syncUserInventory } from '$lib/server/services/steamInventory';
 
+// GET /api/inventory -> get user's inventory
 export const GET: RequestHandler = async ({ cookies }) => {
 	try {
 		const user = await getCurrentUser(cookies);
@@ -11,40 +12,68 @@ export const GET: RequestHandler = async ({ cookies }) => {
 			throw error(401, 'Authentication required');
 		}
 
-		// Check if inventory is public
-		const inventoryPublic = await isInventoryPublic(user.steamId);
-
-		if (!inventoryPublic) {
-			return json({
-				items: [],
-				inventoryPublic: false,
-				message: 'Your CS2 inventory is private. Please make it public in Steam to view items here.'
-			});
-		}
-
-		// Fetch inventory from Steam API
-		const items = await getCS2Inventory(user.steamId);
+		// Get user's inventory
+		const inventory = await getUserInventory(user.id);
 
 		return json({
-			items,
-			inventoryPublic: true,
-			count: items.length
+			inventory,
+			user: {
+				id: user.id,
+				steamId: user.steamId
+			}
 		});
 	} catch (err) {
-		console.error('Inventory API error:', err);
+		console.error('Get user inventory error:', err);
 
-		if (err instanceof Error && err.message === 'Authentication required') {
-			throw error(401, err.message);
-		}
-
-		if (err instanceof Error && err.message === 'Inventory is private') {
-			return json({
-				items: [],
-				inventoryPublic: false,
-				message: 'Your CS2 inventory is private. Please make it public in Steam to view items here.'
-			});
+		if (err instanceof Error) {
+			if (err.message.includes('Authentication required')) {
+				throw error(401, err.message);
+			}
 		}
 
 		throw error(500, 'Failed to fetch inventory');
+	}
+};
+
+// POST /api/inventory/sync -> sync user's Steam inventory
+export const POST: RequestHandler = async ({ cookies, request }) => {
+	try {
+		const user = await getCurrentUser(cookies);
+
+		if (!user) {
+			throw error(401, 'Authentication required');
+		}
+
+		const body = await request.json();
+		const { steamId } = body;
+
+		if (!steamId) {
+			throw error(400, 'Steam ID is required');
+		}
+
+		// Sync user's Steam inventory
+		const result = await syncUserInventory(user.id, steamId);
+
+		return json({
+			success: result.success,
+			itemsImported: result.itemsImported,
+			error: result.error
+		});
+	} catch (err) {
+		console.error('Sync inventory error:', err);
+
+		if (err instanceof Error) {
+			if (err.message.includes('Authentication required')) {
+				throw error(401, err.message);
+			}
+			if (err.message.includes('Steam ID is required')) {
+				throw error(400, err.message);
+			}
+			if (err.message.includes('Steam Web API key not configured')) {
+				throw error(500, 'Steam integration not configured');
+			}
+		}
+
+		throw error(500, 'Failed to sync inventory');
 	}
 };

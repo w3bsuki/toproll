@@ -3,10 +3,14 @@ import { paraglideVitePlugin } from '@inlang/paraglide-js';
 import tailwindcss from '@tailwindcss/vite';
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vite';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 export default defineConfig({
 	server: {
-		port: 3000
+		port: 5173,
+		hmr: {
+			overlay: false
+		}
 	},
 	plugins: [
 		tailwindcss(),
@@ -15,8 +19,18 @@ export default defineConfig({
 			project: './project.inlang',
 			outdir: './src/lib/paraglide'
 		}),
-		devtoolsJson()
+		devtoolsJson(),
+		// ✅ Bundle analyzer - generates stats.html
+		visualizer({
+			open: false,
+			filename: './build-stats.html',
+			gzipSize: true,
+			brotliSize: true
+		})
 	],
+	optimizeDeps: {
+		include: ['@lucide/svelte']
+	},
 	test: {
 		expect: { requireAssertions: true },
 		projects: [

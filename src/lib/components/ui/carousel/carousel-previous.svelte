@@ -2,7 +2,7 @@
 	import ArrowLeftIcon from '@lucide/svelte/icons/arrow-left';
 	import type { WithoutChildren } from 'bits-ui';
 	import { getEmblaContext } from './context.js';
-	import { cn } from '$lib/utils.js';
+	import { cn } from '$lib/utils';
 	import { Button, type Props } from '$lib/components/ui/button/index.js';
 
 	let {
@@ -36,3 +36,4 @@
 	<ArrowLeftIcon class="size-4" />
 	<span class="sr-only">Previous slide</span>
 </Button>
+

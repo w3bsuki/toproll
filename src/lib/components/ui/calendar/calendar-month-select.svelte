@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Calendar as CalendarPrimitive } from 'bits-ui';
-	import { cn, type WithoutChildrenOrChild } from '$lib/utils.js';
+	import { cn, type WithoutChildrenOrChild } from '$lib/utils';
 	import ChevronDownIcon from '@lucide/svelte/icons/chevron-down';
 
 	let {
@@ -42,3 +42,4 @@
 		{/snippet}
 	</CalendarPrimitive.MonthSelect>
 </span>
+

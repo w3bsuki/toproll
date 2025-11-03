@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Tooltip as TooltipPrimitive } from 'bits-ui';
-	import { cn } from '$lib/utils.js';
+	import { cn } from '$lib/utils';
 
 	let {
 		ref = $bindable(null),
@@ -45,3 +45,4 @@
 		</TooltipPrimitive.Arrow>
 	</TooltipPrimitive.Content>
 </TooltipPrimitive.Portal>
+

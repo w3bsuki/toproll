@@ -1,8 +1,8 @@
 import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { getCurrentUser, getUserProfile } from '$lib/services/auth';
-import { getPlayerSummary } from '$lib/services/steamAPI';
-import { getSupabaseServer } from '$lib/supabase/server';
+import { getCurrentUser, getUserProfile, updateLastSeen } from '$lib/server/services/auth';
+import { getPlayerSummary } from '$lib/server/services/steamAPI';
+import { getSupabaseServer } from '$lib/server/auth/server';
 
 export const GET: RequestHandler = async ({ cookies }) => {
 	try {
@@ -18,6 +18,9 @@ export const GET: RequestHandler = async ({ cookies }) => {
 		if (!profile) {
 			throw error(404, 'User profile not found');
 		}
+
+		// Update last_seen timestamp
+		await updateLastSeen(user.id);
 
 		// Try to refresh Steam profile data
 		try {
@@ -39,7 +42,13 @@ export const GET: RequestHandler = async ({ cookies }) => {
 			// Continue with cached data
 		}
 
-		return json({ profile });
+		// Include balance information
+		const profileWithBalance = {
+			...profile,
+			balance: Number(profile.balance) || 0
+		};
+
+		return json({ profile: profileWithBalance });
 	} catch (err) {
 		console.error('Profile API error:', err);
 
@@ -51,7 +60,7 @@ export const GET: RequestHandler = async ({ cookies }) => {
 	}
 };
 
-export const PUT: RequestHandler = async ({ request, cookies }) => {
+export const PATCH: RequestHandler = async ({ request, cookies }) => {
 	try {
 		const user = await getCurrentUser(cookies);
 
@@ -61,15 +70,12 @@ export const PUT: RequestHandler = async ({ request, cookies }) => {
 
 		const updates = await request.json();
 
-		// Only allow updating certain fields for security
-		const allowedFields = [
-			'total_wagered',
-			'total_profit',
-			'win_rate',
-			'biggest_win',
-			'case_battle_wins'
+		// Only allow updating display preferences for security
+		const allowedFields: string[] = [
+			// Add any user-updatable display preferences here
+			// Steam data should only be updated via Steam API
 		];
-		const filteredUpdates: any = {};
+		const filteredUpdates: Record<string, any> = {};
 
 		for (const field of allowedFields) {
 			if (updates[field] !== undefined) {

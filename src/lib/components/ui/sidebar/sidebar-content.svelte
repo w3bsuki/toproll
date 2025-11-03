@@ -1,6 +1,6 @@
 <script lang="ts">
 	import type { HTMLAttributes } from 'svelte/elements';
-	import { cn, type WithElementRef } from '$lib/utils.js';
+	import { cn, type WithElementRef } from '$lib/utils';
 
 	let {
 		ref = $bindable(null),
@@ -22,3 +22,4 @@
 >
 	{@render children?.()}
 </div>
+

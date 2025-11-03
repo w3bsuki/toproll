@@ -11,7 +11,7 @@ import type {
 	BattlePull,
 	CaseItem,
 	BattleEvent
-} from '$lib/types';
+} from '$lib/types/index';
 import { commitServerSeed, generateRoll, type RollResult } from '../pf';
 import { getSupabaseServer } from '$lib/supabase/server';
 import { getBattleOrchestratorRealtime } from '../realtime-battle';

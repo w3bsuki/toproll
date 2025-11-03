@@ -1,6 +1,6 @@
 import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-import { getSupabaseServer } from '$lib/supabase/server';
+import { getSupabaseServer } from '$lib/server/auth/server';
 
 // Production-ready CS2 skin database with Steam hashes and metadata
 const CS2_SKIN_DATABASE = {
@@ -210,7 +210,8 @@ export const POST: RequestHandler = async () => {
 		}
 
 		// Create sample items for each case
-		const caseItems = [];
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		const caseItems: any[] = [];
 
 		for (const caseData of insertedCases || []) {
 			const items = generateCaseItems(caseData.id, caseData.name);
@@ -243,8 +244,10 @@ export const POST: RequestHandler = async () => {
 	}
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function generateCaseItems(caseId: string, caseName: string): any[] {
-	const items = [];
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const items: any[] = [];
 
 	// Define case compositions based on case type
 	const caseCompositions: Record<string, string[]> = {
@@ -278,7 +281,7 @@ function generateCaseItems(caseId: string, caseName: string): any[] {
 
 	// Add items from the case composition
 	for (const itemName of caseItems) {
-		const skinData = CS2_SKIN_DATABASE[itemName];
+		const skinData = CS2_SKIN_DATABASE[itemName as keyof typeof CS2_SKIN_DATABASE];
 		if (skinData) {
 			// Generate proper image filename from skin name
 			const imageFilename =

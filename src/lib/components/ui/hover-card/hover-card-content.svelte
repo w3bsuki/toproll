@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { LinkPreview as HoverCardPrimitive } from 'bits-ui';
-	import { cn } from '$lib/utils.js';
+	import { cn } from '$lib/utils';
 
 	let {
 		ref = $bindable(null),
@@ -27,3 +27,4 @@
 		{...restProps}
 	/>
 </HoverCardPrimitive.Portal>
+

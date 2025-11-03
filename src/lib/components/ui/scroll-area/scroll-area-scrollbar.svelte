@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { ScrollArea as ScrollAreaPrimitive } from 'bits-ui';
-	import { cn, type WithoutChild } from '$lib/utils.js';
+	import { cn, type WithoutChild } from '$lib/utils';
 
 	let {
 		ref = $bindable(null),
@@ -29,3 +29,4 @@
 		class="bg-border relative flex-1 rounded-full"
 	/>
 </ScrollAreaPrimitive.Scrollbar>
+

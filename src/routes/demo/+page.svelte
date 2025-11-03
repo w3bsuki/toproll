@@ -1,1 +1,1 @@
-<a href="/demo/paraglide">paraglide</a>
+<p>Demo routes are disabled in production.</p>

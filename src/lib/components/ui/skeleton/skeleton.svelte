@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn, type WithElementRef, type WithoutChildren } from '$lib/utils.js';
+	import { cn, type WithElementRef, type WithoutChildren } from '$lib/utils';
 	import type { HTMLAttributes } from 'svelte/elements';
 
 	let {
@@ -15,3 +15,4 @@
 	class={cn('bg-accent animate-pulse rounded-md', className)}
 	{...restProps}
 ></div>
+

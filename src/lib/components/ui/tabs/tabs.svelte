@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { cn } from '$lib/utils';
 	import { writable } from 'svelte/store';
 	import { initTabsContext } from './context';
@@ -34,3 +34,4 @@
 <div class={cn('grid gap-4', className)}>
 	{@render children?.()}
 </div>
+

@@ -2,12 +2,15 @@
 import { getSupabaseClient } from '$lib/supabase/client';
 import type {
 	BattleEvent,
-	RoundStartEvent,
-	RoundPullEvent,
-	RoundResultEvent,
-	BattleSettledEvent,
+	ParticipantJoinedData,
+	BattleLockedData,
+	RoundStartData,
+	RoundPullData,
+	RoundResultData,
+	BattleSettledData,
+	BattleCancelledData,
 	BattleParticipant
-} from '$lib/types';
+} from '$lib/types/index';
 
 // Server-side Supabase client for broadcasting
 let serverSupabase: ReturnType<typeof getSupabaseClient> | null = null;
@@ -36,11 +39,11 @@ export class BattleEventBroadcaster {
 		event: Omit<BattleEvent, 'battle_id' | 'timestamp'>
 	): Promise<boolean> {
 		try {
-			const fullEvent: BattleEvent = {
+			const fullEvent = {
 				...event,
 				battle_id: battleId,
 				timestamp: new Date().toISOString()
-			};
+			} as BattleEvent;
 
 			const channel = this.supabase.channel(`battles:${battleId}`);
 
@@ -142,7 +145,7 @@ export class BattleEventBroadcaster {
 	async broadcastRoundResult(
 		battleId: string,
 		roundIndex: number,
-		pulls: RoundPullEvent[],
+		pulls: RoundPullData[],
 		subtotals: { [participant_id: string]: number }
 	): Promise<boolean> {
 		return this.broadcastEvent(battleId, {
@@ -269,7 +272,7 @@ export class BattleOrchestratorRealtime {
 	async onRoundResult(
 		battleId: string,
 		roundIndex: number,
-		pulls: RoundPullEvent[],
+		pulls: RoundPullData[],
 		subtotals: { [participant_id: string]: number }
 	): Promise<boolean> {
 		return await this.broadcaster.broadcastRoundResult(battleId, roundIndex, pulls, subtotals);
@@ -382,26 +385,44 @@ export function formatBattleEventForLog(event: BattleEvent): string {
 	const { type, battle_id, timestamp, data } = event;
 
 	switch (type) {
-		case 'participant_joined':
-			return `[${timestamp}] Battle ${battle_id}: Participant ${data.participant_id} (${data.username}) joined`;
+		case 'participant_joined': {
+			const d = data as ParticipantJoinedData;
+			return `[${timestamp}] Battle ${battle_id}: ${d.username} joined at position ${d.position}`;
+		}
 
-		case 'battle_locked':
-			return `[${timestamp}] Battle ${battle_id}: Battle locked with ${data.participant_ids?.length || 0} participants`;
+		case 'battle_locked': {
+			const d = data as BattleLockedData;
+			return `[${timestamp}] Battle ${battle_id}: Battle locked with ${d.participant_ids.length} participants`;
+		}
 
-		case 'round_start':
-			return `[${timestamp}] Battle ${battle_id}: Round ${data.round_index + 1} started (Case: ${data.case_id})`;
+		case 'round_start': {
+			const d = data as RoundStartData;
+			return `[${timestamp}] Battle ${battle_id}: Round ${d.round_index + 1} started (Case: ${d.case_id})`;
+		}
 
-		case 'round_pull':
-			return `[${timestamp}] Battle ${battle_id}: ${data.participant_id} pulled ${data.item?.name || 'Unknown item'}`;
+		case 'round_pull': {
+			const d = data as RoundPullData;
+			return `[${timestamp}] Battle ${battle_id}: ${d.participant_id} pulled ${d.item.name}`;
+		}
 
-		case 'round_result':
-			return `[${timestamp}] Battle ${battle_id}: Round ${data.round_index + 1} completed - ${data.pulls?.length || 0} pulls`;
+		case 'round_result': {
+			const d = data as RoundResultData;
+			return `[${timestamp}] Battle ${battle_id}: Round ${d.round_index + 1} completed - ${d.pulls.length} pulls`;
+		}
 
-		case 'battle_settled':
-			return `[${timestamp}] Battle ${battle_id}: Battle settled - Winner: ${data.winner_id || 'Multiple winners'}`;
+		case 'battle_settled': {
+			const d = data as BattleSettledData;
+			const winnerInfo = d.winner_id ? d.winner_id : `${d.winners?.length || 0} winners`;
+			return `[${timestamp}] Battle ${battle_id}: Battle settled - Winner: ${winnerInfo}`;
+		}
+
+		case 'battle_cancelled': {
+			const d = data as BattleCancelledData;
+			return `[${timestamp}] Battle ${battle_id}: Battle cancelled - Reason: ${d.reason}`;
+		}
 
 		default:
-			return `[${timestamp}] Battle ${battle_id}: Unknown event type ${type}`;
+			return `[${timestamp}] Battle ${battle_id}: ${type} event`;
 	}
 }
 

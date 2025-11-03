@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { createEventDispatcher } from 'svelte';
 	import { cn } from '$lib/utils';
 
 	export interface ScrollableTab {
@@ -12,15 +11,14 @@
 		tabs: ScrollableTab[];
 		activeId: string;
 		class?: string;
+		onChange?: (id: string) => void;
 	}
 
-	const dispatch = createEventDispatcher<{ change: string }>();
-
-	let { tabs, activeId, class: className = '' }: ScrollableTabsProps = $props();
+	let { tabs, activeId, class: className = '', onChange }: ScrollableTabsProps = $props();
 
 	function selectTab(id: string) {
 		if (id === activeId) return;
-		dispatch('change', id);
+		onChange?.(id);
 	}
 </script>
 

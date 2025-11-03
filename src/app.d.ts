@@ -9,6 +9,8 @@ declare global {
 				username: string;
 				avatar?: string;
 			};
+			requestId?: string;
+			logger?: import('$lib/observability/logger').Logger;
 		}
 
 		interface PageData {

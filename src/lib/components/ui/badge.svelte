@@ -1,4 +1,4 @@
-<script lang="ts">
+﻿<script lang="ts">
 	import { cn } from '$lib/utils';
 
 	export type BadgeVariant =
@@ -40,3 +40,4 @@
 >
 	{@render children?.()}
 </span>
+

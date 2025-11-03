@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { DropdownMenu as DropdownMenuPrimitive } from 'bits-ui';
-	import { cn } from '$lib/utils.js';
+	import { cn } from '$lib/utils';
 	import type { ComponentProps } from 'svelte';
 
 	let {
@@ -20,3 +20,4 @@
 	class={cn('px-2 py-1.5 text-sm font-semibold data-[inset]:pl-8', className)}
 	{...restProps}
 />
+

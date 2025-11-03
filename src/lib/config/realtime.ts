@@ -1,5 +1,5 @@
 // Realtime configuration for Case Battles system
-import type { BattleConfig } from '$lib/types';
+import type { BattleConfig } from '$lib/types/index';
 
 /**
  * Realtime battle configuration

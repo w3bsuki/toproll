@@ -1,0 +1,29 @@
+{
+	"mcpServers": {
+		"supabase": {
+			"command": "cmd",
+			"args": [
+				"/c",
+				"npx",
+				"-y",
+				"@supabase/mcp-server-supabase@latest",
+				"--project-ref=pqbomlvoborxfxdglkrt"
+			],
+			"env": {
+				"SUPABASE_ACCESS_TOKEN": "sbp_50db74f013698957a547fa20d5b0bbbbee4f56d9"
+			}
+		},
+		"playwright": {
+			"command": "cmd",
+			"args": ["/c", "npx", "-y", "@playwright/mcp@latest"]
+		},
+		"svelte": {
+			"command": "npx",
+			"args": ["-y", "@sveltejs/mcp"]
+		},
+		"tailwindcss": {
+			"command": "cmd",
+			"args": ["/c", "npx", "-y", "tailwindcss-mcp-server@latest"]
+		}
+	}
+}

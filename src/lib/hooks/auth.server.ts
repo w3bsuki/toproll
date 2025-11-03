@@ -1,11 +1,10 @@
-import { redirect } from '@sveltejs/kit';
-import type { Handle } from '@sveltejs/kit';
-import { getCurrentUser } from '$lib/services/auth';
+import { redirect, type Cookies } from '@sveltejs/kit';
+import { getCurrentUser, type AuthUser } from '$lib/server/services/auth';
 
 /**
  * Authentication hook for protected routes
  */
-export async function requireAuthGuard(cookies: any): Promise<void> {
+export async function requireAuthGuard(cookies: Cookies): Promise<void> {
 	const user = await getCurrentUser(cookies);
 
 	if (!user) {
@@ -16,7 +15,7 @@ export async function requireAuthGuard(cookies: any): Promise<void> {
 /**
  * Authentication hook for optional authentication (guest pages)
  */
-export async function optionalAuthGuard(cookies: any): Promise<{ user: any | null }> {
+export async function optionalAuthGuard(cookies: Cookies): Promise<{ user: AuthUser | null }> {
 	const user = await getCurrentUser(cookies);
 	return { user };
 }
@@ -29,7 +28,7 @@ export const protectedRoutes = ['/profile', '/inventory', '/cases'];
 /**
  * Public routes that don't require authentication
  */
-export const publicRoutes = ['/', '/demo'];
+export const publicRoutes = ['/'];
 
 /**
  * Check if a route is protected

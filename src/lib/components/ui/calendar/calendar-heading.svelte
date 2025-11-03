@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Calendar as CalendarPrimitive } from 'bits-ui';
-	import { cn } from '$lib/utils.js';
+	import { cn } from '$lib/utils';
 
 	let {
 		ref = $bindable(null),
@@ -14,3 +14,4 @@
 	class={cn('px-(--cell-size) text-sm font-medium', className)}
 	{...restProps}
 />
+

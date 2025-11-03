@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { cn, type WithElementRef } from '$lib/utils.js';
+	import { cn, type WithElementRef } from '$lib/utils';
 	import type { HTMLThAttributes } from 'svelte/elements';
 
 	let {
@@ -21,3 +21,4 @@
 >
 	{@render children?.()}
 </th>
+
