@@ -21,9 +21,13 @@ const handleSupabase: Handle = async ({ event, resolve }) => {
 		// Helper function to get session
 		event.locals.getSession = async () => {
 			try {
+				const supabaseClient = event.locals.supabase;
+				if (!supabaseClient) {
+					return null;
+				}
 				const {
 					data: { session }
-				} = await event.locals.supabase.auth.getSession();
+				} = await supabaseClient.auth.getSession();
 				return session;
 			} catch (error) {
 				console.error('Error getting session:', error);
@@ -54,8 +58,14 @@ const handleRateLimit: Handle = async ({ event, resolve }) => {
 		return resolve(event);
 	}
 
-	// Get client IP
-	const ip = event.getClientAddress() || event.request.headers.get('x-forwarded-for') || 'unknown';
+	// Get client IP - handle dev mode where getClientAddress may fail
+	let ip = 'unknown';
+	try {
+		ip = event.getClientAddress() || event.request.headers.get('x-forwarded-for') || 'unknown';
+	} catch {
+		// In dev mode, getClientAddress may throw - use fallback
+		ip = event.request.headers.get('x-forwarded-for') || 'dev-mode-client';
+	}
 
 	// Choose appropriate rate limiter
 	const limiter = pathname.startsWith('/api/auth/') ? authLimiter : apiLimiter;

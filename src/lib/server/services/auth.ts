@@ -1,7 +1,12 @@
 import { createHash } from 'node:crypto';
+import { dev } from '$app/environment';
+import { env as privateEnv } from '$env/dynamic/private';
+import { env as publicEnv } from '$env/dynamic/public';
 import { getSupabaseServer } from '$lib/supabase/server';
+import { getSupabaseSSRFromCookies } from '$lib/server/auth/ssr';
 import type { GoTrueAdminApi } from '@supabase/supabase-js';
 import type { UserProfile } from '$lib/types/index';
+import type { Cookies } from '@sveltejs/kit';
 
 type GenerateLinkData = Awaited<ReturnType<GoTrueAdminApi['generateLink']>>['data'];
 
@@ -11,33 +16,49 @@ export interface AuthUser {
 	email: string;
 }
 
+const hasPublicSupabaseCreds = Boolean(
+	publicEnv.PUBLIC_SUPABASE_URL && publicEnv.PUBLIC_SUPABASE_ANON_KEY
+);
+
+const hasServiceSupabaseCreds = Boolean(
+	publicEnv.PUBLIC_SUPABASE_URL && privateEnv.SUPABASE_SERVICE_ROLE_KEY
+);
+
 /**
  * Gets the current authenticated user from Supabase auth or fallback to cookies
  */
-export async function getCurrentUser(cookies: {
-	get: (key: string) => string | null | undefined;
-}): Promise<AuthUser | null> {
-	// First try to get user from Supabase auth session
-	const supabase = getSupabaseServer();
-	const {
-		data: { session },
-		error: sessionError
-	} = await supabase.auth.getSession();
+export async function getCurrentUser(cookies: Cookies): Promise<AuthUser | null> {
+	// First try to get user from Supabase auth using SSR client (has cookie access)
+	// Use getUser() instead of getSession() for better security
+	if (hasPublicSupabaseCreds) {
+		try {
+			const ssr = getSupabaseSSRFromCookies(cookies);
+			const {
+				data: { user },
+				error: userError
+			} = await ssr.auth.getUser();
 
-	if (session && session.user && !sessionError) {
-		// Get user profile to get Steam data
-		const { data: profile, error: profileError } = await supabase
-			.from('user_profiles')
-			.select('steam_id, username')
-			.eq('user_id', session.user.id)
-			.maybeSingle();
+			if (user && !userError && hasServiceSupabaseCreds) {
+				// Get user profile to get Steam data using admin client
+				const supabase = getSupabaseServer();
+				const { data: profile, error: profileError } = await supabase
+					.from('user_profiles')
+					.select('steam_id, username')
+					.eq('user_id', user.id)
+					.maybeSingle();
 
-		if (!profileError && profile) {
-			return {
-				id: session.user.id,
-				steamId: profile.steam_id,
-				email: session.user.email || `${profile.steam_id}@steam.toproll.gg`
-			};
+				if (!profileError && profile) {
+					return {
+						id: user.id,
+						steamId: profile.steam_id,
+						email: user.email || `${profile.steam_id}@steam.toproll.gg`
+					};
+				}
+			}
+		} catch (error) {
+			if (dev) {
+				console.warn('Supabase SSR unavailable, skipping getCurrentUser check.', error);
+			}
 		}
 	}
 
@@ -51,6 +72,14 @@ export async function getCurrentUser(cookies: {
 
 	const sessionHash = createHash('sha256').update(sessionToken).digest('hex');
 
+	if (!hasServiceSupabaseCreds) {
+		if (dev) {
+			console.warn('Supabase service credentials missing, skipping legacy cookie auth validation.');
+		}
+		return null;
+	}
+
+	const supabase = getSupabaseServer();
 	const { data: profile, error } = await supabase
 		.from('user_profiles')
 		.select('steam_id, session_token_hash, session_expires_at')
@@ -79,9 +108,7 @@ export async function getCurrentUser(cookies: {
 /**
  * Validates if a user is authenticated
  */
-export async function requireAuth(cookies: {
-	get: (key: string) => string | null | undefined;
-}): Promise<AuthUser> {
+export async function requireAuth(cookies: Cookies): Promise<AuthUser> {
 	const user = await getCurrentUser(cookies);
 
 	if (!user) {
@@ -95,6 +122,13 @@ export async function requireAuth(cookies: {
  * Gets user profile from Supabase
  */
 export async function getUserProfile(userId: string): Promise<UserProfile | null> {
+	if (!hasServiceSupabaseCreds) {
+		if (dev) {
+			console.warn('Supabase service credentials missing, returning empty profile.');
+		}
+		return null;
+	}
+
 	const supabase = getSupabaseServer();
 
 	const { data: profile, error } = await supabase
@@ -115,6 +149,13 @@ export async function getUserProfile(userId: string): Promise<UserProfile | null
  * Updates the user's last_seen timestamp
  */
 export async function updateLastSeen(userId: string): Promise<void> {
+	if (!hasServiceSupabaseCreds) {
+		if (dev) {
+			console.warn('Supabase service credentials missing, skip updateLastSeen.');
+		}
+		return;
+	}
+
 	const supabase = getSupabaseServer();
 
 	const { error } = await supabase
@@ -131,6 +172,13 @@ export async function updateLastSeen(userId: string): Promise<void> {
  * Refreshes Steam profile data from Steam API
  */
 export async function refreshSteamProfile(steamId: string): Promise<void> {
+	if (!hasServiceSupabaseCreds) {
+		if (dev) {
+			console.warn('Supabase service credentials missing, skip refreshSteamProfile.');
+		}
+		return;
+	}
+
 	const supabase = getSupabaseServer();
 	const { env } = process;
 
@@ -202,6 +250,10 @@ export async function updateUserBalance(
 	amount: number,
 	type: 'add' | 'subtract' = 'add'
 ): Promise<{ success: boolean; newBalance?: number; error?: string }> {
+	if (!hasServiceSupabaseCreds) {
+		return { success: false, error: 'Supabase not configured' };
+	}
+
 	const supabase = getSupabaseServer();
 
 	// Validate amount
@@ -248,6 +300,10 @@ export async function updateUserBalance(
  * Gets user balance
  */
 export async function getUserBalance(userId: string): Promise<number> {
+	if (!hasServiceSupabaseCreds) {
+		return 0;
+	}
+
 	const supabase = getSupabaseServer();
 
 	const { data: profile, error } = await supabase
@@ -267,6 +323,10 @@ export async function getUserBalance(userId: string): Promise<number> {
  * Signs in a user with Supabase Auth using a magic link approach
  */
 export async function signInUser(steamId: string, redirectTo: string): Promise<string> {
+	if (!hasServiceSupabaseCreds) {
+		throw new Error('Supabase not configured');
+	}
+
 	const supabase = getSupabaseServer();
 	const email = `${steamId}@steam.toproll.gg`;
 
@@ -293,6 +353,10 @@ export async function createSession(
 	steamId: string,
 	redirectTo: string = '/profile'
 ): Promise<{ session: GenerateLinkData; user: AuthUser }> {
+	if (!hasServiceSupabaseCreds) {
+		throw new Error('Supabase not configured');
+	}
+
 	const supabase = getSupabaseServer();
 	const email = `${steamId}@steam.toproll.gg`;
 
