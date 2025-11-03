@@ -3,8 +3,8 @@
 declare global {
 	namespace App {
 		interface Locals {
-			supabase: import('@supabase/supabase-js').SupabaseClient;
-			getSession: () => Promise<import('@supabase/supabase-js').Session | null>;
+			supabase?: import('@supabase/supabase-js').SupabaseClient;
+			getSession?: () => Promise<import('@supabase/supabase-js').Session | null>;
 			user?: {
 				id: string;
 				steamId: string;
@@ -12,7 +12,7 @@ declare global {
 				avatar?: string;
 			};
 			requestId?: string;
-			logger?: import('$lib/observability/logger').Logger;
+			logger?: import('$lib/server/observability/logger').Logger;
 		}
 
 		interface PageData {

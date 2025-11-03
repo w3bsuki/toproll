@@ -14,16 +14,26 @@ function genReqId() {
  * Supabase auth hook - initializes Supabase SSR client and refreshes session
  */
 const handleSupabase: Handle = async ({ event, resolve }) => {
-	// Initialize Supabase SSR client
-	event.locals.supabase = getSupabaseSSR(event);
+	try {
+		// Initialize Supabase SSR client
+		event.locals.supabase = getSupabaseSSR(event);
 
-	// Helper function to get session
-	event.locals.getSession = async () => {
-		const {
-			data: { session }
-		} = await event.locals.supabase.auth.getSession();
-		return session;
-	};
+		// Helper function to get session
+		event.locals.getSession = async () => {
+			try {
+				const {
+					data: { session }
+				} = await event.locals.supabase.auth.getSession();
+				return session;
+			} catch (error) {
+				console.error('Error getting session:', error);
+				return null;
+			}
+		};
+	} catch (error) {
+		console.error('Error initializing Supabase SSR:', error);
+		// Continue anyway - auth will fail gracefully
+	}
 
 	return resolve(event, {
 		filterSerializedResponseHeaders(name) {
@@ -141,10 +151,16 @@ export const handle: Handle = sequence(
  */
 function sequence(...handlers: Handle[]): Handle {
 	return async ({ event, resolve }) => {
-		for (const handler of handlers) {
-			const result = await handler({ event, resolve });
-			if (result) return result;
+		// Build a chain of resolve functions
+		let currentResolve = resolve;
+		
+		// Process handlers in reverse order to build the chain
+		for (let i = handlers.length - 1; i >= 0; i--) {
+			const handler = handlers[i];
+			const nextResolve = currentResolve;
+			currentResolve = (event) => handler({ event, resolve: nextResolve });
 		}
-		return resolve(event);
+		
+		return currentResolve(event);
 	};
 }
