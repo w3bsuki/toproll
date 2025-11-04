@@ -2,7 +2,7 @@
 	// ? NEW: Use $app/state instead of $app/stores
 	import { page } from '$app/state';
 	import { base } from '$app/paths';
-	import { browser } from '$app/environment';
+	import { onMount } from 'svelte';
 	import SteamAuthButton from '$lib/components/shared/auth/SteamAuthButton.svelte';
 	import LiveDropsTicker from '$lib/features/home/LiveDropsTicker.svelte';
 	import {
@@ -96,7 +96,12 @@
 
 	let activeCategory = $state(categoryTabs[0]?.id ?? 'live');
 
-	const walletBalance = $derived(() => (user?.totalWagered ?? 0) / 2 + 1561);
+       const walletBalance = $derived(() => (user?.totalWagered ?? 0) / 2 + 1561);
+
+       let clientReady = $state(false);
+       onMount(() => {
+	       clientReady = true;
+       });
 
 	// Helper to get icon for ticker items
 	const getTickerIcon = (id: string) => {
@@ -246,10 +251,10 @@
 				<span class="hidden sm:inline">Daily Bonus</span>
 			</button>
 
-			{#if isAuthenticated && user}
-				{#if browser}
-					<DropdownMenu>
-						<DropdownMenuTrigger
+		       {#if isAuthenticated && user}
+			       {#if clientReady}
+				       <DropdownMenu>
+					       <DropdownMenuTrigger
 							class="group border-border/50 bg-surface-muted/70    focus-visible:ring-primary/50 flex items-center gap-3 rounded-xl border px-3 py-2  focus-visible:ring-2 focus-visible:outline-none"
 						>
 							{#if user.avatar}
@@ -292,7 +297,15 @@
 							>
 						</DropdownMenuContent>
 					</DropdownMenu>
-				{/if}
+			       {:else}
+				       <div class="border-border/50 bg-surface-muted/70 flex items-center gap-3 rounded-xl border px-3 py-2">
+					       <div class="border-border/50 bg-surface-muted/80 h-8 w-8 rounded-lg"></div>
+					       <div class="hidden text-left xl:block">
+						       <p class="text-muted-foreground text-sm leading-tight font-semibold">Loading...</p>
+						       <p class="text-muted-foreground text-xs">&nbsp;</p>
+					       </div>
+				       </div>
+			       {/if}
 			{:else}
 				<SteamAuthButton
 					class="duration-accent bg-primary text-primary-foreground shadow-marketplace-sm    shrink-0"

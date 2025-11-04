@@ -16,7 +16,7 @@ const config = {
 		// Enable Svelte 5 runes mode
 		csp: {
 			directives: {
-				'script-src': ['self', 'unsafe-inline']
+				'script-src': ['self', 'unsafe-inline', 'https://vercel.live']
 			}
 		}
 	},
