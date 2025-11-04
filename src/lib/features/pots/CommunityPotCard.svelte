@@ -67,17 +67,18 @@
 	const IconComponent = $derived(getPotIcon(pot.status));
 
 	const getPotGradient = (status: string) => {
+		// IMPROVED: Lighter backgrounds for better visibility and text contrast
 		switch (status) {
 			case 'open':
-				return 'radial-gradient(circle at 30% 30%, rgba(34, 197, 94, 0.6), transparent 70%), radial-gradient(circle at 70% 70%, rgba(16, 185, 129, 0.4), transparent 60%), rgba(15, 118, 110, 0.95)';
+				return 'radial-gradient(circle at 30% 30%, rgba(34, 197, 94, 0.5), transparent 70%), radial-gradient(circle at 70% 70%, rgba(16, 185, 129, 0.35), transparent 60%), oklch(0.32 0.04 160)';
 			case 'locked':
-				return 'radial-gradient(circle at 25% 25%, rgba(251, 191, 36, 0.6), transparent 70%), radial-gradient(circle at 75% 75%, rgba(245, 158, 11, 0.4), transparent 60%), rgba(120, 53, 15, 0.95)';
+				return 'radial-gradient(circle at 25% 25%, rgba(251, 191, 36, 0.6), transparent 70%), radial-gradient(circle at 75% 75%, rgba(245, 158, 11, 0.45), transparent 60%), oklch(0.35 0.05 70)';
 			case 'settling':
-				return 'radial-gradient(circle at 20% 40%, rgba(239, 68, 68, 0.6), transparent 70%), radial-gradient(circle at 80% 60%, rgba(249, 115, 22, 0.4), transparent 60%), rgba(124, 45, 18, 0.95)';
+				return 'radial-gradient(circle at 20% 40%, rgba(239, 68, 68, 0.5), transparent 70%), radial-gradient(circle at 80% 60%, rgba(249, 115, 22, 0.4), transparent 60%), oklch(0.32 0.04 30)';
 			case 'settled':
-				return 'radial-gradient(circle at 35% 35%, rgba(168, 85, 247, 0.6), transparent 70%), radial-gradient(circle at 65% 65%, rgba(236, 72, 153, 0.4), transparent 60%), rgba(88, 28, 135, 0.95)';
+				return 'radial-gradient(circle at 35% 35%, rgba(168, 85, 247, 0.5), transparent 70%), radial-gradient(circle at 65% 65%, rgba(236, 72, 153, 0.35), transparent 60%), oklch(0.32 0.04 300)';
 			default:
-				return 'radial-gradient(circle at 30% 30%, rgba(107, 114, 128, 0.6), transparent 70%), radial-gradient(circle at 70% 70%, rgba(75, 85, 99, 0.4), transparent 60%), rgba(55, 65, 81, 0.95)';
+				return 'radial-gradient(circle at 30% 30%, rgba(107, 114, 128, 0.4), transparent 70%), radial-gradient(circle at 70% 70%, rgba(75, 85, 99, 0.3), transparent 60%), oklch(0.3 0.015 240)';
 		}
 	};
 
@@ -103,13 +104,13 @@
 	const potName = $derived(`Community Pot #${pot.id.slice(0, 8)}`);
 </script>
 
-<Card class={`overflow-hidden ${compact ? '' : 'h-full'} ${className} border-0 shadow-lg`}>
+<Card class={`overflow-hidden ${compact ? '' : 'h-full'} ${className} border-2 border-white/10 shadow-2xl hover:shadow-3xl transition-all duration-300 hover:scale-[1.02]`}>
 	<div
 		class="relative h-full rounded-lg"
 		style={`background: ${getPotGradient(pot.status)}; min-height: ${compact ? '140px' : '220px'};`}
 	>
-		<!-- Glass overlay -->
-		<div class="absolute inset-0 bg-white/10 backdrop-blur-[1px]"></div>
+		<!-- Subtle glass overlay - reduced for better readability -->
+		<div class="absolute inset-0 bg-white/5 backdrop-blur-[0.5px]"></div>
 
 		<!-- Status badge -->
 		<div class="absolute top-3 left-3 z-20">

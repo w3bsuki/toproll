@@ -89,9 +89,9 @@
 
 	<!-- Main Content Container - Fills remaining height -->
 	<div class="bg-background flex flex-1 overflow-hidden">
-		<!-- Left Sidebar (Desktop Only) -->
+		<!-- Left Navigation Sidebar (Desktop Only) - RESTORED ORIGINAL -->
 		<aside
-			class="border-border bg-card hidden w-[360px] flex-shrink-0 border-r lg:flex lg:flex-col"
+			class="border-border bg-card hidden w-[280px] flex-shrink-0 border-r lg:flex lg:flex-col"
 		>
 			<div class="flex h-full flex-col overflow-y-auto">
 				<SidebarLeft isAuthenticated={authIsAuthenticated()} user={authUser()} />
@@ -105,9 +105,9 @@
 			</div>
 		</main>
 
-		<!-- Right Chat Sidebar (Desktop Only) -->
+		<!-- Right Chat Sidebar (Desktop Only) - RESTORED ORIGINAL -->
 		<aside
-			class="border-border bg-card hidden w-[360px] flex-shrink-0 border-l lg:flex lg:flex-col"
+			class="border-border bg-card hidden w-[320px] flex-shrink-0 border-l lg:flex lg:flex-col"
 		>
 			<div class="flex h-full flex-col overflow-hidden">
 				<SidebarRight />

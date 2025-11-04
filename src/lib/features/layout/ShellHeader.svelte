@@ -5,12 +5,12 @@
 	import SteamAuthButton from '$lib/components/shared/auth/SteamAuthButton.svelte';
 	import LiveDropsTicker from '$lib/features/home/LiveDropsTicker.svelte';
 	import {
+		Root as DropdownMenu,
 		DropdownMenuContent,
 		DropdownMenuItem,
 		DropdownMenuSeparator,
 		DropdownMenuTrigger
 	} from '$lib/components/ui/dropdown-menu';
-	import { DropdownMenu } from '$lib/components/ui/dropdown-menu';
 	import { Input } from '$lib/components/ui/input';
 	// ? NEW: Get UI state from context
 	import { getUIState } from '$lib/features/layout/ui-state.svelte';

@@ -8,38 +8,38 @@
 	:root {
 		color-scheme: dark;
 
-		/* Dark slate theme - OKLCH for perceptual uniformity */
-		--background: oklch(0.18 0.01 240); /* Dark slate blue-grey */
-		--foreground: oklch(0.95 0.005 240); /* Clean white */
-		--card: oklch(0.24 0.012 240); /* Elevated dark slate */
-		--card-foreground: oklch(0.95 0.005 240);
-		--popover: oklch(0.24 0.012 240);
-		--popover-foreground: oklch(0.95 0.005 240);
+		/* Dark theme - IMPROVED CONTRAST for better visibility */
+		--background: oklch(0.22 0.015 240); /* Lighter background for better contrast */
+		--foreground: oklch(0.96 0.003 240); /* Brighter foreground text */
+		--card: oklch(0.26 0.018 240); /* More visible elevated cards */
+		--card-foreground: oklch(0.96 0.003 240);
+		--popover: oklch(0.26 0.018 240);
+		--popover-foreground: oklch(0.96 0.003 240);
 
 		/* Primary - Bright lime green (CS2 style from your image) */
 		--primary: oklch(0.85 0.28 130); /* Bright lime/chartreuse */
 		--primary-foreground: oklch(0.18 0.01 240); /* Dark text on bright button */
 
-		--secondary: oklch(0.3 0.012 240);
-		--secondary-foreground: oklch(0.95 0.005 240);
-		--muted: oklch(0.28 0.012 240);
-		--muted-foreground: oklch(0.6 0.008 240);
-		--accent: oklch(0.35 0.015 240);
-		--accent-foreground: oklch(0.95 0.005 240);
+		--secondary: oklch(0.32 0.018 240);
+		--secondary-foreground: oklch(0.96 0.003 240);
+		--muted: oklch(0.3 0.015 240);
+		--muted-foreground: oklch(0.68 0.012 240); /* More visible muted text */
+		--accent: oklch(0.38 0.02 240);
+		--accent-foreground: oklch(0.96 0.003 240);
 		--destructive: oklch(0.6 0.25 20);
-		--destructive-foreground: oklch(0.95 0.005 240);
+		--destructive-foreground: oklch(0.96 0.003 240);
 
 		/* Semantic colors */
 		--success: oklch(0.7 0.18 145);
 		--success-foreground: oklch(0.18 0.01 240);
-		--warning: oklch(0.75 0.15 60);
+		--warning: oklch(0.78 0.16 70); /* Brighter gold for Daily Bonus */
 		--warning-foreground: oklch(0.18 0.01 240);
 		--info: oklch(0.65 0.18 220);
-		--info-foreground: oklch(0.95 0.005 240);
+		--info-foreground: oklch(0.96 0.003 240);
 
-		/* Borders - subtle dark borders */
-		--border: oklch(0.95 0.005 240 / 0.06);
-		--input: oklch(0.95 0.005 240 / 0.08);
+		/* Borders - MUCH MORE VISIBLE for better UI clarity */
+		--border: oklch(0.96 0.003 240 / 0.15); /* 15% opacity for visible borders */
+		--input: oklch(0.96 0.003 240 / 0.18); /* 18% for input borders */
 		--ring: oklch(0.85 0.28 130);
 
 		/* Radii */
@@ -48,14 +48,14 @@
 		--radius-md: 0.75rem;
 		--radius-lg: 1.25rem;
 
-		/* Legacy surface tokens */
-		--surface: oklch(0.24 0.012 240);
-		--surface-foreground: oklch(0.95 0.005 240);
-		--surface-muted: oklch(0.28 0.012 240);
-		--surface-muted-foreground: oklch(0.6 0.008 240);
-		--surface-accent: oklch(0.35 0.015 240);
-		--surface-accent-foreground: oklch(0.95 0.005 240);
-		--border-strong: oklch(0.95 0.005 240 / 0.18);
+		/* Legacy surface tokens - IMPROVED VISIBILITY */
+		--surface: oklch(0.26 0.018 240);
+		--surface-foreground: oklch(0.96 0.003 240);
+		--surface-muted: oklch(0.3 0.015 240);
+		--surface-muted-foreground: oklch(0.68 0.012 240);
+		--surface-accent: oklch(0.38 0.02 240);
+		--surface-accent-foreground: oklch(0.96 0.003 240);
+		--border-strong: oklch(0.96 0.003 240 / 0.25); /* Stronger borders for emphasis */
 
 		/* Banner-specific tokens */
 		--banner-primary: oklch(0.55 0.2 250); /* Vibrant blue */
@@ -96,6 +96,8 @@
 			sans-serif;
 		font-feature-settings: 'ss01', 'cv05', 'cv11';
 		letter-spacing: -0.01em;
+		font-size: 15px; /* Slightly larger base font for better readability */
+		line-height: 1.6; /* Improved line height */
 	}
 
 	/* Ensure app shell fills viewport */
@@ -109,9 +111,18 @@
 	h4,
 	h5,
 	h6 {
-		font-weight: 600;
-		letter-spacing: -0.015em;
+		font-weight: 700; /* Bolder headings for better hierarchy */
+		letter-spacing: -0.02em;
+		line-height: 1.2;
 	}
+
+	/* Improved heading sizes */
+	h1 { font-size: 2.5rem; }
+	h2 { font-size: 2rem; }
+	h3 { font-size: 1.5rem; }
+	h4 { font-size: 1.25rem; }
+	h5 { font-size: 1.125rem; }
+	h6 { font-size: 1rem; }
 
 	::selection {
 		background: color-mix(in oklch, var(--primary) 20%, transparent);
@@ -161,17 +172,34 @@
 		border-radius: 999px;
 	}
 
-	/* Enhanced shadows for depth */
+	/* Enhanced shadows for depth and visibility */
 	.shadow-2xl {
 		box-shadow:
-			0 25px 50px -12px rgb(0 0 0 / 0.4),
-			0 0 0 1px rgb(255 255 255 / 0.05);
+			0 25px 50px -12px rgb(0 0 0 / 0.5),
+			0 0 0 1px rgb(255 255 255 / 0.08),
+			0 4px 6px -2px rgb(0 0 0 / 0.3);
 	}
 
 	.shadow-3xl {
 		box-shadow:
-			0 35px 60px -15px rgb(0 0 0 / 0.5),
+			0 35px 60px -15px rgb(0 0 0 / 0.6),
+			0 0 0 1px rgb(255 255 255 / 0.12),
+			0 8px 10px -4px rgb(0 0 0 / 0.4);
+	}
+
+	/* Card shadows for better depth perception */
+	.shadow-card {
+		box-shadow:
+			0 4px 6px -1px rgb(0 0 0 / 0.3),
+			0 2px 4px -1px rgb(0 0 0 / 0.2),
 			0 0 0 1px rgb(255 255 255 / 0.08);
+	}
+
+	.shadow-card-hover {
+		box-shadow:
+			0 10px 15px -3px rgb(0 0 0 / 0.4),
+			0 4px 6px -2px rgb(0 0 0 / 0.3),
+			0 0 0 1px rgb(255 255 255 / 0.1);
 	}
 
 	/* Neo-brutalism utilities removed - user rejected this styling approach */
@@ -239,47 +267,47 @@
 		min-width: 44px;
 	}
 
-	/* Gradient utilities for game modes */
+	/* Gradient utilities for game modes - BRIGHTER & MORE VISIBLE */
 	.gradient-cases {
 		background:
-			radial-gradient(circle at 30% 30%, rgba(34, 197, 94, 0.6), transparent 70%),
-			radial-gradient(circle at 70% 70%, rgba(16, 185, 129, 0.4), transparent 60%),
-			rgba(15, 118, 110, 0.95);
+			radial-gradient(circle at 30% 30%, rgba(34, 197, 94, 0.4), transparent 70%),
+			radial-gradient(circle at 70% 70%, rgba(16, 185, 129, 0.3), transparent 60%),
+			oklch(0.28 0.025 160);
 	}
 
 	.gradient-battles {
 		background:
-			radial-gradient(circle at 25% 30%, rgba(239, 68, 68, 0.6), transparent 70%),
-			radial-gradient(circle at 75% 70%, rgba(249, 115, 22, 0.5), transparent 60%),
-			rgba(124, 45, 18, 0.95);
+			radial-gradient(circle at 25% 30%, rgba(239, 68, 68, 0.4), transparent 70%),
+			radial-gradient(circle at 75% 70%, rgba(249, 115, 22, 0.35), transparent 60%),
+			oklch(0.28 0.025 30);
 	}
 
 	.gradient-upgrader {
 		background:
-			radial-gradient(circle at 35% 35%, rgba(59, 130, 246, 0.6), transparent 70%),
-			radial-gradient(circle at 70% 65%, rgba(99, 102, 241, 0.5), transparent 60%),
-			rgba(30, 27, 75, 0.95);
+			radial-gradient(circle at 35% 35%, rgba(59, 130, 246, 0.4), transparent 70%),
+			radial-gradient(circle at 70% 65%, rgba(99, 102, 241, 0.35), transparent 60%),
+			oklch(0.28 0.025 260);
 	}
 
 	.gradient-double {
 		background:
-			radial-gradient(circle at 30% 70%, rgba(168, 85, 247, 0.6), transparent 70%),
-			radial-gradient(circle at 70% 30%, rgba(236, 72, 153, 0.5), transparent 60%),
-			rgba(88, 28, 135, 0.95);
+			radial-gradient(circle at 30% 70%, rgba(168, 85, 247, 0.4), transparent 70%),
+			radial-gradient(circle at 70% 30%, rgba(236, 72, 153, 0.35), transparent 60%),
+			oklch(0.28 0.025 300);
 	}
 
 	.gradient-crash {
 		background:
-			radial-gradient(circle at 25% 20%, rgba(45, 212, 191, 0.6), transparent 70%),
-			radial-gradient(circle at 75% 80%, rgba(56, 189, 248, 0.5), transparent 60%),
-			rgba(8, 47, 73, 0.95);
+			radial-gradient(circle at 25% 20%, rgba(45, 212, 191, 0.4), transparent 70%),
+			radial-gradient(circle at 75% 80%, rgba(56, 189, 248, 0.35), transparent 60%),
+			oklch(0.28 0.025 200);
 	}
 
 	.gradient-pots {
 		background:
-			radial-gradient(circle at 20% 50%, rgba(251, 191, 36, 0.6), transparent 70%),
-			radial-gradient(circle at 80% 40%, rgba(245, 158, 11, 0.5), transparent 60%),
-			rgba(120, 53, 15, 0.95);
+			radial-gradient(circle at 20% 50%, rgba(251, 191, 36, 0.5), transparent 70%),
+			radial-gradient(circle at 80% 40%, rgba(245, 158, 11, 0.4), transparent 60%),
+			oklch(0.3 0.03 70);
 	}
 
 	/* Banner gradient utilities - matching card system style */
