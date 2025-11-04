@@ -78,10 +78,13 @@ export async function validateSteamCallback(params: URLSearchParams): Promise<St
 
 	// Fetch Steam profile data to verify the user
 	const steamApiUrl = `https://api.steampowered.com/ISteamUser/GetPlayerSummaries/v0002/?key=${env.STEAM_API_KEY}&steamids=${steamId}`;
+	
 	const steamResponse = await fetch(steamApiUrl);
-
+	
 	if (!steamResponse.ok) {
-		throw new Error('Failed to fetch Steam profile');
+		const errorText = await steamResponse.text();
+		console.error('[Steam Auth] Failed to fetch profile:', steamResponse.status, errorText);
+		throw new Error(`Failed to fetch Steam profile: ${steamResponse.status} - ${errorText}`);
 	}
 
 	const steamData = await steamResponse.json();

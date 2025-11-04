@@ -2,6 +2,7 @@
 	// ? NEW: Use $app/state instead of $app/stores
 	import { page } from '$app/state';
 	import { base } from '$app/paths';
+	import { browser } from '$app/environment';
 	import SteamAuthButton from '$lib/components/shared/auth/SteamAuthButton.svelte';
 	import LiveDropsTicker from '$lib/features/home/LiveDropsTicker.svelte';
 	import {
@@ -246,50 +247,52 @@
 			</button>
 
 			{#if isAuthenticated && user}
-				<DropdownMenu>
-					<DropdownMenuTrigger
-						class="group border-border/50 bg-surface-muted/70    focus-visible:ring-primary/50 flex items-center gap-3 rounded-xl border px-3 py-2  focus-visible:ring-2 focus-visible:outline-none"
-					>
-						{#if user.avatar}
-							<img
-								src={user.avatar}
-								alt={user.username || 'User'}
-								class="h-8 w-8 rounded-lg object-cover"
-							/>
-						{:else}
-							<div
-								class="border-border/50 bg-surface-muted/80 text-muted-foreground flex h-8 w-8 items-center justify-center rounded-lg border font-semibold"
-							>
-								{(user.username || 'U').slice(0, 1).toUpperCase()}
-							</div>
-						{/if}
-						<div class="hidden text-left xl:block">
-							<p class="text-foreground text-sm leading-tight font-semibold">
-								{user.username || 'User'}
-							</p>
-							<p class="text-muted-foreground text-xs">
-								Lvl {Math.floor((user.totalWagered || 0) / 1000) + 1}
-							</p>
-						</div>
-						<ChevronDown
-							class="duration-accent text-muted-foreground h-4 w-4 transition group-aria-expanded:rotate-180"
-						/>
-					</DropdownMenuTrigger>
-					<DropdownMenuContent class="w-56" align="end">
-						<div class="px-3 pt-2 pb-3 text-sm">
-							<p class="text-muted-foreground text-xs tracking-[0.3em] uppercase">Signed in</p>
-							<p class="font-semibold">{user.username}</p>
-						</div>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem onSelect={() => {}}>Profile</DropdownMenuItem>
-						<DropdownMenuItem onSelect={() => {}}>Inventory</DropdownMenuItem>
-						<DropdownMenuItem onSelect={() => {}}>Account settings</DropdownMenuItem>
-						<DropdownMenuSeparator />
-						<DropdownMenuItem class="text-destructive" onSelect={() => {}}
-							>Sign out</DropdownMenuItem
+				{#if browser}
+					<DropdownMenu>
+						<DropdownMenuTrigger
+							class="group border-border/50 bg-surface-muted/70    focus-visible:ring-primary/50 flex items-center gap-3 rounded-xl border px-3 py-2  focus-visible:ring-2 focus-visible:outline-none"
 						>
-					</DropdownMenuContent>
-				</DropdownMenu>
+							{#if user.avatar}
+								<img
+									src={user.avatar}
+									alt={user.username || 'User'}
+									class="h-8 w-8 rounded-lg object-cover"
+								/>
+							{:else}
+								<div
+									class="border-border/50 bg-surface-muted/80 text-muted-foreground flex h-8 w-8 items-center justify-center rounded-lg border font-semibold"
+								>
+									{(user.username || 'U').slice(0, 1).toUpperCase()}
+								</div>
+							{/if}
+							<div class="hidden text-left xl:block">
+								<p class="text-foreground text-sm leading-tight font-semibold">
+									{user.username || 'User'}
+								</p>
+								<p class="text-muted-foreground text-xs">
+									Lvl {Math.floor((user.totalWagered || 0) / 1000) + 1}
+								</p>
+							</div>
+							<ChevronDown
+								class="duration-accent text-muted-foreground h-4 w-4 transition group-aria-expanded:rotate-180"
+							/>
+						</DropdownMenuTrigger>
+						<DropdownMenuContent class="w-56" align="end">
+							<div class="px-3 pt-2 pb-3 text-sm">
+								<p class="text-muted-foreground text-xs tracking-[0.3em] uppercase">Signed in</p>
+								<p class="font-semibold">{user.username}</p>
+							</div>
+							<DropdownMenuSeparator />
+							<DropdownMenuItem onSelect={() => {}}>Profile</DropdownMenuItem>
+							<DropdownMenuItem onSelect={() => {}}>Inventory</DropdownMenuItem>
+							<DropdownMenuItem onSelect={() => {}}>Account settings</DropdownMenuItem>
+							<DropdownMenuSeparator />
+							<DropdownMenuItem class="text-destructive" onSelect={() => {}}
+								>Sign out</DropdownMenuItem
+							>
+						</DropdownMenuContent>
+					</DropdownMenu>
+				{/if}
 			{:else}
 				<SteamAuthButton
 					class="duration-accent bg-primary text-primary-foreground shadow-marketplace-sm    shrink-0"

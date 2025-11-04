@@ -35,16 +35,9 @@ export const GET: RequestHandler = async ({ url, locals }) => {
 };
 
 // POST: Create new pot (admin only for now)
-export const POST: RequestHandler = async ({ request, locals }) => {
+export const POST: RequestHandler = async ({ request, cookies, locals }) => {
 	try {
 		// Check if user is authenticated (you might want admin check here)
-		const cookieHeader = request.headers.get('cookie') || '';
-		const cookies = {
-			get: (name: string) => {
-				const match = cookieHeader.match(new RegExp(`(^| )${name}=([^;]+)`));
-				return match ? match[2] : null;
-			}
-		};
 		const user = await requireAuth(cookies);
 
 		const body = await request.json();

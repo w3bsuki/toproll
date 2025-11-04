@@ -4,7 +4,7 @@ import { requireAuth } from '$lib/services/auth';
 import type { RequestHandler } from './$types';
 
 // POST: Lock pot (internal/orchestrator only)
-export const POST: RequestHandler = async ({ params, request, locals }) => {
+export const POST: RequestHandler = async ({ params, cookies }) => {
 	try {
 		const { id } = params;
 		if (!id) {
@@ -12,13 +12,6 @@ export const POST: RequestHandler = async ({ params, request, locals }) => {
 		}
 
 		// Authenticate user (you might want to check for admin/orchestrator role here)
-		const cookieHeader = request.headers.get('cookie') || '';
-		const cookies = {
-			get: (name: string) => {
-				const match = cookieHeader.match(new RegExp(`(^| )${name}=([^;]+)`));
-				return match ? match[2] : null;
-			}
-		};
 		const user = await requireAuth(cookies);
 
 		const result = await potService.lockPot(id);

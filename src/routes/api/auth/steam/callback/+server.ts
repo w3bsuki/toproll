@@ -135,9 +135,11 @@ export const GET: RequestHandler = async (event) => {
 			throw new Error('Failed to create authentication session');
 		}
 
-		// Extract the token hash from the generated link
-		const tokenHash = new URL(linkData.properties.action_link).searchParams.get('token_hash');
-		if (!tokenHash) {
+		// Extract the hashed token from the generated link
+		const hashedToken = linkData.properties.hashed_token;
+		
+		if (!hashedToken) {
+			console.error('Missing hashed_token from generateLink response');
 			throw new Error('Failed to extract token from magic link');
 		}
 
@@ -145,7 +147,7 @@ export const GET: RequestHandler = async (event) => {
 		const ssr = getSupabaseSSR(event);
 		const { data: sessionData, error: sessionError } = await ssr.auth.verifyOtp({
 			type: 'magiclink',
-			token_hash: tokenHash
+			token_hash: hashedToken
 		});
 
 		if (sessionError || !sessionData.session) {
